@@ -1,0 +1,6 @@
+[submodule "Code/atproto/upstream/AppViewLite"]
+	path = Code/atproto/upstream/AppViewLite
+	url = https://github.com/alnkesq/AppViewLite
+[submodule "Code/atproto/upstream/social-app"]
+	path = Code/atproto/upstream/social-app
+	url = https://github.com/bluesky-social/social-app
