@@ -4,3 +4,6 @@
 [submodule "Code/atproto/upstream/social-app"]
 	path = Code/atproto/upstream/social-app
 	url = https://github.com/bluesky-social/social-app
+[submodule "Code/atproto/upstream/FishyFlip"]
+	path = Code/atproto/upstream/FishyFlip
+	url = https://github.com/drasticactions/FishyFlip.git
