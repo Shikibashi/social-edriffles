@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "invariants": [
+    "personalization-sovereignty",
+    "integrity-separation",
+    "viewpoint-neutrality",
+    "explanation-fidelity",
+    "credible-exit",
+    "local-only-feedback-default",
+    "versioned-manifest",
+    "opt-in-experiments",
+    "explicit-failure-switching"
+  ],
+  "treatments": ["chronological", "engagement", "diversified"],
+  "cases": [
+    {"id":"local-feedback","serverReceives":["public-like"],"serverMustNotReceive":["seen","dwell","scroll","hover","local-affinity"]},
+    {"id":"integrity","integrityMay":"discount-correlated-engagement","integrityMustNot":"invoke-moderation"},
+    {"id":"unsupported-language","classifierFallback":"neutral"},
+    {"id":"explanation","traceRequired":true},
+    {"id":"failure","offers":["cached","retry","switch-following","choose-provider"],"silentFallback":false},
+    {"id":"experiment","materialObjectiveChange":"separate-version-and-opt-in"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "package-test-report",
+  "schemaVersion": 1,
+  "commands": [
+    "python3 scripts/validate_contract.py",
+    "python3 -m unittest discover -s tests -p 'test_*.py'"
+  ],
+  "result": "passed",
+  "summary": "Contract validation passed: 8 required files, 29 blocking rows, 6 feed cases; unittest ran 3 tests successfully.",
+  "scope": ["AGENTS.md", "upstream-pins.json", "docs", "tests", "scripts/validate_contract.py"]
+}

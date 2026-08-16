@@ -1,0 +1,27 @@
+{
+  "retrievedAt": "2026-08-16",
+  "repositories": {
+    "appviewlite": {
+      "url": "https://github.com/alnkesq/AppViewLite",
+      "commit": "75f78e8e098c05f52821e836832205050c0f539e",
+      "license": "AGPL-3.0",
+      "observedPaths": ["src/AppViewLite", "src/AppViewLite.Web", "src/AppViewLite.Web/Controllers", "src/AppViewLite.Web/Components", "README.md", "LICENSE.md"],
+      "buildCommand": "cd src/AppViewLite.Web && dotnet run -c Release -- --allow-new-database",
+      "observedBlockingSurfaces": ["posts", "threads", "profiles", "follows", "replies", "mentions", "notifications", "quotes", "feeds", "block lists", "blocked-by views"]
+    },
+    "socialApp": {
+      "url": "https://github.com/bluesky-social/social-app",
+      "commit": "1f5c698165c922e707833809902ee959e9824f00",
+      "license": "MIT",
+      "observedPaths": ["src", "package.json", "LICENSE"],
+      "buildCommand": "See pinned package.json scripts after fork import; do not invent a command in this empty checkout"
+    }
+  },
+  "protocolReferences": [
+    {"url": "https://atproto.com/specs/xrpc", "retrievedAt": "2026-08-16"},
+    {"url": "https://atproto.com/specs/oauth", "retrievedAt": "2026-08-16"},
+    {"url": "https://atproto.com/guides/scope-builder", "retrievedAt": "2026-08-16"},
+    {"url": "https://docs.bsky.app/blog/block-implementation", "retrievedAt": "2026-08-16"},
+    {"url": "https://docs.bsky.app/blog/blueskys-moderation-architecture", "retrievedAt": "2026-08-16"}
+  ]
+}

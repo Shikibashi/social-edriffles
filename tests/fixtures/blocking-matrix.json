@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "baseline": "AppViewLite@75f78e8e098c05f52821e836832205050c0f539e",
+  "accounts": {"A": "did:example:blocker", "B": "did:example:blocked", "C": "did:example:unrelated"},
+  "surfaces": [
+    "posts", "threads", "profiles", "follows", "replies", "mentions", "notifications", "quotes", "feeds", "block-list", "blocked-by"
+  ],
+  "rows": [
+    {"surface":"posts","viewer":"A","expected":"current-baseline"},
+    {"surface":"posts","viewer":"B","expected":"current-baseline"},
+    {"surface":"posts","viewer":"C","expected":"current-baseline"},
+    {"surface":"threads","viewer":"A","expected":"current-baseline"},
+    {"surface":"threads","viewer":"B","expected":"current-baseline"},
+    {"surface":"threads","viewer":"C","expected":"current-baseline"},
+    {"surface":"profiles","viewer":"A","expected":"current-baseline"},
+    {"surface":"profiles","viewer":"B","expected":"current-baseline"},
+    {"surface":"profiles","viewer":"C","expected":"current-baseline"},
+    {"surface":"follows","viewer":"A","expected":"direct-boundary"},
+    {"surface":"follows","viewer":"B","expected":"direct-boundary"},
+    {"surface":"follows","viewer":"C","expected":"independent-viewer"},
+    {"surface":"replies","viewer":"A","expected":"direct-boundary"},
+    {"surface":"replies","viewer":"B","expected":"direct-boundary"},
+    {"surface":"replies","viewer":"C","expected":"independent-viewer"},
+    {"surface":"mentions","viewer":"A","expected":"direct-boundary"},
+    {"surface":"mentions","viewer":"B","expected":"direct-boundary"},
+    {"surface":"mentions","viewer":"C","expected":"independent-viewer"},
+    {"surface":"notifications","viewer":"A","expected":"direct-boundary"},
+    {"surface":"notifications","viewer":"B","expected":"direct-boundary"},
+    {"surface":"notifications","viewer":"C","expected":"independent-viewer"},
+    {"surface":"quotes","viewer":"A","expected":"direct-boundary"},
+    {"surface":"quotes","viewer":"B","expected":"direct-boundary"},
+    {"surface":"quotes","viewer":"C","expected":"independent-viewer"},
+    {"surface":"feeds","viewer":"A","expected":"current-baseline"},
+    {"surface":"feeds","viewer":"B","expected":"current-baseline"},
+    {"surface":"feeds","viewer":"C","expected":"independent-viewer"},
+    {"surface":"block-list","viewer":"A","expected":"owner-visible"},
+    {"surface":"blocked-by","viewer":"C","expected":"independent-viewer"}
+  ]
+}
