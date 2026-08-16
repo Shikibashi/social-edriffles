@@ -12,6 +12,7 @@ REQUIRED = [
     "docs/BLOCKING_SPEC.md",
     "docs/SERVICE_BOUNDARIES.md",
     "docs/FEED_CONSTITUTION.md",
+    "docs/LIVE_CHARACTERIZATION.md",
     "docs/RUNTIME_SLICE.md",
     "tests/fixtures/blocking-matrix.json",
     "tests/fixtures/feed-contract.json",
