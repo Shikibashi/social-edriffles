@@ -1,6 +1,6 @@
 # Live Block Presentation Matrix
 
-Date: 2026-08-17. AppViewLite local fork: `3ca19cd` (parent baseline pin remains `75f78e8e098c05f52821e836832205050c0f539e`; local endpoint/viewer fixes are in the submodule history).
+Date: 2026-08-17. AppViewLite local fork: `45d6a0c` (parent baseline pin remains `75f78e8e098c05f52821e836832205050c0f539e`; local endpoint/viewer/account-state fixes are in the submodule history).
 
 ## Fixture
 
@@ -24,7 +24,7 @@ All records were created before the final A→B block unless explicitly identifi
 | Detailed profile | B detailed profile | relationship fields available | same | same | not separately queried | Uses the same viewer-state conversion | Standard viewer state | Preserve standard viewer state | No further change |
 | `getBlocks` | A's block list | B returned, HTTP 200 | unauthenticated list not applicable | not applicable | not applicable | Authenticated controller returns B with cursor support | Reference returns the viewer's block records | Preserve protocol-compatible list | Implemented locally; no new patch |
 | Author feed | `getAuthorFeed(A/B)` | A and B author feeds both returned public records to A | same | C received both actors' public feed records | Anonymous received both | No collateral block suppression in actor-specific feeds | Reference applies viewer-aware filtering in feed presentation where block rules require it | A/B should lose direct association; C retains public records | Future policy decision; do not patch before broader review |
-| Timeline/following | `getTimeline` | HTTP 200, empty in this fixture | HTTP 200, empty | HTTP 200, 15 items | HTTP 500 | Endpoint exists but anonymous request is unsupported/error; authenticated fixture differs by follows/index state | Reference timeline presentation applies viewer block policy | C should retain public A/B records | Characterize with a dedicated follow/timeline fixture before patching |
+| Timeline/following | `getTimeline` | HTTP 200, empty in this fixture | HTTP 200, empty | HTTP 200 with explicit A/B boundary posts | HTTP 500 | Explicit follow-state fixture showed C retains both A/B posts; A/B were empty after relationship state changed; anonymous remains unsupported | Reference timeline presentation applies viewer block policy | C should retain A/B public records | No semantic patch; retain as fixture-specific behavior |
 | Root thread | `AR`, `BR2` | Normal `threadViewPost` | Normal `threadViewPost` | Normal `threadViewPost` | Normal `threadViewPost` | A/B/C/anonymous all retained the public root | Reference may return `notFoundPost` for viewer-blocked anchors | A/B direct severance; C retains root | Future policy decision |
 | Reply | `BR→AR`, `AR2→BR2` | Normal post views; replies retained | Normal post views; replies retained | Normal post views; replies retained | Normal post views; replies retained | No third-party suppression observed; C retains both reply chains | Reference presentation can emit `blockedPost` or omit third-party block-violating replies | C retains otherwise-public replies | Future policy decision |
 | Quote | B quotes A1; A quotes B1 | Both quote records searchable/hydratable | same | both searchable/hydratable | both searchable/hydratable | Quote embeds hydrated as normal record views; no C collateral suppression observed | Reference applies viewer-relative block presentation to embedded authors | C retains public quote and may choose local display policy | Future policy decision |
@@ -54,7 +54,6 @@ C retained otherwise-public A/B roots, replies, quote records, author-feed recor
 ## Unsupported or incomplete
 
 - No stable repost hydration surface was available in this AppViewLite build.
-- Timeline results require a dedicated fixture because the authenticated results were empty for A/B and populated for C.
 - Anonymous timeline returned HTTP 500.
 - Direct PDS write acceptance is not equivalent to client/AppView interaction authorization.
 - Deletion, takedown, suspension, private/permissioned data, threadgates, postgates, legal restrictions, and list-block behavior were not altered or claimed.
