@@ -27,15 +27,25 @@
     "notifications_endpoint": "HTTP 200",
     "follows_endpoint": "HTTP 200",
     "blocks_endpoint": "HTTP 500; pinned AppViewLite endpoint is not implemented",
-    "A_viewing_B_viewer_state": {"muted": false, "blockedBy": false, "blocking": null},
-    "B_viewing_A_viewer_state": {"muted": false, "blockedBy": false, "blocking": null},
+    "A_viewing_B_viewer_state": {
+      "muted": false,
+      "blockedBy": false,
+      "blocking": null
+    },
+    "B_viewing_A_viewer_state": {
+      "muted": false,
+      "blockedBy": false,
+      "blocking": null
+    },
     "C_viewing_A_or_B": "profiles HTTP 200; no block flags",
-    "anonymous": "not authenticated; no viewer-specific assertion"
+    "anonymous": "not authenticated; no viewer-specific assertion",
+    "shutdown_flush": "AppViewLite graceful shutdown flushed did-hash, PLC, follow, block, reply, and profile tables."
   },
   "status": "characterization incomplete",
   "limitations": [
     "The block record was signed through the disposable PDS and firehose ingestion was verified for posts, but current AppViewLite did not expose the block in viewer state.",
     "The block-list endpoint returns HTTP 500 because the pinned AppViewLite implementation is not implemented.",
-    "No production pairwise semantics were changed based on this result."
+    "No production pairwise semantics were changed based on this result.",
+    "The live process was intentionally terminated after endpoint checks; its graceful shutdown flushed the block table, but no additional viewer assertions were possible after shutdown."
   ]
 }
