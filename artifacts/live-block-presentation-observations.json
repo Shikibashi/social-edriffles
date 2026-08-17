@@ -1412,5 +1412,87 @@
     },
     "anonymous_getTimeline": 500,
     "anonymous_getNotifications": 200
+  },
+  "safetyBoundaries": {
+    "timeline": {
+      "A": {
+        "status": 200,
+        "items": []
+      },
+      "B": {
+        "status": 200,
+        "items": []
+      },
+      "C": {
+        "status": 200,
+        "containsA": "A timeline boundary post",
+        "containsB": "B timeline boundary post"
+      },
+      "anonymous": {
+        "status": 500
+      }
+    },
+    "deletion": {
+      "record": "A timeline deletion-boundary post",
+      "adminStatus": "applied",
+      "A": {
+        "record": 404,
+        "thread": 404
+      },
+      "B": {
+        "record": 404,
+        "thread": 404
+      },
+      "C": {
+        "record": 404,
+        "thread": 404
+      },
+      "anonymous": {
+        "record": 404,
+        "thread": 404
+      }
+    },
+    "recordTakedown": {
+      "adminStatus": "applied",
+      "appViewRecordStatus": 500,
+      "error": "RecordNotFound"
+    },
+    "accountTakedown": {
+      "adminStatus": "applied",
+      "pdsLoginStatus": 401,
+      "pdsError": "AccountTakedown",
+      "appViewProfileStatus": 200,
+      "appViewAuthorFeedStatus": 200,
+      "finding": "PDS enforces account takedown; AppView index did not immediately propagate admin account status"
+    },
+    "threadgate": {
+      "root": "B threadgate root",
+      "reply": "C forbidden reply",
+      "appViewRepliesForB": 0,
+      "finding": "PDS accepted probe but AppView omitted reply from thread"
+    },
+    "postgate": {
+      "source": "B postgate source",
+      "quote": "C quote after postgate",
+      "finding": "Quote record remained, embedded source was detached (embeds empty), not deleted"
+    },
+    "permissionedData": {
+      "status": "untested",
+      "reason": "Disposable stack/API fixture did not provide a permissioned-data surface"
+    },
+    "listblock": {
+      "listReadStatus": 200,
+      "listsReadStatus": 200,
+      "listItemObserved": true,
+      "listblockObserved": true,
+      "blockingByListProfileField": "not exposed in current profile mapping",
+      "finding": "records remain readable/indexed; no new list UX added"
+    },
+    "unsupported": {
+      "anonymousTimeline": 500,
+      "getFeedSkeleton": "not implemented",
+      "threadV2": "not implemented",
+      "stableRepostHydration": "unavailable"
+    }
   }
 }

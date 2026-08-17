@@ -58,3 +58,19 @@ C retained otherwise-public A/B roots, replies, quote records, author-feed recor
 - Anonymous timeline returned HTTP 500.
 - Direct PDS write acceptance is not equivalent to client/AppView interaction authorization.
 - Deletion, takedown, suspension, private/permissioned data, threadgates, postgates, legal restrictions, and list-block behavior were not altered or claimed.
+## Association safety boundaries
+
+These characterization-only safety probes are separate from relationship-state and third-party presentation claims.
+
+| Boundary | Evidence | Result | Association implication |
+|---|---|---|---|
+| Explicit timeline | C followed A and B; A/B/C timeline queries were separate | C received both explicit A/B timeline posts; A/B were empty in this fixture; anonymous returned HTTP 500 | Do not infer timeline policy from author feeds; retain C's public records |
+| Deletion | A post was deleted through `com.atproto.repo.deleteRecord` | A, B, C, and anonymous received 404 for record/thread retrieval | Viewer sovereignty never resurrects deleted records |
+| Record takedown | PDS admin status update with a strong record reference | AppView returned `RecordNotFound` | Service removal dominates presentation |
+| Account takedown | PDS admin account takedown | PDS login returned `AccountTakedown`; AppView profile/feed remained stale HTTP 200 | AppView admin-status propagation is a service-boundary limitation |
+| Threadgate | B root with restrictive threadgate and C reply probe | AppView omitted the reply from the thread | Visibility does not grant interaction authorization |
+| Postgate | B postgate disallowing embeds and C quote | Quote remained, embedded record view was detached/empty | Quote detachment is not deletion |
+| Permissioned data | Disposable stack probe | Unsupported/untested | Do not simulate public visibility |
+| Listblock | C list, list item, and listblock records | List and items were readable/indexed; profile `blockingByList` was not exposed | Preserve records; do not add delegated block-list UX |
+
+These results are recorded in `artifacts/live-block-presentation-observations.json`. No semantic presentation patch was applied.
