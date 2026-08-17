@@ -17,5 +17,17 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('rerankLocally', feed)
         self.assertIn('Why this post?', item)
 
+    def test_appview_provider_selection_is_persisted_and_explicit(self):
+        schema = (ROOT / 'src/state/persisted/schema.ts').read_text()
+        providers = (ROOT / 'src/state/session/providers.ts').read_text()
+        core = (ROOT / 'src/state/session/session-core.ts').read_text()
+        clients = (ROOT / 'src/state/session/clients.ts').read_text()
+        self.assertIn('appviewProviders', schema)
+        self.assertIn('appviewSelections', schema)
+        self.assertIn('selectAppViewProvider', providers)
+        self.assertIn('registerAppViewProvider', providers)
+        self.assertIn('switchAppViewProvider', core)
+        self.assertIn('provider.endpoint', clients)
+        self.assertIn('provider.serviceDid', clients)
 if __name__ == '__main__':
     unittest.main()
