@@ -21,11 +21,10 @@ AppViewLite's relationship core was explicitly named `UsersHavePairwiseBlockRela
 ## Baseline verification
 
 - `upstream/social-app/src/state/preferences/local-feed.tsx` persists an opt-in local-reranking toggle and explicit preferences on-device. Following-feed settings expose the toggle; feed rendering applies local slice reranking and displays deterministic “Why this post?” reasons.
-- Social-app dependencies install with `pnpm install --frozen-lockfile`.
-- `pnpm typecheck:web` passes.
-- Focused feed Jest suite passes (3 tests).
-- Root contract and characterization suite passes (7 tests).
-- AppViewLite baseline build passes with the isolated .NET 10 SDK (`/tmp/dotnet10/dotnet build upstream/AppViewLite/src/AppViewLite.slnx --no-restore`), with 8 existing compiler warnings and 0 errors.
+- Social-app `pnpm intl:compile && pnpm typecheck:web` passes.
+- Focused feed Jest suite and root audit suite pass; the repository Python suite passes 21 tests with 2 live-endpoint skips.
+- AppViewLite builds with the isolated .NET 10 SDK and `-p:SignAssembly=false`, with 8 existing compiler warnings and 0 errors.
+- A clean current upstream checkout completed codegen and `pnpm build` with the pinned Node 24 runtime family; `make run-dev-env` reached `Dev environment is ready` after rebuilding the native SQLite binding.
 ## Research reconciliation: four constitutional domains
 
 The existing constitutional intent maps into four non-duplicating domains:
