@@ -27,8 +27,8 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('selectAppViewProvider', providers)
         self.assertIn('registerAppViewProvider', providers)
         self.assertIn('switchAppViewProvider', core)
-        self.assertIn('provider.endpoint', clients)
-        self.assertIn('provider.serviceDid', clients)
+        self.assertIn('effectiveProvider.endpoint', clients)
+        self.assertIn('effectiveProvider.serviceDid', clients)
         self.assertIn('switchAppViewProvider: switchAppView', (ROOT / 'src/state/session/index.tsx').read_text())
         self.assertIn('not a safe HTTPS origin', providers)
         self.assertIn("redirect: 'error'", clients)
@@ -41,6 +41,7 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('appviewSelections: z.record(z.string(), z.string()).optional()', schema)
         self.assertIn('appviewFallbacks', schema)
         self.assertIn('getAppViewFallback', providers)
+        self.assertIn('project-appview', schema)
         self.assertIn("'appview-selection'", clients)
 if __name__ == '__main__':
     unittest.main()

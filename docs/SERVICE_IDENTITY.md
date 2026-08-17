@@ -12,7 +12,7 @@ The pinned social-app default provider is Bluesky's public AppView:
 - service fragment: `bsky_appview`
 - endpoint: `https://api.bsky.app`
 
-A project AppView deployment MUST set `APPVIEWLITE_SERVICE_DID` to its own stable `did:web` or `did:plc` identity and publish a DID document whose service entry points at the deployment. The verifier rejects tokens whose audience does not match that configured identity. No production public project DID is claimed by this repository.
+A project AppView deployment MUST set `APPVIEWLITE_SERVICE_DID` on AppViewLite and the social-app build variables `EXPO_PUBLIC_APPVIEW_SERVICE_DID` and `EXPO_PUBLIC_APPVIEW_ENDPOINT` to its own stable `did:web` or `did:plc` identity and HTTPS endpoint, and publish a DID document whose service entry points at the deployment. The verifier rejects tokens whose audience does not match that configured identity. No production public project DID is claimed by this repository.
 
 ## DID document requirements
 
