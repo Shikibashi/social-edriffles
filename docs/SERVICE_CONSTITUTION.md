@@ -2,7 +2,7 @@
 
 ## Status
 
-This constitution is the target contract for alternate-AppView support. The current implementation is **not yet frozen**: authenticated service-auth verification and the persisted provider-switching model remain outstanding.
+The authenticated service-auth boundary and persisted provider-switching model are implemented in the pinned forks. The constitution remains subject to the remaining live A/B/C presentation regression and final quality-gate audit.
 
 ## Principles
 
@@ -29,9 +29,8 @@ interface AppViewProvider {
   displayName: string
   serviceDid: string
   serviceFragment: string
-  endpoint?: string
+  endpoint: string
   builtin: boolean
-  enabled: boolean
 }
 ```
 
@@ -39,4 +38,4 @@ Built-ins are Bluesky AppView and the project AppView. Custom providers require 
 
 ## Current gap
 
-`docs/SERVICE_AUTH_CURRENT_STATE.md` records the current insecure bearer behavior. The contract becomes frozen only after the service-auth verifier, provider switch lifecycle, explicit no-fallback UI, service identity display, and required security/client tests pass together.
+`docs/SERVICE_AUTH_CURRENT_STATE.md` records the verified bearer behavior and live HTTP evidence. Remaining closure requires the complete A/B/C presentation regression, provider failure/unsupported-endpoint tests, and final quality gates.

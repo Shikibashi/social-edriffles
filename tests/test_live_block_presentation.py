@@ -33,6 +33,15 @@ class LiveBlockPresentationTests(unittest.TestCase):
             self.assertTrue(c_items)
             self.assertTrue(all(item["type"].endswith("#postView") for item in c_items))
 
+    def test_all_viewers_are_recorded_without_inferred_policy(self):
+        for name, thread in self.observations["threads"].items():
+            self.assertIn("alice.test", thread)
+            self.assertIn("bob.test", thread)
+            self.assertIn("carla.test", thread)
+            self.assertIn("anonymous", thread)
+            self.assertIn("status", thread["alice.test"])
+        self.assertIn("Current AppViewLite behavior", self.matrix)
+        self.assertIn("Target fork behavior", self.matrix)
     def test_author_feeds_and_search_do_not_collateral_suppress_c(self):
         c = self.surfaces["carla.test"]
         self.assertIn(self.observations["fixture"]["A1"], c["alice.test"])

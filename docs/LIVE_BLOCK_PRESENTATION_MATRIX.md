@@ -1,6 +1,6 @@
 # Live Block Presentation Matrix
 
-Date: 2026-08-17. AppViewLite local fork: `45d6a0c` (parent baseline pin remains `75f78e8e098c05f52821e836832205050c0f539e`; local endpoint/viewer/account-state fixes are in the submodule history).
+Date: 2026-08-17. AppViewLite local fork: `8abe96490df889cc1c5d1a5b15eef8650d2ad2a7` (parent upstream baseline remains `75f78e8e098c05f52821e836832205050c0f539e`).
 
 ## Fixture
 

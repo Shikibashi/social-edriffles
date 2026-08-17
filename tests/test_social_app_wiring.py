@@ -31,5 +31,7 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('provider.serviceDid', clients)
         self.assertIn('switchAppViewProvider: switchAppView', (ROOT / 'src/state/session/index.tsx').read_text())
         self.assertIn('not a safe HTTPS origin', providers)
+        self.assertIn("redirect: 'error'", clients)
+        self.assertIn('AbortSignal.timeout(15_000)', clients)
 if __name__ == '__main__':
     unittest.main()
