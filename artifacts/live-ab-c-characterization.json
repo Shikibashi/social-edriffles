@@ -26,7 +26,7 @@
     "post_thread_endpoint": "HTTP 200 for indexed posts",
     "notifications_endpoint": "HTTP 200",
     "follows_endpoint": "HTTP 200",
-    "blocks_endpoint": "HTTP 500; pinned AppViewLite endpoint is not implemented",
+    "blocks_endpoint": "HTTP 200 after local implementation; A listing contains B",
     "A_viewing_B_viewer_state": {
       "muted": false,
       "blockedBy": false,
@@ -41,11 +41,11 @@
     "anonymous": "not authenticated; no viewer-specific assertion",
     "shutdown_flush": "AppViewLite graceful shutdown flushed did-hash, PLC, follow, block, reply, and profile tables."
   },
-  "status": "characterization incomplete",
+  "status": "partially characterized; block listing fixed, viewer-state mapping remains",
   "limitations": [
     "The block record was signed through the disposable PDS and firehose ingestion was verified for posts, but current AppViewLite did not expose the block in viewer state.",
-    "The block-list endpoint returns HTTP 500 because the pinned AppViewLite implementation is not implemented.",
     "No production pairwise semantics were changed based on this result.",
-    "The live process was intentionally terminated after endpoint checks; its graceful shutdown flushed the block table, but no additional viewer assertions were possible after shutdown."
+    "The live process was intentionally terminated after endpoint checks; its graceful shutdown flushed the block table, but no additional viewer assertions were possible after shutdown.",
+    "Viewer profile mapping still does not expose the blocking URI or blockedBy flag; getBlocks now proves the signed block was indexed."
   ]
 }

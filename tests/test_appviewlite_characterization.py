@@ -6,10 +6,9 @@ ROOT = Path(__file__).resolve().parents[1]
 APPVIEW = ROOT / "upstream" / "AppViewLite"
 
 class AppViewLiteCharacterizationTests(unittest.TestCase):
-    """Static executable characterization for the pinned source baseline.
+    """Static characterization for the pinned source baseline.
 
-    Runtime endpoint assertions remain deferred until the .NET SDK is available;
-    these checks ensure the fixture is anchored to real pinned source surfaces.
+    Live endpoint evidence is recorded separately in artifacts/live-ab-c-characterization.json.
     """
 
     @classmethod
@@ -51,5 +50,11 @@ class AppViewLiteCharacterizationTests(unittest.TestCase):
         self.assertIn("UserBlocksUser(b, a, ctx)", relationships)
         self.assertIn("if (a == b) return default;", relationships)
 
+    def test_get_blocks_endpoint_is_implemented(self):
+        controller = (APPVIEW / "src/AppViewLite.Web/ApiCompat/AppBskyGraph.cs").read_text()
+        self.assertIn("GetBlockingAsync", controller)
+        self.assertIn("Blocks = blocks.Select", controller)
+        body = controller.split("GetBlocksAsync", 1)[1].split("GetFollowersAsync", 1)[0]
+        self.assertNotIn("throw new NotImplementedException()", body)
 if __name__ == "__main__":
     unittest.main()
