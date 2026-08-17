@@ -1,0 +1,41 @@
+{
+  "environment": {
+    "pds": "http://127.0.0.1:2583",
+    "appViewLite": "http://127.0.0.1:61754",
+    "firehose": "ws://127.0.0.1:2583/",
+    "node": "24.11.1",
+    "accounts": {
+      "A": "did:plc:ptfwt757i5syd7u63zlv6cca",
+      "B": "did:plc:4tmyiq3rpcjqhhf24xfvueqo",
+      "C": "did:plc:t3myuj4fumsmxgtcoxdr5lg5"
+    }
+  },
+  "records": {
+    "profiles": true,
+    "posts": true,
+    "follow_A_to_B": true,
+    "block_A_to_B": true,
+    "reply": false,
+    "mentions": false,
+    "quotes": false,
+    "reposts": false
+  },
+  "observations": {
+    "profile_endpoint": "HTTP 200 for A, B, C",
+    "author_feed_endpoint": "HTTP 200; live post indexed",
+    "post_thread_endpoint": "HTTP 200 for indexed posts",
+    "notifications_endpoint": "HTTP 200",
+    "follows_endpoint": "HTTP 200",
+    "blocks_endpoint": "HTTP 500; pinned AppViewLite endpoint is not implemented",
+    "A_viewing_B_viewer_state": {"muted": false, "blockedBy": false, "blocking": null},
+    "B_viewing_A_viewer_state": {"muted": false, "blockedBy": false, "blocking": null},
+    "C_viewing_A_or_B": "profiles HTTP 200; no block flags",
+    "anonymous": "not authenticated; no viewer-specific assertion"
+  },
+  "status": "characterization incomplete",
+  "limitations": [
+    "The block record was signed through the disposable PDS and firehose ingestion was verified for posts, but current AppViewLite did not expose the block in viewer state.",
+    "The block-list endpoint returns HTTP 500 because the pinned AppViewLite implementation is not implemented.",
+    "No production pairwise semantics were changed based on this result."
+  ]
+}

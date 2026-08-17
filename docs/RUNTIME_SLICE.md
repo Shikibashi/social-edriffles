@@ -2,12 +2,13 @@
 
 ## Imported baselines
 
-- `upstream/AppViewLite` is checked out at `75f78e8e098c05f52821e836832205050c0f539e`.
-- `upstream/social-app` is checked out at `1f5c698165c922e707833809902ee959e9824f00`.
+- `upstream/AppViewLite` is checked out at `73f3c2408fc5c744b14da78ce6d4427ddc1d69da`.
+- `upstream/social-app` is checked out at `bde69aa15102640b0e898653a505191acc4951a9`.
+- `upstream/FishyFlip` is checked out at `da2c08aa19475eb2c732933d213a374f03a8e549`.
 
 ## Characterization
 
-`tests/test_appviewlite_characterization.py` anchors the A/B/C matrix to real pinned AppViewLite source paths and verifies the pairwise relationship core considers direct and inverse relationships while preserving unrelated viewers. Runtime .NET endpoint tests remain pending because the current environment has no `dotnet` executable.
+`tests/test_appviewlite_characterization.py` anchors the A/B/C matrix to real pinned AppViewLite source paths and verifies the pairwise relationship core considers direct and inverse relationships while preserving unrelated viewers. A disposable signed-record run now verifies firehose ingestion and several HTTP 200 endpoints; block-list and viewer-specific block assertions remain incomplete because the pinned block controller is unimplemented and the live viewer state did not expose A→B.
 
 ## Pairwise relationship boundary
 
