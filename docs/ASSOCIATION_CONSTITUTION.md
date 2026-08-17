@@ -24,4 +24,4 @@ The live A/B/C presentation matrix is in `docs/LIVE_BLOCK_PRESENTATION_MATRIX.md
 
 ## Decision boundary
 
-The pairwise block architecture is frozen for the characterized surfaces. No semantic collateral-suppression patch is justified by the evidence. Reopen only on contradictory live evidence or a separately approved policy change. Account-admin propagation and listblock viewer-field completeness are interoperability/service follow-up items, not reasons to weaken bilateral block semantics.
+The pairwise block architecture remains frozen for the already-characterized presentation surfaces, but the full Association Constitution is not yet frozen. The blocking evidence does not justify a collateral-suppression patch. The current blocker is service-level account takedown propagation: PDS login correctly returns `AccountTakedown`, while AppViewLite continues serving the taken-down profile/feed. Listblock viewer-field completeness and permissioned-data support are additional interoperability boundaries to resolve or explicitly scope before final freeze. None justify weakening bilateral block semantics.
