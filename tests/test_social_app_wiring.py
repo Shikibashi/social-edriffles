@@ -37,5 +37,7 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('Use Bluesky once', screen)
         self.assertIn('Always use Bluesky for this feature', screen)
         self.assertIn('Cancel', screen)
+        self.assertIn('appviewProviders: z.array(appviewProviderSchema).optional()', schema)
+        self.assertIn('appviewSelections: z.record(z.string(), z.string()).optional()', schema)
 if __name__ == '__main__':
     unittest.main()
