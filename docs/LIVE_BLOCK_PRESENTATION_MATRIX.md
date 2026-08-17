@@ -67,7 +67,7 @@ These characterization-only safety probes are separate from relationship-state a
 | Explicit timeline | C followed A and B; A/B/C timeline queries were separate | C received both explicit A/B timeline posts; A/B were empty in this fixture; anonymous returned HTTP 500 | Do not infer timeline policy from author feeds; retain C's public records |
 | Deletion | A post was deleted through `com.atproto.repo.deleteRecord` | A, B, C, and anonymous received 404 for record/thread retrieval | Viewer sovereignty never resurrects deleted records |
 | Record takedown | PDS admin status update with a strong record reference | AppView returned `RecordNotFound` | Service removal dominates presentation |
-| Account takedown | PDS admin account takedown | PDS login returned `AccountTakedown`; AppView profile/feed remained stale HTTP 200 | AppView admin-status propagation is a service-boundary limitation |
+| Account takedown | PDS admin account takedown | PDS login returned `AccountTakedown`; AppView refreshed state to a placeholder profile and empty author feed | Service removal dominates presentation |
 | Threadgate | B root with restrictive threadgate and C reply probe | AppView omitted the reply from the thread | Visibility does not grant interaction authorization |
 | Postgate | B postgate disallowing embeds and C quote | Quote remained, embedded record view was detached/empty | Quote detachment is not deletion |
 | Permissioned data | Disposable stack probe | Unsupported/untested | Do not simulate public visibility |

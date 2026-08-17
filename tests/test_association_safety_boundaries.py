@@ -57,6 +57,13 @@ class AssociationSafetyBoundaryTests(unittest.TestCase):
             self.assertIn(phrase, self.constitution)
         self.assertIn("Association safety boundaries", self.matrix)
 
+    def test_account_takedown_refreshes_before_presentation(self):
+        state = self.observations["safetyBoundaries"]["accountTakedown"]
+        self.assertEqual(state["pdsLoginStatus"], 401)
+        self.assertEqual(state["pdsError"], "AccountTakedown")
+        self.assertEqual(state["appViewAuthorFeedStatus"], 200)
+        self.assertEqual(state["appViewAuthorFeedItems"], 0)
+        self.assertIn("profile placeholder", state["appViewProfileFinding"])
 
 if __name__ == "__main__":
     unittest.main()

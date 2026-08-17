@@ -1463,7 +1463,9 @@
       "pdsError": "AccountTakedown",
       "appViewProfileStatus": 200,
       "appViewAuthorFeedStatus": 200,
-      "finding": "PDS enforces account takedown; AppView index did not immediately propagate admin account status"
+      "finding": "PDS rejects login with AccountTakedown; AppView refreshes account state and suppresses taken-down profile metadata/feed content",
+      "appViewProfileFinding": "profile placeholder with DID fallback and no description/avatar; no active account metadata",
+      "appViewAuthorFeedItems": 0
     },
     "threadgate": {
       "root": "B threadgate root",

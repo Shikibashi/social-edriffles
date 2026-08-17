@@ -17,11 +17,11 @@ The live A/B/C presentation matrix is in `docs/LIVE_BLOCK_PRESENTATION_MATRIX.md
 - C retained public A/B thread roots and replies, author-feed records, ordinary search results, and quote search results.
 - C's explicit following timeline retained public A/B posts. A and B timelines were empty in the fixture after their relationship state changed; this is recorded, not generalized beyond the fixture.
 - Deleted records returned `RecordNotFound`/HTTP 404 for A, B, C, and anonymous callers.
-- PDS record takedown removed record retrieval. PDS account takedown rejected login with `AccountTakedown`; the pinned AppView index did not immediately propagate account-admin status and therefore remains a service-boundary limitation, not a block-policy exception.
+- PDS record takedown removed record retrieval. PDS account takedown rejected login with `AccountTakedown`; AppView account-state refresh produced a placeholder profile and an empty author feed, preserving service-level removal.
 - Threadgate omitted a probe reply that violated the gate. Postgate quote detachment left the quote record while removing the embedded view; detachment is not deletion.
 - Existing list and list-item/listblock records were indexed and readable. The current profile conversion does not expose `blockingByList`; no list UX was added.
 - Permissioned/private-data behavior was not simulated and remains explicitly untested.
 
 ## Decision boundary
 
-The pairwise block architecture remains frozen for the already-characterized presentation surfaces, but the full Association Constitution is not yet frozen. The blocking evidence does not justify a collateral-suppression patch. The current blocker is service-level account takedown propagation: PDS login correctly returns `AccountTakedown`, while AppViewLite continues serving the taken-down profile/feed. Listblock viewer-field completeness and permissioned-data support are additional interoperability boundaries to resolve or explicitly scope before final freeze. None justify weakening bilateral block semantics.
+The pairwise block architecture remains frozen for the already-characterized presentation surfaces. Account takedown now refreshes from the PDS before profile lookup, yielding a placeholder profile and empty author feed rather than resurrecting public content. Listblock viewer-field completeness and permissioned-data support remain explicit interoperability boundaries; neither justifies weakening bilateral block semantics.

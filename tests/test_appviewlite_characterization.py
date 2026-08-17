@@ -63,5 +63,10 @@ class AppViewLiteCharacterizationTests(unittest.TestCase):
         self.assertIn("BlockedBy = profile.IsBlockedBySelf != null", utils)
         self.assertIn("Blocks.HasActor(profile.Plc, ctx.LoggedInUser", relationships)
         self.assertIn("Blocks.HasActor(ctx.LoggedInUser, profile.Plc", relationships)
+    def test_profile_lookup_refreshes_account_state(self):
+        source = (APPVIEW / "src/AppViewLite/BlueskyEnrichedApis.cs").read_text()
+        profile = source.split("GetProfileAsync(string did", 1)[1].split("GetProfilesAsync", 1)[0]
+        self.assertIn("FetchAndStoreAccountStateFromPdsDict.GetValueAsync", profile)
+        self.assertIn("accountState.BumpMinimumVersion(ctx)", profile)
 if __name__ == "__main__":
     unittest.main()
