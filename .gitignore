@@ -1,0 +1,6 @@
+.gjc/
+.omc/
+.wrangler/
+__pycache__/
+*.pyc
+gjc-session-*.html
