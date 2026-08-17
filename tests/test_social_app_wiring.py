@@ -29,5 +29,7 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('switchAppViewProvider', core)
         self.assertIn('provider.endpoint', clients)
         self.assertIn('provider.serviceDid', clients)
+        self.assertIn('switchAppViewProvider: switchAppView', (ROOT / 'src/state/session/index.tsx').read_text())
+        self.assertIn('not a safe HTTPS origin', providers)
 if __name__ == '__main__':
     unittest.main()
