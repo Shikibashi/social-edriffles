@@ -4,49 +4,45 @@ Date: 2026-08-17.
 
 ## Social-app routing
 
-The pinned social-app fork (`bde69aa15102640b0e898653a505191acc4951a9`) currently builds three clients over one `PasswordSession` in `src/state/session/session-core.ts`:
+The pinned social-app fork (`56b346e49`) currently builds three clients over one `PasswordSession` in `src/state/session/session-core.ts`:
 
-- `buildAppviewClient(agent)` in `src/state/session/clients.ts` sets `service: BLUESKY_PROXY_HEADER`.
+- `buildAppviewClient(agent)` mints an endpoint-scoped service-auth token from the account PDS and sends it to the configured AppView endpoint.
 - `buildPdsClient(agent)` sets no service, so repo/server/identity calls stay on the account host.
 - `buildChatClient(agent)` sets `service: CHAT_PROXY_SERVICE`.
 - `getPublicAppviewClient()` is a process-wide unauthenticated public client using `PUBLIC_BSKY_SERVICE`.
 - `routeSessionToPds()` pins the stored PDS URL while preserving the session's auth and refresh behavior.
-
-`BLUESKY_PROXY_HEADER` is `${BLUESKY_PROXY_DID}#bsky_appview`, with `BLUESKY_PROXY_DID` defaulting to `did:web:api.bsky.app`. `PUBLIC_BSKY_SERVICE` is `https://public.api.bsky.app`. The service value causes `@atproto/lex` to emit `atproto-proxy`; it does not itself provide a provider registry or provider-switching model.
+- The configured AppView endpoint defaults to `https://api.bsky.app`; `BLUESKY_PROXY_DID` supplies the service-auth audience and `atproto-proxy` service identity.
 
 PDS writes are independent: `buildPdsClient` has no proxy service and `createLexClient` record helpers force `service: null`. Sessions and account records are persisted through `src/state/persisted/schema.ts` and `src/state/session/index.tsx`; no persisted AppView provider selection exists.
 
 ## AppViewLite authenticated request flow
 
-The pinned AppViewLite fork (`45d6a0c913de53ae3397e12d5f30b41805961af3`) handles `/xrpc` bearer requests in `src/AppViewLite.Web/Program.cs`, `TryGetSessionCookie`:
+The pinned AppViewLite fork (`f0ef9be`) now verifies `/xrpc` bearer requests in middleware before session construction:
+1. The social-app client requests `com.atproto.server.getServiceAuth` from the account PDS for the exact AppView DID and XRPC method.
+2. It sends only the short-lived service-auth JWT to the AppView.
+3. AppViewLite verifies the JWT signature against the issuer DID document, validates claims and replay nonce, and creates a read-only viewer session.
+4. A raw PDS access JWT is rejected.
 
-1. Reads `Authorization: Bearer ...`.
-2. Calls `JwtSecurityTokenHandler.ReadJwtToken`.
-3. Reads `sub`, or falls back to `iss`, as the viewer DID.
-4. Checks only that the selected string passes `BlueskyEnrichedApis.IsValidDid`.
-5. Stores the unverified bearer string in `SessionIdWithUnverifiedDid`.
-
-`BlueskyEnrichedApis.TryGetSessionFromCookie` and `AppViewLiteUserContext.TryGetAppViewLiteSession` in `src/AppViewLite/AppViewLiteSession.cs` compare the raw bearer string against a stored PDS `AccessJwt` or an AppViewLite cookie token. There is no cryptographic service-auth verification at this boundary.
+`BlueskyEnrichedApis.TryGetSessionFromCookie` remains the cookie-only path. Authenticated XRPC bearer requests are verified by middleware before session construction; raw bearer strings are no longer compared against stored PDS `AccessJwt` values.
 
 The current implementation therefore:
 
 | Requirement | Current state |
 |---|---|
-| Raw PDS access JWT accepted | Yes, when it matches the stored PDS session token or reaches a request path that derives identity from it |
-| JWT signature verified | No |
-| DID authorized signing key verified | No |
-| `iss`/`sub` issuer consistency | No; `sub` or `iss` is selected heuristically |
-| `aud` validated | No |
-| endpoint-specific `lxm` validated | No |
-| `exp` validated | No at the bearer boundary |
-| `iat` sanity validated | No |
-| `jti` replay protection | No |
-| service DID/audience bound | No |
-| password/app password forwarded | The AppViewLite login UI accepts credentials for its own login flow; the social-app proxy path does not intentionally send passwords, but the raw PDS access token remains bearer material |
+| Raw PDS access JWT accepted | No; rejected at the AppView middleware boundary |
+| JWT signature verified | Yes, ES256K secp256k1 |
+| DID authorized signing key verified | Yes, via issuer DID document `#atproto` |
+| `iss`/`sub` issuer consistency | `iss` is required and must be a valid DID |
+| `aud` validated | Yes, exact configured AppView service DID |
+| endpoint-specific `lxm` validated | Yes, exact XRPC method path |
+| `exp` validated | Yes, with bounded clock skew |
+| `iat` sanity validated | Yes |
+| `jti` replay protection | Yes, in-memory until token expiry |
+| service DID/audience bound | Yes for the configured AppView service |
+| password/app password forwarded | No; PDS access token is used only for PDS-side service-auth minting |
 
-The `com.atproto.server.getServiceAuth` compatibility endpoint in `src/AppViewLite.Web/ApiCompat/ComAtprotoServer.cs` is currently `NotImplementedException`, so the service-auth issuance/verification handshake is not available. This is a security blocker, not evidence that a token-shaped bearer is safe.
+The AppViewLite `com.atproto.server.getServiceAuth` compatibility endpoint in `src/AppViewLite.Web/ApiCompat/ComAtprotoServer.cs` remains `NotImplementedException` by design: service-auth tokens are minted by the account PDS, not by the AppView. The social-app client calls the account PDS endpoint directly before each AppView request.
 
 ## Boundary decision
 
-Do not enable alternate-AppView authenticated routing until service-auth issuance, DID-bound signature verification, audience/lxm/expiry/replay checks, provider identity, and explicit switching are implemented together. A proxy DID header alone is routing metadata; it is not authentication.
-A DID-bound verifier foundation now exists in `upstream/AppViewLite/src/AppViewLite/ServiceAuthVerifier.cs`. It validates ES256K, `#atproto`, issuer DID, audience, endpoint `lxm`, `exp`, `iat`, `jti` replay, DID-document key resolution, and the secp256k1 signature. It is not yet wired into `Program.TryGetSessionCookie`, and therefore does not change request behavior. The raw bearer path remains the active security boundary until service-auth issuance and middleware integration are completed together.
+The authenticated boundary is now enforced for AppView XRPC requests in `upstream/AppViewLite/src/AppViewLite.Web/Program.cs`: raw bearer access JWTs are rejected, while verified service-auth JWTs create read-only AppView sessions. `ServiceAuthVerifier` validates ES256K, issuer DID/key, audience, endpoint `lxm`, `exp`, `iat`, `jti` replay, and DID-document resolution. The social-app session client mints an endpoint-scoped service-auth token through the PDS before each AppView request and sends only that token to the AppView endpoint. Live local evidence: a fresh PDS-issued ES256K token returned HTTP 200 for `app.bsky.feed.getTimeline`; the raw PDS access JWT returned HTTP 500 and was not accepted.
