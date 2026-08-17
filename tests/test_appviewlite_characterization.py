@@ -56,5 +56,12 @@ class AppViewLiteCharacterizationTests(unittest.TestCase):
         self.assertIn("Blocks = blocks.Select", controller)
         body = controller.split("GetBlocksAsync", 1)[1].split("GetFollowersAsync", 1)[0]
         self.assertNotIn("throw new NotImplementedException()", body)
+    def test_viewer_state_maps_block_directions(self):
+        utils = (APPVIEW / "src/AppViewLite/ApiCompatUtils.cs").read_text()
+        relationships = (APPVIEW / "src/AppViewLite/BlueskyRelationships.cs").read_text()
+        self.assertIn("Blocking = profile.IsBlockingSelf != null", utils)
+        self.assertIn("BlockedBy = profile.IsBlockedBySelf != null", utils)
+        self.assertIn("Blocks.HasActor(profile.Plc, ctx.LoggedInUser", relationships)
+        self.assertIn("Blocks.HasActor(ctx.LoggedInUser, profile.Plc", relationships)
 if __name__ == "__main__":
     unittest.main()
