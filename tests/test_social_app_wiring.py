@@ -33,5 +33,9 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('not a safe HTTPS origin', providers)
         self.assertIn("redirect: 'error'", clients)
         self.assertIn('AbortSignal.timeout(15_000)', clients)
+        screen = (ROOT / 'src/screens/Settings/ServicesSettings.tsx').read_text()
+        self.assertIn('Use Bluesky once', screen)
+        self.assertIn('Always use Bluesky for this feature', screen)
+        self.assertIn('Cancel', screen)
 if __name__ == '__main__':
     unittest.main()

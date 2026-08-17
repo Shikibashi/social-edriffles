@@ -31,6 +31,7 @@ interface AppViewProvider {
   serviceFragment: string
   endpoint: string
   builtin: boolean
+  enabled: boolean
 }
 ```
 
