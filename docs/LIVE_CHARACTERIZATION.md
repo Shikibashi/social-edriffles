@@ -15,7 +15,6 @@ The existing live tests cover server reachability only and skip unless `APPVIEWL
 
 The official `bluesky-social/atproto` development environment provides a disposable PDS stack with seeded `alice.test`, `bob.test`, and `carla.test` accounts (`hunter2`). It requires Docker and starts PDS, PLC, AppView, Redis, and Postgres. The stack was built and started locally; its seeded AppView was reachable on port 2584.
 
-AppViewLite cannot ingest that stack directly in the current setup: its DID-document override path constructs HTTPS firehose URLs while the disposable PDS exposes HTTP locally, and AppViewLite's login resolver cannot resolve `.test` handles through public DNS. Connecting them requires a local TLS/DID resolver bridge or a signed CAR import path.
 AppViewLite's firehose client previously could not ingest that stack because FishyFlip forced `wss://` and dropped the PDS port. That compatibility defect is fixed in the pinned local FishyFlip fork. Live ingestion still requires rerunning the disposable stack with a `ws://` DID override and handling `.test` login resolution; no live A/B/C assertions are claimed yet.
 ## Firehose compatibility fix
 
