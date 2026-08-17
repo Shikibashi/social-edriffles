@@ -1,0 +1,13 @@
+{
+  "timestamp": 1786988646.6933637,
+  "endpoint": "http://127.0.0.1:61754/xrpc/app.bsky.feed.getTimeline?limit=1",
+  "results": {
+    "valid_first": 200,
+    "valid_replay": 500,
+    "raw_pds_access": 500,
+    "bad_signature": 500,
+    "wrong_audience": 500,
+    "wrong_lxm": 500,
+    "expired_issuance_error": "HTTPError"
+  }
+}
