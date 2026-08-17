@@ -49,3 +49,4 @@ The `com.atproto.server.getServiceAuth` compatibility endpoint in `src/AppViewLi
 ## Boundary decision
 
 Do not enable alternate-AppView authenticated routing until service-auth issuance, DID-bound signature verification, audience/lxm/expiry/replay checks, provider identity, and explicit switching are implemented together. A proxy DID header alone is routing metadata; it is not authentication.
+A DID-bound verifier foundation now exists in `upstream/AppViewLite/src/AppViewLite/ServiceAuthVerifier.cs`. It validates ES256K, `#atproto`, issuer DID, audience, endpoint `lxm`, `exp`, `iat`, `jti` replay, DID-document key resolution, and the secp256k1 signature. It is not yet wired into `Program.TryGetSessionCookie`, and therefore does not change request behavior. The raw bearer path remains the active security boundary until service-auth issuance and middleware integration are completed together.
