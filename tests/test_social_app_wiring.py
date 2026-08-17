@@ -39,5 +39,8 @@ class SocialAppWiringTests(unittest.TestCase):
         self.assertIn('Cancel', screen)
         self.assertIn('appviewProviders: z.array(appviewProviderSchema).optional()', schema)
         self.assertIn('appviewSelections: z.record(z.string(), z.string()).optional()', schema)
+        self.assertIn('appviewFallbacks', schema)
+        self.assertIn('getAppViewFallback', providers)
+        self.assertIn("'appview-selection'", clients)
 if __name__ == '__main__':
     unittest.main()
