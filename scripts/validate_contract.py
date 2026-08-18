@@ -21,6 +21,7 @@ REQUIRED = [
     "tests/fixtures/candidate-protocol-replay.json",
     "tests/fixtures/balanced-v1-replay.json",
     "tests/fixtures/attention-sovereignty-ui.json",
+    "tests/fixtures/experimental-attention-v1.json",
 ]
 
 def load(rel: str):
@@ -80,6 +81,10 @@ def main() -> None:
     assert ui["format"] == "org.radical-liberal.attention-sovereignty-ui"
     assert ui["privacy"]["confidentialIntegrityVisible"] is False
     assert len(ui["accessibility"]) >= 4
+    experimental = load("tests/fixtures/experimental-attention-v1.json")
+    assert experimental["format"] == "org.radical-liberal.experimental-attention"
+    assert len(experimental["modules"]) == 5
+    assert experimental["optIn"] is True
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
