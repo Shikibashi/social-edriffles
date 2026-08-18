@@ -34,6 +34,11 @@ REQUIRED = [
     "docs/IDENTITY_EXIT_AND_MIGRATION.md",
     "docs/IDENTITY_DEPENDENCY_AUDIT.md",
     "tests/test_identity_constitution.py",
+    "tests/fixtures/identity-runtime-matrix.json",
+    "docs/IDENTITY_RUNTIME.md",
+    "docs/IDENTITY_MIGRATION_RUNTIME.md",
+    "docs/IDENTITY_MIGRATION_FAILURE_MATRIX.md",
+    "tests/test_identity_runtime_contract.py",
 ]
 
 def load(rel: str):
@@ -104,6 +109,9 @@ def main() -> None:
     adversarial = load("tests/fixtures/identity-adversarial.json")
     assert identity["format"] == "org.radical-liberal.identity-constitution"
     assert len(adversarial["cases"]) >= 18
+    runtime = load("tests/fixtures/identity-runtime-matrix.json")
+    assert runtime["format"] == "org.radical-liberal.identity-runtime"
+    assert runtime["cache"]["maxStaleSeconds"] == 3600
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
