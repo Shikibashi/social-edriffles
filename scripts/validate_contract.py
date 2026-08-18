@@ -50,6 +50,9 @@ REQUIRED = [
     "docs/IDENTITY_UI_AUTHORITY_MAP.md",
     "docs/IDENTITY_UI_ACCESSIBILITY.md",
     "tests/test_identity_sovereignty_ui.py",
+    "tests/test_identity_stack_ultra_review.py",
+    "docs/IDENTITY_STACK_V1_RELEASE_REVIEW.md",
+    "artifacts/identity-stack-v1-ultra-review.json",
 ]
 
 def load(rel: str):
@@ -129,6 +132,9 @@ def main() -> None:
     ui = load("tests/fixtures/identity-sovereignty-ui.json")
     assert ui["format"] == "org.radical-liberal.identity-sovereignty-ui"
     assert ui["privacy"]["secretsRedacted"] is True
+    review = load("artifacts/identity-stack-v1-ultra-review.json")
+    assert review["verdict"] == "IDENTITY_STACK_V1_REVIEW_BLOCKED"
+    assert review["severity"]["P1"] >= 1
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
