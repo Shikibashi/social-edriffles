@@ -1,0 +1,6 @@
+{
+  "kind":"package-test-report",
+  "suite":"attention constitution v1",
+  "commands":["python3 scripts/validate_contract.py","python3 -m unittest discover -s tests -p 'test_*.py'","pnpm typecheck:web","PATH=/tmp/dotnet10:$PATH dotnet build upstream/AppViewLite/src/AppViewLite.slnx -c Release --no-restore -p:SignAssembly=false","git diff --check"],
+  "results":{"contractValidation":"passed: 11 files, 29 blocking rows, 6 feed cases","rootTests":"48 passed, 2 skipped","attentionTests":"3 passed","socialTypecheck":"passed","appViewBuild":"0 errors, 2 warnings","diffCheck":"passed"}
+}
