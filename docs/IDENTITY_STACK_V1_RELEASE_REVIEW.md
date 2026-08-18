@@ -11,9 +11,10 @@ The hostile audit found no unresolved P0/P1 findings after remediation. Frozen c
 | Stage | Parent | social-app | Evidence |
 |---|---|---|---|
 | Constitution | `8c91911` | `8c91911` | `artifacts/identity-constitution-v1-test-report.json` |
-| Runtime | `765ecf2` | `d64e8b06` | `artifacts/identity-runtime-v1-test-report.json` |
+| Runtime | `765ecf2` | `946df3eb` | `artifacts/identity-runtime-v1-test-report.json` |
 | Recovery | `043e01b` | `af3e60e17` | `artifacts/identity-recovery-v1-test-report.json` |
-| Sovereignty UI | `33f2a01` | `63ad20349` | `artifacts/identity-sovereignty-ui-v1-test-report.json` |
+| Sovereignty UI | `33f2a01` | `946df3eb` | `artifacts/identity-sovereignty-ui-v1-test-report.json` |
+Final audited revisions: parent `4e71612`, social-app `946df3eb`.
 
 ## Remediation verified
 
