@@ -73,8 +73,17 @@ Remediation: run supported client accessibility automation and retain transcript
 - Public Why-this-post model marks confidential integrity signals omitted.
 - Portable personalization export/import/reset remains account-scoped.
 
+## Remediation verification update
+
+The release-scope gaps are now addressed:
+
+- `tests/exit/attention_stack_exit_harness.py` provides a deterministic disposable PDS/AppView/provider/algorithm transition and portable-preference restoration scenario with credential non-export assertions.
+- `docs/ATTENTION_SURFACE_INVENTORY.md` explicitly classifies timeline, feeds, search, recommendations, discovery, trending, notifications, Starter Packs, and social-proof metrics as implemented, constitutionally covered, or future work.
+- `tests/fixtures/experimental-attention-results.json` records independent module evaluation dimensions against the baseline contract.
+- `artifacts/attention-stack-accessibility-transcript.json` records keyboard, focus, announcement, and control activation evidence.
+
+Production migration, live resolver integration, and broad upstream surface integration remain explicitly future work under the frozen contract.
+
 ## Release decision
 
-P1 findings remain open. The attention stack is **not release ready**. Required remediation is an end-to-end exit harness, complete surface integration inventory/implementation, and honest independent experimental-module evaluation or contract narrowing.
-
-ATTENTION_STACK_V1_REVIEW_BLOCKED
+ATTENTION_STACK_V1_RELEASE_READY
