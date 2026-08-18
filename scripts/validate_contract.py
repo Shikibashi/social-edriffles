@@ -20,6 +20,7 @@ REQUIRED = [
     "tests/fixtures/feed-provider-security.json",
     "tests/fixtures/candidate-protocol-replay.json",
     "tests/fixtures/balanced-v1-replay.json",
+    "tests/fixtures/attention-sovereignty-ui.json",
 ]
 
 def load(rel: str):
@@ -75,6 +76,10 @@ def main() -> None:
     assert len(balanced["candidateSources"]) == 5
     assert "dogpile" in balanced["scenarios"]
     assert balanced["expected"]["deterministic"] is True
+    ui = load("tests/fixtures/attention-sovereignty-ui.json")
+    assert ui["format"] == "org.radical-liberal.attention-sovereignty-ui"
+    assert ui["privacy"]["confidentialIntegrityVisible"] is False
+    assert len(ui["accessibility"]) >= 4
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
