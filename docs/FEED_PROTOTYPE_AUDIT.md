@@ -27,3 +27,9 @@ The current Jest suite covers author caps, exploration floor, plaintext profile 
 ## Scope decision
 
 No scoring or UI redesign is made in this audit. The prototype remains opt-in and local-only. The next slice must first define a ranking-trace contract, retrieval boundary, validation limits, and decrypt/import threat model before changing behavior.
+
+## 2026-08-18 Codex repair delta
+
+The current candidate is reviewed in `docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md` against social-app `c38bfe515a9d52d2b9969c8ead64eced5f8d33ee`. The former F-07 page-local integration and F-10 explanation mismatch are no longer unqualified current defects: local ranking now records a real trace per selected candidate, and Why-this-post consumes that trace. Explicit More/Less preferences, discovery levels, and provider provenance also have deterministic coverage.
+
+The following limitations remain intentionally visible: familiarity is still declared but is not independently scored; local reranking remains page-local and scoped to the Following/local-feed path; provider-supplied reasons and manifests may be unavailable; and no claim is made that the library-only Balanced profile is a live Home selector. Historical rows above are preserved as dated audit evidence.

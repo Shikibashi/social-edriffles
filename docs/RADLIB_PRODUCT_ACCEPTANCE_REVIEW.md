@@ -1,5 +1,7 @@
 # Radlib Product Acceptance Review
 
+> **Historical baseline notice:** this document records the pre-Codex automated review and is retained for contract compatibility. It is superseded for current product behavior by [`docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md`](RADLIB_CODEX_ACCEPTANCE_REVIEW.md), which was run against social-app `c38bfe515a9d52d2b9969c8ead64eced5f8d33ee` after bounded repairs. Do not use the older partial/tension wording as the current candidate's final evidence.
+
 ## Verdict
 
 **RADLIB_PRODUCT_ACCEPTANCE_READY_FOR_OWNER**
