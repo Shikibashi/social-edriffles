@@ -69,6 +69,7 @@ REQUIRED = [
     "docs/LINUX_DAILY_DRIVER.md",
     "docs/DAILY_DRIVER_V1_FEATURE_MATRIX.md",
     "artifacts/daily-driver-v1-release.json",
+    "docs/DAILY_DRIVER_V1_RELEASE_REVIEW.md",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
