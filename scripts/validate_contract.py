@@ -60,6 +60,16 @@ REQUIRED = [
     "tests/test_constitutional_stack_integration.py",
     "docs/CONSTITUTIONAL_STACK_V1_INTEGRATION_REVIEW.md",
     "artifacts/constitutional-stack-v1-integration-review.json",
+    "tests/fixtures/daily-driver-v1-config.json",
+    "tests/test_daily_driver_productization.py",
+    "docs/RUNTIME_TOPOLOGY.md",
+    "docs/GETTING_STARTED.md",
+    "docs/BUILDING.md",
+    "docs/DEFAULT_CONFIGURATION.md",
+    "docs/LINUX_DAILY_DRIVER.md",
+    "docs/DAILY_DRIVER_V1_FEATURE_MATRIX.md",
+    "artifacts/daily-driver-v1-release.json",
+    "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
 def load(rel: str):
@@ -154,6 +164,14 @@ def main() -> None:
     integration = load("artifacts/constitutional-stack-v1-integration-review.json")
     assert integration["verdict"] == "CONSTITUTIONAL_STACK_V1_RELEASE_READY"
     assert integration["severity"]["P1"] == 0
+    daily = load("tests/fixtures/daily-driver-v1-config.json")
+    assert daily["format"] == "org.radical-liberal.daily-driver-config"
+    assert daily["production"]["localhostDefaults"] is False
+    assert daily["production"]["fixtureProviders"] is False
+    assert daily["production"]["testCredentials"] is False
+    daily_release = load("artifacts/daily-driver-v1-release.json")
+    assert daily_release["kind"] == "daily-driver-v1-release"
+    assert daily_release["severity"]["P1"] == 0
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
