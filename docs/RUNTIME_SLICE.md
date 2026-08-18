@@ -16,14 +16,17 @@ AppViewLite's relationship core was explicitly named `UsersHavePairwiseBlockRela
 
 ## Local feed sovereignty
 
-`upstream/social-app/src/lib/feed-sovereignty/profile.ts` provides local candidate scoring, author caps, exploration floors, explicit portable profile JSON, and AES-GCM/PBKDF2 encrypted backup using platform cryptography. Its focused Jest suite covers author caps, exploration, profile round-trip, and encryption.
+`upstream/social-app/src/lib/feed-sovereignty/profile.ts` provides local candidate scoring, author caps, exploration floors, and deterministic “Why this post?” reasons. Portable personalization state is now defined in `upstream/social-app/src/lib/personalization.ts`, with account-scoped storage, settings/profile/archive exports, strict validation, and authenticated encrypted backup.
+
+## Attention Constitution
+
+`docs/ATTENTION_CONSTITUTION.md` governs the full attention surface, including feeds, search, recommendations, trending, directories, Starter Packs, notifications, social-proof metrics, provider transparency, concentration controls, delegated authority, emergency changes, accessibility, and pace sovereignty. It is an architectural contract; Balanced v1 remains deferred.
 
 ## Baseline verification
 
-- `upstream/social-app/src/state/preferences/local-feed.tsx` persists an opt-in local-reranking toggle and explicit preferences on-device. Following-feed settings expose the toggle; feed rendering applies local slice reranking and displays deterministic “Why this post?” reasons.
-- Social-app `pnpm intl:compile && pnpm typecheck:web` passes.
-- Focused feed Jest suite and root audit suite pass; the repository Python suite passes 21 tests with 2 live-endpoint skips.
-- AppViewLite builds with the isolated .NET 10 SDK and `-p:SignAssembly=false`, with 8 existing compiler warnings and 0 errors.
+- Social-app typecheck and focused personalization/session Jest suites pass.
+- Root contract and Python audit suites pass.
+- AppViewLite Release build passes with 0 errors and existing warnings.
 - A clean current upstream checkout completed codegen and `pnpm build` with the pinned Node 24 runtime family; `make run-dev-env` reached `Dev environment is ready` after rebuilding the native SQLite binding.
 ## Research reconciliation: four constitutional domains
 
@@ -38,13 +41,13 @@ The existing constitutional intent maps into four non-duplicating domains:
 
 | Research requirement | Current code/status | Gap |
 |---|---|---|
-| Portable personalization | Plaintext profile export/import plus encrypted export | Decrypt/import, strict schema limits, provenance |
-| Hostile providers/requester privacy | Local-only toggle and AsyncStorage | Candidate omission audits, privacy-preserving telemetry, no-fallback enforcement |
-| On-device reranking | Opt-in per-page prototype | Wider candidate retrieval and faithful trace |
-| Sybil/integrity separation | `integrityWeight` field only | Provider-supplied integrity evidence and non-moderation boundary |
-| Attention governance | Following-only prototype | Search, recommendations, trending, notifications, social proof |
-| Service manifests/succession | Constitutional documentation only | Signed manifests, succession protocol, exit tests |
-| Accessibility and pace | Existing client conventions | Explicit feed pace controls and verification |
-| Emergency powers | Documentation intent only | Narrow, auditable, expiry-bound operational tests |
+| Portable personalization | Account-scoped v1 settings/profile/archive state with strict validation and encrypted backup | Automatic synchronization and secure deletion remain deferred |
+| Hostile providers/requester privacy | Service Constitution provider boundary and explicit selection | Candidate omission audits and privacy-preserving telemetry remain deferred |
+| On-device reranking | Existing local candidate scoring and caps | Broader candidate retrieval and provider trace integration |
+| Sybil/integrity separation | Constitution separates integrity, moderation, trust, and ranking utility | Provider-supplied integrity evidence remains deferred |
+| Attention governance | Attention Constitution and machine-checkable surface contract | Runtime enforcement and Balanced v1 remain deferred |
+| Service manifests/succession | Service Constitution and provider identity records | Signed manifest succession protocol remains deferred |
+| Accessibility and pace | Constitutional requirements documented | Explicit runtime pace controls and verification remain deferred |
+| Emergency powers | Bounded incident/expiry/rollback requirements documented | Operational emergency tooling remains deferred |
 
 Balanced v1 is not implemented or claimed.

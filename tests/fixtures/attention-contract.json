@@ -1,0 +1,22 @@
+{
+  "format": "org.radical-liberal.attention-constitution",
+  "version": 1,
+  "surfaces": [
+    {"id":"home-following","class":"attention-ordering","authority":"user-selected-feed","exit":"chronological"},
+    {"id":"custom-external-experimental","class":"delegated-ordering","authority":"named-provider","exit":"switch-or-remove"},
+    {"id":"account-recommendations","class":"discovery-ordering","authority":"client-provider-proposal","exit":"dismiss"},
+    {"id":"search","class":"retrieval-ordering","authority":"search-provider-proposal","exit":"inspect-query"},
+    {"id":"trending","class":"popularity-discovery-ordering","authority":"named-service-proposal","exit":"not-authenticity-verdict"},
+    {"id":"feed-directories","class":"discovery-ordering","authority":"directory-proposal","exit":"subscribe-choice"},
+    {"id":"starter-pack-discovery","class":"discovery-ordering","authority":"publisher-proposal","exit":"subscribe-choice"},
+    {"id":"notifications","class":"attention-priority","authority":"client-service-proposal","exit":"activity-view"},
+    {"id":"social-proof-metrics","class":"metric-presentation","authority":"service-data","exit":"quiet-metrics"},
+    {"id":"future-recommendations","class":"attention-ordering","authority":"must-be-classified","exit":"required-before-release"}
+  ],
+  "requiredTransparency": ["providerName", "providerDid", "algorithmName", "algorithmVersion", "manifestHash", "objective", "whyThisPost"],
+  "explanationScopes": ["public", "audit", "confidential-anti-abuse"],
+  "authorityClasses": ["one-shot-advice", "continuous-policy", "local-reversible-filter", "durable-account-mutation"],
+  "concentrationControls": ["author-cap", "duplicate-suppression", "popularity-diminishing-returns", "exploration-budget", "concentration-detection", "dogpile-amplification-control"],
+  "frozenBoundaries": ["association-constitution", "service-constitution", "portable-personalization-v1"],
+  "principles": ["user-attention-authority", "replaceability", "chronological-exit", "explicit-over-inferred", "moderation-separation", "conceptual-separation"]
+}

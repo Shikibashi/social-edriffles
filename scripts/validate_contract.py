@@ -16,6 +16,7 @@ REQUIRED = [
     "docs/RUNTIME_SLICE.md",
     "tests/fixtures/blocking-matrix.json",
     "tests/fixtures/feed-contract.json",
+    "tests/fixtures/attention-contract.json",
 ]
 
 def load(rel: str):
@@ -45,6 +46,14 @@ def main() -> None:
     assert feed["treatments"] == ["chronological", "engagement", "diversified"]
     assert all(case["id"] for case in feed["cases"])
     assert json.dumps(feed, sort_keys=True) == json.dumps(json.loads(json.dumps(feed)), sort_keys=True)
+    attention = load("tests/fixtures/attention-contract.json")
+    assert attention["format"] == "org.radical-liberal.attention-constitution"
+    assert attention["version"] == 1
+    assert len(attention["surfaces"]) == 10
+    assert set(attention["explanationScopes"]) == {"public", "audit", "confidential-anti-abuse"}
+    assert set(attention["authorityClasses"]) == {"one-shot-advice", "continuous-policy", "local-reversible-filter", "durable-account-mutation"}
+    assert {"author-cap", "duplicate-suppression", "exploration-budget", "dogpile-amplification-control"} <= set(attention["concentrationControls"])
+    assert set(attention["frozenBoundaries"]) == {"association-constitution", "service-constitution", "portable-personalization-v1"}
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
