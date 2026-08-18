@@ -1,0 +1,10 @@
+{
+  "format":"org.radical-liberal.feed-provider-security",
+  "version":1,
+  "limits":{"maxResponseBytes":2000000,"maxCompressedBytes":1000000,"maxCandidates":100,"maxCursorLength":512,"maxPaginationPages":20},
+  "cases":[
+    "huge-response","huge-compressed-response","excessive-candidates","malicious-cursor","invalid-uri","invalid-cid","duplicate-candidate","stale-batch","redirect-abuse","slow-provider","unavailable-provider","forged-provider-identity","invalid-manifest-signature","revoked-key","malformed-reason","hydration-mismatch","executable-payload","relationship-immutability"
+  ],
+  "failureClasses":["timeout","malformed-response","identity-failure","signature-failure","stale-batch","unavailable","circuit-open","hydration-disagreement"],
+  "dataOnly":true
+}

@@ -17,6 +17,7 @@ REQUIRED = [
     "tests/fixtures/blocking-matrix.json",
     "tests/fixtures/feed-contract.json",
     "tests/fixtures/attention-contract.json",
+    "tests/fixtures/feed-provider-security.json",
 ]
 
 def load(rel: str):
@@ -54,6 +55,12 @@ def main() -> None:
     assert set(attention["authorityClasses"]) == {"one-shot-advice", "continuous-policy", "local-reversible-filter", "durable-account-mutation"}
     assert {"author-cap", "duplicate-suppression", "exploration-budget", "dogpile-amplification-control"} <= set(attention["concentrationControls"])
     assert set(attention["frozenBoundaries"]) == {"association-constitution", "service-constitution", "portable-personalization-v1"}
+    security = load("tests/fixtures/feed-provider-security.json")
+    assert security["format"] == "org.radical-liberal.feed-provider-security"
+    assert security["version"] == 1
+    assert len(security["cases"]) >= 18
+    assert security["dataOnly"] is True
+    assert {"timeout", "identity-failure", "signature-failure", "hydration-disagreement"} <= set(security["failureClasses"])
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
