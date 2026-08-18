@@ -13,3 +13,9 @@ This fork is politically content-neutral. It allocates authority rather than dec
 9. **Privacy defaults:** telemetry, tracking redirects, dwell/scroll/hover collection, and geolocation are disabled unless explicitly required.
 
 PR-00/PR-01 records current behavior and does not change production semantics.
+## Personalization boundary
+
+10. **User-owned personalization:** explicit preferences and local learned personalization belong to the user, not the current AppView, feed provider, PDS host, or client instance.
+11. **Inspectable and portable:** derived state remains resettable/exportable at an appropriate abstraction level; settings-only export excludes behavioral history.
+12. **Provider independence:** changing AppView, feed provider, or PDS host does not inherently delete personalization or require retraining from zero.
+13. **Data minimization:** passive dwell time and full behavioral histories are not collected or forwarded by default.
