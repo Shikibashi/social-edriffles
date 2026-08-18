@@ -1,0 +1,1 @@
+{"kind":"identity-recovery-test-report","suite":"Identity Recovery v1","results":{"focused":"2 passed","root":"65 passed, 2 skipped","contract":"39 files passed","typecheck":"passed","diffCheck":"passed"},"adversarialCases":13,"receiptSecrets":false,"lockdown":"sessions revoked, writes blocked, identity cache invalidated, remembered services disabled"}
