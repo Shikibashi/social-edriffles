@@ -1,0 +1,8 @@
+{
+  "kind":"package-test-report",
+  "suite":"Balanced v1",
+  "commands":["pnpm test src/lib/balanced.test.ts --runInBand","pnpm typecheck:web","python3 scripts/validate_contract.py","python3 -m unittest discover -s tests -p 'test_*.py'","PATH=/tmp/dotnet10:$PATH dotnet build upstream/AppViewLite/src/AppViewLite.slnx -c Release --no-restore -p:SignAssembly=false","git diff --check"],
+  "results":{"balancedTests":"3 passed","socialTypecheck":"passed","contractValidation":"passed: 14 files, 29 blocking rows, 6 feed cases","rootTests":"54 passed, 2 skipped","appViewBuild":"0 errors, 2 warnings","diffCheck":"passed"},
+  "scenarios":["chronological-baseline","engagement-baseline","balanced","duplicate-flood","sybil-flood","dogpile","breaking-news","sparse-new-user","heavily-personalized"],
+  "determinism":"same batch/preferences/clock produced identical order and traces"
+}
