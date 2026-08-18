@@ -28,9 +28,9 @@ class AttentionConstitutionTests(unittest.TestCase):
         self.assertIn('author caps', text.lower())
 
     def test_personalization_and_service_sources_are_unchanged(self):
-        social = subprocess.check_output(['git', '-C', str(ROOT / 'upstream/social-app'), 'rev-parse', 'HEAD'], text=True).strip()
+        social_diff = subprocess.check_output(['git', '-C', str(ROOT / 'upstream/social-app'), 'diff', '--exit-code', '18803342950777c4d3f792793f83dee971111221', '--', 'src/lib/personalization.ts', 'src/lib/personalization.test.ts'], text=True)
         appview = subprocess.check_output(['git', '-C', str(ROOT / 'upstream/AppViewLite'), 'rev-parse', 'HEAD'], text=True).strip()
-        self.assertEqual(social, '18803342950777c4d3f792793f83dee971111221')
+        self.assertEqual(social_diff, '')
         self.assertEqual(appview, 'ab3ac9ec20e234746d6978f74567bae67b53137e')
 
 

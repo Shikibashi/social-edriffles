@@ -1,0 +1,9 @@
+{
+  "format":"org.radical-liberal.candidate-replay",
+  "version":1,
+  "batch":{"format":"org.radical-liberal.candidate-batch","version":1,"batchId":"replay-1","providerDid":"did:web:feeds.example.com","serviceIdentity":"feeds.example.com","source":{"id":"following","type":"feed"},"manifest":{"id":"manifest-1","version":"1","hash":"sha256:manifest"},"generatedAt":"2030-01-01T00:00:00.000Z","expiresAt":"2030-01-01T00:05:00.000Z","privacyMode":"anonymous","candidates":[{"uri":"at://did:plc:t3myuj4fumsmxgtcoxdr5lg5/app.bsky.feed.post/3jzfcij3wzj2a","cid":"bafybeig45pu3jn2i5h7p7gt2v7bdeax5kq2pmmvooakzn4fy3em47mlxa4","candidateTimestamp":"2030-01-01T00:00:00.000Z","hydration":{"state":"visible","checkedAt":"2030-01-01T00:00:01.000Z"},"rankKey":"1.0"}],"signed":{"keyId":"key-1","algorithm":"ECDSA-P256-SHA256","signature":"AA"}},
+  "manifest":{"id":"manifest-1","version":"1","providerDid":"did:web:feeds.example.com","hash":"sha256:manifest"},
+  "portablePersonalization":{"exportLevel":"settings","explicit":{"selectedFeedPreset":"following","discovery":0.5,"familiarity":0.5,"freshness":0.5,"variety":0.5,"conversationActivity":0.5,"explorationLevel":0.5}},
+  "hydratedFeatures":[{"uri":"at://did:plc:t3myuj4fumsmxgtcoxdr5lg5/app.bsky.feed.post/3jzfcij3wzj2a","state":"visible","language":"en"}],
+  "ranking":{"algorithm":"chronological","version":"1","orderedUris":["at://did:plc:t3myuj4fumsmxgtcoxdr5lg5/app.bsky.feed.post/3jzfcij3wzj2a"]}
+}

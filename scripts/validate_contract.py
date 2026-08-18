@@ -18,6 +18,7 @@ REQUIRED = [
     "tests/fixtures/feed-contract.json",
     "tests/fixtures/attention-contract.json",
     "tests/fixtures/feed-provider-security.json",
+    "tests/fixtures/candidate-protocol-replay.json",
 ]
 
 def load(rel: str):
@@ -61,6 +62,12 @@ def main() -> None:
     assert len(security["cases"]) >= 18
     assert security["dataOnly"] is True
     assert {"timeout", "identity-failure", "signature-failure", "hydration-disagreement"} <= set(security["failureClasses"])
+    replay = load("tests/fixtures/candidate-protocol-replay.json")
+    assert replay["format"] == "org.radical-liberal.candidate-replay"
+    assert replay["version"] == 1
+    assert replay["batch"]["format"] == "org.radical-liberal.candidate-batch"
+    assert replay["portablePersonalization"]["exportLevel"] == "settings"
+    assert replay["ranking"]["orderedUris"]
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
