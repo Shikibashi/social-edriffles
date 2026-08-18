@@ -22,6 +22,7 @@ REQUIRED = [
     "tests/fixtures/balanced-v1-replay.json",
     "tests/fixtures/attention-sovereignty-ui.json",
     "tests/fixtures/experimental-attention-v1.json",
+    "tests/test_attention_stack_release_audit.py",
 ]
 
 def load(rel: str):
@@ -85,6 +86,9 @@ def main() -> None:
     assert experimental["format"] == "org.radical-liberal.experimental-attention"
     assert len(experimental["modules"]) == 5
     assert experimental["optIn"] is True
+    audit = load("artifacts/attention-stack-v1-release-audit.json")
+    assert audit["decision"] == "ATTENTION_STACK_V1_REVIEW_BLOCKED"
+    assert len(audit["p1"]) >= 1
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
