@@ -70,6 +70,16 @@ REQUIRED = [
     "docs/DAILY_DRIVER_V1_FEATURE_MATRIX.md",
     "artifacts/daily-driver-v1-release.json",
     "docs/DAILY_DRIVER_V1_RELEASE_REVIEW.md",
+    "docs/DEPLOYMENT_ARCHITECTURE.md",
+    "docs/DEPLOYMENT_V1.md",
+    "docs/SELF_HOSTING_WEB.md",
+    "docs/STAGING.md",
+    "docs/DEPLOYMENT_TROUBLESHOOTING.md",
+    "deploy/static-headers",
+    "deploy/static-redirects",
+    "artifacts/deployment-v1-manifest.json",
+    "tests/fixtures/deployment-v1-config.json",
+    "tests/test_deployment_v1.py",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
@@ -173,6 +183,12 @@ def main() -> None:
     daily_release = load("artifacts/daily-driver-v1-release.json")
     assert daily_release["kind"] == "daily-driver-v1-release"
     assert daily_release["severity"]["P1"] == 0
+    deployment = load("artifacts/deployment-v1-manifest.json")
+    deployment_config = load("tests/fixtures/deployment-v1-config.json")
+    assert deployment["format"] == "org.radical-liberal.deployment-v1"
+    assert deployment["secretsIncluded"] is False
+    assert deployment_config["production"]["httpsRequired"] is True
+    assert deployment_config["production"]["secretBuildVars"] is False
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
