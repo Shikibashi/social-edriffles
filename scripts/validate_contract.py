@@ -19,6 +19,7 @@ REQUIRED = [
     "tests/fixtures/attention-contract.json",
     "tests/fixtures/feed-provider-security.json",
     "tests/fixtures/candidate-protocol-replay.json",
+    "tests/fixtures/balanced-v1-replay.json",
 ]
 
 def load(rel: str):
@@ -68,6 +69,12 @@ def main() -> None:
     assert replay["batch"]["format"] == "org.radical-liberal.candidate-batch"
     assert replay["portablePersonalization"]["exportLevel"] == "settings"
     assert replay["ranking"]["orderedUris"]
+    balanced = load("tests/fixtures/balanced-v1-replay.json")
+    assert balanced["format"] == "org.radical-liberal.balanced-replay"
+    assert balanced["version"] == 1
+    assert len(balanced["candidateSources"]) == 5
+    assert "dogpile" in balanced["scenarios"]
+    assert balanced["expected"]["deterministic"] is True
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":

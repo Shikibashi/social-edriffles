@@ -1,0 +1,9 @@
+{
+  "format":"org.radical-liberal.balanced-replay",
+  "version":1,
+  "manifest":{"id":"org.radical-liberal.balanced","version":"1","constitutionalVersion":"attention-v1","protocolVersion":"candidate-v1"},
+  "candidateSources":["followed-network","graph-near-discovery","broader-exploration","explicit-interest","new-low-exposure"],
+  "scenarios":["chronological-baseline","engagement-baseline","balanced","duplicate-flood","sybil-flood","dogpile","breaking-news","sparse-new-user","heavily-personalized"],
+  "parameters":{"freshnessWeight":0.2,"graphProximityWeight":0.16,"engagementWeight":0.06,"explicitInterestWeight":0.22,"inferredInterestWeight":0.1,"feedbackWeight":0.16,"noveltyWeight":0.1,"explorationWeight":0.08,"integrityWeight":0.08,"harassmentAmplificationRiskWeight":0.18},
+  "expected":{"deterministic":true,"traceRequired":true,"missingFeatures":"unknown-neutral","recordTypeNeutral":true}
+}
