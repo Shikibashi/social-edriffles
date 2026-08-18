@@ -1,0 +1,7 @@
+{
+  "kind":"package-test-report",
+  "suite":"feed provider security v1",
+  "commands":["pnpm test src/lib/feed-provider-security.test.ts --runInBand","pnpm typecheck:web","python3 scripts/validate_contract.py","python3 -m unittest discover -s tests -p 'test_*.py'","PATH=/tmp/dotnet10:$PATH dotnet build upstream/AppViewLite/src/AppViewLite.slnx -c Release --no-restore -p:SignAssembly=false","git diff --check"],
+  "results":{"securityTests":"3 passed","socialTypecheck":"passed","contractValidation":"passed: 12 files, 29 blocking rows, 6 feed cases","rootTests":"50 passed, 2 skipped","appViewBuild":"0 errors, 2 warnings","diffCheck":"passed"},
+  "adversarialCases":["huge-response","huge-compressed-response","excessive-candidates","malicious-cursor","invalid-uri","invalid-cid","duplicate-candidate","stale-batch","redirect-abuse","slow-provider","unavailable-provider","forged-provider-identity","invalid-manifest-signature","revoked-key","malformed-reason","hydration-mismatch","executable-payload","relationship-immutability"]
+}
