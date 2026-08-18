@@ -26,6 +26,14 @@ REQUIRED = [
     "tests/exit/attention_stack_exit_harness.py",
     "docs/ATTENTION_SURFACE_INVENTORY.md",
     "tests/fixtures/experimental-attention-results.json",
+    "tests/fixtures/identity-contract.json",
+    "tests/fixtures/identity-adversarial.json",
+    "tests/exit/identity_exit_harness.py",
+    "docs/IDENTITY_CONSTITUTION.md",
+    "docs/IDENTITY_AUTHORITY_MODEL.md",
+    "docs/IDENTITY_EXIT_AND_MIGRATION.md",
+    "docs/IDENTITY_DEPENDENCY_AUDIT.md",
+    "tests/test_identity_constitution.py",
 ]
 
 def load(rel: str):
@@ -92,6 +100,10 @@ def main() -> None:
     audit = load("artifacts/attention-stack-v1-release-audit.json")
     assert audit["decision"] == "ATTENTION_STACK_V1_RELEASE_READY"
     assert audit["severity"]["P1"] == 0
+    identity = load("tests/fixtures/identity-contract.json")
+    adversarial = load("tests/fixtures/identity-adversarial.json")
+    assert identity["format"] == "org.radical-liberal.identity-constitution"
+    assert len(adversarial["cases"]) >= 18
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":

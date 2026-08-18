@@ -20,3 +20,4 @@ PR-00/PR-01 records current behavior and does not change production semantics.
 12. **Provider independence:** changing AppView, feed provider, or PDS host does not inherently delete personalization or require retraining from zero.
 13. **Data minimization:** passive dwell time and full behavioral histories are not collected or forwarded by default.
 14. **Attention governance:** attention orderings remain user-controlled, replaceable, inspectable, and distinct from association, moderation, and service authority; see `docs/ATTENTION_CONSTITUTION.md`.
+24. **Identity continuity:** DID identity, key succession, authentication, recovery, and hosting exit remain distinct from handles, AppViews, presentation, reputation, and moderation; see `docs/IDENTITY_CONSTITUTION.md`.
