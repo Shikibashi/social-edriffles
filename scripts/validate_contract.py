@@ -39,6 +39,12 @@ REQUIRED = [
     "docs/IDENTITY_MIGRATION_RUNTIME.md",
     "docs/IDENTITY_MIGRATION_FAILURE_MATRIX.md",
     "tests/test_identity_runtime_contract.py",
+    "tests/fixtures/identity-recovery.json",
+    "docs/IDENTITY_RECOVERY.md",
+    "docs/IDENTITY_RECOVERY_AUTHORITY.md",
+    "docs/IDENTITY_RECOVERY_FAILURE_MATRIX.md",
+    "docs/IDENTITY_SESSION_AND_KEY_LIFECYCLE.md",
+    "tests/test_identity_recovery_contract.py",
 ]
 
 def load(rel: str):
@@ -112,6 +118,9 @@ def main() -> None:
     runtime = load("tests/fixtures/identity-runtime-matrix.json")
     assert runtime["format"] == "org.radical-liberal.identity-runtime"
     assert runtime["cache"]["maxStaleSeconds"] == 3600
+    recovery = load("tests/fixtures/identity-recovery.json")
+    assert recovery["format"] == "org.radical-liberal.identity-recovery"
+    assert recovery["secretsInReceipts"] is False
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
