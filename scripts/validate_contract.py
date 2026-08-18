@@ -93,6 +93,13 @@ REQUIRED = [
     "artifacts/upstream-rebase-receipt.json",
     "scripts/check_upstream.py",
     "tests/test_upstream_hardening.py",
+    "docs/RADLIB_PRODUCT_PRINCIPLES.md",
+    "docs/RADLIB_PRODUCT_ACCEPTANCE_REVIEW.md",
+    "docs/OWNER_ACCEPTANCE_CHECKLIST.md",
+    "artifacts/radlib-principle-traceability.json",
+    "artifacts/radlib-product-acceptance.json",
+    "tests/fixtures/radlib-owner-intent.json",
+    "tests/test_radlib_product_acceptance.py",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
@@ -209,6 +216,12 @@ def main() -> None:
     assert len(baseline["upstreams"]) == 3
     assert delta["deltas"]
     assert receipt["secretsIncluded"] is False
+    radlib = load("artifacts/radlib-product-acceptance.json")
+    trace = load("artifacts/radlib-principle-traceability.json")
+    owner = load("tests/fixtures/radlib-owner-intent.json")
+    assert len(trace["principles"]) == 24
+    assert radlib["verdict"] == "RADLIB_PRODUCT_ACCEPTANCE_READY_FOR_OWNER"
+    assert owner["acceptanceState"] == "OWNER_ACCEPTANCE_PENDING"
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
