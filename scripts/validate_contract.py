@@ -80,6 +80,8 @@ REQUIRED = [
     "artifacts/deployment-v1-manifest.json",
     "tests/fixtures/deployment-v1-config.json",
     "tests/test_deployment_v1.py",
+    "docs/DEPLOYMENT_FEATURE_MATRIX.md",
+    "docs/DEPLOYMENT_V1_RELEASE_REVIEW.md",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
@@ -189,6 +191,7 @@ def main() -> None:
     assert deployment["secretsIncluded"] is False
     assert deployment_config["production"]["httpsRequired"] is True
     assert deployment_config["production"]["secretBuildVars"] is False
+    assert deployment["deploymentStatus"] == "READY-BUT-NOT-EXECUTED"
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
