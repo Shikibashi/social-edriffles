@@ -45,6 +45,11 @@ REQUIRED = [
     "docs/IDENTITY_RECOVERY_FAILURE_MATRIX.md",
     "docs/IDENTITY_SESSION_AND_KEY_LIFECYCLE.md",
     "tests/test_identity_recovery_contract.py",
+    "tests/fixtures/identity-sovereignty-ui.json",
+    "docs/IDENTITY_SOVEREIGNTY_UI.md",
+    "docs/IDENTITY_UI_AUTHORITY_MAP.md",
+    "docs/IDENTITY_UI_ACCESSIBILITY.md",
+    "tests/test_identity_sovereignty_ui.py",
 ]
 
 def load(rel: str):
@@ -121,6 +126,9 @@ def main() -> None:
     recovery = load("tests/fixtures/identity-recovery.json")
     assert recovery["format"] == "org.radical-liberal.identity-recovery"
     assert recovery["secretsInReceipts"] is False
+    ui = load("tests/fixtures/identity-sovereignty-ui.json")
+    assert ui["format"] == "org.radical-liberal.identity-sovereignty-ui"
+    assert ui["privacy"]["secretsRedacted"] is True
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
