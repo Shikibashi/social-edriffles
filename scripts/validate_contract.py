@@ -82,6 +82,17 @@ REQUIRED = [
     "tests/test_deployment_v1.py",
     "docs/DEPLOYMENT_FEATURE_MATRIX.md",
     "docs/DEPLOYMENT_V1_RELEASE_REVIEW.md",
+    "docs/UPSTREAM_INVENTORY.md",
+    "docs/UPSTREAM_PATCH_SURFACE.md",
+    "docs/UPSTREAM_REBASE_PLAYBOOK.md",
+    "docs/UPSTREAMABILITY.md",
+    "docs/UPSTREAM_REBASE_HARDENING_V1_RELEASE_REVIEW.md",
+    "artifacts/upstream-baseline.json",
+    "artifacts/upstream-delta-inventory.json",
+    "artifacts/upstream-rebase-risk.json",
+    "artifacts/upstream-rebase-receipt.json",
+    "scripts/check_upstream.py",
+    "tests/test_upstream_hardening.py",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
@@ -192,6 +203,12 @@ def main() -> None:
     assert deployment_config["production"]["httpsRequired"] is True
     assert deployment_config["production"]["secretBuildVars"] is False
     assert deployment["deploymentStatus"] == "READY-BUT-NOT-EXECUTED"
+    baseline = load("artifacts/upstream-baseline.json")
+    delta = load("artifacts/upstream-delta-inventory.json")
+    receipt = load("artifacts/upstream-rebase-receipt.json")
+    assert len(baseline["upstreams"]) == 3
+    assert delta["deltas"]
+    assert receipt["secretsIncluded"] is False
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
