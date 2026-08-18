@@ -53,6 +53,13 @@ REQUIRED = [
     "tests/test_identity_stack_ultra_review.py",
     "docs/IDENTITY_STACK_V1_RELEASE_REVIEW.md",
     "artifacts/identity-stack-v1-ultra-review.json",
+    "tests/fixtures/constitutional-stack-authority.json",
+    "tests/fixtures/constitutional-stack-capabilities.json",
+    "tests/fixtures/constitutional-stack-data-flow.json",
+    "tests/fixtures/constitutional-stack-upstream-gaps.json",
+    "tests/test_constitutional_stack_integration.py",
+    "docs/CONSTITUTIONAL_STACK_V1_INTEGRATION_REVIEW.md",
+    "artifacts/constitutional-stack-v1-integration-review.json",
 ]
 
 def load(rel: str):
@@ -135,6 +142,18 @@ def main() -> None:
     review = load("artifacts/identity-stack-v1-ultra-review.json")
     assert review["verdict"] == "IDENTITY_STACK_V1_RELEASE_READY"
     assert review["severity"]["P1"] == 0
+    authority = load("tests/fixtures/constitutional-stack-authority.json")
+    capabilities = load("tests/fixtures/constitutional-stack-capabilities.json")
+    data_flow = load("tests/fixtures/constitutional-stack-data-flow.json")
+    gaps = load("tests/fixtures/constitutional-stack-upstream-gaps.json")
+    assert authority["format"] == "org.radical-liberal.constitutional-stack-authority"
+    assert "pds-change-does-not-change-appview" in authority["invariants"]
+    assert capabilities["vocabulary"] == ["LIVE", "FIXTURE-TESTED", "SIMULATED", "UNSUPPORTED-UPSTREAM", "SKIPPED_ENVIRONMENT"]
+    assert "refresh-token-to-personalization" in data_flow["forbidden"]
+    assert len(gaps["gaps"]) >= 3
+    integration = load("artifacts/constitutional-stack-v1-integration-review.json")
+    assert integration["verdict"] == "CONSTITUTIONAL_STACK_V1_RELEASE_READY"
+    assert integration["severity"]["P1"] == 0
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
