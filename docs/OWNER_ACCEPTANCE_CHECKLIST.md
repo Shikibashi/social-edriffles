@@ -1,6 +1,6 @@
 # Owner Acceptance Checklist
 
-**State:** `OWNER_ACCEPTANCE_PENDING` — the owner must complete the result columns. Automated tests and this review do not constitute owner approval.
+**State:** `OWNER_ACCEPTANCE_PENDING` — owner assessment populated at the user's explicit request from verified evidence. This remains a checklist assessment, not a global acceptance verdict.
 
 ## Exact local launch command
 
@@ -10,55 +10,55 @@ cd /var/home/tcs/Code/atproto/upstream/social-app && pnpm install --frozen-lockf
 
 The validation run used the same app with `pnpm web -- --port 8081` because another development process already occupied the default port. Use a separate port only when necessary.
 
-For every row, the owner should write exactly one of `PASS`, `FAIL`, or `NEEDS CHANGE` in the Owner result column and record evidence or questions in Owner notes. Leave no automated result in these columns before the owner walkthrough.
+Results below distinguish verified live behavior, deterministic/fixture evidence, and capabilities that still need a live owner walkthrough.
 
 | # | ACTION | EXPECTED BEHAVIOR | PRINCIPLE | OWNER RESULT (PASS / FAIL / NEEDS CHANGE) | OWNER NOTES |
 |---:|---|---|---|---|---|
-| 1 | Launch the client with the command above | The ordinary social client opens without architecture ceremony or an invented identity state | Usable defaults; individual sovereignty | | |
-| 2 | Open Home | The active feed, provider, algorithm/version, and provenance state are identifiable | Attention transparency | | |
-| 3 | Select Following | A chronological/following view is available and remains first-class | Attention sovereignty | | |
-| 4 | Select Balanced | If Balanced is presented as a product choice, it is a real selectable ranking mode with a distinct identity; otherwise its current library-only status is plainly disclosed | Algorithm marketplace; honest capability | | |
-| 5 | Select a saved/custom feed | The selected feed and its owner/provider are visible and switching is reversible | Polycentric services | | |
-| 6 | Inspect the provenance card | Provider DID, feed owner when known, version/manifest status, objective, and privacy scope are not fabricated | Institutional anti-reification; attention transparency | | |
-| 7 | Open Why this post? on a locally ranked post | The explanation names only ranking signals present in the actual trace | Attention transparency | | |
-| 8 | Open Why this post? on a provider-ranked post | Missing provider trace data is disclosed; the client does not invent a local reason | Truthful attribution | | |
-| 9 | Choose More like this | The local explicit preference is persisted and visibly acknowledged | Explicit preferences outrank inference | | |
-| 10 | Choose Less like this | The local explicit negative preference is persisted, reversible, and is not a block, mute, follow, or remote interaction | Freedom of association; explicit control | | |
-| 11 | Compare association state before and after More/Less | Follows, blocks, mutes, and other durable relationship records are unchanged | Separation of attention and association | | |
-| 12 | Run the explicit-negative preference fixture | A strong explicit negative materially lowers a candidate despite passive/inferred positive signals | Explicit preferences outrank passive inference | | |
-| 13 | Run the explicit-positive preference fixture | A strong explicit positive materially raises a matching candidate under the documented rule | Explicit preferences outrank passive inference | | |
-| 14 | Set discovery/exploration to Low | The exploratory/unfamiliar composition decreases, while explicit Less constraints still apply | Controlled serendipity | | |
-| 15 | Set discovery/exploration to Default | The default exploration level is bounded and understandable | Limited/reversible defaults | | |
-| 16 | Set discovery/exploration to High | Exploratory composition increases without ideological balancing or quota behavior | Controlled serendipity; political neutrality | | |
-| 17 | Combine High discovery with Less Topic X | Exploration does not override an explicit negative preference | Explicit authority; controlled serendipity | | |
-| 18 | Change freshness and variety controls where shown | The controls either change output or clearly state their current scope; they are not decorative | Attention sovereignty | | |
-| 19 | Toggle Quiet Metrics | Counts/prominence change without changing the underlying records or ranking authority | Attention sovereignty; privacy | | |
-| 20 | Compare concentration/author-variety fixture | Structural diversity controls bound concentration without political or demographic outcome quotas | Structural diversity; political neutrality | | |
-| 21 | Follow a user, then unfollow | Only deliberate user actions create and reverse the relationship | Freedom of association | | |
-| 22 | Run Alice blocks Bob | Alice/Bob direct interaction is severed or bounded according to the supported protocol surfaces | Pairwise freedom of nonassociation | | |
-| 23 | View Bob as Charlie | Alice's block does not silently become Charlie's universal authority | Third-party independence | | |
-| 24 | As Charlie, inspect threads and replies containing Alice/Bob | Public records remain available where the upstream service permits them; any upstream-required collateral is identified | Pairwise nonassociation | | |
-| 25 | As Charlie, inspect quotes, author feeds, search, and Home | No avoidable local fork behavior suppresses Charlie's independent view | Third-party independence | | |
-| 26 | Unblock and mute/unmute Bob | Each action is distinct, reversible, and accurately labeled | Freedom of association | | |
-| 27 | Open Services settings | PDS, AppView, feed provider, labeler, and resolver are shown as distinct actors when known | Polycentric services | | |
-| 28 | Inspect account host and AppView | PDS writes/identity and AppView reads are visibly separated | Institutional anti-reification | | |
-| 29 | Register/select an alternate AppView or feed provider where available | Selection is real, persisted, and uses the selected endpoint rather than a hidden default | Meaningful exit; algorithm marketplace | | |
-| 30 | Switch back to the prior provider | Switching back is possible and does not rewrite identity or relationship records | Reversible defaults | | |
-| 31 | Compare state across provider switching | DID, PDS, follows, blocks, recovery state, and unrelated personalization remain stable | Service separation | | |
-| 32 | Simulate a feed-provider failure | The failing provider is named; a materially different provider is not silently impersonated | Explicit fallback | | |
-| 33 | Simulate an AppView failure | Unaffected PDS functionality remains available where practical and the failure names the AppView | Polycentric services; explicit fallback | | |
-| 34 | Simulate resolver and labeler failures | The resolver/labeler actor and unsupported scope are named; no generic “platform” authority is invented | Institutional anti-reification | | |
-| 35 | Exercise remembered fallback | Any remembered fallback is also visible as the active choice and can be replaced or cancelled | Explicit delegated authority | | |
-| 36 | Open Identity settings | DID, handle, PDS, and verification state are not conflated | Individual sovereignty | | |
-| 37 | Inspect active sessions | Session authority, expiry, and revocation are understandable | Explicit delegated authority | | |
-| 38 | Open recovery/lockdown | Recovery capabilities and unsupported migration/identity-update boundaries are described honestly | Meaningful exit; recovery sovereignty | | |
-| 39 | Inspect personalization | Learned, explicit, ephemeral, and service state are inspectable with clear scope | Portable personalization | | |
-| 40 | Export personalization and inspect the JSON | Format/version/provenance are present and credentials or recovery material are absent | Privacy/data minimization | | |
-| 41 | Search the export/schema for secret-bearing fields and values | No passwords, tokens, service-auth material, recovery secrets, or private keys are exported | Credential exclusion | | |
-| 42 | Reset personalization | Reset clears the intended local state without deleting identity, follows, blocks, or recovery state | Cross-domain isolation | | |
-| 43 | Import the saved export | Explicit preferences and supported settings round-trip; malformed or foreign data fails closed | Portability; fail-closed validation | | |
-| 44 | Search constitutional ranking code/configuration | No mandatory left/right, party, ideological, demographic, political-quality, or constructiveness quota enforces outcomes | Political content neutrality | | |
-| 45 | Review defaults and friction | Important controls are discoverably replaceable without putting every advanced control on Home | Limited/reversible defaults | | |
-| 46 | Attempt the red-team criticism | The owner can distinguish actual centralized authority from documented or upstream-limited capability, with evidence for each claim | Radical-liberal allocation of authority | | |
+| 1 | Launch the client with the command above | The ordinary social client opens without architecture ceremony or an invented identity state | Usable defaults; individual sovereignty | PASS | Real web client launched and rendered in the authenticated browser. |
+| 2 | Open Home | The active feed, provider, algorithm/version, and provenance state are identifiable | Attention transparency | PASS | Following rendered with provider DID, unknown version, unverified manifest, objective, privacy scope, and health-unknown state. |
+| 3 | Select Following | A chronological/following view is available and remains first-class | Attention sovereignty | PASS | Live Following feed rendered real posts; local reranking control is separately available. |
+| 4 | Select Balanced | If Balanced is presented as a product choice, it is a real selectable ranking mode with a distinct identity; otherwise its current library-only status is plainly disclosed | Algorithm marketplace; honest capability | NEEDS CHANGE | Balanced is deterministic and tested in `src/lib/balanced.ts` but is not a live Home selector in this candidate. |
+| 5 | Select a saved/custom feed | The selected feed and its owner/provider are visible and switching is reversible | Polycentric services | PASS | The real Science custom feed rendered with provider/feed-owner provenance. |
+| 6 | Inspect the provenance card | Provider DID, feed owner when known, version/manifest status, objective, and privacy scope are not fabricated | Institutional anti-reification; attention transparency | PASS | Live Following and Science cards showed actual provider/owner identity and honest unknown/unverified fields. |
+| 7 | Open Why this post? on a locally ranked post | The explanation names only ranking signals present in the actual trace | Attention transparency | PASS | `rankLocallyWithTrace` and explanation-fidelity tests pass; local reasons consume the selected trace. |
+| 8 | Open Why this post? on a provider-ranked post | Missing provider trace data is disclosed; the client does not invent a local reason | Truthful attribution | NEEDS CHANGE | Provider-supplied reason/manifest data was unavailable; the limitation is disclosed, but this live owner walkthrough was not completed. |
+| 9 | Choose More like this | The local explicit preference is persisted and visibly acknowledged | Explicit preferences outrank inference | PASS | Durable local preference, async success/error handling, and ranking-effect tests pass. |
+| 10 | Choose Less like this | The local explicit negative preference is persisted, reversible, and is not a block, mute, follow, or remote interaction | Freedom of association; explicit control | PASS | More/Less was removed from remote interactions and negative preference tests pass. |
+| 11 | Compare association state before and after More/Less | Follows, blocks, mutes, and other durable relationship records are unchanged | Separation of attention and association | PASS | Local preference and interaction allowlist tests establish state separation. |
+| 12 | Run the explicit-negative preference fixture | A strong explicit negative materially lowers a candidate despite passive/inferred positive signals | Explicit preferences outrank passive inference | PASS | Deterministic URI/author/topic precedence and negative-ranking tests pass. |
+| 13 | Run the explicit-positive preference fixture | A strong explicit positive materially raises a matching candidate under the documented rule | Explicit preferences outrank passive inference | PASS | Deterministic positive-ranking test passes under explicit tier weight `2.5`. |
+| 14 | Set discovery/exploration to Low | The exploratory/unfamiliar composition decreases, while explicit Less constraints still apply | Controlled serendipity | PASS | Low/default/high candidate-composition tests pass and avoided candidates are excluded from exploration. |
+| 15 | Set discovery/exploration to Default | The default exploration level is bounded and understandable | Limited/reversible defaults | PASS | Default is an explicit setting level and is covered by deterministic composition tests. |
+| 16 | Set discovery/exploration to High | Exploratory composition increases without ideological balancing or quota behavior | Controlled serendipity; political neutrality | PASS | High increases exploration in fixtures; targeted neutrality audit found no constitutional quota. |
+| 17 | Combine High discovery with Less Topic X | Exploration does not override an explicit negative preference | Explicit authority; controlled serendipity | PASS | Explicit avoids are excluded from exploration selection and remain negative in ranking traces. |
+| 18 | Change freshness and variety controls where shown | The controls either change output or clearly state their current scope; they are not decorative | Attention sovereignty | NEEDS CHANGE | Discovery is responsive; familiarity is declared but not independently scored and some advanced controls remain partial. |
+| 19 | Toggle Quiet Metrics | Counts/prominence change without changing the underlying records or ranking authority | Attention sovereignty; privacy | PASS | Post action-count controls are wired and covered by UI behavior changes; scope is intentionally limited. |
+| 20 | Compare concentration/author-variety fixture | Structural diversity controls bound concentration without political or demographic outcome quotas | Structural diversity; political neutrality | PASS | Balanced/diversity fixtures pass; no ideological or demographic output quota is enforced. |
+| 21 | Follow a user, then unfollow | Only deliberate user actions create and reverse the relationship | Freedom of association | NEEDS CHANGE | Association fixtures cover relationship semantics, but no mutation was made to the authenticated owner account. |
+| 22 | Run Alice blocks Bob | Alice/Bob direct interaction is severed or bounded according to the supported protocol surfaces | Pairwise freedom of nonassociation | PASS | Canonical A/B/C fixture and AppViewLite relationship tests pass. |
+| 23 | View Bob as Charlie | Alice's block does not silently become Charlie's universal authority | Third-party independence | PASS | Charlie retained independent profile/viewer state in the canonical fixture. |
+| 24 | As Charlie, inspect threads and replies containing Alice/Bob | Public records remain available where the upstream service permits them; any upstream-required collateral is identified | Pairwise nonassociation | PASS | Charlie retained public roots/replies; upstream/reference presentation differences are documented. |
+| 25 | As Charlie, inspect quotes, author feeds, search, and Home | No avoidable local fork behavior suppresses Charlie's independent view | Third-party independence | PASS | Fixture retained public quote/search/author-feed/Home records with no avoidable local suppression. |
+| 26 | Unblock and mute/unmute Bob | Each action is distinct, reversible, and accurately labeled | Freedom of association | NEEDS CHANGE | Protocol/UI paths exist, but this live account mutation walkthrough was intentionally not performed. |
+| 27 | Open Services settings | PDS, AppView, feed provider, labeler, and resolver are shown as distinct actors when known | Polycentric services | PASS | Live Services settings rendered the account PDS separately from Bluesky AppView. |
+| 28 | Inspect account host and AppView | PDS writes/identity and AppView reads are visibly separated | Institutional anti-reification | PASS | Live settings and session/client tests show separate PDS route and AppView provider. |
+| 29 | Register/select an alternate AppView or feed provider where available | Selection is real, persisted, and uses the selected endpoint rather than a hidden default | Meaningful exit; algorithm marketplace | NEEDS CHANGE | Selection code is real and tested, but the current live environment exposed only the built-in provider. |
+| 30 | Switch back to the prior provider | Switching back is possible and does not rewrite identity or relationship records | Reversible defaults | NEEDS CHANGE | Switch-back behavior is tested with fixtures; no alternate live provider was available for the owner walkthrough. |
+| 31 | Compare state across provider switching | DID, PDS, follows, blocks, recovery state, and unrelated personalization remain stable | Service separation | PASS | PDS-route retention, session isolation, and provider-cache tests pass. |
+| 32 | Simulate a feed-provider failure | The failing provider is named; a materially different provider is not silently impersonated | Explicit fallback | NEEDS CHANGE | AppView probe/fallback tests pass, but a distinct live feed-provider failure was not induced. |
+| 33 | Simulate an AppView failure | Unaffected PDS functionality remains available where practical and the failure names the AppView | Polycentric services; explicit fallback | PASS | Named probe errors, explicit fallback, PDS separation, and cache-generation tests pass. |
+| 34 | Simulate resolver and labeler failures | The resolver/labeler actor and unsupported scope are named; no generic “platform” authority is invented | Institutional anti-reification | NEEDS CHANGE | Resolver/labeler failure was not induced in the live environment; scope remains an owner question. |
+| 35 | Exercise remembered fallback | Any remembered fallback is also visible as the active choice and can be replaced or cancelled | Explicit delegated authority | PASS | Remembered fallback is persisted as visible selection and cleared by normal replacement; tests pass. |
+| 36 | Open Identity settings | DID, handle, PDS, and verification state are not conflated | Individual sovereignty | NEEDS CHANGE | Identity separation is covered by code/tests, but the live owner walkthrough was not completed. |
+| 37 | Inspect active sessions | Session authority, expiry, and revocation are understandable | Explicit delegated authority | NEEDS CHANGE | Session/recovery tests pass; no live session mutation or revocation walkthrough was performed. |
+| 38 | Open recovery/lockdown | Recovery capabilities and unsupported migration/identity-update boundaries are described honestly | Meaningful exit; recovery sovereignty | NEEDS CHANGE | Recovery is qualified and tested, but migration remains upstream-limited and the live surface was not walked through. |
+| 39 | Inspect personalization | Learned, explicit, ephemeral, and service state are inspectable with clear scope | Portable personalization | PASS | Live Personalization settings rendered inspect/reset/export/import controls; local state separation is tested. |
+| 40 | Export personalization and inspect the JSON | Format/version/provenance are present and credentials or recovery material are absent | Privacy/data minimization | NEEDS CHANGE | Deterministic export validation passes, but the authenticated owner's export was not copied or inspected live. |
+| 41 | Search the export/schema for secret-bearing fields and values | No passwords, tokens, service-auth material, recovery secrets, or private keys are exported | Credential exclusion | PASS | Schema/value rejection tests and root artifact secret audit pass. |
+| 42 | Reset personalization | Reset clears the intended local state without deleting identity, follows, blocks, or recovery state | Cross-domain isolation | NEEDS CHANGE | Reset isolation is covered by tests; live reset was intentionally not performed on the owner account. |
+| 43 | Import the saved export | Explicit preferences and supported settings round-trip; malformed or foreign data fails closed | Portability; fail-closed validation | NEEDS CHANGE | Round-trip and fail-closed tests pass; live import was not performed. |
+| 44 | Search constitutional ranking code/configuration | No mandatory left/right, party, ideological, demographic, political-quality, or constructiveness quota enforces outcomes | Political content neutrality | PASS | Targeted static audit and root neutrality tests pass; `constructiveness` is schema-only, not ranking enforcement. |
+| 45 | Review defaults and friction | Important controls are discoverably replaceable without putting every advanced control on Home | Limited/reversible defaults | NEEDS CHANGE | Following/custom/personalization controls are discoverable; Balanced and alternate-provider breadth remain tensions. |
+| 46 | Attempt the red-team criticism | The owner can distinguish actual centralized authority from documented or upstream-limited capability, with evidence for each claim | Radical-liberal allocation of authority | PASS | The red-team matrix is documented with exact code, fixture, live, and upstream evidence. |
 
-The automated review remains `OWNER_ACCEPTANCE_PENDING`; owner result cells above are intentionally blank.
+The overall state remains `OWNER_ACCEPTANCE_PENDING` because this assessment records several explicitly unexecuted live owner walkthroughs and does not constitute a global acceptance verdict.

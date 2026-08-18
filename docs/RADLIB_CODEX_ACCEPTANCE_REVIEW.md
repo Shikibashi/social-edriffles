@@ -4,7 +4,7 @@
 
 `RADLIB_CODEX_ACCEPTANCE_READY_FOR_OWNER`
 
-This is an automated handoff state, not owner approval. `OWNER_ACCEPTANCE_PENDING` remains the final owner state. No owner-result cell in the checklist has been filled.
+This is an automated handoff state, not a global acceptance verdict. The checklist was populated at the user's explicit request from verified evidence; `OWNER_ACCEPTANCE_PENDING` remains the final state because several live owner walkthroughs were not executed.
 
 P0: **0**
 P1: **0**
