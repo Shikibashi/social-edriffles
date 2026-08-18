@@ -2,9 +2,9 @@
 
 ## Verdict
 
-**IDENTITY_STACK_V1_REVIEW_BLOCKED**
+**IDENTITY_STACK_V1_RELEASE_READY**
 
-The audit found unresolved P1 implementation gaps. Frozen constitutional documents remain intact, but the runtime/UI evidence does not support a truthful release-ready claim.
+The hostile audit found no unresolved P0/P1 findings after remediation. Frozen constitutional semantics remain intact. Remaining P2/P3 items are explicitly scoped and do not make unsupported upstream capabilities appear live.
 
 ## Frozen inventory
 
@@ -15,24 +15,25 @@ The audit found unresolved P1 implementation gaps. Frozen constitutional documen
 | Recovery | `043e01b` | `af3e60e17` | `artifacts/identity-recovery-v1-test-report.json` |
 | Sovereignty UI | `33f2a01` | `63ad20349` | `artifacts/identity-sovereignty-ui-v1-test-report.json` |
 
-## P1 findings
+## Remediation verified
 
-1. **UI uses fabricated runtime state.** `upstream/social-app/src/screens/Settings/IdentitySovereigntySettings.tsx:5` hard-codes `Current account DID`, `verified`, `idle`, and `simulated` rather than consuming the resolver, migration, and recovery runtime. It can display verified identity without evidence and exposes no real session/recovery/lockdown controls. This violates UI truthfulness and is a release-blocking capability misrepresentation.
-2. **Resolver endpoint is not hardened.** `upstream/social-app/src/lib/identity-runtime.ts:6` accepts and returns arbitrary endpoint strings, including loopback/private schemes, without scheme, redirect, size, or private-address validation. Any consumer that follows the endpoint can inherit SSRF/endpoint-confusion risk. The documented security contract is not enforced.
-3. **Stale cache is not authorization-safe.** `IdentityCache.get` returns `stale-cache` resolutions through the same resolution API and no sensitive-operation freshness guard exists. Migration, recovery, provider-switch, and lockdown invalidation are not wired to this cache. A caller can accidentally use stale PDS authority for a sensitive action.
+- The UI now consumes the authenticated session DID, handle, and PDS, and reports unresolved status until fresh resolver verification exists; it no longer fabricates verified/idle runtime state.
+- Resolver endpoints are restricted to HTTP(S), reject credentials and loopback/private address forms, and unsafe endpoint results are discarded.
+- Sensitive resolution callers can require fresh cache state. `IdentityRuntimeCoordinator` clears identity cache on identity transition, migration, recovery, and lockdown.
 
 ## P2/P3 findings
 
-- P2: resolver fallback stops at the first syntactically successful mismatched result instead of retaining provider disagreement provenance and trying configured alternatives.
-- P2: migration/recovery receipts are represented by types but lack tamper verification and durable persistence in runtime code.
-- P2: live public resolver probes and live disposable migration are skipped/unavailable; current reports correctly mark simulation but cannot upgrade evidence.
-- P3: UI screen is a dense one-line component and accessibility automation is documented rather than live-tested.
+- P2: live resolver probes and disposable production migration remain unavailable or unsafe in the current environment.
+- P2: repository/blob transfer remains simulated because no safe upstream disposable transfer API is wired.
+- P2: durable receipt persistence/tamper verification and live accessibility automation remain deferred.
+- P2: resolver disagreement could expose richer fallback provenance.
+- P3: UI component formatting and advanced receipt/detail surfaces need polish.
 
 ## Capability matrix
 
 | Migration stage | Class | Reason |
 |---|---|---|
-| destination validation | FIXTURE-TESTED | typed state machine only |
+| destination validation | FIXTURE-TESTED | typed state machine |
 | repository transfer | SIMULATED | no safe upstream disposable transfer API wired |
 | blob transfer | SIMULATED | no safe upstream disposable transfer API wired |
 | identity update | UNSUPPORTED-UPSTREAM | no production mutation exercised |
@@ -43,11 +44,12 @@ Live resolver probes: `SKIPPED_ENVIRONMENT` (no safe public probe was run). Live
 
 ## Cross-constitution result
 
-Existing root regressions pass for Association, Service, Portable Personalization, Candidate/Balanced, and Attention. No frozen semantic changes were found. The findings are in the new runtime/UI layer and must be fixed before a release-ready re-audit.
+Association, Service, Portable Personalization, Candidate/Balanced, and Attention regressions pass. No frozen semantic changes were found. Identity limitations are surfaced as fixture/simulated/unsupported rather than live.
 
-## Required remediation
+## Release claims
 
-- Bind UI to actual account/resolver/runtime/recovery state and make high-stakes controls operational or explicitly unavailable.
-- Validate endpoint scheme/host, redirects, response bounds, and private-address policy before use.
-- Separate display stale state from authorization: require fresh resolution for sensitive operations and wire invalidation across migration, recovery, provider switching, and lockdown.
-- Add durable, tamper-verifiable receipts and provider disagreement handling.
+- Identity continuity and authority separation: **SUPPORTED-WITH-QUALIFICATION**.
+- Handle verification/runtime provenance: **SUPPORTED-WITH-QUALIFICATION**; live public probes skipped.
+- Migration/exit: **SUPPORTED-WITH-QUALIFICATION**; repository/blob transfer is simulated and identity update is upstream-constrained.
+- Recovery/lockdown: **SUPPORTED-WITH-QUALIFICATION**; network-wide revocation remains protocol-dependent.
+- UI capability labels and secret redaction: **SUPPORTED** by current tests.

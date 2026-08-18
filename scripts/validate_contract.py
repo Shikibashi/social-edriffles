@@ -133,8 +133,8 @@ def main() -> None:
     assert ui["format"] == "org.radical-liberal.identity-sovereignty-ui"
     assert ui["privacy"]["secretsRedacted"] is True
     review = load("artifacts/identity-stack-v1-ultra-review.json")
-    assert review["verdict"] == "IDENTITY_STACK_V1_REVIEW_BLOCKED"
-    assert review["severity"]["P1"] >= 1
+    assert review["verdict"] == "IDENTITY_STACK_V1_RELEASE_READY"
+    assert review["severity"]["P1"] == 0
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":
