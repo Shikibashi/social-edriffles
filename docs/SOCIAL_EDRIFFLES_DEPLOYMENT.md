@@ -48,6 +48,7 @@ EXPO_PUBLIC_BRAND_NAME=Social \
 EXPO_PUBLIC_PUBLIC_WEB_ORIGIN=https://social.edriffles.us \
 EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
+EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public Bluesky AppView (explicit read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
 EXPO_PUBLIC_ACCOUNT_SERVICE=https://bsky.social \
 pnpm build-web
@@ -73,6 +74,7 @@ EXPO_PUBLIC_BRAND_NAME=Social \
 EXPO_PUBLIC_PUBLIC_WEB_ORIGIN=https://social.edriffles.us \
 EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
+EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public Bluesky AppView (explicit read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
 EXPO_PUBLIC_ACCOUNT_SERVICE=https://bsky.social \
 pnpm build-web

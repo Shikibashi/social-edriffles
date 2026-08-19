@@ -1379,3 +1379,44 @@ The root `.gitmodules` now points at the two public forks, and its submodule
 pointers resolve to the published client and PDS commits. Publication does
 not change the owner-acceptance state: `OWNER_ACCEPTANCE_PENDING` remains
 required.
+
+## Final live provider-attribution verification — 2026-08-19
+
+The corrected production bundle was published through the authorized Cloudflare
+MCP after a successful production web export:
+
+- Pages project: `social-edriffles`;
+- deployment: `af026399-700a-46de-a1e6-6040fd3914f8`;
+- deployment host: `https://af026399.social-edriffles.pages.dev`;
+- custom-host alias: `https://social.edriffles.us`;
+- deployment stage: `success`.
+
+The live authenticated browser walkthrough used a cache-busting query solely to
+avoid a stale browser bundle. It did not mutate the account or local
+personalization state. The corrected Services screen now says:
+
+```text
+Public Bluesky AppView (explicit read provider)
+did:web:api.bsky.app · https://api.bsky.app
+```
+
+It continues to show the account PDS separately as
+`https://yellowfoot.us-west.host.bsky.network/`. The prior live label
+`Project AppView` was inaccurate for this configured public endpoint and has
+been repaired in `upstream/social-app/src/state/session/providers.ts`, with a
+focused regression test in
+`upstream/social-app/src/state/session/__tests__/providers-test.ts`.
+
+The live Home provenance card identifies the active `For You` feed, the
+`content-filter/1 + local-curation/1` overlay, provider DID
+`did:web:api.bsky.app`, feed owner DID
+`did:plc:3guzzweuqraryl3rdkimjamk`, the feed URI, unverified manifest status,
+the actual local-curation objective, and device-local privacy scope. This
+confirms provenance fidelity for the deployed client. It does not establish a
+first-party AppView, an independent neutral Discover feed, or authenticated
+alternate-provider switching; those remain owner-acceptance questions and are
+not being presented as complete.
+
+The final automated state remains `OWNER_ACCEPTANCE_PENDING`. Owner-result
+fields remain intentionally blank, and the report does not claim
+`OWNER_ACCEPTANCE_PASSED`.
