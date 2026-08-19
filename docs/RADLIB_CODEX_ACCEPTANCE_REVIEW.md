@@ -12,9 +12,9 @@ evidence. AppViewLite is retired and is not a current product dependency.
 
 | Component | SHA | Current role |
 |---|---|---|
-| parent repository | `519a66e25389380935b2b008221135da57796408` | dirty working tree; owner changes preserved |
-| `upstream/social-app` | `c38bfe515a9d52d2b9969c8ead64eced5f8d33ee` | client, provider registry, UI, local attention |
-| `upstream/atproto-pds` | `760fb12a080c87cdfd0dae42ae833bad8bc20886` | first-party PDS, repo writes, CAR/import policy |
+| parent repository | `676af35` | reviewed parent commit; owner acceptance remains pending |
+| `upstream/social-app` | `0faf9785a6a7ae300f2a8228c107fbd2c953a6be` | client, provider registry, UI, local attention |
+| `upstream/atproto-pds` | `39612da7bdeac12e9abed1762e9844c85e61d70d` | first-party PDS, repo writes, CAR/import policy |
 
 The old AppViewLite and FishyFlip gitlinks/pins were removed. Their existing
 dirty nested checkouts were preserved as local archives rather than deleted;
@@ -1371,8 +1371,8 @@ private keys, or credential files:
 
 | Repository | Visibility | Branch | Reviewed commit |
 |---|---|---|---|
-| `https://github.com/Shikibashi/social-edriffles` | public | `codex/private-accounts-communities` | `14b2920` |
-| `https://github.com/Shikibashi/social-app` | public fork | `codex/private-accounts-communities` | `e1a5455e` |
+| `https://github.com/Shikibashi/social-edriffles` | public | `codex/private-accounts-communities` | `676af35` |
+| `https://github.com/Shikibashi/social-app` | public fork | `codex/private-accounts-communities` | `0faf9785` |
 | `https://github.com/Shikibashi/atproto` | public fork | `codex/private-accounts-communities` | `39612da7` |
 
 The root `.gitmodules` now points at the two public forks, and its submodule
@@ -1386,8 +1386,8 @@ The corrected production bundle was published through the authorized Cloudflare
 MCP after a successful production web export:
 
 - Pages project: `social-edriffles`;
-- deployment: `af026399-700a-46de-a1e6-6040fd3914f8`;
-- deployment host: `https://af026399.social-edriffles.pages.dev`;
+- deployment: `6b00d319-8b1f-4410-86e0-b01d8fa5b179`;
+- deployment host: `https://6b00d319.social-edriffles.pages.dev`;
 - custom-host alias: `https://social.edriffles.us`;
 - deployment stage: `success`.
 
