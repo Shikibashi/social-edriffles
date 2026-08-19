@@ -12,6 +12,7 @@ remains `OWNER_ACCEPTANCE_PENDING`.
 | Moderation-list mute is delegated attention | `state/queries/list.ts`, `SubscribeMenu.tsx` | “Mute list” | provider boundary test |
 | Review list members is explicit | `ReviewListMembersDialog.tsx` and `useDirectBlockMutation` | “Review accounts” | moderation-list policy tests |
 | Local listblock CREATE/UPDATE is denied | `packages/pds/src/repo/moderation-policy.ts`, `repo/prepare.ts`, create/put/apply APIs | explicit policy error | PDS tests and bypass guard |
+| First-party PDS launch is governed | `services/pds/index.ts` requires `PDS_RADLIB_MODERATION_WRITE_POLICY=deny-create-update` | ungoverned service refuses to start | service-entrypoint refusal check and configured real-PDS test |
 | Legacy listblock import stays interoperable | `repo/radlib-migration.ts`, `repo/importRepo.ts` | migration status/activation gate | import/migration tests and live walkthrough |
 | Local and incoming listblock records are behaviorally inert | `packages/bsky/src/data-plane/server/routes/{relationships,blocks}.ts`, `hydration/*`, `views/index.ts`, `getListBlocks.ts` | no relationship, block-existence, profile, feed, thread, search, notification, embed, or chat effect | `tests/views/block-lists.test.ts` 6/6, listblock thread regressions 2/2, list-mute regression 22/22, broader 10-file run 229/229 |
 | Provider private-mute proof is signed | `repo/radlib-attestation.ts`, `api/org/radlib/moderation/*` | provider capability/provenance | live PDS/CAR/provider walkthrough |
