@@ -7,7 +7,7 @@
       "remote": "https://github.com/bluesky-social/social-app",
       "branch": "master",
       "baseSha": "1f5c698165c922e707833809902ee959e9824f00",
-      "forkSha": "3dff4b0d4201b001ec5e85c83ccacffd5970bd2c",
+      "forkSha": "89b51b9c6248066389a1d7a4d70910e070a2c515",
       "relation": "direct-fork",
       "candidateRole": "radlib-codex-acceptance-review"
     },
@@ -17,7 +17,7 @@
       "remote": "https://github.com/bluesky-social/atproto",
       "branch": "main",
       "baseSha": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
-      "forkSha": "c1a8b80f06029bdbadae59ff7f517da25163e96f",
+      "forkSha": "2f40ca1b9f16df1aaf8ad5f3f519ff77183f55ee",
       "relation": "direct-fork",
       "candidateRole": "first-party-pds"
     }
