@@ -1,0 +1,73 @@
+{
+  "command": "node scripts/radlib_live_filtered_feed_walkthrough.mjs",
+  "provider": {
+    "did": "did:web:radlib-feed.local",
+    "feedUri": "at://did:web:radlib-feed.local/app.bsky.feed.generator/radlib-filtered-following",
+    "endpoint": "http://127.0.0.1:19171"
+  },
+  "healthy": true,
+  "indexed": {
+    "indexed": 3,
+    "deleted": 0,
+    "ignored": 0
+  },
+  "filteredFeed": [
+    "at://did:plc:feed-walkthrough/app.bsky.feed.post/neutral",
+    "at://did:plc:feed-walkthrough/app.bsky.feed.post/web-app"
+  ],
+  "provenance": {
+    "service": "radlib-filtered-feed/0.1.0",
+    "providerDid": "did:web:radlib-feed.local",
+    "feedUri": "at://did:web:radlib-feed.local/app.bsky.feed.generator/radlib-filtered-following",
+    "algorithm": "contextual",
+    "algorithmVersion": "rules-first/1",
+    "scope": "app.bsky.feed.getFeedSkeleton only",
+    "policy": {
+      "policyVersion": "radlib-content-filter/1",
+      "enabled": true,
+      "algorithm": "contextual",
+      "semanticMode": "rules-only",
+      "hardExcludePrecedence": [
+        "protocol hard blocks",
+        "selected labeler hide",
+        "explicit author exclusion",
+        "rules-first content filter",
+        "explicit Less demotion",
+        "provider/freshness ranking",
+        "explicit More boost among survivors"
+      ],
+      "termPacks": [],
+      "legacyTermPacksIgnored": false,
+      "strictProgressiveStandaloneTerms": false
+    },
+    "persistence": {
+      "engine": "node:sqlite",
+      "boundedLocalCache": true
+    },
+    "ingestion": {
+      "boundary": "com.atproto.sync.subscribeRepos decoded commit events",
+      "liveFirehose": "not claimed unless configured externally"
+    },
+    "serviceEndpoint": "http://127.0.0.1:19171",
+    "serviceFragment": "bsky_feed",
+    "health": {
+      "status": "ok",
+      "database": "ok",
+      "ingestion": "connected",
+      "cachedPosts": 3,
+      "message": "service is ready"
+    }
+  },
+  "unavailable": {
+    "health": {
+      "status": "unavailable",
+      "database": "ok",
+      "ingestion": "not_configured",
+      "cachedPosts": 0,
+      "message": "subscribeRepos ingestion is not configured and no local cache is available"
+    },
+    "readinessStatus": 503,
+    "feedStatus": 503,
+    "feedError": "ProviderUnavailable"
+  }
+}

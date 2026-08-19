@@ -3,11 +3,11 @@
 Balanced v1 is explicitly out of scope. Execute in dependency order.
 
 ## A. Pairwise blocking semantics
-- **Files/symbols:** `upstream/AppViewLite/src/AppViewLite/BlueskyRelationships.cs` relationship lookup; `src/AppViewLite.Web/ApiCompat/AppBskyGraph.cs`; live characterization tests.
-- **Depends on:** completed live A/B/C matrix and pinned source review.
+- **Files/symbols:** client moderation-list queries/review UI; first-party PDS `repo/moderation-policy.ts` and relationship-facing APIs; generic provider contract tests.
+- **Depends on:** completed deterministic A/B/C matrix and selected-provider walkthrough.
 - **Tests:** authenticated A/B/C profiles, feeds, threads, notifications, blocks, inverse-block behavior; anonymous control.
 - **Acceptance:** only the observed, approved bilateral semantics change; unrelated C behavior remains unchanged.
-- **Rollback/security:** revert one AppViewLite submodule commit; prevent global content suppression and DID/handle leakage.
+- **Rollback/security:** disable the fork policy at the PDS boundary; prevent global content suppression and DID/handle leakage.
 
 ## B. AppView/service selection
 - **Files/symbols:** social-app AppView client/provider configuration and service manifest types.
@@ -17,7 +17,7 @@ Balanced v1 is explicitly out of scope. Execute in dependency order.
 - **Rollback/security:** feature flag removal; constrain service scopes and requester metadata.
 
 ## C. Standards-compliant AppView auth
-- **Files/symbols:** AppView client auth/session boundary; FishyFlip/XRPC auth integration.
+- **Files/symbols:** AppView client auth/session boundary; first-party PDS service-auth endpoint.
 - **Depends on:** B and OAuth/service manifest review.
 - **Tests:** token audience/scope/expiry, provider mismatch, logout, replay.
 - **Acceptance:** least-privilege standards-compliant auth only.

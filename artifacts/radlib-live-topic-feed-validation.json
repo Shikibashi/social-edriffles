@@ -1,0 +1,73 @@
+{
+  "artifactVersion": "radlib-live-topic-feed-validation/1",
+  "observedAt": "2026-08-18T20:45:01-04:00",
+  "browser": "in-app browser",
+  "renderedOrigin": "http://127.0.0.1:19006/",
+  "account": "edriffles.us",
+  "settingsRoute": "/settings/personalization",
+  "settings": {
+    "radlibCurationEnabled": true,
+    "contentFilterEnabled": true,
+    "includeReplies": true,
+    "branchWeights": {
+      "kpopMusic": 10,
+      "audioScience": 10
+    },
+    "explicitInterests": [
+      "k-pop",
+      "girl groups",
+      "audio gear",
+      "headphones",
+      "dac",
+      "amplifier",
+      "iem"
+    ]
+  },
+  "feeds": [
+    {
+      "name": "Kpop GGs",
+      "route": "/profile/velvetcucumber.bsky.social/feed/aaalbyp4zfz3s",
+      "provider": "Bluesky AppView",
+      "providerDid": "did:web:api.bsky.app",
+      "feedOwnerDid": "did:plc:qaim2qnyqugjgwlyvosh22ck",
+      "feedUri": "at://did:plc:qaim2qnyqugjgwlyvosh22ck/app.bsky.feed.generator/aaalbyp4zfz3s",
+      "algorithm": "Filtered Kpop GGs + local radical-liberal curation",
+      "algorithmVersion": "content-filter/1 + radlib-curation/1",
+      "manifest": "unverified",
+      "renderedPostCount": 35,
+      "observedTerms": [
+        "LE SSERAFIM",
+        "TWICE",
+        "KiiiKiii",
+        "KATSEYE",
+        "2NE1",
+        "BLACKPINK",
+        "MAMAMOO",
+        "girl group"
+      ],
+      "pinned": true
+    },
+    {
+      "name": "Headphones",
+      "route": "/profile/abyss-headphones.bsky.social/feed/aaagh476unqpu",
+      "provider": "Bluesky AppView",
+      "providerDid": "did:web:api.bsky.app",
+      "feedOwnerDid": "did:plc:j2hwrkgv56x6uy5rwkhkkmyv",
+      "feedUri": "at://did:plc:j2hwrkgv56x6uy5rwkhkkmyv/app.bsky.feed.generator/aaagh476unqpu",
+      "algorithm": "Filtered Headphones + local radical-liberal curation",
+      "algorithmVersion": "content-filter/1 + radlib-curation/1",
+      "manifest": "unverified",
+      "renderedPostCount": 12,
+      "observedTerms": [
+        "Audiobyte SuperHead",
+        "headphone amplifier",
+        "audiophile",
+        "headphones",
+        "audio"
+      ],
+      "pinned": true
+    }
+  ],
+  "interpretation": "Real provider-backed feeds now supply the requested K-pop girl-group and audio-equipment topics. Discover remains provider-supplied and cannot guarantee those topics; local curation ranks and filters candidates without changing follows, blocks, or provider state.",
+  "ownerAcceptance": "OWNER_ACCEPTANCE_PENDING"
+}

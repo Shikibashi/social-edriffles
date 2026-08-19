@@ -1,9 +1,6 @@
-[submodule "upstream/AppViewLite"]
-	path = upstream/AppViewLite
-	url = https://github.com/alnkesq/AppViewLite
 [submodule "upstream/social-app"]
 	path = upstream/social-app
 	url = https://github.com/bluesky-social/social-app
-[submodule "upstream/FishyFlip"]
-	path = upstream/FishyFlip
-	url = https://github.com/drasticactions/FishyFlip.git
+[submodule "upstream/atproto-pds"]
+	path = upstream/atproto-pds
+	url = https://github.com/bluesky-social/atproto.git

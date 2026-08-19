@@ -1,11 +1,17 @@
-# Live Block Presentation Matrix
+# Historical Block Presentation Matrix
 
-Date: 2026-08-17. AppViewLite local fork: `8abe96490df889cc1c5d1a5b15eef8650d2ad2a7` (parent upstream baseline remains `75f78e8e098c05f52821e836832205050c0f539e`).
+> Status: `HISTORICAL_RETIRED`. This document records an earlier disposable
+> read-provider experiment. It is not an active provider, dependency, launch
+> target, or acceptance claim. Current service behavior is tested through the
+> first-party PDS and generic explicitly selected providers.
+
+Date: 2026-08-17. Former read-provider experiment: archived local revision
+`8abe96490df889cc1c5d1a5b15eef8650d2ad2a7` (historical baseline only).
 
 ## Fixture
 
 Disposable PDS: `http://127.0.0.1:2583`.
-AppViewLite: `http://127.0.0.1:61754`.
+Former read provider: `http://127.0.0.1:61754`.
 
 - A: `did:plc:ptfwt757i5syd7u63zlv6cca`
 - B: `did:plc:4tmyiq3rpcjqhhf24xfvueqo`
@@ -17,7 +23,7 @@ All records were created before the final A→B block unless explicitly identifi
 
 ## Matrix
 
-| Surface | Record/context | Viewer A | Viewer B | Viewer C | Anonymous | Current AppViewLite behavior | Current Bluesky-reference behavior | Target fork behavior | Production change required? |
+| Surface | Record/context | Viewer A | Viewer B | Viewer C | Anonymous | Historical read-provider behavior | Current Bluesky-reference behavior | Target fork behavior | Production change required? |
 |---|---|---|---|---|---|---|---|---|---|
 | Profile | B profile | `blocking` URI | no block flags | neither | not tested here | Standard viewer state; A blocks B, B is blocked by A, C is unrelated | Standard viewer state; relationship is viewer-relative | Preserve standard viewer state | No further change |
 | Basic profile | B in profile/list view | relationship fields available through profile conversion | same | same | not separately queried | Uses the same viewer-state conversion | Standard viewer state | Preserve standard viewer state | No further change |
@@ -34,7 +40,7 @@ All records were created before the final A→B block unless explicitly identifi
 
 ## Direct interaction probe
 
-The disposable PDS accepted B's post-block reply, mention, and follow writes. This demonstrates that the PDS write surface does not enforce the relationship. AppViewLite did not deliver corresponding direct notifications to A/B in the observed notification responses. This is not evidence that all direct interactions are blocked at every write surface; it is evidence to preserve the distinction between PDS record acceptance and AppView presentation/enforcement.
+The disposable PDS accepted B's post-block reply, mention, and follow writes. This demonstrates that the PDS write surface does not enforce the relationship. The former read provider did not deliver corresponding direct notifications to A/B in the observed notification responses. This is not evidence that all direct interactions are blocked at every write surface; it is evidence to preserve the distinction between PDS record acceptance and read-provider presentation/enforcement.
 
 ## Reference comparison
 
@@ -45,7 +51,7 @@ The current Bluesky reference source describes block presentation in `packages/b
 - profile viewer state remains relationship-relative (`blocking`, `blockedBy`);
 - privileged/internal requests can opt into different third-party block handling.
 
-AppViewLite's pinned implementation does not reproduce those presentation transformations in the tested thread/feed surfaces. This report characterizes that difference; it does not copy the reference policy into production.
+The former read provider did not reproduce those presentation transformations in the tested thread/feed surfaces. This report characterizes that historical difference; it does not copy the reference policy into production.
 
 ## Decision
 
@@ -53,7 +59,7 @@ C retained otherwise-public A/B roots, replies, quote records, author-feed recor
 
 ## Unsupported or incomplete
 
-- No stable repost hydration surface was available in this AppViewLite build.
+- No stable repost hydration surface was available in the former read-provider build.
 - Anonymous timeline returned HTTP 500.
 - Direct PDS write acceptance is not equivalent to client/AppView interaction authorization.
 - Deletion, takedown, suspension, private/permissioned data, threadgates, postgates, legal restrictions, and list-block behavior were not altered or claimed.
@@ -70,6 +76,6 @@ These characterization-only safety probes are separate from relationship-state a
 | Threadgate | B root with restrictive threadgate and C reply probe | AppView omitted the reply from the thread | Visibility does not grant interaction authorization |
 | Postgate | B postgate disallowing embeds and C quote | Quote remained, embedded record view was detached/empty | Quote detachment is not deletion |
 | Permissioned data | Disposable stack probe | Unsupported/untested | Do not simulate public visibility |
-| Listblock | C list, list item, and listblock records | List and items were readable/indexed; profile `blockingByList` was not exposed | Preserve records; do not add delegated block-list UX |
+| Listblock | C list, list item, and listblock records | Raw list/list-item/listblock records remain readable/indexed; effective `blockingByList` is not exposed and listblock is inert | Preserve raw records; offer list mute and explicit member review, never delegated hard blocking |
 
 These results are recorded in `artifacts/live-block-presentation-observations.json`. No semantic presentation patch was applied.

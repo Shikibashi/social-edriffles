@@ -1,7 +1,8 @@
 {
+  "status": "HISTORICAL_RETIRED",
   "environment": {
     "pds": "http://127.0.0.1:2583",
-    "appViewLite": "http://127.0.0.1:61754",
+    "retiredReadProvider": "http://127.0.0.1:61754",
     "firehose": "ws://127.0.0.1:2583/",
     "node": "24.11.1",
     "accounts": {
@@ -37,11 +38,11 @@
     },
     "C_viewing_A_or_B": "profiles HTTP 200; blocking and blockedBy absent/false",
     "anonymous": "not authenticated; no viewer-specific assertion",
-    "shutdown_flush": "AppViewLite graceful shutdown flushed did-hash, PLC, follow, block, reply, and profile tables."
+    "shutdown_flush": "The former read provider gracefully flushed did-hash, PLC, follow, block, reply, and profile tables."
   },
   "status": "block characterization complete for profiles and block listing",
   "limitations": [
-    "The block record was signed through the disposable PDS and firehose ingestion was verified for posts, but current AppViewLite did not expose the block in viewer state.",
+    "The block record was signed through the disposable PDS and firehose ingestion was verified for posts, but the former read provider did not expose the block in viewer state.",
     "No production pairwise semantics were changed based on this result.",
     "The live process was intentionally terminated after endpoint checks; its graceful shutdown flushed the block table, but no additional viewer assertions were possible after shutdown.",
     "Viewer profile mapping still does not expose the blocking URI or blockedBy flag; getBlocks now proves the signed block was indexed.",

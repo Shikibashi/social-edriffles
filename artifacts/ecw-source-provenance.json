@@ -1,0 +1,97 @@
+{
+  "artifact": "ecw-source-provenance",
+  "version": 1,
+  "status": "pass-a-complete",
+  "auditedAt": "2026-08-18",
+  "sources": [
+    {
+      "name": "ideologynormativesorter",
+      "repository": "https://github.com/Shikibashi/ideologynormativesorter",
+      "ref": "refs/heads/main",
+      "sha": "1820d8d19478677b1b169996814e5a6f1f005ccd",
+      "classification": "current-living-workbench",
+      "paths": [
+        "src/styles/ecw-tokens.css",
+        "src/index.css",
+        "src/App.css",
+        "src/components/SiteShell.tsx",
+        "src/ecwTokens.test.ts"
+      ]
+    },
+    {
+      "name": "idoldle",
+      "repository": "https://github.com/Shikibashi/idoldle",
+      "ref": "refs/heads/main",
+      "sha": "33ee4c8fea1e402a16c25bced25756992a05fe0f",
+      "classification": "current-living-application",
+      "paths": [
+        "src/ecw-tokens.css",
+        "src/index.css",
+        "src/webpage.css",
+        "src/components/GameHeader.tsx",
+        "src/components/HUD.tsx",
+        "src/lib/ecwTokens.test.ts"
+      ]
+    },
+    {
+      "name": "edriffles-blog",
+      "repository": "https://github.com/Shikibashi/edriffles-blog",
+      "ref": "refs/heads/master",
+      "sha": "a3a1e430b4009de3c035da7b4341adf1635e2452",
+      "classification": "current-living-page-mode",
+      "paths": [
+        "src/styles/global.css",
+        "src/components/Header.astro",
+        "src/components/HeaderLink.astro",
+        "src/layouts/BlogPost.astro",
+        "src/assets/edriffles-emblem.png"
+      ]
+    },
+    {
+      "name": "Edriffles Web 99 Design System",
+      "path": "/var/home/tcs/Downloads/Edriffles Web 99 Design System.zip",
+      "sha256": "a59dab80e6f682f7be4411941c4eae5087985f9949cf24647374b108d468d623",
+      "classification": "historical-reference-only",
+      "paths": [
+        "tokens/colors.css",
+        "tokens/typography.css",
+        "tokens/spacing.css",
+        "guidelines/ecw-vnext-master-prompt.md",
+        "components/"
+      ]
+    }
+  ],
+  "target": {
+    "name": "radical-liberal ATProto client",
+    "submodulePath": "upstream/social-app",
+    "inspectedSha": "c38bfe515a9d52d2b9969c8ead64eced5f8d33ee",
+    "behavioralScope": "visual-only; preserve existing constitutional and provider semantics"
+  },
+  "decisions": [
+    {
+      "id": "token-role-split",
+      "decision": "Use structured semantic roles; retain old bg/panel/ink names only as boundary aliases.",
+      "reason": "The live products share values but not naming; semantic roles prevent component coupling to a product-specific palette."
+    },
+    {
+      "id": "contrast-corrected-purple",
+      "decision": "Use #b189ff for dark accent text where required and a separate #7787e8 dark selection fill.",
+      "reason": "Idoldle and the historical accessibility review distinguish accent text from selection; blog and sorter retain the older #9c68ff role."
+    },
+    {
+      "id": "light-muted",
+      "decision": "Use #4d5372 for new light-mode muted text.",
+      "reason": "Sorter and Idoldle use contrast-corrected values; the blog comment records #5e6480 as an older public palette value."
+    },
+    {
+      "id": "mode-boundaries",
+      "decision": "Use Page Mode for social content and Workbench Mode for services, identity, personalization, moderation, and diagnostics.",
+      "reason": "The living products share a culture rather than one shell; game framing and research-pane geometry must not be copied into every screen."
+    },
+    {
+      "id": "brand-boundary",
+      "decision": "Keep the ATProto network mark; do not substitute the Edriffles emblem.",
+      "reason": "ECW is a design language and the actual actor/product must remain accurately attributed."
+    }
+  ]
+}

@@ -12,5 +12,11 @@
 
 Unsupported features must present an explicit choice before another service receives the request. Provider changes must preserve DID, PDS, public graph, and portable explicit preferences.
 
+The first-party PDS is the pinned official implementation at
+`upstream/atproto-pds`. Its fork-specific moderation policy rejects locally
+authored listblock CREATE/UPDATE while retaining standard Lexicon parsing and
+DELETE/import compatibility. AppViewLite is retired; selected read providers
+are never the hidden master for account identity or repository writes.
+
 ## Deferred architecture
 Local reranking, encrypted profile export/import, permissioned-data synchronization, signed candidate batches, advanced provenance, runtime attestation, and runnable provider selectors are future work—not PR-00/PR-01 behavior.

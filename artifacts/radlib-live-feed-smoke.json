@@ -1,0 +1,35 @@
+{
+  "artifactVersion": "radlib-live-feed-smoke/2",
+  "observedAt": "2026-08-18T15:26:27-04:00",
+  "url": "http://127.0.0.1:19007/",
+  "title": "Following — Bluesky",
+  "route": "/",
+  "renderedFeedItems": {
+    "followingUniquePostLinks": 100,
+    "discoverUniquePostLinksAfterPagination": 100
+  },
+  "errorText": null,
+  "providerFailureText": null,
+  "provenance": {
+    "appViewProviderDid": "did:web:api.bsky.app",
+    "followingFeedUri": "following",
+    "discoverFeedUri": "at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot",
+    "discoverAlgorithm": "Feed generator ranking",
+    "algorithmVersion": "not declared",
+    "manifest": "unverified",
+    "health": "Service health unknown"
+  },
+  "actions": [
+    "Following rendered real posts",
+    "Discover rendered real posts",
+    "Discover was paginated by scrolling to the bottom",
+    "Following and Discover were switched back successfully",
+    "Feed details were expanded, checked, and collapsed"
+  ],
+  "detailsDisclosure": {
+    "opened": true,
+    "closedAfterInspection": true
+  },
+  "interpretation": "Rendered Following and Discover feeds work through pagination with no cursor/provider error. This is not alternate-provider or provider-failure acceptance evidence.",
+  "ownerAcceptance": "OWNER_ACCEPTANCE_PENDING"
+}

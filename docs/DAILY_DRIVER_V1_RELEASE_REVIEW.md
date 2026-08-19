@@ -1,10 +1,18 @@
-# Daily Driver v1 Release Review
+# Daily Driver v1 Release Review (historical baseline)
+
+> **Historical document.** This review predates the current radical-liberal
+> acceptance pass and is retained for provenance only. Its counts, tree-status
+> statement, and release verdict are superseded by
+> `docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md`; they must not be used as current
+> owner-acceptance evidence.
 
 ## Verdict
 
 **DAILY_DRIVER_V1_RELEASE_READY**
 
-Supported deployment is the existing social-app browser client against compatible external ATProto services. AppViewLite is optional self-hosted infrastructure, not required for the daily-driver path.
+Supported deployment is the existing social-app browser client against
+compatible external ATProto services and the first-party PDS. AppViewLite is
+retired and is not required or supported for the daily-driver path.
 
 ## Commands
 
@@ -30,8 +38,17 @@ Core social, Association, Attention, Service, Identity, and Portable Personaliza
 
 ## Security and configuration
 
-Production defaults use `EXPO_PUBLIC_ENV=production`, `https://bsky.social`, and `https://api.bsky.app`; localhost, fixture providers, and test credentials are disabled by the machine-readable config fixture. No new credential storage, diagnostic secret paths, or constitutional semantic changes were introduced.
+Production defaults use `EXPO_PUBLIC_ENV=production` and an explicitly
+configured project AppView; the compatible `https://bsky.social` entryway is
+limited to account login/handle availability. There is no implicit
+`api.bsky.app` read provider. Localhost, fixture providers, and test
+credentials are disabled by the machine-readable config fixture. No new
+credential storage, diagnostic secret paths, or constitutional semantic changes
+were introduced.
 
-## Verification
+## Verification snapshot retained from the historical review
 
-Root: 74 passed, 2 skipped. Contract validation: 64 files passed. Social-app web typecheck: passed. Production web build: passed. Diff check: passed. Parent and submodule trees are clean. The real external-account smoke path is `SKIPPED_ENVIRONMENT`; fixture and build evidence are retained separately.
+The historical snapshot recorded 74 root tests, 64 contract files, a clean
+tree, and a passed client build. Those values are intentionally not restated
+as current evidence. Current counts, dirty-tree status, and the current PDS
+build result are maintained in `docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md`.

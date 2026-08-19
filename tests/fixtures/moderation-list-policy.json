@@ -1,0 +1,25 @@
+{
+  "format": "org.radlib.moderation-list-policy",
+  "version": 1,
+  "rawRecords": [
+    "app.bsky.graph.block",
+    "app.bsky.graph.list",
+    "app.bsky.graph.listitem",
+    "app.bsky.graph.listblock"
+  ],
+  "operationMatrix": [
+    {"actorPolicy":"deny-create-update","operation":"create","collection":"app.bsky.graph.listblock","expected":"reject"},
+    {"actorPolicy":"deny-create-update","operation":"update","collection":"app.bsky.graph.listblock","expected":"reject"},
+    {"actorPolicy":"deny-create-update","operation":"delete","collection":"app.bsky.graph.listblock","expected":"allow"},
+    {"actorPolicy":"deny-create-update","operation":"create","collection":"app.bsky.graph.block","expected":"allow"},
+    {"actorPolicy":"standard","operation":"create","collection":"app.bsky.graph.listblock","expected":"allow"}
+  ],
+  "effectiveSemantics": {
+    "localLegacyListblock": "inert",
+    "externalListblock": "inert",
+    "directBlock": "hard",
+    "membershipChange": "zero-new-direct-blocks"
+  },
+  "clientActions": ["Mute list", "Review accounts"],
+  "forbiddenClientBulkAction": "Block accounts"
+}

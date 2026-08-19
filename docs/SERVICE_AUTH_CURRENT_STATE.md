@@ -1,48 +1,112 @@
 # Service Authentication: Current State
 
-Date: 2026-08-17.
+Date: 2026-08-19.
 
-## Social-app routing
+## Active routing
 
-The pinned social-app fork (`56b346e49`) currently builds three clients over one `PasswordSession` in `src/state/session/session-core.ts`:
+The pinned social-app fork keeps account-host and read-provider clients
+separate in `upstream/social-app/src/state/session/session-core.ts` and
+`upstream/social-app/src/state/session/clients.ts`:
 
-- `buildAppviewClient(agent)` mints an endpoint-scoped service-auth token from the account PDS and sends it to the configured AppView endpoint.
-- `buildPdsClient(agent)` sets no service, so repo/server/identity calls stay on the account host.
-- `buildChatClient(agent)` sets `service: CHAT_PROXY_SERVICE`.
-- `getPublicAppviewClient()` is a process-wide unauthenticated public client using `PUBLIC_BSKY_SERVICE`.
-- `routeSessionToPds()` pins the stored PDS URL while preserving the session's auth and refresh behavior.
-- The configured AppView endpoint defaults to `https://api.bsky.app`; `BLUESKY_PROXY_DID` supplies the service-auth audience and `atproto-proxy` service identity.
+- `buildPdsClient` and repository helpers send identity, repo, CAR, and server
+  operations to the account PDS.
+- `buildAppviewClient` sends read operations to the explicitly selected AppView
+  using an endpoint-scoped service-auth token minted by the account PDS.
+- Provider selection, validation, health probing, and fallback provenance live
+  in `upstream/social-app/src/state/session/providers.ts`.
+- The default public read provider is the configured project AppView. The
+  client requires `EXPO_PUBLIC_APPVIEW_SERVICE_DID` and
+  `EXPO_PUBLIC_PUBLIC_APPVIEW_URL` for a usable production deployment; it does
+  not silently fall back to a Bluesky-operated AppView.
 
-PDS writes are independent: `buildPdsClient` has no proxy service and `createLexClient` record helpers force `service: null`. Sessions and account records are persisted through `src/state/persisted/schema.ts` and `src/state/session/index.tsx`; no persisted AppView provider selection exists.
+AppViewLite is retired and is not part of this flow. No current authentication
+claim depends on its former middleware or compatibility endpoints.
 
-## AppViewLite authenticated request flow
+## Required boundary
 
-The pinned AppViewLite fork (`f0ef9be`) now verifies `/xrpc` bearer requests in middleware before session construction:
-1. The social-app client requests `com.atproto.server.getServiceAuth` from the account PDS for the exact AppView DID and XRPC method.
-2. It sends only the short-lived service-auth JWT to the AppView.
-3. AppViewLite verifies the JWT signature against the issuer DID document, validates claims and replay nonce, and creates a read-only viewer session.
-4. A raw PDS access JWT is rejected.
+Authenticated read-provider requests use a verified service-auth JWT, not a
+raw PDS access JWT. The account PDS implementation is at
+`upstream/atproto-pds/packages/pds/src/api/com/atproto/server/getServiceAuth.ts`.
+The client requests a token for the selected provider DID and exact XRPC
+method, then sends only that short-lived token to the provider.
 
-`BlueskyEnrichedApis.TryGetSessionFromCookie` remains the cookie-only path. Authenticated XRPC bearer requests are verified by middleware before session construction; raw bearer strings are no longer compared against stored PDS `AccessJwt` values.
+Verification binds:
 
-The current implementation therefore:
-
-| Requirement | Current state |
+| Claim/boundary | Required result |
 |---|---|
-| Raw PDS access JWT accepted | No; rejected at the AppView middleware boundary |
-| JWT signature verified | Yes, ES256K secp256k1 |
-| DID authorized signing key verified | Yes, via issuer DID document `#atproto` |
-| `iss`/`sub` issuer consistency | `iss` is required and must be a valid DID |
-| `aud` validated | Yes, exact configured AppView service DID |
-| endpoint-specific `lxm` validated | Yes, exact XRPC method path |
-| `exp` validated | Yes, with bounded clock skew |
-| `iat` sanity validated | Yes |
-| `jti` replay protection | Yes, in-memory until token expiry |
-| service DID/audience bound | Yes for the configured AppView service |
-| password/app password forwarded | No; PDS access token is used only for PDS-side service-auth minting |
+| issuer DID and signing key | resolved and authorized by the issuer DID document |
+| algorithm | accepted algorithm only |
+| service audience | exact selected provider service DID |
+| endpoint `lxm` | exact XRPC method path |
+| `exp` / `iat` | bounded expiry and clock-skew checks |
+| `jti` | replay protection until token expiry |
+| PDS credentials | never forwarded to the read provider |
 
-The AppViewLite `com.atproto.server.getServiceAuth` compatibility endpoint in `src/AppViewLite.Web/ApiCompat/ComAtprotoServer.cs` remains `NotImplementedException` by design: service-auth tokens are minted by the account PDS, not by the AppView. The social-app client calls the account PDS endpoint directly before each AppView request.
+Invalid signatures, DIDs, audiences, lexicons, timestamps, keys, and replays
+fail closed. Unsupported provider capability or provider failure is surfaced
+as a named provider error; it does not silently rewrite PDS state or local
+personalization.
 
-## Boundary decision
+## Hosted-session route repair (2026-08-19)
 
-The authenticated boundary is now enforced for AppView XRPC requests in `upstream/AppViewLite/src/AppViewLite.Web/Program.cs`: raw bearer access JWTs are rejected, while verified service-auth JWTs create read-only AppView sessions. `ServiceAuthVerifier` validates ES256K, issuer DID/key, audience, endpoint `lxm`, `exp`, `iat`, `jti` replay, and DID-document resolution. The social-app session client mints an endpoint-scoped service-auth token through the PDS before each AppView request and sends only that token to the AppView endpoint. Live local evidence: a fresh PDS-issued ES256K token returned HTTP 200 for `app.bsky.feed.getTimeline`; the raw PDS access JWT returned HTTP 500 and was not accepted.
+An older hosted session could retain `https://bsky.social/` as its entryway
+service while lacking both a persisted `pdsUrl` and a DID document. When that
+session resumed, the client sent `com.atproto.server.getServiceAuth` to the
+entryway instead of the account's repository PDS. A project AppView audience
+can correctly be rejected there with HTTP 400, producing the misleading
+`Service-auth issuance failed` banner shown in the browser.
+
+`upstream/social-app/src/state/session/session-core.ts` now resolves the
+account DID document on resume when a hosted session has no PDS route, seeds
+the password session with the declared `#atproto_pds` endpoint, and persists
+the discovered route after refresh. `clients.ts` continues to mint the
+endpoint-scoped token from that account PDS and names both the PDS and the
+selected provider if issuance is rejected. It never forwards the raw PDS
+access token to the AppView.
+
+The repair is covered by the session-resume and client service-auth tests. A
+live local Alice check also minted service-auth from PDS
+`http://127.0.0.1:2583` for the local AppView and received an authenticated
+Following response (HTTP 200). The remote `edriffles.us` account resolves to
+`did:plc:3ijrhre2q5e4tt2f4ph2sneo` with PDS
+`https://yellowfoot.us-west.host.bsky.network`; the disposable local AppView
+does not index that remote DID, so it must remain unavailable rather than
+silently falling back to a different provider.
+
+## Current evidence boundary
+
+The first-party PDS/CAR/provider walkthrough in
+`artifacts/radlib-live-pds-provider-walkthrough.json` proves the signed
+provider-attestation boundary used during legacy list migration. It does not
+prove that every arbitrary AppView implements private mutes or attestation.
+The client must therefore display provider capability and health honestly.
+
+The generic provider contract is covered by
+`tests/test_provider_boundary_contract.py` and the social-app provider tests.
+The first-party PDS build and focused migration tests cover the write/import
+side. Owner acceptance remains pending for live alternate-provider,
+resolver, labeler, and failure walkthroughs.
+
+Feed discovery has an additional same-provider public-read path in
+`upstream/social-app/src/state/queries/feed.ts`. If signed-in discovery cannot
+be answered because the selected AppView does not index the viewer, feed
+metadata is retried without viewer credentials at that same endpoint. The
+configured deployment feed is then resolved from that provider and presented
+as a distinct Radlib Discover option when available. This does not change the
+selected provider or silently use Bluesky's AppView.
+
+## Real-account fixture boundary (2026-08-19)
+
+The disposable `@atproto/dev-env` AppView uses a DID generated by its local PLC
+and indexes only its seeded test repositories. Its generated provider DID is
+not a registered public DID, so it is not a valid provider for a real hosted
+account's service-auth/federation path. A healthy local `/_health` response
+does not prove that it can serve an arbitrary remote account.
+
+For an explicitly labelled owner smoke test, the web client may be launched
+with `did:web:api.bsky.app#bsky_appview` and `https://api.bsky.app`. This is a
+real provider choice, not a request-time fallback. It proves login plus
+authenticated standard reads for the remote account, but it does not prove the
+fork's own AppView, Radlib Discover algorithm, or provider-side personalization.
+The first-party replacement remains a deployment task requiring a registered
+provider DID and populated federated index.

@@ -10,9 +10,10 @@ POST_FEED = (ROOT / "upstream/social-app/src/view/com/posts/PostFeed.tsx").read_
 class FeedPrototypeAuditTests(unittest.TestCase):
     """Characterize known prototype gaps without redesigning the prototype."""
 
-    def test_familiarity_is_declared_but_not_scored(self):
+    def test_familiarity_is_declared_and_scored(self):
         self.assertIn("familiarity: number", PROFILE)
-        self.assertNotIn("preferences.familiarity", PROFILE)
+        self.assertIn("preferences.familiarity", PROFILE)
+        self.assertIn("familiarity setting", PROFILE)
 
     def test_following_integration_uses_placeholder_signals(self):
         self.assertIn("networkRelevance: 0.5", POST_FEED)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "baseline": "AppViewLite@75f78e8e098c05f52821e836832205050c0f539e",
+  "baseline": "historical-read-provider-characterization/1",
   "accounts": {"A": "did:example:blocker", "B": "did:example:blocked", "C": "did:example:unrelated"},
   "surfaces": [
     "posts", "threads", "profiles", "follows", "replies", "mentions", "notifications", "quotes", "feeds", "block-list", "blocked-by"

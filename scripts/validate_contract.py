@@ -95,11 +95,27 @@ REQUIRED = [
     "tests/test_upstream_hardening.py",
     "docs/RADLIB_PRODUCT_PRINCIPLES.md",
     "docs/RADLIB_PRODUCT_ACCEPTANCE_REVIEW.md",
+    "docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md",
+    "docs/APPVIEWLITE_RETIREMENT.md",
+    "docs/RADLIB_MODERATION_LIST_AUDIT.md",
     "docs/OWNER_ACCEPTANCE_CHECKLIST.md",
     "artifacts/radlib-principle-traceability.json",
     "artifacts/radlib-product-acceptance.json",
+    "artifacts/radlib-moderation-policy-manifest.json",
+    "artifacts/radlib-moderation-list-review.json",
+    "artifacts/radlib-live-balanced-feed-walkthrough.json",
+    "artifacts/radlib-live-migration-status-ui.json",
     "tests/fixtures/radlib-owner-intent.json",
+    "tests/fixtures/moderation-list-policy.json",
+    "tests/fixtures/moderation-list-migration.json",
+    "tests/fixtures/moderation-list-ab-c.json",
+    "tests/fixtures/moderation-list-import.json",
     "tests/test_radlib_product_acceptance.py",
+    "tests/test_moderation_list_policy.py",
+    "tests/test_moderation_list_migration.py",
+    "tests/test_moderation_list_ab_c.py",
+    "tests/test_moderation_list_import.py",
+    "tests/test_moderation_list_bypass_guard.py",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
 ]
 
@@ -113,12 +129,16 @@ def main() -> None:
     for rel in REQUIRED:
         load(rel)
     pins = load("upstream-pins.json")
-    assert pins["repositories"]["appviewlite"]["commit"] == "75f78e8e098c05f52821e836832205050c0f539e"
     assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
+    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "c38bfe515a9d52d2b9969c8ead64eced5f8d33ee"
+    assert pins["repositories"]["atprotoPds"]["commit"] == "760fb12a080c87cdfd0dae42ae833bad8bc20886"
+    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "760fb12a080c87cdfd0dae42ae833bad8bc20886"
+    assert "appviewlite" not in pins["repositories"]
+    assert "fishyflip" not in pins["repositories"]
     assert pins["retrievedAt"]
 
     blocking = load("tests/fixtures/blocking-matrix.json")
-    assert blocking["baseline"].endswith("75f78e8e098c05f52821e836832205050c0f539e")
+    assert blocking["baseline"] == "historical-read-provider-characterization/1"
     assert set(blocking["surfaces"]) >= {"posts", "threads", "profiles", "follows", "replies", "mentions", "notifications", "quotes", "feeds"}
     assert {row["viewer"] for row in blocking["rows"]} >= {"A", "B", "C"}
     for surface in blocking["surfaces"]:
@@ -213,15 +233,51 @@ def main() -> None:
     baseline = load("artifacts/upstream-baseline.json")
     delta = load("artifacts/upstream-delta-inventory.json")
     receipt = load("artifacts/upstream-rebase-receipt.json")
-    assert len(baseline["upstreams"]) == 3
+    assert len(baseline["upstreams"]) == 2
     assert delta["deltas"]
     assert receipt["secretsIncluded"] is False
+    retirement = load("docs/APPVIEWLITE_RETIREMENT.md")
+    assert "RETIRED" in retirement
     radlib = load("artifacts/radlib-product-acceptance.json")
     trace = load("artifacts/radlib-principle-traceability.json")
     owner = load("tests/fixtures/radlib-owner-intent.json")
     assert len(trace["principles"]) == 24
     assert radlib["verdict"] == "RADLIB_PRODUCT_ACCEPTANCE_READY_FOR_OWNER"
     assert owner["acceptanceState"] == "OWNER_ACCEPTANCE_PENDING"
+    moderation_manifest = load("artifacts/radlib-moderation-policy-manifest.json")
+    assert moderation_manifest["$type"] == "org.radlib.social.policyManifest"
+    assert moderation_manifest["moderation"]["membershipMutationCreatesBlocks"] is False
+    moderation_review = load("artifacts/radlib-moderation-list-review.json")
+    assert moderation_review["verdict"] == "RADLIB_CODEX_ACCEPTANCE_BLOCKED"
+    assert moderation_review["acceptanceState"] == "OWNER_ACCEPTANCE_PENDING"
+    # The moderation review must not preserve a known P1 merely to keep the
+    # owner gate blocked. Once the signed provider boundary and live
+    # PDS/CAR/provider walkthrough are present, the defect is closed while the
+    # review can still remain blocked by owner-pending and broader live gates.
+    assert moderation_review["severity"]["P1"] == 0
+    assert moderation_review["verification"]["liveProviderWalkthrough"].startswith(
+        "passed:"
+    )
+    balanced_walkthrough = load("artifacts/radlib-live-balanced-feed-walkthrough.json")
+    assert balanced_walkthrough["selection"]["enabled"] is True
+    assert balanced_walkthrough["selection"]["toggleObserved"] == "false -> true"
+    assert balanced_walkthrough["provenance"]["version"] == "org.radical-liberal.balanced/1"
+    assert balanced_walkthrough["provenance"]["renderedLabel"].endswith(
+        "(version org.radical-liberal.balanced/1)"
+    )
+    assert balanced_walkthrough["restoredBaseline"]["balancedEnabled"] is False
+    migration_ui = load("artifacts/radlib-live-migration-status-ui.json")
+    assert migration_ui["migrationStatus"] == "unavailable"
+    assert migration_ui["displayed"] == "PDS status unavailable; no migration claim was made"
+    assert migration_ui["secretsDisplayed"] is False
+    moderation_policy = load("tests/fixtures/moderation-list-policy.json")
+    assert moderation_policy["effectiveSemantics"]["directBlock"] == "hard"
+    migration = load("tests/fixtures/moderation-list-migration.json")
+    assert migration["receipt"]["containsCredentials"] is False
+    abc = load("tests/fixtures/moderation-list-ab-c.json")
+    assert "C" in abc["accounts"]
+    import_fixture = load("tests/fixtures/moderation-list-import.json")
+    assert "inventory listblocks before commit" in import_fixture["pdsBehavior"]
     print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
 
 if __name__ == "__main__":

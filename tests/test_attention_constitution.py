@@ -28,12 +28,13 @@ class AttentionConstitutionTests(unittest.TestCase):
 
     def test_personalization_and_service_sources_preserve_boundaries(self):
         personalization = (ROOT / 'upstream/social-app/src/lib/personalization.ts').read_text()
-        appview = (ROOT / 'upstream/AppViewLite/src/AppViewLite/BlueskyRelationships.cs').read_text()
+        providers = (ROOT / 'upstream/social-app/src/state/session/providers.ts').read_text()
         self.assertIn('PERSONALIZATION_FORMAT', personalization)
         self.assertIn('encryptPersonalization', personalization)
         self.assertIn('importPersonalization', personalization)
         self.assertIn('rejectCredentialValue', personalization)
-        self.assertIn('UsersHavePairwiseBlockRelationshipCore', appview)
+        self.assertIn('validateAppViewProvider', providers)
+        self.assertIn('selectAppViewProvider', providers)
 
 
 if __name__ == '__main__':

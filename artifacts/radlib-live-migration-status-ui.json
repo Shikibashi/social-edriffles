@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-08-18T16:05:21-04:00",
+  "endpoint": "http://127.0.0.1:19007/settings/identity-sovereignty",
+  "mode": "rendered-browser",
+  "migrationStatus": "unavailable",
+  "displayed": "PDS status unavailable; no migration claim was made",
+  "didDisplayed": true,
+  "pdsDisplayedSeparately": true,
+  "secretsDisplayed": false,
+  "ownerAcceptance": "OWNER_ACCEPTANCE_PENDING"
+}

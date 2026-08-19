@@ -1,0 +1,15 @@
+{
+  "format": "org.radlib.moderation-list-import",
+  "version": 1,
+  "input": "standards-compliant CAR containing historical app.bsky.graph.listblock records",
+  "pdsBehavior": [
+    "verify repository diff",
+    "inventory listblocks before commit",
+    "write migration journal with hashed source identifiers",
+    "accept and index standard records",
+    "mark import legacy until cleanup is reconciled"
+  ],
+  "postImportMigration": "client creates/verifies private mute through selected AppView then deletes each source record with CID/CAS",
+  "readProviderImport": "not applicable; repository import belongs to the first-party PDS",
+  "activationTruth": "PDS activation is blocked while the migration journal still has public listblocks; automatic provider-side mute conversion remains client/provider-coordinated and cannot be fabricated by the PDS"
+}

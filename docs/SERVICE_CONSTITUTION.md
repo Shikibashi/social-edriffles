@@ -2,7 +2,14 @@
 
 ## Status
 
-The authenticated service-auth boundary and persisted provider-switching model are implemented in the pinned forks. The constitution remains subject to the remaining live A/B/C presentation regression and final quality-gate audit.
+The authenticated service-auth boundary and persisted provider-switching model
+are implemented in the pinned forks. The first-party PDS is now the pinned
+official `@atproto/pds` source under `upstream/atproto-pds`, with the governed
+listblock write policy enabled explicitly by deployment configuration.
+AppViewLite is retired and is not an account host or read-side deployment
+option. The client remains compatible with explicitly selected AppView/feed
+providers. The constitution remains subject to the imported-repository
+activation gate and final owner walkthrough.
 
 ## Principles
 
@@ -16,6 +23,11 @@ The authenticated service-auth boundary and persisted provider-switching model a
 8. Provider failures cannot alter PDS account data or local personalization.
 9. AppViews are replaceable services, not account hosts.
 10. Users can exit to another provider or directly to their PDS without logout or migration.
+11. The PDS is the authority for DID-authenticated repository writes, CAR
+    import/export, sync, and account state; an AppView cannot silently replace
+    it.
+12. A selected AppView may provide private list-mute state, but it must not be
+    represented as PDS repository state or as universal moderation authority.
 
 ## Required service-auth contract
 
@@ -35,7 +47,12 @@ interface AppViewProvider {
 }
 ```
 
-Built-ins are Bluesky AppView and the project AppView. Custom providers require validated DID/service resolution, HTTPS where applicable, bounded requests, safe redirects, and no arbitrary credential forwarding.
+The built-in provider is the configured first-party Project AppView. Its DID,
+service fragment, and endpoint are explicit deployment configuration; missing
+production configuration is unavailable rather than a hidden stock provider.
+Custom providers require validated DID/service resolution, HTTPS where
+applicable, bounded requests, safe redirects, and no arbitrary credential
+forwarding. Retired providers are not registered or selectable.
 
 ## Current gap
 

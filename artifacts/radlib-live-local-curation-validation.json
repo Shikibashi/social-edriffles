@@ -1,0 +1,56 @@
+{
+  "artifactVersion": "radlib-live-local-curation-validation/1",
+  "observedAt": "2026-08-18T19:27:58-04:00",
+  "browser": "in-app browser",
+  "renderedOrigin": "http://127.0.0.1:19006/",
+  "account": "edriffles.us",
+  "settingsRoute": "/settings/personalization",
+  "settings": {
+    "radlibCurationEnabled": true,
+    "contentFilterEnabled": true,
+    "strictProgressiveMatching": true,
+    "customFilterTerms": ["commie", "commies", "progs"],
+    "branchWeights": {
+      "kpopMusic": 4,
+      "politicalEconomy": 2.2,
+      "technology": 1.8,
+      "tvComedy": 1.5,
+      "audioScience": 0.8
+    },
+    "curationInputsRendered": [
+      "reply inclusion",
+      "per-author concentration cap",
+      "branch weights",
+      "local term exclusions",
+      "local author exclusions"
+    ]
+  },
+  "feed": {
+    "route": "/",
+    "feed": "Discover",
+    "provider": "Bluesky AppView",
+    "providerDid": "did:web:api.bsky.app",
+    "feedOwnerDid": "did:plc:z72i7hdynmk6r22z27h6tvur",
+    "feedUri": "at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot",
+    "algorithm": "Filtered Discover + local radical-liberal curation",
+    "algorithmVersion": "content-filter/1 + radlib-curation/1",
+    "manifest": "unverified",
+    "objective": "User-selected hard content exclusions plus a user-selected topic and exclusion overlay; follows, blocks, and ranking remain separate",
+    "privacy": "Custom filter terms and curation state stay on this device; the selected provider supplies candidates",
+    "health": "Service health unknown",
+    "renderedPostCount": 8,
+    "configuredHardFilterMatches": [],
+    "observedComposition": {
+      "musicRelated": true,
+      "kpopOrGirlGroupTerms": false,
+      "audioGearTerms": false,
+      "catoAdjacentEvidence": true,
+      "catoAdjacentEvidenceDetails": [
+        "Ilya Somin post",
+        "Reason/Volokh link"
+      ]
+    }
+  },
+  "interpretation": "Local curation is enabled and visible in provenance, but it only reranks candidates supplied by the selected provider; it cannot create missing K-pop, girl-group, or audio-gear posts.",
+  "ownerAcceptance": "OWNER_ACCEPTANCE_PENDING"
+}

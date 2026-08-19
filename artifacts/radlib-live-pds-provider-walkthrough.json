@@ -1,0 +1,51 @@
+{
+  "kind": "radlib-live-pds-provider-walkthrough",
+  "result": "PASS",
+  "runAt": "2026-08-18T20:48:27Z",
+  "repositoryHead": "519a66e25389380935b2b008221135da57796408",
+  "pdsHead": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
+  "command": "cd /var/home/tcs/Code/atproto && node scripts/radlib_live_provider_walkthrough.mjs",
+  "services": {
+    "sourcePds": "ephemeral local @atproto/pds HTTP server",
+    "governedTargetPds": "ephemeral local @atproto/pds HTTP server with deny-create-update and provider attestation required",
+    "provider": "ephemeral HTTP provider fixture with a generated P-256 signing key"
+  },
+  "walkthrough": {
+    "sourceCar": "one CAR containing one legacy app.bsky.graph.listblock",
+    "activationBeforeMigration": {
+      "passed": true,
+      "error": "RadlibMigrationPending",
+      "message": "Account activation is blocked until legacy listblocks are migrated"
+    },
+    "providerAttestation": {
+      "version": "radlib-list-mute-attestation/1",
+      "signatureFormat": "P-256 raw IEEE P1363, 64 bytes",
+      "providerDidType": "did:key",
+      "requestIncluded": ["list", "listUriHash", "nonce"],
+      "pdsEndpoint": "org.radlib.moderation.recordListMuteAttestation",
+      "pdsResponse": 200
+    },
+    "migrationDeletion": {
+      "allowedOnlyForPendingDeactivatedMigration": true,
+      "publicListblockDeleted": true,
+      "ordinaryDeactivatedAccountWritesRemainBlocked": true
+    },
+    "activationAfterMigration": {
+      "passed": true,
+      "activated": true,
+      "validDid": true,
+      "finalRepoStatus": "active"
+    },
+    "receipt": {
+      "status": "clean",
+      "listblocksDiscovered": 1,
+      "convertedToPrivateMute": 1,
+      "deleted": 1,
+      "remainingListblocks": 0,
+      "attestationRequired": true,
+      "plaintextAtUrisInReceipt": false,
+      "sourceIdentifiers": "hashed"
+    }
+  },
+  "scopeNote": "The provider fixture proves the live signed PDS/provider boundary. It is not a claim that any retired read-provider implementation is deployed."
+}

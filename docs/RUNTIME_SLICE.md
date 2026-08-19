@@ -2,17 +2,24 @@
 
 ## Imported baselines
 
-- `upstream/AppViewLite` is checked out at `73f3c2408fc5c744b14da78ce6d4427ddc1d69da`.
-- `upstream/social-app` is checked out at `bde69aa15102640b0e898653a505191acc4951a9`.
-- `upstream/FishyFlip` is checked out at `da2c08aa19475eb2c732933d213a374f03a8e549`.
+- `upstream/social-app` is checked out at `c38bfe515a9d52d2b9969c8ead64eced5f8d33ee`.
+- `upstream/atproto-pds` is checked out at `760fb12a080c87cdfd0dae42ae833bad8bc20886`.
+- AppViewLite and FishyFlip are retired and are not imported baselines.
 
 ## Characterization
 
-`tests/test_appviewlite_characterization.py` anchors the A/B/C matrix to real pinned AppViewLite source paths and verifies the pairwise relationship core considers direct and inverse relationships while preserving unrelated viewers. A disposable signed-record run now verifies firehose ingestion and several HTTP 200 endpoints; block-list and viewer-specific block assertions remain incomplete because the pinned block controller is unimplemented and the live viewer state did not expose A→B.
+The root A/B/C fixtures and client/PDS moderation tests anchor pairwise
+relationship behavior without coupling the contract to a specific read
+provider. A disposable signed-record run verifies the first-party PDS/CAR/
+provider migration boundary; provider-specific relationship presentation still
+requires the owner’s selected-provider walkthrough.
 
 ## Pairwise relationship boundary
 
-AppViewLite's relationship core was explicitly named `UsersHavePairwiseBlockRelationshipCore`. It evaluates `(a,b)` and `(b,a)` for the requesting context and returns direct, inverse, mutual, or no relationship. This is a naming/contract clarification of the existing behavior, not a nuclear-block semantic rewrite.
+The active contract evaluates `(a,b)` and `(b,a)` in the viewer context and
+keeps direct blocks, incoming external hard boundaries, and local attention
+filters distinct. It is implemented at the client/PDS policy boundary and is
+not tied to a fork-specific AppView.
 
 ## Local feed sovereignty
 
@@ -26,7 +33,7 @@ AppViewLite's relationship core was explicitly named `UsersHavePairwiseBlockRela
 
 - Social-app typecheck and focused personalization/session Jest suites pass.
 - Root contract and Python audit suites pass.
-- AppViewLite Release build passes with 0 errors and existing warnings.
+- First-party PDS build and focused migration/attestation tests pass.
 - A clean current upstream checkout completed codegen and `pnpm build` with the pinned Node 24 runtime family; `make run-dev-env` reached `Dev environment is ready` after rebuilding the native SQLite binding.
 ## Research reconciliation: four constitutional domains
 

@@ -51,4 +51,9 @@ Identity UI reports session-provided identity as unresolved until fresh resolver
 
 ## Rebase and compatibility risk
 
-Identity work is isolated in social-app identity modules/settings and root contract artifacts. AppViewLite and FishyFlip remain pinned without changes. The principal rebase risk is upstream social-app navigation/settings integration; constitutional fixtures and root validation provide regression protection.
+Identity work is isolated in social-app identity modules/settings and root
+contract artifacts. The first-party PDS is the supported repository boundary;
+the retired AppViewLite/FishyFlip pair is excluded from rebase and runtime
+graphs. The principal rebase risk is upstream social-app navigation/settings
+integration; constitutional fixtures and root validation provide regression
+protection.

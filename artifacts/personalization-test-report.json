@@ -7,7 +7,7 @@
     "pnpm test src/state/session/__tests__/session-core-test.ts --runInBand",
     "python3 -m unittest discover -s tests -p 'test_*.py'",
     "python3 scripts/validate_contract.py",
-    "PATH=/tmp/dotnet10:$PATH dotnet build upstream/AppViewLite/src/AppViewLite.slnx -c Release --no-restore -p:SignAssembly=false"
+    "python3 scripts/check_upstream.py --fast"
   ],
   "results": {
     "personalizationTests": "5 passed",
@@ -15,6 +15,6 @@
     "providerSessionTests": "38 passed",
     "rootTests": "45 passed, 2 skipped",
     "contractValidation": "passed",
-    "appViewBuild": "0 errors, 8 warnings"
+    "retiredReadProviderBuild": "not applicable"
   }
 }

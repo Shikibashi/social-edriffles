@@ -6,13 +6,21 @@ An AppView provider is identified by a DID plus service fragment. The service-au
 
 ## Current deployment
 
-The pinned social-app default provider is Bluesky's public AppView:
+The fork does not claim a Bluesky-operated AppView as its default. The
+first-party implementation is `upstream/atproto-pds/packages/bsky`; a
+deployment must publish its own stable AppView identity and configure the
+client with:
 
-- DID: `did:web:api.bsky.app`
-- service fragment: `bsky_appview`
-- endpoint: `https://api.bsky.app`
+- `EXPO_PUBLIC_APPVIEW_SERVICE_DID`;
+- `EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT` (normally `bsky_appview`);
+- `EXPO_PUBLIC_PUBLIC_APPVIEW_URL`.
 
-A project AppView deployment MUST set `APPVIEWLITE_SERVICE_DID` on AppViewLite and the social-app build variables `EXPO_PUBLIC_APPVIEW_SERVICE_DID` and `EXPO_PUBLIC_APPVIEW_ENDPOINT` to its own stable `did:web` or `did:plc` identity and HTTPS endpoint, and publish a DID document whose service entry points at the deployment. The verifier rejects tokens whose audience does not match that configured identity. No production public project DID is claimed by this repository.
+The provider record remains visible as `Project AppView` when configuration is
+missing, so the UI reports an unavailable project service instead of silently
+switching to another AppView. A project deployment MUST use its own stable
+`did:web` or `did:plc` identity and HTTPS endpoint, and publish a DID document
+whose service entry points at the deployment. The verifier rejects tokens
+whose audience does not match that configured identity.
 
 ## DID document requirements
 

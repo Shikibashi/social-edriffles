@@ -1,0 +1,29 @@
+{
+  "observedAt": "2026-08-18T16:25:02-04:00",
+  "endpoint": "http://127.0.0.1:19007/",
+  "mode": "rendered-browser",
+  "selection": {
+    "settingsRoute": "/settings/following-feed",
+    "control": "Use Balanced local ranking",
+    "toggleObserved": "false -> true",
+    "enabled": true,
+    "localRerankingEnabled": true
+  },
+  "provenance": {
+    "algorithm": "Balanced local algorithm",
+    "version": "org.radical-liberal.balanced/1",
+    "renderedLabel": "Algorithm: Balanced local algorithm (version org.radical-liberal.balanced/1)",
+    "providerDid": "did:web:api.bsky.app",
+    "objective": "Bounded structural variety, freshness, explicit preferences, and exploration; no ideological quota"
+  },
+  "feedRendered": true,
+  "renderedPostLinks": 23,
+  "providerErrorOverlay": false,
+  "detailsCollapsedAfterInspection": true,
+  "restoredBaseline": {
+    "localRerankingEnabled": false,
+    "balancedEnabled": false,
+    "filteredFollowingEnabled": false
+  },
+  "ownerAcceptance": "OWNER_ACCEPTANCE_PENDING"
+}

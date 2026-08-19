@@ -1,0 +1,34 @@
+{
+  "$type": "org.radlib.social.policyManifest",
+  "version": "1.0",
+  "policyVersion": "radlib-moderation/1",
+  "classification": ["PRODUCT POLICY", "NORMATIVE", "INTEROPERABILITY"],
+  "moderation": {
+    "directBlock": "individual-hard-boundary",
+    "individualMute": "private-attention",
+    "bulkListAction": "private-mute-and-explicit-review",
+    "listblockLocalCreate": "reject-at-first-party-pds",
+    "listblockLocalUpdate": "reject-at-first-party-pds",
+    "listblockLocalDelete": "allow-for-legacy-cleanup",
+    "legacyLocalListblock": "attention-until-migrated",
+    "incomingExternalListblock": "hard-boundary",
+    "membershipMutationCreatesBlocks": false,
+    "labelerChoice": "user-configurable"
+  },
+  "services": {
+    "pdsAuthority": "first-party-official-atproto-pds-fork",
+    "appviewAuthority": "explicitly-selected-read-provider",
+    "retiredProviders": ["AppViewLite"],
+    "feedProvider": "explicitly-selected",
+    "resolver": "explicitly-configured-or-discovered",
+    "labeler": "explicitly-selected"
+  },
+  "portability": {
+    "carExport": true,
+    "carImport": "ATProto-compatible; governed imports are journaled for legacy list migration",
+    "preActivationLegacyConversion": "requires private mute verification and public-record deletion; when configured, the PDS verifies provider attestation; governed activation is blocked until the PDS reconciles clean repository state",
+    "secretsInReceipts": false
+  },
+  "sourceRevision": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
+  "sourceRevisionRole": "official PDS source pinned as upstream/atproto-pds; local policy patch is fork-specific"
+}

@@ -1,0 +1,13 @@
+{
+  "format": "org.radlib.moderation-list-ab-c",
+  "version": 1,
+  "accounts": {"A":"local-alice","B":"remote-bob","C":"unrelated-charlie"},
+  "scenarios": [
+    {"name":"A direct-blocks B","relationship":"A->B","effect":"pairwise"},
+    {"name":"A legacy-listblock contains B","relationship":"A->B","effect":"inert"},
+    {"name":"remote B listblocks A","relationship":"B->A","effect":"inert"},
+    {"name":"C views B","relationship":"C->B","effect":"independent-third-party"}
+  ],
+  "surfaces": ["profile","thread","reply","mention","notification","quote","author-feed","search","home"],
+  "classificationVocabulary": ["PAIRWISE","COLLATERAL-BUT-UPSTREAM-REQUIRED","COLLATERAL-LOCAL-BUG","UNSUPPORTED","UNTESTED"]
+}

@@ -1,1 +1,54 @@
-{"version":1,"surfaces":[{"repository":"social-app","path":"src/lib/identity-runtime.ts","risk":"HIGH","churnEvidence":"LOCAL_HISTORY","reason":"auth/resolver/cache authority","mappedTests":["identity-runtime","constitutional integration"],"isolation":"identity runtime module"},{"repository":"social-app","path":"src/screens/Settings/IdentitySovereigntySettings.tsx","risk":"HIGH","churnEvidence":"LOCAL_HISTORY","reason":"upstream settings UI integration","mappedTests":["identity UI"],"isolation":"standalone settings screen"},{"repository":"social-app","path":"src/lib/personalization.ts","risk":"MEDIUM","churnEvidence":"LOCAL_HISTORY","reason":"portable state schema","mappedTests":["personalization contract"],"isolation":"dedicated module"},{"repository":"social-app","path":"src/lib/candidate-protocol.ts","risk":"MEDIUM","churnEvidence":"LOCAL_HISTORY","reason":"attention provider boundary","mappedTests":["candidate/attention"],"isolation":"dedicated module"},{"repository":"AppViewLite","path":"none","risk":"LOW","churnEvidence":"LOCAL_HISTORY","reason":"no local fork patch","mappedTests":["service/association regression"],"isolation":"optional submodule"},{"repository":"FishyFlip","path":"none","risk":"LOW","churnEvidence":"LOCAL_HISTORY","reason":"no local fork patch","mappedTests":["pin verification"],"isolation":"pinned dependency"}],"p0":0,"p1":0,"p2":3,"p3":0}
+{
+  "version": 1,
+  "surfaces": [
+    {
+      "repository": "social-app",
+      "path": "src/lib/identity-runtime.ts",
+      "risk": "HIGH",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "auth/resolver/cache authority",
+      "mappedTests": ["identity-runtime", "constitutional integration"],
+      "isolation": "identity runtime module"
+    },
+    {
+      "repository": "social-app",
+      "path": "src/screens/Settings/IdentitySovereigntySettings.tsx",
+      "risk": "HIGH",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "upstream settings UI integration",
+      "mappedTests": ["identity UI"],
+      "isolation": "standalone settings screen"
+    },
+    {
+      "repository": "social-app",
+      "path": "src/lib/personalization.ts",
+      "risk": "MEDIUM",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "portable state schema",
+      "mappedTests": ["personalization contract"],
+      "isolation": "dedicated module"
+    },
+    {
+      "repository": "social-app",
+      "path": "src/lib/candidate-protocol.ts",
+      "risk": "MEDIUM",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "attention provider boundary",
+      "mappedTests": ["candidate/attention"],
+      "isolation": "dedicated module"
+    },
+    {
+      "repository": "atproto-pds",
+      "path": "packages/pds/src/repo",
+      "risk": "HIGH",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "repository write/import policy boundary",
+      "mappedTests": ["pds moderation policy", "migration/import"],
+      "isolation": "PDS policy module"
+    }
+  ],
+  "p0": 0,
+  "p1": 0,
+  "p2": 3,
+  "p3": 0
+}

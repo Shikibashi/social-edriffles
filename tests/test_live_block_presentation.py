@@ -40,7 +40,7 @@ class LiveBlockPresentationTests(unittest.TestCase):
             self.assertIn("carla.test", thread)
             self.assertIn("anonymous", thread)
             self.assertIn("status", thread["alice.test"])
-        self.assertIn("Current AppViewLite behavior", self.matrix)
+        self.assertIn("Historical read-provider behavior", self.matrix)
         self.assertIn("Target fork behavior", self.matrix)
     def test_author_feeds_and_search_do_not_collateral_suppress_c(self):
         c = self.surfaces["carla.test"]

@@ -1,0 +1,23 @@
+{
+  "format": "org.radlib.moderation-list-migration",
+  "version": 1,
+  "ordering": [
+    "create-private-list-mute",
+    "verify-private-list-mute",
+    "delete-public-listblock-with-cas",
+    "verify-public-listblock-deletion",
+    "write-receipt"
+  ],
+  "failureInvariants": {
+    "muteFailure": "source-listblock-remains",
+    "deleteFailure": "verified-private-mute-remains-and-retry-is-safe",
+    "directBlocksWithoutReview": "unchanged",
+    "membershipMutation": "zero-new-direct-blocks"
+  },
+  "receipt": {
+    "version": "radlib-listblock-migration/1",
+    "containsPlaintextModerationGraph": false,
+    "containsCredentials": false,
+    "statusValues": ["clean", "legacy", "migrating", "failed"]
+  }
+}

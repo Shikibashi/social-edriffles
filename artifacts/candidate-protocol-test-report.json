@@ -1,8 +1,8 @@
 {
   "kind":"package-test-report",
   "suite":"candidate protocol v1",
-  "commands":["pnpm test src/lib/candidate-protocol.test.ts --runInBand","pnpm typecheck:web","python3 scripts/validate_contract.py","python3 -m unittest discover -s tests -p 'test_*.py'","PATH=/tmp/dotnet10:$PATH dotnet build upstream/AppViewLite/src/AppViewLite.slnx -c Release --no-restore -p:SignAssembly=false","git diff --check"],
-  "results":{"protocolTests":"3 passed","socialTypecheck":"passed","contractValidation":"passed: 13 files, 29 blocking rows, 6 feed cases","rootTests":"52 passed, 2 skipped","appViewBuild":"0 errors, 2 warnings","diffCheck":"passed"},
+  "commands":["pnpm test src/lib/candidate-protocol.test.ts --runInBand","pnpm typecheck:web","python3 scripts/validate_contract.py","python3 -m unittest discover -s tests -p 'test_*.py'","git diff --check"],
+  "results":{"protocolTests":"3 passed","socialTypecheck":"passed","contractValidation":"passed: 13 files, 29 blocking rows, 6 feed cases","rootTests":"52 passed, 2 skipped","retiredReadProviderBuild":"not applicable","diffCheck":"passed"},
   "privacyModes":["public-cacheable","anonymous","pseudonymous","cohort","stable-did"],
   "replay":"canonical unsigned batch signing/verification, tamper rejection, expiry, duplicate, and batch-id replay rejection passed"
 }

@@ -18,7 +18,8 @@ Decision: `ATTENTION_STACK_V1_REVIEW_BLOCKED`
 - Balanced parent: `1d34144`, social implementation `dc8daa01`.
 - Attention Sovereignty UI parent: `235195e`, social implementation `f66b7be`.
 - Experimental modules parent: `5acba74`, social implementation `e3f9aa2e`.
-- AppViewLite baseline: `ab3ac9e`.
+- Read-provider baseline: generic explicitly selected AppView/feed provider;
+  the former AppViewLite experiment is retired.
 
 No unexplained tracked working-tree drift was found. The frozen contracts and validator remain present; this audit does not silently rewrite them.
 

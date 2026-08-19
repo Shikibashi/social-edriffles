@@ -11,4 +11,7 @@
 | Wrong DID/audience/lxm/signature/replay | AppView rejects request | No raw PDS token accepted | Cancel or explicit Bluesky choice |
 | Unsupported feature | No automatic provider change | PDS writes remain independent | Use Bluesky once, always use Bluesky for feature, or cancel |
 
-There is no implicit fallback to `api.bsky.app` after provider selection. The Services screen displays the selected provider DID and endpoint and makes fallback choices explicit. Persisted provider choices are account-DID scoped; the one-time choice does not overwrite the selection.
+There is no implicit fallback to a stock AppView after provider selection. The
+Services screen displays the selected provider DID and endpoint and makes
+fallback choices explicit. Persisted provider choices are account-DID scoped;
+the one-time choice does not overwrite the selection.

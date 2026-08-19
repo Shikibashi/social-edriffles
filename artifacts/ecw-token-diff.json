@@ -1,0 +1,60 @@
+{
+  "artifact": "ecw-token-diff",
+  "version": 1,
+  "status": "pass-a-complete",
+  "sourceHeads": {
+    "ideologynormativesorter": "1820d8d19478677b1b169996814e5a6f1f005ccd",
+    "idoldle": "33ee4c8fea1e402a16c25bced25756992a05fe0f",
+    "edriffles-blog": "a3a1e430b4009de3c035da7b4341adf1635e2452"
+  },
+  "historicalReference": {
+    "path": "/var/home/tcs/Downloads/Edriffles Web 99 Design System.zip",
+    "sha256": "a59dab80e6f682f7be4411941c4eae5087985f9949cf24647374b108d468d623"
+  },
+  "clientCompatibilityExtension": {
+    "name": "dim",
+    "classification": "existing-client-theme-reconciled-to-ecw",
+    "sourceBasis": "The living ECW products establish the dark role grammar; the ATProto client already exposes Dim as a selectable theme.",
+    "canonical": {
+      "canvas": "#0b0d20",
+      "workspace": "#0e123a",
+      "surface": "#171a4d",
+      "surfaceRecessed": "#131640",
+      "text": "#f1efff",
+      "textSecondary": "#d2d8f4",
+      "textMuted": "#9da7d0",
+      "borderStructural": "#5968ad",
+      "link": "#65dbe5"
+    }
+  },
+  "tokens": [
+    { "name": "canvas", "sorter": "#050719", "idoldle": "#050719", "blog": "#d6d9e8 light / #050719 dark", "canonical": "#050719 dark / #d6d9e8 light", "classification": "aligned" },
+    { "name": "workspace", "sorter": "#070a2e", "idoldle": "#070a2e", "blog": "#c7ccdf light / #070a2e dark", "canonical": "#070a2e dark / #c7ccdf light", "classification": "semantic rename" },
+    { "name": "surface", "sorter": "#12144b", "idoldle": "#12144b", "blog": "#f4f3eb light / #12144b dark", "canonical": "#12144b dark / #f4f3eb light", "classification": "aligned" },
+    { "name": "surface-recessed", "sorter": "#0b0d38", "idoldle": "#0b0d38", "blog": "#e1e3ee light / #0b0d38 dark", "canonical": "#0b0d38 dark / #e1e3ee light", "classification": "aligned" },
+    { "name": "surface-raised", "sorter": "#1c1e67", "idoldle": "#1c1e67", "blog": "#ffffff light / #1c1e67 dark", "canonical": "#1c1e67 dark / #ffffff light", "classification": "aligned" },
+    { "name": "text-muted-light", "sorter": "#4f5570", "idoldle": "#4d5372", "blog": "#5e6480", "canonical": "#4d5372", "classification": "contrast resolution" },
+    { "name": "accent-dark", "sorter": "#9c68ff selection alias", "idoldle": "#b189ff", "blog": "#9c68ff", "canonical": "#b189ff for accent text", "classification": "role split" },
+    { "name": "selection-dark", "sorter": "#9c68ff", "idoldle": "#7787e8", "blog": "#6d55db", "canonical": "#7787e8", "classification": "role split" },
+    { "name": "selection-light", "sorter": "#5530a3", "idoldle": "#2c2a86", "blog": "#383f78", "canonical": "#2c2a86", "classification": "contrast resolution" },
+    { "name": "link-dark", "sorter": "#6ff4ff", "idoldle": "#6ff4ff", "blog": "#6ff4ff", "canonical": "#6ff4ff", "classification": "aligned" },
+    { "name": "link-light", "sorter": "#004fa3", "idoldle": "#004fa3", "blog": "#004fa3", "canonical": "#004fa3", "classification": "aligned" },
+    { "name": "font-display", "sorter": "Georgia plus resilient serif fallbacks", "idoldle": "Georgia plus resilient serif fallbacks", "blog": "Georgia/Times New Roman", "canonical": "Georgia, Noto Serif, DejaVu Serif, Times New Roman, Liberation Serif, serif", "classification": "aligned with resilience" },
+    { "name": "font-ui", "sorter": "Verdana plus resilient sans fallbacks", "idoldle": "Verdana plus language fallbacks", "blog": "Verdana, Arial", "canonical": "Verdana, DejaVu Sans, Tahoma, Noto Sans, Arial, Liberation Sans, sans-serif", "classification": "aligned with resilience" },
+    { "name": "font-system", "sorter": "Courier New plus resilient mono fallbacks", "idoldle": "Courier New plus resilient mono fallbacks", "blog": "Courier New, Courier", "canonical": "Courier New, Liberation Mono, DejaVu Sans Mono, Noto Sans Mono, monospace", "classification": "aligned with resilience" },
+    { "name": "compact-control", "sorter": "1.875rem", "idoldle": "1.875rem", "blog": "30px hit minimum", "canonical": "1.875rem / 30px minimum", "classification": "aligned" },
+    { "name": "comfortable-control", "sorter": "2.75rem", "idoldle": "2.75rem", "blog": "not explicit", "canonical": "2.75rem", "classification": "workbench/application extension" },
+    { "name": "focus", "sorter": "two-tone outer/inner", "idoldle": "two-tone outer/inner", "blog": "two-tone outer/inner", "canonical": "two-tone outer/inner", "classification": "aligned" }
+  ],
+  "legacyAliases": {
+    "--ecw-bg": "--ecw-canvas",
+    "--ecw-panel": "--ecw-surface",
+    "--ecw-panel-deep": "--ecw-surface-recessed",
+    "--ecw-panel-raised": "--ecw-surface-raised",
+    "--ecw-ink": "--ecw-text",
+    "--ecw-ink-secondary": "--ecw-text-secondary",
+    "--ecw-muted": "--ecw-text-muted",
+    "--ecw-border": "--ecw-border-structural",
+    "--ecw-rule": "--ecw-rule-decorative"
+  }
+}

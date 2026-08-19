@@ -9,18 +9,21 @@ The fork now has a reconstructable baseline, material delta inventory, patch/reb
 ## Baselines
 
 - social-app: upstream base `1f5c698165c922e707833809902ee959e9824f00`; fork `946df3eb`.
-- AppViewLite: upstream base `75f78e8e098c05f52821e836832205050c0f539e`; pinned `ab3ac9e`.
-- FishyFlip: upstream version `4.3.0`; pinned `da2c08a`.
+- AppViewLite and FishyFlip: retired; no current baseline or patch surface.
 
 ## Delta/risk summary
 
-Social-app carries constitutional Identity and product Attention/Service/Personalization modules. Identity runtime/settings are HIGH conflict surfaces; dedicated provider modules are MEDIUM. Root fixtures/release tooling are LOW. AppViewLite and FishyFlip have no local source delta identified and remain LOW-risk pinned dependencies. No obsolete runtime patch was removed; all listed deltas remain protected or are documentation/fixture changes.
+Social-app carries constitutional Identity and product Attention/Service/Personalization modules. The first-party PDS carries the repository-write/import
+policy boundary. Identity runtime/settings are HIGH conflict surfaces;
+dedicated provider and PDS policy modules are MEDIUM/HIGH. Root
+fixtures/release tooling are LOW. The retired provider pair is excluded from
+the update graph.
 
 ## Gates and drill
 
 - FAST: `python3 scripts/check_upstream.py --fast` plus focused hardening/integration/deployment tests — passed, `LOCAL-HISTORY`, read-only.
 - FULL: `python3 scripts/validate_contract.py && python3 -m unittest discover -s tests -p 'test_*.py'` — passed.
-- Product/deployment: web typecheck and production build previously passed; constitutional integration remains green.
+- Product/deployment: web typecheck and production build previously passed; first-party PDS and constitutional integration remain green.
 - Update drill: `LOCAL-HISTORY` simulated baseline check; no remote fetch or canonical mutation performed.
 - Rollback: disposable branch/worktree discard procedure documented and tested structurally; no remote state is touched.
 

@@ -4,7 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 SOCIAL = ROOT / "upstream/social-app/src"
-APPVIEW = ROOT / "upstream/AppViewLite/src"
+PDS = ROOT / "upstream/atproto-pds/packages/pds/src"
 
 
 class ServiceAuthCurrentStateTests(unittest.TestCase):
@@ -19,28 +19,24 @@ class ServiceAuthCurrentStateTests(unittest.TestCase):
         constants = (SOCIAL / "lib/constants.ts").read_text()
         env = (SOCIAL / "env/common.ts").read_text()
         self.assertIn("BLUESKY_PROXY_HEADER", constants)
-        self.assertIn("${BLUESKY_PROXY_DID}#bsky_appview", constants)
-        self.assertIn("did:web:api.bsky.app", env)
+        self.assertIn("APPVIEW_PROXY_SERVICE", constants)
+        self.assertIn("EXPO_PUBLIC_APPVIEW_SERVICE_DID", env)
+        self.assertIn("did:example:unconfigured-appview", env)
+        self.assertNotIn("did:web:api.bsky.app", env)
 
-    def test_appview_current_bearer_path_is_verified(self):
-        program = (APPVIEW / "AppViewLite.Web/Program.cs").read_text()
-        verifier = (APPVIEW / "AppViewLite/ServiceAuthVerifier.cs").read_text()
-        self.assertIn("VerifyAsync(token", program)
-        self.assertIn("Bearer access tokens are not accepted", program)
-        self.assertIn("ES256K", verifier)
-        self.assertIn("jti", verifier)
-        self.assertIn("VerifySecp256k1", verifier)
-
-    def test_service_auth_endpoint_is_not_implemented(self):
-        server = (APPVIEW / "AppViewLite.Web/ApiCompat/ComAtprotoServer.cs").read_text()
-        self.assertIn("GetServiceAuthAsync", server)
-        self.assertIn("throw new NotImplementedException()", server)
+    def test_first_party_pds_mints_service_auth_for_selected_read_services(self):
+        service_auth = (PDS / "api/com/atproto/server/getServiceAuth.ts").read_text()
+        context = (PDS / "context.ts").read_text()
+        self.assertIn("com.atproto.server.getServiceAuth", service_auth)
+        self.assertIn("serviceAuthJwt", context)
+        self.assertIn("serviceAuthHeaders", context)
 
     def test_current_state_is_documented_as_verified(self):
         doc = (ROOT / "docs/SERVICE_AUTH_CURRENT_STATE.md").read_text()
-        self.assertIn("JWT signature verified | Yes", doc)
-        self.assertIn("raw PDS access JWT is rejected", doc)
-        self.assertIn("HTTP 200", doc)
+        self.assertIn("verified service-auth JWT", doc)
+        self.assertIn("| algorithm | accepted algorithm only |", doc)
+        self.assertIn("PDS", doc)
+        self.assertIn("selected AppView", doc)
 
 
 if __name__ == "__main__":

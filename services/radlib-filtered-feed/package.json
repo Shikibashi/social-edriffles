@@ -1,0 +1,14 @@
+{
+  "name": "radlib-filtered-feed",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted rules-first ATProto feed generator for user-owned hard attention filters.",
+  "scripts": {
+    "start": "node src/index.ts",
+    "test": "node --test test/*.test.ts"
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  }
+}
