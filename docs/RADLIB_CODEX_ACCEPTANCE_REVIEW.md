@@ -1362,3 +1362,20 @@ The deployment proves that this export is being served; it does not prove
 owner acceptance. `OWNER_ACCEPTANCE_PENDING` remains unchanged, and the
 working tree remains dirty because the broader fork work and review history
 are still present.
+
+## Public GitHub publication addendum — 2026-08-19
+
+The reviewed commits were published to public repositories under the owner's
+GitHub account after a tracked-file credential scan found no access tokens,
+private keys, or credential files:
+
+| Repository | Visibility | Branch | Reviewed commit |
+|---|---|---|---|
+| `https://github.com/Shikibashi/social-edriffles` | public | `codex/private-accounts-communities` | `14b2920` |
+| `https://github.com/Shikibashi/social-app` | public fork | `codex/private-accounts-communities` | `e1a5455e` |
+| `https://github.com/Shikibashi/atproto` | public fork | `codex/private-accounts-communities` | `39612da7` |
+
+The root `.gitmodules` now points at the two public forks, and its submodule
+pointers resolve to the published client and PDS commits. Publication does
+not change the owner-acceptance state: `OWNER_ACCEPTANCE_PENDING` remains
+required.
