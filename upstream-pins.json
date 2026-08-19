@@ -4,7 +4,7 @@
     "socialApp": {
       "url": "https://github.com/bluesky-social/social-app",
       "commit": "1f5c698165c922e707833809902ee959e9824f00",
-      "checkoutCommit": "0faf9785a6a7ae300f2a8228c107fbd2c953a6be",
+      "checkoutCommit": "3dff4b0d4201b001ec5e85c83ccacffd5970bd2c",
       "license": "MIT",
       "observedPaths": ["src", "package.json", "LICENSE"],
       "buildCommand": "See pinned package.json scripts after fork import; do not invent a command in this empty checkout"
@@ -12,7 +12,7 @@
     "atprotoPds": {
       "url": "https://github.com/bluesky-social/atproto",
       "commit": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
-      "checkoutCommit": "39612da7bdeac12e9abed1762e9844c85e61d70d",
+      "checkoutCommit": "c1a8b80f06029bdbadae59ff7f517da25163e96f",
       "license": "MIT",
       "retrievedAt": "2026-08-18",
       "role": "first-party PDS base; locally patched policy boundary",

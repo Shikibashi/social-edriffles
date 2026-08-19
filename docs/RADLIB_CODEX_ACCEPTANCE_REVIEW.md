@@ -12,9 +12,9 @@ evidence. AppViewLite is retired and is not a current product dependency.
 
 | Component | SHA | Current role |
 |---|---|---|
-| parent repository | `676af35` | reviewed parent commit; owner acceptance remains pending |
-| `upstream/social-app` | `0faf9785a6a7ae300f2a8228c107fbd2c953a6be` | client, provider registry, UI, local attention |
-| `upstream/atproto-pds` | `39612da7bdeac12e9abed1762e9844c85e61d70d` | first-party PDS, repo writes, CAR/import policy |
+| parent repository | `79c8327` | reviewed parent before this final documentation commit; owner acceptance remains pending |
+| `upstream/social-app` | `3dff4b0d4201b001ec5e85c83ccacffd5970bd2c` | client, provider registry, UI, local attention |
+| `upstream/atproto-pds` | `c1a8b80f06029bdbadae59ff7f517da25163e96f` | first-party PDS, repo writes, CAR/import policy |
 
 The old AppViewLite and FishyFlip gitlinks/pins were removed. Their existing
 dirty nested checkouts were preserved as local archives rather than deleted;
@@ -1372,8 +1372,8 @@ private keys, or credential files:
 | Repository | Visibility | Branch | Reviewed commit |
 |---|---|---|---|
 | `https://github.com/Shikibashi/social-edriffles` | public | `codex/private-accounts-communities` | `676af35` |
-| `https://github.com/Shikibashi/social-app` | public fork | `codex/private-accounts-communities` | `0faf9785` |
-| `https://github.com/Shikibashi/atproto` | public fork | `codex/private-accounts-communities` | `39612da7` |
+| `https://github.com/Shikibashi/social-app` | public fork | `codex/private-accounts-communities` | `3dff4b0d` |
+| `https://github.com/Shikibashi/atproto` | public fork | `codex/private-accounts-communities` | `c1a8b80f` |
 
 The root `.gitmodules` now points at the two public forks, and its submodule
 pointers resolve to the published client and PDS commits. Publication does
@@ -1420,3 +1420,40 @@ not being presented as complete.
 The final automated state remains `OWNER_ACCEPTANCE_PENDING`. Owner-result
 fields remain intentionally blank, and the report does not claim
 `OWNER_ACCEPTANCE_PASSED`.
+
+## Final acceptance remediation and live verification — 2026-08-19
+
+The final remediation commits are now published on the public feature
+branches:
+
+- client: `3dff4b0d4201b001ec5e85c83ccacffd5970bd2c`;
+- PDS: `c1a8b80f06029bdbadae59ff7f517da25163e96f`.
+
+The client production export was rebuilt after fixing the two new settings
+route titles and the Privacy & Security destination labels. The full client
+suite passed (`85` suites, `901` passed tests, `28` todo, `21` snapshots), web
+type-check passed, focused PDS private-permission suites passed (`5` suites,
+`20` tests), and the production export completed with only the repository's
+existing Expo/router and bundle-size warnings.
+
+Cloudflare Pages deployment `7d6c7dcb-17fd-4932-8f1b-e5dc429d22f8` is
+production-successful and aliases `https://social.edriffles.us`. The signed-in
+browser loaded the final `main.d563bed3.js` bundle and verified:
+
+- `/settings/protected-access` displays `Protected access` as both visible
+  content and its document title;
+- `/settings/private-spaces` displays `Private spaces and communities` as its
+  document title and visible private-space controls;
+- `/settings/privacy-and-security` visibly lists both new destinations;
+- `/settings/identity-sovereignty`, `/settings/personalization`, and Home
+  still render their provider, session, local-preference, and feed surfaces;
+- the old opaque route-title IDs and inaccurate `Project AppView` label are
+  absent from the verified live routes.
+
+The one unresolved acceptance gap remains checklist item 60: this checkout
+does not contain a complete multi-PDS/private-AppView/Relay/log/cache audit.
+The existing tests establish separate private storage, public-write rejection,
+public CAR exclusion, private `no-store`/Authorization-varying responses, and
+fail-closed reads, but those checks do not justify a global private-product
+privacy claim. No owner-result field was filled; `OWNER_ACCEPTANCE_PENDING`
+remains the required state.

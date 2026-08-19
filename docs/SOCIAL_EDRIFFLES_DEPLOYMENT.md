@@ -16,7 +16,7 @@ The production web export is deployed to the Cloudflare Pages project
 | Boundary | Verified value |
 |---|---|
 | Pages project | `social-edriffles` |
-| Pages deployment | `https://99d240b7.social-edriffles.pages.dev` |
+| Pages deployment | `https://7d6c7dcb.social-edriffles.pages.dev` |
 | Custom domain | `https://social.edriffles.us` |
 | DNS | `social.edriffles.us CNAME social-edriffles.pages.dev` |
 | Pages custom-domain status | `active` (verification and validation active) |
@@ -113,7 +113,7 @@ and [custom domains](https://developers.cloudflare.com/pages/configuration/custo
 ## Latest deployment verification
 
 On 2026-08-19, the production export was uploaded through the authorized
-Cloudflare MCP to deployment `99d240b7-66fa-40d8-a176-fec18bbc1b25`.
+Cloudflare MCP to deployment `7d6c7dcb-17fd-4932-8f1b-e5dc429d22f8`.
 Cloudflare reported the production deployment stage as `success`; the custom
 hostname cache was then purged by hostname so previously cached SPA shells did
 not mask the new export.
@@ -121,13 +121,15 @@ not mask the new export.
 Verified externally on both the custom hostname and deployment hostname:
 
 - `/settings/personalization` returns HTTP `200`;
-- its shell references `/static/js/main.f757c6d4.js` rather than a route-relative
+- its shell references `/static/js/main.d563bed3.js` rather than a route-relative
   asset path;
 - the emitted bundle contains the generic curation-term controls;
 - retired owner-specific weight labels and bundled political term-pack labels
   are absent;
 - the signed-in in-app browser loaded the direct settings URL and rendered
-  `Feed customization & data`, `Add a term to prioritize`, and `Add term`.
+  `Feed customization & data`, `Add a term to prioritize`, and `Add term`;
+- the protected-access and private-spaces routes rendered human-readable page
+  titles rather than opaque localization IDs.
 
 ## Local fallback and start-on-login
 
