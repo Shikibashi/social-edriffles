@@ -2,6 +2,9 @@
 .omc/
 .wrangler/
 node_modules/
+# Retired submodule worktrees retained locally for recovery; never stage them.
+upstream/AppViewLite/
+upstream/FishyFlip/
 __pycache__/
 *.pyc
 gjc-session-*.html
