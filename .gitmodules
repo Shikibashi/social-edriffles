@@ -1,6 +1,6 @@
 [submodule "upstream/social-app"]
 	path = upstream/social-app
-	url = https://github.com/bluesky-social/social-app
+ url = https://github.com/Shikibashi/social-app.git
 [submodule "upstream/atproto-pds"]
 	path = upstream/atproto-pds
-	url = https://github.com/bluesky-social/atproto.git
+ url = https://github.com/Shikibashi/atproto.git
