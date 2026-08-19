@@ -20,8 +20,9 @@ PDS_RADLIB_MODERATION_WRITE_POLICY=deny-create-update \
 ```
 
 The first-party `services/pds` entrypoint also fails closed unless that exact
-setting is present; the reusable `@atproto/pds` package keeps its
-upstream-compatible `standard` default when embedded by another service.
+setting is present. Its Docker image supplies the governed value by default;
+the reusable `@atproto/pds` package keeps its upstream-compatible `standard`
+default when embedded by another service.
 
 The PDS still requires the normal official environment for database,
 blobstore, PLC, signing-key, and session secrets. Retired providers are not
