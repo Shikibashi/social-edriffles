@@ -968,7 +968,9 @@ fork-owned permissioned write API; private media and private AppView hydration
 remain unimplemented.
 
 For this feature, P1/P2/P3/P4/P5/P7/P9 are locally green or structurally
-green, P8 is partial, and P6/P10 are not implemented. Consequently the overall
+green, and P8 is partial. At the time of this initial implementation review,
+P6/P10 were not implemented; the 2026-08-19 addendum at the end of this report
+records their bounded direct-PDS implementation. Consequently the overall
 automated verdict remains `RADLIB_CODEX_ACCEPTANCE_BLOCKED` and owner state
 remains `OWNER_ACCEPTANCE_PENDING`.
 
@@ -1450,10 +1452,150 @@ browser loaded the final `main.d563bed3.js` bundle and verified:
 - the old opaque route-title IDs and inaccurate `Project AppView` label are
   absent from the verified live routes.
 
-The one unresolved acceptance gap remains checklist item 60: this checkout
-does not contain a complete multi-PDS/private-AppView/Relay/log/cache audit.
-The existing tests establish separate private storage, public-write rejection,
-public CAR exclusion, private `no-store`/Authorization-varying responses, and
-fail-closed reads, but those checks do not justify a global private-product
-privacy claim. No owner-result field was filled; `OWNER_ACCEPTANCE_PENDING`
-remains the required state.
+The prior local-only run left checklist item 60 open because it had not yet
+exercised the repository's real downstream AppView topology. The follow-on
+audit below closes item 60 for the current architecture. At that point private
+feeds and multi-PDS federation were still separate capability gaps; the later
+P6/P10 addendum below records their bounded implementation. No owner-result
+field was filled; `OWNER_ACCEPTANCE_PENDING` remains the required state.
+
+## Checklist item 60 implementation addendum — 2026-08-19
+
+Checklist item 60 is now implemented and tested for the current topology. The
+automated state is `PASS`: the real local `TestNetwork` exercises the PDS,
+downstream public repository subscription, and public AppView. The separate
+private-AppView and multi-PDS capabilities remain explicitly unimplemented and
+are tracked by P6/P10 rather than treated as evidence of public leakage.
+
+### Implemented changes
+
+- `upstream/atproto-pds/packages/pds/src/permissioned-data/store.ts` remains a
+  separate SQLite/blob plane; the new integration test writes deterministic
+  body and blob canaries through that plane.
+- `upstream/atproto-pds/packages/pds/tests/private-permission-api.test.ts`
+  now captures the public `com.atproto.sync.subscribeRepos` WebSocket, checks
+  that the public sequencer cursor does not advance, parses the public CAR with
+  `readCarWithRoot`, and checks every public block for the private body, blob
+  bytes, blob identifier, and private record CID. Its `TestNetwork` case also
+  drains the real downstream AppView subscription and checks AppView profile,
+  author-feed, search, and indexed-post surfaces for the private canary.
+- `upstream/atproto-pds/packages/pds/src/api/org/radlib/private/index.ts`
+  applies `Cache-Control: private, no-store` and
+  `Vary: Authorization, DPoP` before authentication, after successful
+  authentication, and on authentication failure. This closes the failure
+  response path that could otherwise be downgraded to ordinary `private`.
+- `upstream/atproto-pds/packages/pds/src/error.ts` reapplies the same policy at
+  the final private-route error boundary for parameter, authorization, and
+  handler failures.
+- `upstream/atproto-pds/packages/pds/src/logger.ts` redacts private XRPC query
+  strings and removes parsed private query/route objects from the Pino request
+  serialization. `tests/logger.test.ts` covers private and public requests.
+- `upstream/social-app/src/state/queries/util.ts` rejects private Radlib query
+  roots from the persisted React Query snapshot even if a future private query
+  is accidentally given the ordinary structured persistence shape. The client
+  regression test covers private roots and ordinary persisted queries.
+
+### Evidence and commands
+
+From `upstream/atproto-pds/packages/pds`:
+
+```sh
+../../node_modules/.bin/tsc --build tsconfig.build.json --pretty false
+NODE_OPTIONS=--experimental-vm-modules \
+  ../dev-infra/with-test-redis-and-db.sh ../../node_modules/.bin/jest --runInBand \
+  tests/private-permission-api.test.ts tests/private-permission-store.test.ts \
+  tests/permissioned-policy.test.ts tests/sync/subscribe-repos.test.ts \
+  tests/logger.test.ts
+```
+
+Result: **5 suites, 29 tests passed**; PDS TypeScript build passed.
+
+From `upstream/social-app`:
+
+```sh
+NODE_ENV=test node_modules/.bin/jest --runInBand \
+  src/state/queries/util.test.ts src/lib/permissioned-data.test.ts
+node_modules/.bin/tsc --project ./tsconfig.check.web.json --pretty false
+```
+
+Result: **2 suites, 4 tests passed**; web TypeScript check passed.
+
+The public sync endpoint intentionally returns an empty CAR with HTTP 200 for
+an absent public record, so the test checks the body and parsed public CAR for
+absence of private canaries rather than treating that normal protocol response
+as an error. The private unauthenticated lookup fails closed and carries the
+non-cacheable response headers.
+
+### Remaining architecture, not an item-60 defect
+
+This checkout still does not implement a private AppView/indexer,
+proposal-0016 multi-PDS credentials, durable replica/import, or a public Relay
+carrying permissioned events. The fork's PDS-local private feed and direct
+capability-pull contract are implemented below; the current product still
+deliberately keeps private records outside the public topology, and the
+production-like audit proves that boundary. External proxy/CDN logs and
+multi-device persistence remain deployment-specific; the PDS response contract
+is `private, no-store` and the client denylist prevents local persisted
+snapshots. Item 60 is therefore `PASS`, while `OWNER_ACCEPTANCE_PENDING` is
+unchanged and no owner-result field was filled.
+
+## P6/P10 implementation addendum — 2026-08-19
+
+The remaining local capability gaps were implemented as a bounded fork-owned
+contract. This does not claim upstream proposal-0016 compatibility or a private
+AppView.
+
+### P6 — viewer-authorized private feed
+
+- `org.radlib.private.getFeed` reads only `org.radlib.private.post` records
+  from the authenticated PDS private store.
+- The handler resolves the space for the viewer, rechecks the current ACL and
+  direct-block boundary, filters blocked authors, and returns `providerDid` so
+  the UI identifies the actual PDS supplying the feed.
+- `upstream/social-app/src/state/queries/private-feed.ts` hydrates the feed
+  from the account PDS. `PrivateFeedScreen.tsx` is linked from the private-space
+  settings surface at `/private-feed` and states that the public AppView, Relay,
+  and public repository are not involved.
+- `radlib-private-feed` is covered by the existing client persistence denylist.
+
+### P10 — direct PDS-to-PDS capability pull
+
+- `org.radlib.private.createSyncGrant` creates a random bearer capability and
+  stores only its SHA-256 hash. It is scoped to one source space, target PDS
+  DID, target actor DID, optional collection, and an expiry no more than 30 days
+  away.
+- `org.radlib.private.syncPull` is a POST endpoint intended for direct PDS
+  consumers. It checks token, space, target identities, collection, expiry, and
+  revocation on every pull. The disposable test starts separate source and
+  target PDS identities and pulls using the target identity. It returns private
+  records only in the response; it does not publish a repository event, CAR
+  block, Relay frame, or AppView row.
+- `org.radlib.private.revokeSyncGrant` invalidates a grant immediately. The
+  source remains authoritative because this pass does not create a stale
+  durable target-side replica.
+- `PDS_PRIVATE_SYNC_ENABLED` is opt-in and defaults off. The fork namespace is
+  explicit; this is not presented as an ATProto standard or as proposal-0016
+  space credentials.
+
+### Evidence and commands
+
+The PDS store/API tests cover private-feed hydration, grant target binding,
+collection scoping, expiry validation, revocation, and public CAR exclusion:
+**5 suites, 31 tests passed**. The client regression remains **2 suites, 4
+tests passed**, and its web typecheck covers the new query/screen/route and
+generated lexicons. The exact focused PDS command is:
+
+```sh
+cd /var/home/tcs/Code/atproto/upstream/atproto-pds/packages/pds
+NODE_OPTIONS=--experimental-vm-modules \
+  ../dev-infra/with-test-redis-and-db.sh ../../node_modules/.bin/jest --runInBand \
+  tests/private-permission-api.test.ts tests/private-permission-store.test.ts \
+  tests/permissioned-policy.test.ts tests/sync/subscribe-repos.test.ts \
+  tests/logger.test.ts
+```
+
+The owner checklist rows 67–68 describe the live/disposable walkthroughs and
+remain automated `PASS` with owner notes unfilled. Owner acceptance remains
+`OWNER_ACCEPTANCE_PENDING`; the overall automated verdict remains
+`RADLIB_CODEX_ACCEPTANCE_BLOCKED` because other constitutional/product gaps and
+owner-only judgments still remain.
