@@ -13,7 +13,7 @@ acceptance receipt.
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
 | PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `upstream/atproto-pds` at `5f413a8e50433c685c95c9d7209387a903b1d2f3` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `upstream/social-app` at `5a86dcd989d45a62c2586fd421579ee5c9c05eb` | Opt-in standard Space record/blob adapter with legacy fallback |
+| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `upstream/social-app` at `5a86dcd989d45a62c2586fd421579ee5c9c05eb5` | Opt-in standard Space record/blob adapter with legacy fallback |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
