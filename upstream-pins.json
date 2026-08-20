@@ -1,27 +1,40 @@
 {
-  "retrievedAt": "2026-08-16",
+  "retrievedAt": "2026-08-20",
   "repositories": {
     "socialApp": {
       "url": "https://github.com/bluesky-social/social-app",
+      "branch": "master",
       "commit": "1f5c698165c922e707833809902ee959e9824f00",
-      "checkoutCommit": "3dff4b0d4201b001ec5e85c83ccacffd5970bd2c",
+      "checkoutCommit": "5a86dcd989d45a62c2586fd421579ee5c9c05eb",
       "license": "MIT",
-      "observedPaths": ["src", "package.json", "LICENSE"],
-      "buildCommand": "See pinned package.json scripts after fork import; do not invent a command in this empty checkout"
+      "observedPaths": [
+        "src/lib/atproto/spaces",
+        "src/lib/permissioned-data.ts",
+        "src/state/queries/private-feed.ts",
+        "src/screens/Settings/PermissionedSpacesSettings.tsx",
+        "package.json",
+        "LICENSE"
+      ],
+      "buildCommand": "pnpm typecheck:web; focused Jest suites for the Spaces adapter"
     },
     "atprotoPds": {
       "url": "https://github.com/bluesky-social/atproto",
-      "commit": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
-      "checkoutCommit": "c1a8b80f06029bdbadae59ff7f517da25163e96f",
+      "branch": "permissioned-data",
+      "commit": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
+      "checkoutCommit": "5f413a8e50433c685c95c9d7209387a903b1d2f3",
       "license": "MIT",
-      "retrievedAt": "2026-08-18",
-      "role": "first-party PDS base; locally patched policy boundary",
+      "retrievedAt": "2026-08-20",
+      "role": "first-party Spaces alpha PDS base with fork product control plane",
       "observedPaths": [
         "packages/pds/src/repo/prepare.ts",
         "packages/pds/src/api/com/atproto/repo/createRecord.ts",
         "packages/pds/src/api/com/atproto/repo/putRecord.ts",
         "packages/pds/src/api/com/atproto/repo/applyWrites.ts",
-        "packages/pds/src/api/com/atproto/repo/importRepo.ts"
+        "packages/pds/src/api/com/atproto/repo/importRepo.ts",
+        "packages/pds/src/api/com/atproto/space",
+        "packages/pds/src/api/com/atproto/simplespace",
+        "packages/pds/src/api/org/radlib/private",
+        "packages/pds/src/permissioned-data"
       ],
       "buildCommand": "npm exec --yes --package=pnpm@11.11.0 -- pnpm --dir upstream/atproto-pds --filter @atproto/pds build"
     }

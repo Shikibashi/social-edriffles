@@ -45,6 +45,24 @@
       "reason": "repository write/import policy boundary",
       "mappedTests": ["pds moderation policy", "migration/import"],
       "isolation": "PDS policy module"
+    },
+    {
+      "repository": "atproto-pds",
+      "path": "packages/pds/src/api/com/atproto/space and packages/pds/src/api/org/radlib/private",
+      "risk": "HIGH",
+      "churnEvidence": "UPSTREAM_PERMISSIONED_DATA_BRANCH",
+      "reason": "Space ACL, DPoP credential, and Radlib control-plane transition",
+      "mappedTests": ["PDS focused Spaces suites", "Spaces alpha integration contract"],
+      "isolation": "opt-in alpha feature gate"
+    },
+    {
+      "repository": "social-app",
+      "path": "src/lib/atproto/spaces",
+      "risk": "HIGH",
+      "churnEvidence": "LOCAL_HISTORY",
+      "reason": "DPoP/WebCrypto and standard Space RPC boundary",
+      "mappedTests": ["Spaces client unit tests", "web typecheck"],
+      "isolation": "opt-in alpha adapter"
     }
   ],
   "p0": 0,

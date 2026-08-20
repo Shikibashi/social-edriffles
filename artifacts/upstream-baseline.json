@@ -7,19 +7,19 @@
       "remote": "https://github.com/bluesky-social/social-app",
       "branch": "master",
       "baseSha": "1f5c698165c922e707833809902ee959e9824f00",
-      "forkSha": "6cca7f1fdaccd6907e216abe01eec5929e3d40ce",
+      "forkSha": "5a86dcd989d45a62c2586fd421579ee5c9c05eb5",
       "relation": "direct-fork",
-      "candidateRole": "radlib-codex-acceptance-review"
+      "candidateRole": "radlib-codex-spaces-alpha-client"
     },
     "atproto-pds": {
       "path": "upstream/atproto-pds",
       "project": "bluesky-social/atproto",
       "remote": "https://github.com/bluesky-social/atproto",
-      "branch": "main",
-      "baseSha": "760fb12a080c87cdfd0dae42ae833bad8bc20886",
-      "forkSha": "2f40ca1b9f16df1aaf8ad5f3f519ff77183f55ee",
-      "relation": "direct-fork",
-      "candidateRole": "first-party-pds"
+      "branch": "permissioned-data",
+      "baseSha": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
+      "forkSha": "5f413a8e50433c685c95c9d7209387a903b1d2f3",
+      "relation": "permissioned-data-base-plus-product-integration",
+      "candidateRole": "first-party-pds-spaces-alpha"
     }
   },
   "gates": {

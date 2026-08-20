@@ -83,6 +83,7 @@ REQUIRED = [
     "docs/DEPLOYMENT_FEATURE_MATRIX.md",
     "docs/DEPLOYMENT_V1_RELEASE_REVIEW.md",
     "docs/UPSTREAM_INVENTORY.md",
+    "docs/SPACES_ALPHA_INTEGRATION.md",
     "docs/UPSTREAM_PATCH_SURFACE.md",
     "docs/UPSTREAM_REBASE_PLAYBOOK.md",
     "docs/UPSTREAMABILITY.md",
@@ -93,6 +94,7 @@ REQUIRED = [
     "artifacts/upstream-rebase-receipt.json",
     "scripts/check_upstream.py",
     "tests/test_upstream_hardening.py",
+    "tests/test_spaces_alpha_integration.py",
     "docs/RADLIB_PRODUCT_PRINCIPLES.md",
     "docs/RADLIB_PRODUCT_ACCEPTANCE_REVIEW.md",
     "docs/RADLIB_CODEX_ACCEPTANCE_REVIEW.md",
@@ -130,9 +132,10 @@ def main() -> None:
         load(rel)
     pins = load("upstream-pins.json")
     assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
-    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "3dff4b0d4201b001ec5e85c83ccacffd5970bd2c"
-    assert pins["repositories"]["atprotoPds"]["commit"] == "760fb12a080c87cdfd0dae42ae833bad8bc20886"
-    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "c1a8b80f06029bdbadae59ff7f517da25163e96f"
+    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "5a86dcd989d45a62c2586fd421579ee5c9c05eb"
+    assert pins["repositories"]["atprotoPds"]["branch"] == "permissioned-data"
+    assert pins["repositories"]["atprotoPds"]["commit"] == "89deb9fac20e56fa2a262fe9746ed52bc1095ba"
+    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "5f413a8e50433c685c95c9d7209387a903b1d2f3"
     assert "appviewlite" not in pins["repositories"]
     assert "fishyflip" not in pins["repositories"]
     assert pins["retrievedAt"]

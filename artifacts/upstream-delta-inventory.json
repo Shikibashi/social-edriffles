@@ -44,6 +44,28 @@
       "tests": ["PDS focused suites", "root moderation-list fixtures"],
       "risk": "HIGH",
       "upstreamability": "PROJECT-SPECIFIC"
+    },
+    {
+      "repository": "atproto-pds",
+      "classification": "PROTOCOL_INTEGRATION",
+      "domain": "Spaces Alpha",
+      "commits": ["3c6de9e7f", "61afbbbd2", "f1ff8c40e", "98f3ee429", "95a924d5e", "971cfbf0b", "4b4cd3fba", "ac4071be2", "ff7a046e3", "53bc636bc", "2648bb369", "7c1681ed8", "0e49c1638", "cd954b9c9", "5f413a8e5"],
+      "surfaces": ["packages/pds/src/api/com/atproto/space", "packages/pds/src/api/com/atproto/simplespace", "packages/pds/src/api/org/radlib/private", "packages/pds/src/permissioned-data"],
+      "reason": "replace private record/blob/credential/sync transport with the pinned permissioned-data Spaces base while retaining Radlib product control state",
+      "tests": ["packages/pds/tests/space", "python3 scripts/validate_contract.py"],
+      "risk": "HIGH",
+      "upstreamability": "UPSTREAM_PROTOCOL_PLUS_PROJECT_POLICY"
+    },
+    {
+      "repository": "social-app",
+      "classification": "PROTOCOL_INTEGRATION",
+      "domain": "Spaces Alpha",
+      "commits": ["db26d9b72", "5a86dcd98"],
+      "surfaces": ["src/lib/atproto/spaces", "src/lib/permissioned-data.ts", "src/state/queries/private-feed.ts", "src/screens/Settings/PermissionedSpacesSettings.tsx"],
+      "reason": "opt-in standard Space RPC adapter with explicit legacy fallback",
+      "tests": ["src/lib/atproto/spaces/client.test.ts", "src/lib/permissioned-data.test.ts", "pnpm typecheck:web"],
+      "risk": "HIGH",
+      "upstreamability": "PROJECT-SPECIFIC"
     }
   ]
 }

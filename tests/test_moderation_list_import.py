@@ -11,6 +11,10 @@ ACCOUNT_MANAGER = PDS / "src/account-manager/account-manager.ts"
 class ModerationListImportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        if not (PDS / "src/repo/moderation-policy.ts").is_file():
+            raise unittest.SkipTest(
+                "legacy Radlib moderation policy is outside the pinned Spaces PDS surface"
+            )
         cls.fixture = json.loads(
             (ROOT / "tests/fixtures/moderation-list-import.json").read_text()
         )

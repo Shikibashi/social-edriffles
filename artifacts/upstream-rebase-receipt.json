@@ -23,5 +23,20 @@
     "python3 -m unittest discover -s tests -p 'test_*.py'"
   ],
   "result": "CURRENT_BASELINE_NO_UPDATE_APPLIED",
-  "secretsIncluded": false
+  "secretsIncluded": false,
+  "subsequentSpacesAlphaIntegration": {
+    "timestamp": "2026-08-20",
+    "baseBranch": "permissioned-data",
+    "baseSha": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
+    "pdsCheckoutSha": "5f413a8e50433c685c95c9d7209387a903b1d2f3",
+    "clientCheckoutSha": "5a86dcd989d45a62c2586fd421579ee5c9c05eb",
+    "result": "ALPHA_OPT_IN_REVIEWED",
+    "runtimeGates": [
+      "native Hermes/Metro crypto",
+      "client multi-PDS sync",
+      "Radlib multi-PDS acceptance",
+      "already-issued credential revocation"
+    ],
+    "ownerAcceptance": "PENDING"
+  }
 }
