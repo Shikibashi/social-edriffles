@@ -28,7 +28,9 @@ The standard Spaces APIs own private transport and repository data:
   repository discovery;
 - `com.atproto.simplespace.*` for Space creation, policy, and membership;
 - the PDS `@atproto/space` implementation for DPoP-bound credentials and
-  Space synchronization primitives.
+  Space synchronization primitives. The client adapter exposes the matching
+  record/blob/repo-discovery/recovery queries, but it is not itself a complete
+  multi-PDS sync service.
 
 `org.radlib.private.*` remains only for the higher-level protected-account and
 community control plane: visibility, follow approval/revocation, community
@@ -56,6 +58,81 @@ the preserved `org.radlib.private.*` product-control compatibility API. It
 does not restore the removed custom record/blob/feed/sync endpoints; those
 remain replaced by standard Spaces.
 
+## Reference PDS Docker test lane
+
+The Spaces alpha announcement names the reference PDS image
+`ghcr.io/bluesky-social/atproto:pds-spaces-alpha`. The image is intended to be
+used with the reference PDS distribution and does not need a new upstream
+configuration block for Spaces. This is an alpha compatibility target for
+non-production testing, not a production release: schemas may change without
+clean migrations, and real accounts must not be migrated to it.
+
+Use a separate test project with test identities and bind it to loopback only.
+The named volume below makes test data survive a container restart, but it is
+not a migration, backup, or upgrade guarantee:
+
+```yaml
+name: spaces-alpha-test
+
+services:
+  pds:
+    image: ghcr.io/bluesky-social/atproto:pds-spaces-alpha
+    restart: "no"
+    env_file:
+      - .env.test
+    ports:
+      - "127.0.0.1:2583:3000"
+    volumes:
+      - spaces-alpha-test-data:/pds
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          fetch('http://127.0.0.1:3000/xrpc/_health')
+          .then((response) => process.exit(response.ok ? 0 : 1))
+          .catch(() => process.exit(1))
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  spaces-alpha-test-data:
+```
+
+Create `.env.test` from the reference PDS `sample.env`, using disposable
+test-only keys and paths. For this fork, add the opt-in flags from the section
+above; the upstream image's “no new configuration” statement covers upstream
+Spaces support, not this fork's `org.radlib.private.*` compatibility policy.
+Do not publish the PDS on `0.0.0.0`, put it behind a public reverse proxy, or
+reuse production secrets for this lane.
+
+Before using the test PDS, verify the registry tag and readiness without
+pulling over an existing deployment:
+
+```sh
+docker manifest inspect ghcr.io/bluesky-social/atproto:pds-spaces-alpha
+docker compose --project-name spaces-alpha-test up -d
+curl -fsS http://127.0.0.1:2583/xrpc/_health
+curl -fsS http://127.0.0.1:2583/xrpc/com.atproto.server.describeServer
+docker compose --project-name spaces-alpha-test ps
+```
+
+The WebSocket sync probe from the reference PDS documentation is an additional
+readiness check when the test environment has a WebSocket client:
+`wss://<test-host>/xrpc/com.atproto.sync.subscribeRepos?cursor=0`. A successful
+HTTP health response alone does not establish Space membership, credential
+issuance, private record writes, or multi-PDS interoperability; those remain
+application-level tests.
+
+The current local checkout is intentionally not replaced by that registry
+image. It runs a source-built `codex/atproto-pds-spaces-alpha:test` image on
+`127.0.0.1:2583` with persistent test volume data, which is the appropriate
+lane for exercising this fork's unmerged control-plane changes. Keep the
+official alpha image as a separately reproducible upstream compatibility lane.
+
 ## Evidence and open gates
 
 Verified in this checkout:
@@ -69,7 +146,8 @@ Verified in this checkout:
 Not established by this branch:
 
 - native Hermes/Metro WebCrypto compatibility;
-- a client CAR/sync consumer or incremental multi-PDS UI path;
+- a client CAR/sync consumer or incremental multi-PDS UI path (the private
+  feed now exercises credentialed remote reads, but does not persist a sync);
 - Radlib-specific multi-PDS acceptance across separate PDS processes;
 - immediate invalidation of already-issued Space credentials after membership
   removal;

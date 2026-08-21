@@ -30,11 +30,37 @@ class SpacesAlphaIntegrationTests(unittest.TestCase):
         self.assertIn('native Hermes/Metro WebCrypto compatibility', doc)
         self.assertIn('owner acceptance', doc)
 
+    def test_documentation_includes_test_only_reference_pds_docker_lane(self):
+        doc = (ROOT / 'docs/SPACES_ALPHA_INTEGRATION.md').read_text()
+        self.assertIn(
+            'ghcr.io/bluesky-social/atproto:pds-spaces-alpha',
+            doc,
+        )
+        self.assertIn('non-production testing', doc)
+        self.assertIn('127.0.0.1:2583:3000', doc)
+        self.assertIn('spaces-alpha-test-data', doc)
+        self.assertIn('/xrpc/_health', doc)
+        self.assertIn('/xrpc/com.atproto.server.describeServer', doc)
+        self.assertIn('real accounts must not be migrated', doc)
+
     def test_client_uses_standard_spaces_namespaces_and_legacy_gate(self):
         client = (ROOT / 'upstream/social-app/src/lib/atproto/spaces/rpc.ts').read_text()
         env = (ROOT / 'upstream/social-app/src/env/common.ts').read_text()
         self.assertIn('com.atproto.space.putRecord', client)
         self.assertIn('com.atproto.space.getSpaceCredential', client)
+        self.assertIn('com.atproto.space.getRepo', client)
+        self.assertIn('com.atproto.space.listRepoOps', client)
+        self.assertIn('com.atproto.space.getBlob', client)
+        feed = (
+            ROOT / 'upstream/social-app/src/state/queries/private-feed.ts'
+        ).read_text()
+        self.assertIn('createSpaceCredentialClient', feed)
+        self.assertIn('repo: authorityDid', feed)
+        credential = (
+            ROOT / 'upstream/social-app/src/lib/atproto/spaces/credential.ts'
+        ).read_text()
+        self.assertIn("'DPoP' : 'Bearer'", credential)
+        self.assertIn('ath', credential)
         self.assertIn('EXPO_PUBLIC_SPACES_ALPHA_ENABLED', env)
         self.assertIn('EXPO_PUBLIC_LEGACY_RADLIB_PRIVATE_ENABLED', env)
 
