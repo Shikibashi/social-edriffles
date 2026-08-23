@@ -11,13 +11,14 @@ production activation or owner acceptance receipt.
 
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
-| PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | See `upstream-pins.json` for the final fork checkout SHA | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | See `upstream-pins.json` for the final fork checkout SHA | Generated Space adapter, multi-writer fanout, sync boundary, composer, and Bulletin-style board |
+| PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
+| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `4ede050451b8443f7134e9993ea84418967c9648` | Generated Space adapter, multi-writer fanout, sync boundary, composer, and Bulletin-style board |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
-checkouts are local branch state; nothing in this change authorizes a push,
-deployment, or moving-head rebase.
+checkouts are pinned branch state; the commits are pushed to the fork remotes,
+but nothing in this document authorizes production activation or a moving-head
+rebase.
 
 ## Boundary
 

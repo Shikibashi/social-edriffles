@@ -12,7 +12,7 @@ PDS or claim E2EE.
 
 | ID | Capability | Result | Evidence / remaining condition |
 |---|---|---|---|
-| A0 | Reviewed source pins match submodule gitlinks | `PENDING COMMIT` | Update the root pins with the final PDS/client implementation SHAs, then run the root validator. |
+| A0 | Reviewed source pins match submodule gitlinks | `PASS` | Root pins and gitlinks match PDS `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` and client `4ede050451b8443f7134e9993ea84418967c9648`; `check_upstream.py --fast` is green. |
 | A1 | Spaces is the only normal private record/blob/feed/sync transport | `PASS` | Control-mode store omits legacy payload tables; no active legacy content routes; client uses Space transport when alpha is enabled. |
 | A2 | Radlib is policy/governance/discovery/moderation only | `PASS` | Control tables and routes contain policy state; private bodies and blob bytes remain in Spaces. |
 | A3 | Protected account toggles without the legacy flag | `PASS` | Two-PDS PDS test deletes `PDS_LEGACY_RADLIB_PRIVATE_ENABLED` and exercises visibility plus Space write. |
@@ -26,7 +26,7 @@ PDS or claim E2EE.
 | A11 | Private notification transport does not leak | `PARTIAL` | Space register/unregister RPCs are generated and wrapped; no browser notification service or notification index is deployed. |
 | A12 | Custom records use reviewed/generated Lexicons | `PASS WITH COMPATIBILITY NOTE` | PDS Lexicons are generated; the client generates the same Space source set after removing unsupported pinned-runtime format validators at the boundary. |
 | A13 | Alpha Docker lane is isolated | `PASS (documented)` | `docs/SPACES_ALPHA_INTEGRATION.md` specifies disposable identities, loopback binding, separate volume, health, and describe-server checks. |
-| A14 | Browser UI supports accepted paths | `PASS (smoke)` | Production browser shows the Bulletin-inspired community board, membership state, notes, writer provenance, private composer, and standard compose action; local build loads on loopback. |
+| A14 | Browser UI supports accepted paths | `PASS (smoke)` | Existing production browser shows the Bulletin-inspired community board, membership state, notes, writer provenance, private composer, and standard compose action; the new production-configured local build loads on loopback. |
 | A15 | Owner accepts migration and residual alpha risk | `PENDING` | Requires an owner walkthrough on disposable data after A0-A14 evidence is reviewed. |
 
 ## Commands run
@@ -68,4 +68,7 @@ not a source build failure.
 - The private sync implementation is minimal and fanout-based.
 - Browser notification sync, full community member management, aggregate feed
   pagination, and external Relay/AppView leak scans are not complete.
+- The documented Cloudflare Pages re-publish was attempted but the local
+  Wrangler token was rejected; the existing production deployment was not
+  replaced by this branch.
 - A human owner must accept the residual alpha risk and disposable-data policy.
