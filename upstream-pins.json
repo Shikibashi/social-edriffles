@@ -5,7 +5,7 @@
       "url": "https://github.com/bluesky-social/social-app",
       "branch": "master",
       "commit": "1f5c698165c922e707833809902ee959e9824f00",
-      "checkoutCommit": "fced54453acf1aae2264b7178ba5a74bbe95bf55",
+      "checkoutCommit": "10d9a4aaada4ab842c671ef558c6cf8e5cf91ed7",
       "license": "MIT",
       "observedPaths": [
         "src/lib/atproto/spaces",
