@@ -16,16 +16,16 @@ class SpacesAlphaIntegrationTests(unittest.TestCase):
         )
         self.assertEqual(
             pds['checkoutCommit'],
-            '5f413a8e50433c685c95c9d7209387a903b1d2f3',
+            'd906e959dabcd017b4a0fa840e755d3a5f5d77d8',
         )
         self.assertEqual(
             app['checkoutCommit'],
-            '5a86dcd989d45a62c2586fd421579ee5c9c05eb5',
+            '4ede050451b8443f7134e9993ea84418967c9648',
         )
 
     def test_documentation_preserves_alpha_and_owner_boundaries(self):
         doc = (ROOT / 'docs/SPACES_ALPHA_INTEGRATION.md').read_text()
-        self.assertIn('ALPHA_OPT_IN', doc)
+        self.assertIn('ALPHA_GATED', doc)
         self.assertIn('PDS_SPACES_ALPHA_ENABLED=true', doc)
         self.assertIn('native Hermes/Metro WebCrypto compatibility', doc)
         self.assertIn('owner acceptance', doc)
@@ -45,17 +45,21 @@ class SpacesAlphaIntegrationTests(unittest.TestCase):
 
     def test_client_uses_standard_spaces_namespaces_and_legacy_gate(self):
         client = (ROOT / 'upstream/social-app/src/lib/atproto/spaces/rpc.ts').read_text()
+        space_lexicon = (
+            ROOT / 'upstream/social-app/lexicons/com/atproto/space/putRecord.json'
+        ).read_text()
         env = (ROOT / 'upstream/social-app/src/env/common.ts').read_text()
-        self.assertIn('com.atproto.space.putRecord', client)
-        self.assertIn('com.atproto.space.getSpaceCredential', client)
-        self.assertIn('com.atproto.space.getRepo', client)
-        self.assertIn('com.atproto.space.listRepoOps', client)
-        self.assertIn('com.atproto.space.getBlob', client)
+        self.assertIn('com.atproto.space', client)
+        self.assertIn('com.atproto.space.putRecord', space_lexicon)
+        self.assertIn('com.atproto.space.getSpaceCredential', (ROOT / 'upstream/social-app/lexicons/com/atproto/space/getSpaceCredential.json').read_text())
+        self.assertIn('com.atproto.space.getRepo', (ROOT / 'upstream/social-app/lexicons/com/atproto/space/getRepo.json').read_text())
+        self.assertIn('com.atproto.space.listRepoOps', (ROOT / 'upstream/social-app/lexicons/com/atproto/space/listRepoOps.json').read_text())
+        self.assertIn('com.atproto.space.getBlob', (ROOT / 'upstream/social-app/lexicons/com/atproto/space/getBlob.json').read_text())
         feed = (
             ROOT / 'upstream/social-app/src/state/queries/private-feed.ts'
         ).read_text()
-        self.assertIn('createSpaceCredentialClient', feed)
-        self.assertIn('repo: authorityDid', feed)
+        self.assertIn('createSpaceCredentialSession', feed)
+        self.assertIn('repo: record.repo', feed)
         credential = (
             ROOT / 'upstream/social-app/src/lib/atproto/spaces/credential.ts'
         ).read_text()

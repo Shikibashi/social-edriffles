@@ -1,7 +1,7 @@
 {
   "kind": "upstream-rebase-receipt",
   "schemaVersion": 1,
-  "timestamp": "2026-08-18",
+  "timestamp": "2026-08-23",
   "evidenceClass": "LOCAL-HISTORY",
   "retirementNote": "The AppViewLite/FishyFlip entries below are historical only; both dependencies were retired from the active graph in the subsequent acceptance pass.",
   "previousUpstreamShas": {
@@ -28,8 +28,8 @@
     "timestamp": "2026-08-20",
     "baseBranch": "permissioned-data",
     "baseSha": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
-    "pdsCheckoutSha": "5f413a8e50433c685c95c9d7209387a903b1d2f3",
-    "clientCheckoutSha": "5a86dcd989d45a62c2586fd421579ee5c9c05eb5",
+    "pdsCheckoutSha": "d906e959dabcd017b4a0fa840e755d3a5f5d77d8",
+    "clientCheckoutSha": "4ede050451b8443f7134e9993ea84418967c9648",
     "result": "ALPHA_OPT_IN_REVIEWED",
     "runtimeGates": [
       "native Hermes/Metro crypto",
