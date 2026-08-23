@@ -29,7 +29,7 @@
     "baseBranch": "permissioned-data",
     "baseSha": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
     "pdsCheckoutSha": "d906e959dabcd017b4a0fa840e755d3a5f5d77d8",
-    "clientCheckoutSha": "8362c5759b0d3c59d60eb7ecc859bfb619eedcf9",
+    "clientCheckoutSha": "db488cb946d494fbe60b4326b9c0beac1ca701d8",
     "result": "ALPHA_OPT_IN_REVIEWED",
     "runtimeGates": [
       "native Hermes/Metro crypto",
