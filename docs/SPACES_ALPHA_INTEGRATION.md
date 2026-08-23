@@ -12,7 +12,7 @@ production activation or owner acceptance receipt.
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
 | PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `4ede050451b8443f7134e9993ea84418967c9648` | Generated Space adapter, multi-writer fanout, sync boundary, composer, and Bulletin-style board |
+| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `8362c5759b0d3c59d60eb7ecc859bfb619eedcf9` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, and migrated-PDS auth recovery |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
