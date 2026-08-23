@@ -132,7 +132,7 @@ def main() -> None:
         load(rel)
     pins = load("upstream-pins.json")
     assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
-    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "10d9a4aaada4ab842c671ef558c6cf8e5cf91ed7"
+    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "21f8eafe580209daa71323877b90e612d4b85fb7"
     assert pins["repositories"]["atprotoPds"]["branch"] == "permissioned-data"
     assert pins["repositories"]["atprotoPds"]["commit"] == "89deb9fac20e56fa2a262fe9746ed52bc1095ba"
     assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "d906e959dabcd017b4a0fa840e755d3a5f5d77d8"

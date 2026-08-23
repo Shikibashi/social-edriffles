@@ -12,7 +12,7 @@ PDS or claim E2EE.
 
 | ID | Capability | Result | Evidence / remaining condition |
 |---|---|---|---|
-| A0 | Reviewed source pins match submodule gitlinks | `PASS` | Root pins and gitlinks match PDS `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` and client `10d9a4aaada4ab842c671ef558c6cf8e5cf91ed7`; `check_upstream.py --fast` is green. |
+| A0 | Reviewed source pins match submodule gitlinks | `PASS` | Root pins and gitlinks match PDS `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` and client `21f8eafe580209daa71323877b90e612d4b85fb7`; `check_upstream.py --fast` is green. |
 | A1 | Spaces is the only normal private record/blob/feed/sync transport | `PASS` | Control-mode store omits legacy payload tables; no active legacy content routes; client uses Space transport when alpha is enabled. |
 | A2 | Radlib is policy/governance/discovery/moderation only | `PASS` | Control tables and routes contain policy state; private bodies and blob bytes remain in Spaces. |
 | A3 | Protected account toggles without the legacy flag | `PASS` | Two-PDS PDS test deletes `PDS_LEGACY_RADLIB_PRIVATE_ENABLED` and exercises visibility plus Space write. |
