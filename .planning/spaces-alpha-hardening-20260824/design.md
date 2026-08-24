@@ -1,8 +1,8 @@
 ---
 type: design
 title: "Spaces alpha hardening and interoperability"
-description: "Harden protected access grants, publish the community Space type, and enforce private response cache headers without deploying alpha infrastructure."
-status: draft
+description: "Harden protected access grants, publish the community Space type, enforce private response cache headers, and verify the tunnel-backed alpha deployment."
+status: done
 mode: workpacks
 updated: "2026-08-23"
 authority: "Pinned PDS/client revisions, existing contract tests, read-only production probes, and official ATProto Spaces/Permissioned Data guidance reviewed 2026-08-23."
@@ -18,7 +18,7 @@ The fork has an implementation-ready, dependency-linked path for the three immed
 2. `org.radlib.community` is a resolvable `type: "space"` Lexicon with an explicit collection contract and scoped-permission fixtures;
 3. every private XRPC success and error response is `private, no-store` and varies on the authorization mechanisms it accepts.
 
-The work is followed by a documentation/release gate that keeps the alpha/no-E2EE boundary and residual credential limitation visible. No production deployment, account mutation, Cloudflare mutation, or real-data migration is part of this plan.
+The work is followed by a documentation/release gate that keeps the alpha/no-E2EE boundary and residual credential limitation visible. The initial plan excluded deployment; after explicit owner authorization, the existing tunnel-backed alpha PDS container was rebuilt without changing its persistent volume. No account mutation, real-data migration, or Cloudflare control-plane mutation was performed.
 
 ## Current evidence
 
@@ -28,7 +28,7 @@ The work is followed by a documentation/release gate that keeps the alpha/no-E2E
 - `privateAuth` reapplies private headers around authorization; `privateControlAuth` does not reapply them after its service-auth fallback. The live unauthenticated `listCommunities` response observed `cache-control: private`, while `getSpace` observed `private, no-store`; Cloudflare reported `DYNAMIC`.
 - Official references: [Spaces alpha](https://atproto.com/blog/atproto-spaces-alpha), [Permissioned Data proposal](https://github.com/bluesky-social/proposals/blob/main/0016-permissioned-data/README.md), and [block implementation guidance](https://atproto.com/blog/block-implementation).
 
-UNVERIFIED until implementation: the exact externally deployed Lexicon-authority publishing path for the production authority DID, and whether the production service will remain alpha/test-only after these changes.
+UNVERIFIED until a later owner-authorized lane: the exact externally deployed Lexicon-authority publishing path for the production authority DID. The current public hostname remains an alpha/test lane after these changes.
 
 ## Design
 
@@ -39,7 +39,7 @@ UNVERIFIED until implementation: the exact externally deployed Lexicon-authority
 - **WP-003 — community Space Lexicon:** add the authority-owned `org.radlib.community` space declaration with key `any`, human-readable name, and `org.radlib.private.post` as the initial declared collection; regenerate the PDS Lexicon barrel and add provider scope-materialization/undeclared-collection tests. Do not add a new client provider-selector or OAuth UX in this cycle.
 - **WP-004 — alpha documentation/release gate:** after the code workpacks, update the existing Spaces alignment docs with the no-production/no-E2EE boundary, delayed credential revocation, the anti-block failure behavior, and required live header probes.
 
-All workpacks remain `draft` because this turn authorizes planning files only. Test cases are specified before implementation; test materialization and source edits require a separate implementation authorization.
+The workpacks were implemented in two waves, then the owner separately authorized deployment. Test cases were materialized before source implementation, and the deployed unauthorized edge probe is recorded alongside the local authorized/unauthorized HTTP matrix.
 
 ## Interfaces and boundaries
 
@@ -47,7 +47,7 @@ All workpacks remain `draft` because this turn authorizes planning files only. T
 - PDS protocol boundary: `upstream/atproto-pds/lexicons` plus generated `packages/pds/src/lexicons` owns the Space declaration; standard `com.atproto.space.*` remains the permissioned data plane.
 - Test authority: focused PDS tests, root contract validation, and read-only HTTP probes. No browser credentials or private storage are part of the evidence.
 - Client boundary: current DPoP Space transport remains unchanged. Private AppView/search/notification/moderation-reader services are excluded from this plan.
-- Deployment boundary: no Docker, PDS, Pages, DNS, Cloudflare, account, or production writes.
+- Deployment boundary: Docker replacement is allowed only after explicit owner authorization; retain the existing data volume and do not mutate Pages, DNS, account data, or real-data migration state.
 
 ## Decisions and alternatives
 
@@ -63,11 +63,11 @@ All workpacks remain `draft` because this turn authorizes planning files only. T
 - A wrong Space Lexicon collection set can overgrant OAuth. Stop if the declaration cannot be resolved by the configured Lexicon authority or if an undeclared collection is accepted by the provider tests.
 - Header tests must cover both 401 and 200 paths; `cf-cache-status: DYNAMIC` alone is not acceptance. Stop before deployment if any private XRPC response lacks `private, no-store`.
 - Alpha credential removal remains delayed for already-issued credentials. Do not claim immediate revocation or add stateful revocation without a separate protocol/product decision.
-- Rollback is limited to reverting the isolated workpack commits before deployment. No live rollback or data repair is authorized by this plan.
+- Rollback is limited to the retained prior Docker image and the existing persistent volume. No account/data repair or alpha schema rollback is implied.
 
 ## Non-goals
 
-- No production deployment or migration away from the Spaces alpha.
+- No migration away from the Spaces alpha or claim of production readiness.
 - No E2EE implementation claim.
 - No private AppView, private search index, notification delivery, or admitted moderation-reader service.
 - No new community membership policy, invite-token policy, or UI redesign.

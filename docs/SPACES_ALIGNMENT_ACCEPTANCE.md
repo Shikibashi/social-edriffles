@@ -26,7 +26,7 @@ PDS or claim E2EE.
 | A11 | Private notification transport does not leak | `PARTIAL` | Space register/unregister RPCs are generated and wrapped; no browser notification service or notification index is deployed. |
 | A12 | Custom records use reviewed/generated Lexicons | `PASS WITH COMPATIBILITY NOTE` | PDS Lexicons are generated; the client generates the same Space source set after removing unsupported pinned-runtime format validators at the boundary. |
 | A13 | Community Space Lexicon resolves and scopes writes | `PASS (local authority)` | `org.radlib.community` resolves with `org.radlib.private.post`; a declared OAuth write succeeds and an undeclared collection is rejected. Live authority publication remains pending. |
-| A14 | Private XRPC responses are non-cacheable and auth-varying | `PASS (local HTTP) / DEPLOYMENT PENDING` | Unauthorized and authorized `listCommunities`/`getSpace` responses carry `private, no-store` and `Vary` containing `Authorization` and `DPoP` locally. The current deployed PDS still returns `Cache-Control: private`; `cf-cache-status: DYNAMIC` does not satisfy the application invariant. |
+| A14 | Private XRPC responses are non-cacheable and auth-varying | `PASS (local HTTP + deployed unauthorized probe)` | Local unauthorized and authorized `listCommunities`/`getSpace` responses, plus deployed unauthorized probes for both endpoints, carry `private, no-store` and `Vary` containing `Authorization` and `DPoP`. A credentialed deployed probe was not run because no production token was used. |
 | A15 | Alpha Docker lane is isolated | `PASS (documented)` | `docs/SPACES_ALPHA_INTEGRATION.md` specifies disposable identities, loopback binding, separate volume, health, and describe-server checks. |
 | A16 | Browser UI supports accepted paths | `PARTIAL (production auth recovery)` | Cloudflare Pages serves the new production bundle and the browser shell loads, but the current persisted production session still receives `InvalidToken` from the migrated PDS; the bundle now refreshes and retries body-less PDS reads, resolves a deep-linked board through its authority when local discovery is unavailable, and a fresh sign-in is still required to complete the live private-board check. |
 | A17 | Owner accepts migration and residual alpha risk | `PENDING` | Requires an owner walkthrough on disposable data after A0-A16 evidence is reviewed. |
@@ -86,8 +86,10 @@ not a source build failure.
 - The private sync implementation is minimal and fanout-based.
 - Browser notification sync, full community member management, aggregate feed
   pagination, and external Relay/AppView leak scans are not complete.
-- Live authority publication for `org.radlib.community`, deployment of the
-  private-header fix, and the follow-up deployed-host probe remain pending.
+- Live authority publication for `org.radlib.community` remains pending. The
+  private-header fix is deployed in the tunnel-backed PDS alpha lane and the
+  deployed unauthorized edge probe passes; a credentialed deployed probe was
+  not run because no production token was used.
 - The production-configured web bundle is now deployed to Cloudflare Pages;
   production private-board acceptance remains blocked by the current browser
   session's invalid PDS token until a fresh sign-in is performed.

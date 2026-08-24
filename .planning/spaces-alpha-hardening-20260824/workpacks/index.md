@@ -10,7 +10,7 @@ Dependency waves are derived from `depends_on`.
 
 ## Wave 2
 
-- [WP-002: Normalize private XRPC response headers](WP-002.md) — `active` / `vital` — Guarantee private no-store and authorization variation on private XRPC success and error responses.
+- [WP-002: Normalize private XRPC response headers](WP-002.md) — `done` / `vital` — Guarantee private no-store and authorization variation on private XRPC success and error responses.
 
 ## Wave 3
 

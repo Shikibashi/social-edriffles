@@ -1,6 +1,6 @@
 # Spaces Alpha Integration
 
-Status: `ALPHA_GATED / WAVE_2_VERIFIED` on `codex/spaces-alpha-integration`.
+Status: `ALPHA_GATED / WAVE_2_DEPLOYED` on `codex/spaces-alpha-integration`.
 
 This branch uses the upstream ATProto `permissioned-data` branch as the PDS
 base and carries the fork's protected-account/community policy above the
@@ -73,10 +73,10 @@ checkout:
   `PENDING`.
 - Private `org.radlib.private.*` responses set `Cache-Control: private,
   no-store` and vary on `Authorization` and `DPoP`, including service-auth
-  fallback failures and successes. The local HTTP header matrix passes; a
-  read-only probe of the currently deployed PDS still returns the old
-  `Cache-Control: private` behavior, so deployment of this source change is
-  `PENDING`.
+  fallback failures and successes. The local HTTP header matrix passes, and
+  deployed unauthorized probes for both `listCommunities` and `getSpace`
+  return the corrected headers through the Cloudflare Tunnel. A credentialed
+  deployed probe was not run because no production token was used.
 
 The protocol boundary follows the [official Spaces alpha guidance](https://atproto.com/blog/atproto-spaces-alpha)
 and [Permissioned Data proposal 0016](https://github.com/bluesky-social/proposals/blob/main/0016-permissioned-data/README.md).
@@ -164,21 +164,29 @@ Verified in this checkout:
 - root contract and pinned-tree checks;
 - PDS Lexicon code generation and TypeScript build;
 - PDS header, Radlib Spaces, community Lexicon, OAuth, record, and membership
-  suites: 147 tests passed;
+  suites: 149 tests passed;
 - formatter and lint checks for the touched PDS/dev-env files.
+- Pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`.
+- Deployed image: `codex/atproto-pds-spaces-alpha:test` digest
+  `sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6`;
+  existing volume `codex_spaces_alpha_test_data` remained mounted.
+- Post-deploy `https://pds.edriffles.us/xrpc/_health` and
+  `com.atproto.server.describeServer` passed; the tunnel service is active.
+- Post-deploy unauthorized `listCommunities` and `getSpace` probes returned
+  `Cache-Control: private, no-store` and `Vary: Authorization, DPoP,
+  Accept-Encoding`.
 
 Not established by this branch:
 
-- deployment of the header hardening and a follow-up read-only probe proving
-  the same private response headers at the edge (the current deployment still
-  returns `Cache-Control: private`);
+- a credentialed deployed header probe, because no production token was used;
 - live publication of `org.radlib.community` by the authority DID;
 - native Hermes/Metro WebCrypto compatibility;
 - a server-side private AppView or browser notification service (the client has
   a rebuildable cursor/sink boundary and generated notification wrappers);
 - immediate invalidation of already-issued Space credentials after membership
   removal;
-- production fielding, deployment, or owner acceptance.
+- production fielding or owner acceptance. This remains an alpha/test lane,
+  even though the tunnel-backed PDS is reachable at the public hostname.
 
 These are explicit follow-up gates. They must not be inferred from a passing
 typecheck, fixture, or local PDS build.

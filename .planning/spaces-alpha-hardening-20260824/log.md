@@ -29,3 +29,11 @@
 - WP-004 documentation gate is complete: all three Spaces documents now state alpha/no-E2EE limits, delayed credential revocation, Lexicon/authority status, fail-closed block bounds, header evidence, exact checks, and deferred services.
 - Regression evidence: seven PDS suites pass with 149 tests; root Python contract tests pass 91 tests with 5 skips; formatter, ESLint, contract validation, upstream pin check, and Copernicus workpack validation pass.
 - Read-only external evidence remains a release blocker: `https://pds.edriffles.us/xrpc/org.radlib.private.listCommunities?limit=50` still returns `Cache-Control: private` while `cf-cache-status: DYNAMIC`. No deployment or credentialed probe was performed; the source fix must be deployed and re-probed under separate production authorization.
+
+## 2026-08-23 deployment wave
+
+- Committed and pushed PDS hardening as `2a119ba5f15a349d0db63fe46d1d3c854dfb9760` and root metadata/docs as `1d89267`.
+- Built `codex/atproto-pds-spaces-alpha:test` from the committed checkout and recreated only the PDS container; persistent volume `codex_spaces_alpha_test_data` remained mounted.
+- Container health, `describeServer`, and the active `cloudflared-atproto-pds.service` check passed.
+- Deployed unauthorized probes for `listCommunities` and `getSpace` now return `Cache-Control: private, no-store` and `Vary: Authorization, DPoP, Accept-Encoding` through `pds.edriffles.us`.
+- No credentialed deployed probe was run; local real-HTTP tests cover authorized and unauthorized paths without exposing production credentials.
