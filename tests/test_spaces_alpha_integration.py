@@ -16,7 +16,7 @@ class SpacesAlphaIntegrationTests(unittest.TestCase):
         )
         self.assertEqual(
             pds['checkoutCommit'],
-            'd906e959dabcd017b4a0fa840e755d3a5f5d77d8',
+            '2a119ba5f15a349d0db63fe46d1d3c854dfb9760',
         )
         self.assertEqual(
             app['checkoutCommit'],

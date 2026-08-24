@@ -21,7 +21,7 @@
       "url": "https://github.com/bluesky-social/atproto",
       "branch": "permissioned-data",
       "commit": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
-      "checkoutCommit": "d906e959dabcd017b4a0fa840e755d3a5f5d77d8",
+      "checkoutCommit": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
       "license": "MIT",
       "retrievedAt": "2026-08-20",
       "role": "first-party Spaces alpha PDS base with fork product control plane",

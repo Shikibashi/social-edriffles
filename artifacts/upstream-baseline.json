@@ -17,7 +17,7 @@
       "remote": "https://github.com/bluesky-social/atproto",
       "branch": "permissioned-data",
       "baseSha": "89deb9fac20e56fa2a262fe9746ed52bc1095ba",
-      "forkSha": "d906e959dabcd017b4a0fa840e755d3a5f5d77d8",
+      "forkSha": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
       "relation": "permissioned-data-base-plus-product-integration",
       "candidateRole": "first-party-pds-spaces-alpha"
     }

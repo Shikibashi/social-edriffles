@@ -17,9 +17,10 @@ PDS image and the fork's Spaces branch are disposable test infrastructure.
 | Client submodule | `codex/spaces-alpha-integration` | Generated Spaces client adapter, multi-writer fanout, sync cursor boundary, private composer, and community board. |
 | References | Retrieved 2026-08-23 | Official Spaces alpha, Proposal 0016, Bulletin, SecretSky, rsky, and HappyView. |
 
-The exact submodule SHAs are written to `upstream-pins.json` and
-`artifacts/upstream-baseline.json` after the implementation commits are
-created. The root validator is the final metadata gate.
+The exact baseline submodule SHAs are written to `upstream-pins.json` and
+`artifacts/upstream-baseline.json`. The local fork hardening diff remains a
+working-tree change until it is reviewed and committed; the root validator is
+the final metadata gate.
 
 ## Current architecture
 
@@ -60,7 +61,9 @@ shows a visible partial-read warning when a writer is unavailable.
 | Spaces is the normal private content transport | `PASS` | PDS control mode has no legacy payload tables; Spaces-mode client has no legacy fallback; direct Space record/blob tests pass. |
 | Radlib is policy/control only | `PASS` | Active routes cover visibility, follow state, community metadata, membership, invites, bans, and discovery. Private bodies/blobs are not stored in the control DB. |
 | Protected account without legacy flag | `PASS` | `radlib-spaces.test.ts` deletes `PDS_LEGACY_RADLIB_PRIVATE_ENABLED` and writes/reads a Space record. |
-| Protected block | `PASS` | Canonical `app.bsky.graph.block` from a remote PDS is detected, Space access is removed, and a fresh credential is rejected. |
+| Protected block | `PASS` | Canonical `app.bsky.graph.block` from a remote PDS is detected across cursor pages; incomplete remote lookup fails closed, Space access is removed for confirmed blocks, and a fresh credential is rejected. |
+| Community Space Lexicon | `PASS (local authority)` | `org.radlib.community` resolves as a `type: "space"` with only `org.radlib.private.post`; the OAuth scope test rejects an undeclared write. Live authority publication remains `PENDING`. |
+| Private XRPC cache headers | `PASS (local HTTP) / DEPLOYMENT PENDING` | Local unauthorized and authorized discovery/control responses carry `private, no-store` plus `Authorization, DPoP` variation. The read-only deployed-PDS probe still returns `Cache-Control: private`; Cloudflare reports `DYNAMIC`, which does not satisfy the application invariant. |
 | Multi-writer, multi-PDS community | `PASS` | Two PDSes, two DIDs, owner/member writes, repo enumeration, writer provenance, per-writer reads, and public-sequence canary. |
 | Invite, hidden discovery, and ban | `PASS` | Private metadata is hidden before membership, invite access becomes visible after approval, and ban removes discovery and fresh credential access. |
 | Private media | `PASS` | Space blob retrieval succeeds with a Space credential; ordinary `sync.getBlob` rejects a blob referenced only by a Space record; private/no-store headers are set. |
@@ -93,6 +96,11 @@ These are not hidden by the implementation:
 6. The pinned client runtime cannot validate the alpha-specific Space URI
    formats, so generated client schemas leave those fields unconstrained. The
    PDS's generated schemas remain strict and authoritative.
+7. The live Cloudflare/PDS read-only probe currently shows the old deployed
+   behavior (`Cache-Control: private`, `cf-cache-status: DYNAMIC`). Local HTTP
+   handlers prove the corrected invariant, but the source change must be
+   deployed and re-probed separately without using production credentials or
+   mutating data.
 
 ## Research-derived decisions
 

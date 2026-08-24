@@ -1,6 +1,6 @@
 # Spaces Alpha Integration
 
-Status: `ALPHA_GATED` on `codex/spaces-alpha-integration`.
+Status: `ALPHA_GATED / WAVE_2_VERIFIED` on `codex/spaces-alpha-integration`.
 
 This branch uses the upstream ATProto `permissioned-data` branch as the PDS
 base and carries the fork's protected-account/community policy above the
@@ -11,7 +11,7 @@ production activation or owner acceptance receipt.
 
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
-| PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
+| PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `2a119ba5f15a349d0db63fe46d1d3c854dfb9760` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
 | Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `c0bf3f558bf2b099d4bb1a2b29156eea6c358255` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
 
 The machine-readable copies are `upstream-pins.json` and
@@ -56,6 +56,31 @@ unless `EXPO_PUBLIC_LEGACY_RADLIB_PRIVATE_ENABLED=1` is explicitly set for a
 migration-only lane. The PDS control routes do not require
 `PDS_LEGACY_RADLIB_PRIVATE_ENABLED`; that flag is not part of the normal
 Spaces path.
+
+## Wave 1/2 hardening evidence
+
+The first two Copernicus waves are verified in the local source-built PDS
+checkout:
+
+- Protected access grants fail closed when a remote block collection is
+  unavailable, malformed, paginated beyond the configured bound, or exceeds
+  the shared five-second lookup deadline. Confirmed blocks still revoke the
+  pending/approved state.
+- `org.radlib.community` is a checked-in `type: "space"` Lexicon with
+  `key: "any"` and only `org.radlib.private.post` declared. The disposable
+  Lexicon-authority fixture resolves it and the OAuth write boundary rejects an
+  undeclared collection. Publication by the live authority DID remains
+  `PENDING`.
+- Private `org.radlib.private.*` responses set `Cache-Control: private,
+  no-store` and vary on `Authorization` and `DPoP`, including service-auth
+  fallback failures and successes. The local HTTP header matrix passes; a
+  read-only probe of the currently deployed PDS still returns the old
+  `Cache-Control: private` behavior, so deployment of this source change is
+  `PENDING`.
+
+The protocol boundary follows the [official Spaces alpha guidance](https://atproto.com/blog/atproto-spaces-alpha)
+and [Permissioned Data proposal 0016](https://github.com/bluesky-social/proposals/blob/main/0016-permissioned-data/README.md).
+Neither source makes Spaces confidential or production-ready.
 
 ## Reference PDS Docker test lane
 
@@ -136,15 +161,18 @@ official alpha image as a separately reproducible upstream compatibility lane.
 
 Verified in this checkout:
 
-- root contract and pinned-tree checks, after metadata update;
-- social-app web typecheck;
-- generated Space Lexicons plus focused social-app permissioned-data and
-  Spaces adapter unit tests;
-- PDS code generation/build and the existing focused Spaces test files, when
-  the local dependency checkout permits them.
+- root contract and pinned-tree checks;
+- PDS Lexicon code generation and TypeScript build;
+- PDS header, Radlib Spaces, community Lexicon, OAuth, record, and membership
+  suites: 147 tests passed;
+- formatter and lint checks for the touched PDS/dev-env files.
 
 Not established by this branch:
 
+- deployment of the header hardening and a follow-up read-only probe proving
+  the same private response headers at the edge (the current deployment still
+  returns `Cache-Control: private`);
+- live publication of `org.radlib.community` by the authority DID;
 - native Hermes/Metro WebCrypto compatibility;
 - a server-side private AppView or browser notification service (the client has
   a rebuildable cursor/sink boundary and generated notification wrappers);

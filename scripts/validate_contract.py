@@ -135,7 +135,7 @@ def main() -> None:
     assert pins["repositories"]["socialApp"]["checkoutCommit"] == "c0bf3f558bf2b099d4bb1a2b29156eea6c358255"
     assert pins["repositories"]["atprotoPds"]["branch"] == "permissioned-data"
     assert pins["repositories"]["atprotoPds"]["commit"] == "89deb9fac20e56fa2a262fe9746ed52bc1095ba"
-    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "d906e959dabcd017b4a0fa840e755d3a5f5d77d8"
+    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
     assert "appviewlite" not in pins["repositories"]
     assert "fishyflip" not in pins["repositories"]
     assert pins["retrievedAt"]
