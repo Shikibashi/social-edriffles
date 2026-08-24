@@ -7,7 +7,7 @@
       "remote": "https://github.com/bluesky-social/social-app",
       "branch": "master",
       "baseSha": "1f5c698165c922e707833809902ee959e9824f00",
-      "forkSha": "bc3e7af4b88dfc3b335f420d0178e6c1e2223123",
+      "forkSha": "64f85eed85ee0eff36b177944349339a76051119",
       "relation": "direct-fork",
       "candidateRole": "radlib-codex-spaces-alpha-client"
     },

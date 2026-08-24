@@ -12,7 +12,7 @@ PDS or claim E2EE.
 
 | ID | Capability | Result | Evidence / remaining condition |
 |---|---|---|---|
-| A0 | Reviewed source pins match submodule gitlinks | `PASS` | Root pins and gitlinks match PDS `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` and client `bc3e7af4b88dfc3b335f420d0178e6c1e2223123`; `check_upstream.py --fast` is green. |
+| A0 | Reviewed source pins match submodule gitlinks | `PASS` | Root pins and gitlinks match PDS `d906e959dabcd017b4a0fa840e755d3a5f5d77d8` and client `64f85eed85ee0eff36b177944349339a76051119`; `check_upstream.py --fast` is green. |
 | A1 | Spaces is the only normal private record/blob/feed/sync transport | `PASS` | Control-mode store omits legacy payload tables; no active legacy content routes; client uses Space transport when alpha is enabled. |
 | A2 | Radlib is policy/governance/discovery/moderation only | `PASS` | Control tables and routes contain policy state; private bodies and blob bytes remain in Spaces. |
 | A3 | Protected account toggles without the legacy flag | `PASS` | Two-PDS PDS test deletes `PDS_LEGACY_RADLIB_PRIVATE_ENABLED` and exercises visibility plus Space write. |
@@ -26,7 +26,7 @@ PDS or claim E2EE.
 | A11 | Private notification transport does not leak | `PARTIAL` | Space register/unregister RPCs are generated and wrapped; no browser notification service or notification index is deployed. |
 | A12 | Custom records use reviewed/generated Lexicons | `PASS WITH COMPATIBILITY NOTE` | PDS Lexicons are generated; the client generates the same Space source set after removing unsupported pinned-runtime format validators at the boundary. |
 | A13 | Alpha Docker lane is isolated | `PASS (documented)` | `docs/SPACES_ALPHA_INTEGRATION.md` specifies disposable identities, loopback binding, separate volume, health, and describe-server checks. |
-| A14 | Browser UI supports accepted paths | `PARTIAL (production auth recovery)` | Cloudflare Pages serves the new production bundle and the browser shell loads, but the current persisted production session still receives `InvalidToken` from the migrated PDS; the bundle now refreshes and retries body-less PDS reads, and a fresh sign-in is still required to complete the live private-board check. |
+| A14 | Browser UI supports accepted paths | `PARTIAL (production auth recovery)` | Cloudflare Pages serves the new production bundle and the browser shell loads, but the current persisted production session still receives `InvalidToken` from the migrated PDS; the bundle now refreshes and retries body-less PDS reads, resolves a deep-linked board through its authority when local discovery is unavailable, and a fresh sign-in is still required to complete the live private-board check. |
 | A15 | Owner accepts migration and residual alpha risk | `PENDING` | Requires an owner walkthrough on disposable data after A0-A14 evidence is reviewed. |
 
 ## Commands run
