@@ -19,8 +19,8 @@ The provider record remains visible as `Project AppView` when configuration is
 missing, so the UI reports an unavailable project service instead of silently
 switching to another AppView. When an operator deliberately configures
 `api.bsky.app` as an explicit temporary read provider, the client labels it
-`Public Bluesky AppView (explicit read provider)` rather than attributing that
-service to the project. A project deployment MUST use its own stable
+`Public AT Protocol AppView (external read provider)` rather than attributing
+that service to the project. A project deployment MUST use its own stable
 `did:web` or `did:plc` identity and HTTPS endpoint, and publish a DID document
 whose service entry points at the deployment. The verifier rejects tokens
 whose audience does not match that configured identity.

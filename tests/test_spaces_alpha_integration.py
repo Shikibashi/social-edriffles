@@ -16,11 +16,11 @@ class SpacesAlphaIntegrationTests(unittest.TestCase):
         )
         self.assertEqual(
             pds['checkoutCommit'],
-            '2a119ba5f15a349d0db63fe46d1d3c854dfb9760',
+            '37f823c7e0e81eae8589c7ebed30fc38dfc0326a',
         )
         self.assertEqual(
             app['checkoutCommit'],
-            'c0bf3f558bf2b099d4bb1a2b29156eea6c358255',
+            'd3ab5f812b62e335e764c9f9352e77f1616cd381',
         )
 
     def test_documentation_preserves_alpha_and_owner_boundaries(self):
