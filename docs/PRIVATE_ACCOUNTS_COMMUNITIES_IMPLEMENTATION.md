@@ -97,9 +97,10 @@ repository or a public AppView index.
 
 - `public`, `restricted`, `invite-only`, and `private` visibility are stored in
   the same permissioned substrate.
-- Public communities allow authenticated reads; restricted communities expose
-  metadata but require approved membership for content; invite-only/private
-  spaces require an invitation.
+- Public communities allow authenticated reads and directory discovery;
+  restricted communities are discoverable only to their owner and approved
+  members and require approved membership for content; invite-only/private
+  spaces require an invitation and are likewise hidden from non-members.
 - Join, approve/deny, leave, one-time/high-entropy invite creation, atomic
   redemption, revocation, and community-local ban/unban are implemented.
 - Invite secrets are returned once and stored only as SHA-256 hashes. Invite
@@ -140,7 +141,7 @@ repository or a public AppView index.
 | P6 private feeds are viewer-authorized | PASS for PDS-local private feed | `us.edriffles.radlib.private.getFeed` fixes the private-post collection, re-checks the current viewer ACL and direct block boundary, returns provider DID provenance, and is hydrated by the client `/private-feed` screen. This is intentionally not a public AppView/indexer. |
 | P7 revocation blocks later access | PASS locally | Approved-follower revocation, community leave, and ban tests re-read after transition. |
 | P8 blocking invalidates account-space access | PARTIAL | PDS owner-block lookup is applied to private API reads; end-to-end direct-block integration is not yet exercised in a live multi-account harness. |
-| P9 hidden communities do not leak discovery metadata | PASS locally | `getSpaceForViewer` returns null to non-members for private/invite-only spaces; tests cover membership ACL. |
+| P9 hidden communities do not leak discovery metadata | PASS locally | `getSpaceForViewer` and `listCommunities` return null/omit metadata for non-members of restricted, private, and invite-only spaces; tests cover membership ACL. |
 | P10 multi-PDS authorized federation without public Relay | PASS for the fork direct-pull contract | Owner-scoped `createSyncGrant`/`syncPull`/`revokeSyncGrant` provide direct PDS-to-PDS pulls without public Relay/CAR/AppView participation. The grant is hash-stored, target-PDS/actor-bound, collection-scoped, expiring, and checked on every pull. Proposal-0016 space credentials and durable replica/import semantics remain separate future interoperability work. |
 | P11 logs and client persistence do not retain private values | PASS for local PDS/client paths | PDS request serialization redacts private URL/query/route identifiers; private React Query roots are excluded from persisted snapshots; private responses are explicitly `no-store`. External proxy/CDN logs and multi-device cache behavior remain deployment-specific and are constrained by that response contract. |
 

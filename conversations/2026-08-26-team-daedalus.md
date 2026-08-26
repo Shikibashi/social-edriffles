@@ -26,3 +26,9 @@
 - Implemented the all-pages directory, search/filter controls, explicit target review, final confirmation, stop-on-first-failure behavior, and OAuth `manage=delete` scope in social-app commit `da99b770d`.
 - Verification: PDS Radlib suite 13 tests passed; store cascade tests passed; social OAuth scope suite 4 tests passed; web typecheck and focused Oxlint passed; root contract validation passed; the PDS image/container is healthy; public Social and PDS describe-server checks returned HTTP 200; unauthenticated delete returned HTTP 401; public metadata contains the delete scope.
 - Deployment: Pages uploaded the built artifact as `https://9f4bb653.social-edriffles.pages.dev`, with the configured user-facing origin remaining `https://social.edriffles.us`. Qdrant was not restarted or modified.
+
+## Phase 6 — consumer directory privacy
+
+- User correction: disposable leak-scan and OAuth-gate communities must not be exposed to ordinary consumers through the community directory or direct metadata lookup.
+- Policy: public communities remain discoverable; restricted, invite-only, and private communities are discoverable only to their owner or an approved member. Non-members receive the same not-found behavior for direct metadata lookup, so a known fixture URI does not reveal its metadata.
+- Verification: the PDS store and API suites pass 17 focused tests, including non-member omission/not-found and approved-member access. The rebuilt PDS image is healthy and the deployed `pds.edriffles.us` server-discovery probe returns HTTP 200.
