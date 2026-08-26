@@ -1,0 +1,20 @@
+flowchart TD
+  Start([Open Communities]) --> Fetch[Load every listCommunities page]
+  Fetch --> Loaded{Directory loaded?}
+  Loaded -->|No| Retry[Show retry and keep data unchanged]
+  Loaded -->|Yes| Filter[Sort, search, and filter the directory]
+  Filter --> Owned[Select records where ownerDid equals viewer DID]
+  Owned --> Targets{Owned targets found?}
+  Targets -->|No| Fresh([Ready for a new community])
+  Targets -->|Yes| Inventory[Show exact count, names, and addresses]
+  Inventory --> Confirm{Explicit final confirmation?}
+  Confirm -->|No| Keep[Keep every community]
+  Confirm -->|Yes| DeleteEach[Delete targets one at a time]
+  DeleteEach --> Protocol{Non-public protocol Space exists?}
+  Protocol -->|Yes| DeleteSpace[[Delete or tombstone protocol Space]]
+  Protocol -->|No| Metadata[[Delete Radlib metadata with cascade]]
+  DeleteSpace --> Metadata
+  Metadata --> Result{All target deletions succeeded?}
+  Result -->|No| Partial[Report deleted and remaining targets; stop]
+  Result -->|Yes| Fresh
+  Fresh --> End([Start from scratch])
