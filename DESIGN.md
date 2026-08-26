@@ -3,6 +3,11 @@ version: 1
 source: ECW token contract and Communities forum brief
 updated: 2026-08-26
 direction: editorial-forum-workbench
+brand:
+  name: edriffles
+  descriptor: Computer Web
+  origin: https://social.edriffles.us
+  emblem: upstream/social-app/assets/edriffles/edriffles-emblem.png
 tokens:
   color:
     canvas: {oklch: 'oklch(0.87 0.03 270)', fallback: '#d6d9e8'}
@@ -33,12 +38,26 @@ tokens:
     control-radius: '1px'
 ---
 
-# Communities design source
+# Edriffles Computer Web design source
 
-Communities is an editorial forum workbench inside the existing Bluesky shell. It
-should feel like entering a named place with its own membership, topics, and
-moderation rules. The screen is intentionally denser than a public feed, but it
-does not become an administration console.
+Edriffles Computer Web is the web product identity for this AT Protocol client.
+Communities is an editorial forum workbench inside that shell. It should feel
+like entering a named place with its own membership, topics, and moderation
+rules. The screen is intentionally denser than a public feed, but it does not
+become an administration console.
+
+## Brand identity
+
+- Use the current Edriffles ship-and-compass emblem from
+  `upstream/social-app/assets/edriffles/edriffles-emblem.png` for the web mark.
+- Use the lowercase `edriffles` wordmark and the descriptor `Computer Web` in
+  web identity surfaces, metadata, splash screens, and share cards.
+- Keep AT Protocol facts, `app.bsky.*` record namespaces, hosting-provider
+  names, and account handles technically accurate. They are interoperability
+  and service references, not the product identity.
+- Do not mix the Bluesky mark into the Edriffles web shell. Native-only upstream
+  assets remain a separate migration scope until a full native rebrand is
+  approved.
 
 ## Direction
 
@@ -68,7 +87,7 @@ does not become an administration console.
 
 ## Responsive rule
 
-Desktop keeps the forum hierarchy in the Bluesky center column. Mobile keeps the
+Desktop keeps the forum hierarchy in the Edriffles center column. Mobile keeps the
 community context, tab strip, topic title, and primary action in that order;
 secondary metadata and technical identifiers move below the content or into the
 About tab. No desktop-only multi-pane interaction is required for the first

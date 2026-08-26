@@ -81,7 +81,7 @@ intermediate, and narrow widths.
 | ECW-037 | Import/export/reset personalization. | Preference state round-trips without credentials, recovery secrets, or private keys. | Portable personalization; privacy | Existing personalization behavior preserved. | ☐ PASS ☐ FAIL ☐ NEEDS CHANGE | |
 | ECW-038 | Inspect a provider failure and recover. | Unaffected functions remain available where practical and any fallback preserves provenance. | Explicit fallback | Existing service behavior preserved; owner integration check required. | ☐ PASS ☐ FAIL ☐ NEEDS CHANGE | |
 | ECW-039 | Inspect political/topic controls and feeds. | User-selected topics/feeds remain available, but no mandatory ideological or demographic balancing is introduced by the visual layer. | Political neutrality | ECW pass contains no ranking or political classifier changes. | ☐ PASS ☐ FAIL ☐ NEEDS CHANGE | |
-| ECW-040 | Compare the client with the three living Edriffles products. | It belongs to the current ECW family while retaining ATProto identity and product semantics; it does not copy fake browser/game chrome. | Provenance; accurate attribution | Pass A source ledger and reconciliation docs are complete. | ☐ PASS ☐ FAIL ☐ NEEDS CHANGE | |
+| ECW-040 | Compare the client with the three living Edriffles products. | It belongs to the current ECW family, uses the Edriffles web emblem/wordmark, and retains ATProto protocol semantics; it does not copy fake browser/game chrome. | Provenance; accurate attribution | Pass A source ledger plus the Edriffles identity refresh record are complete; browser visual owner check remains required. | ☐ PASS ☐ FAIL ☐ NEEDS CHANGE | |
 
 ## Automated gate record
 

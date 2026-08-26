@@ -4,7 +4,16 @@
 
 The current Edriffles public emblem is `edriffles-blog/src/assets/edriffles-emblem.png` (256×256 RGBA), rendered by `Header.astro` at 64px desktop and a smaller responsive size.  Current blog favicons are the 16px, 32px, ICO, and 180px assets in `public/`.  The ZIP's `assets/logo-mark.svg` is historical and is not copied into the ATProto client.
 
-The ATProto client retains its existing network/product mark.  ECW is a shared design language, not a reason to misidentify a Bluesky/ATProto service as Edriffles.  Shared treatment comes from geometry, color roles, typography, and state visibility.
+The web client now uses the Edriffles emblem and lowercase `edriffles` wordmark
+as its product identity.  The source emblem is copied into
+`upstream/social-app/assets/edriffles/` and the companion favicon set is used for
+the browser shell.  ECW remains the shared design language: geometry, color
+roles, typography, and state visibility carry across the web surfaces.
+
+AT Protocol and provider references remain factual.  `app.bsky.*` namespaces,
+account handles, PDS URLs, and provider names must not be renamed as if they
+were Edriffles-owned product marks.  The web-only pass intentionally leaves
+native app icon variants for a separate native rebrand decision.
 
 ## Icon grammar
 
@@ -18,7 +27,7 @@ The ATProto client retains its existing network/product mark.  ECW is a shared d
 
 ### Object scale
 
-- Product marks, avatars, service marks, and provider badges may be 32/48/64px with two or three controlled layers and a small hard shadow.
+- Product marks, avatars, service marks, and provider badges may be 32/48/64px with two or three controlled layers and a small hard shadow.  The detailed Edriffles emblem is the product mark at those scales; pair it with accessible `edriffles` text when the surrounding context does not already provide a name.
 - Use a product/service mark only when it identifies the actual actor: user, PDS, AppView, feed provider, resolver, labeler, or operator.
 - Preserve user-supplied avatar and media identity; ECW frames it but does not recolor it into authority.
 

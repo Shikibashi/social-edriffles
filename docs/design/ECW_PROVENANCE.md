@@ -28,7 +28,9 @@ The sorter checkout on disk was behind its remote `main`, so the audit used a de
 - The blog's 1060px editorial shell and 74ch reading column belong to Page Mode, not every social screen.
 - Idoldle's framed game/HUD chrome is appropriate to a game and not a universal fake browser window.
 - Sorter's large data panes, compass plots, and research status surfaces are Workbench patterns, not mandatory social-feed cards.
-- Existing ATProto/Bluesky identity marks remain the network product's marks.  The Edriffles emblem is provenance for the design language, not a replacement for network identity.
+- The Edriffles emblem is the web client's product mark.  ATProto/Bluesky
+  references remain technical network and provider attribution; they are not
+  mixed into the Edriffles web identity layer.
 
 ## Reconciliations and decisions
 
@@ -41,7 +43,7 @@ The sorter checkout on disk was behind its remote `main`, so the audit used a de
 | Default density | Sorter defaults compact; Idoldle defaults comfortable; the blog is compact in reading rhythm. | Expose Automatic/Compact/Comfortable. Keep social content readable by default; make compact an explicit user choice and retain the 30px target floor. |
 | Theme resolution | Blog uses `prefers-color-scheme`; sorter/Idoldle use a prepaint `data-theme` resolver with system fallback. | Preserve the client’s existing `ALF_THEME` storage and `theme--light`/`theme--dark`/`theme--dim` prepaint classes; system is the initial fallback and an explicit user choice remains stable. |
 | Geometry | Blog is a single framed page; Idoldle has game-specific framing; sorter has workbench panels. | Use Page Mode for social content and Workbench Mode for provider/identity/settings surfaces. No fake browser window. |
-| Emblem | Blog's current 256px emblem and favicons are current public identity assets; the ZIP contains an older SVG mark. | Treat the blog assets as current Edriffles provenance. Keep the ATProto network mark in the client and apply the ECW geometry/typography around it. |
+| Emblem | Blog's current 256px emblem and favicons are current public identity assets; the ZIP contains an older SVG mark. | Copy the current blog assets into the web client and use them for Edriffles mark, favicon, splash, and share-card surfaces. Keep protocol/provider names as factual attribution. |
 
 ## Change-control rule
 

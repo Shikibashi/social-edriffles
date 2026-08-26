@@ -1,8 +1,8 @@
-# Social at `social.edriffles.us`
+# Edriffles at `social.edriffles.us`
 
 Status: `SOCIAL_USER_FACING_CUTOVER_DEPLOYED / OAUTH_CLIENT_LIVE / EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES_PENDING`
 
-The public product name is **Social**. The radical-liberal constitutional
+The public product name is **Edriffles**. The radical-liberal constitutional
 implementation remains documented and machine-readable internally, but the
 web product does not advertise that implementation as its brand. User-facing
 feed provenance calls the feature **local curation**; protocol/profile IDs are
@@ -47,7 +47,7 @@ From the repository root:
 ```sh
 cd upstream/social-app
 EXPO_PUBLIC_ENV=production \
-EXPO_PUBLIC_BRAND_NAME=Social \
+EXPO_PUBLIC_BRAND_NAME=Edriffles \
 EXPO_PUBLIC_PUBLIC_WEB_ORIGIN=https://social.edriffles.us \
 EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
@@ -81,7 +81,7 @@ repository root, build the export and upload the resulting directory:
 ```sh
 cd /var/home/tcs/Code/atproto/upstream/social-app
 EXPO_PUBLIC_ENV=production \
-EXPO_PUBLIC_BRAND_NAME=Social \
+EXPO_PUBLIC_BRAND_NAME=Edriffles \
 EXPO_PUBLIC_PUBLIC_WEB_ORIGIN=https://social.edriffles.us \
 EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
@@ -103,7 +103,7 @@ test -z "$(git -C upstream/atproto-pds status --porcelain)" || { echo 'release r
 npx --yes wrangler@4.125.0 pages deploy upstream/social-app/web-build \
     --project-name=social-edriffles \
     --branch=main \
-    --commit-message='Deploy Social web client'
+    --commit-message='Deploy Edriffles web client'
 ```
 
 The Pages project remains the web implementation target. The public DNS route
@@ -187,7 +187,8 @@ from both the public Pages origin and the port-19008 static fallback.
 
 ## Product boundary
 
-- `Social` is the public brand and site name.
+- `Edriffles` is the public brand and site name. The web descriptor is
+  `Edriffles Computer Web`.
 - `Discover`, `Following`, and custom feeds retain their ordinary social-app
   names.
 - Local curation is optional, device-local ordering/filtering over candidates
