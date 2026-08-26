@@ -77,8 +77,8 @@
 | Community name, description, visibility | verified | Current PDS `getSpace`/`listCommunities` response | Render returned values; use neutral fallback labels when absent. |
 | Topic title and body excerpt | verified | Authorized private-post record text | Derive from text; do not use sample forum copy. |
 | Reply count | verified | Count of authorized records with matching `reply.root.uri` | Show the computed count only. |
-| Member count and member directory | placeholder | Not exposed by current client contract | Do not show a number; explain the alpha limitation in Members. |
-| Handle/avatar for a private record author | placeholder | Fanout result provides repo DID, not profile metadata | Show a shortened DID; do not fabricate a handle or avatar. |
+| Member count and member directory | limitation | Not exposed by current client contract | Do not show a number; explain the alpha limitation in Members. |
+| Handle/avatar for a private record author | limitation | Fanout result provides repo DID, not profile metadata | Show a shortened DID; do not fabricate a handle or avatar. |
 | Bulletin branding or imagery | avoid | External benchmark only | No external asset is copied into the product. |
 
 ## Section Order
