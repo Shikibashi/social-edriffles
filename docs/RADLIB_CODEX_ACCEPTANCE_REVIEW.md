@@ -4,6 +4,15 @@ State: `RADLIB_CODEX_ACCEPTANCE_BLOCKED`
 Owner state: `OWNER_ACCEPTANCE_PENDING`
 Review date: 2026-08-19
 
+> Historical/superseded report. This 2026-08-19 review is not the current
+> release verdict. Current alpha/staging evidence is bound by
+> `artifacts/oauth-spaces-manifest.json` and its current receipts. The current
+> public host is `https://radlib.edriffles.us` under the existing `edriffles.us`
+> registrable domain, and the protocol namespace is `us.edriffles.radlib.*`.
+> DNS authority and the single-host edge route remain pending; no `radlib.org`,
+> `edriffles.radlib`, or second registrable domain is required. Older host and
+> namespace strings below are historical snapshots, not current configuration.
+
 This is an implementation and verification report, not owner acceptance. It
 records actual repository, PDS, client, fixture, browser, and provider-boundary
 evidence. AppViewLite is retired and is not a current product dependency.

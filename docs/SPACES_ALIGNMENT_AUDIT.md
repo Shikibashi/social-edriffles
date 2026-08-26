@@ -1,6 +1,6 @@
 # Spaces alpha alignment audit
 
-Status: `ALPHA-GATED / OWNER ACCEPTANCE PENDING`
+Status: `ALPHA-GATED / OWNER ACCEPTANCE PENDING / SOCIAL.EDRIFFLES.US USER-FACING CUTOVER DEPLOYED`
 
 Audited: 2026-08-23
 
@@ -62,7 +62,7 @@ shows a visible partial-read warning when a writer is unavailable.
 | Radlib is policy/control only | `PASS` | Active routes cover visibility, follow state, community metadata, membership, invites, bans, and discovery. Private bodies/blobs are not stored in the control DB. |
 | Protected account without legacy flag | `PASS` | `radlib-spaces.test.ts` deletes `PDS_LEGACY_RADLIB_PRIVATE_ENABLED` and writes/reads a Space record. |
 | Protected block | `PASS` | Canonical `app.bsky.graph.block` from a remote PDS is detected across cursor pages; incomplete remote lookup fails closed, Space access is removed for confirmed blocks, and a fresh credential is rejected. |
-| Community Space Lexicon | `PASS (local authority)` | `org.radlib.community` resolves as a `type: "space"` with only `org.radlib.private.post`; the OAuth scope test rejects an undeclared write. Live authority publication remains `PENDING`. |
+| Community Space Lexicon | `PASS (local authority)` | `us.edriffles.radlib.community` resolves as a `type: "space"` with only `us.edriffles.radlib.private.post`; the OAuth scope test rejects an undeclared write. Live `_lexicon.radlib.edriffles.us` authority publication remains `PENDING`. |
 | Private XRPC cache headers | `PASS (local HTTP + deployed unauthorized probe)` | Local unauthorized and authorized discovery/control responses and deployed unauthorized probes carry `private, no-store` plus `Authorization, DPoP` variation. A credentialed deployed probe was not run because no production token was used. |
 | Multi-writer, multi-PDS community | `PASS` | Two PDSes, two DIDs, owner/member writes, repo enumeration, writer provenance, per-writer reads, and public-sequence canary. |
 | Invite, hidden discovery, and ban | `PASS` | Private metadata is hidden before membership, invite access becomes visible after approval, and ban removes discovery and fresh credential access. |
@@ -97,7 +97,7 @@ These are not hidden by the implementation:
    formats, so generated client schemas leave those fields unconstrained. The
    PDS's generated schemas remain strict and authoritative.
 7. The private-header fix is deployed to the local PDS container behind the
-   `pds.edriffles.us` Cloudflare Tunnel. The post-deploy unauthorized probes
+   pre-cutover PDS implementation origin. The post-deploy unauthorized probes
    for `listCommunities` and `getSpace` return `Cache-Control: private,
    no-store` and `Vary: Authorization, DPoP, Accept-Encoding`; `cf-cache-status:
    DYNAMIC` is recorded but is not used as the acceptance condition. A

@@ -1,0 +1,31 @@
+{
+  "bindings": {
+    "deploymentImage": "not-deployed-cloudflare-token-rejected",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:690c855ed678f09b05c21df7f9b4a1c07ae45a3a3fe2cce9713d8331b73a0a36",
+    "testedAt": "2026-08-25T17:04:36Z",
+    "webArtifactDigest": "sha256:fcc812c38b3b9972705abe2700fd39733daf29d67e2741776f7e04f15f413ebe"
+  },
+  "attempt": {
+    "command": "npx --yes wrangler@latest pages deploy upstream/social-app/web-build --project-name=social-edriffles --branch=main --commit-message='Deploy OAuth and Spaces scope migration' --commit-dirty",
+    "apiErrorCodes": [
+      10000,
+      9109
+    ],
+    "apiError": "Authentication error / Invalid access token",
+    "dnsChanged": false,
+    "deploymentCreated": false,
+    "existingDeploymentRetained": "df730c94-4b7f-4d11-8119-a1ca6f49686b"
+  },
+  "format": "org.radlib.cloudflare-deploy-attempt/1",
+  "secretsIncluded": false,
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_NOT_EXECUTED_INVALID_CLOUDFLARE_TOKEN"
+}

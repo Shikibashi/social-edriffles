@@ -1,0 +1,37 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "not-deployed-authority-check",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "format": "org.radlib.authority/1",
+  "independentResolver": "succeeded only with resolver mapping radlib.org and private.radlib.org to DID",
+  "publications": [
+    {
+      "cid": "bafyreiaqbz6y63c275u2xud6c4ouo3l5a3u2t65ewhtxaqqbbx46q4b27e",
+      "nsid": "community",
+      "sha256": "c76d8aa3264cb62a0ac499125dbd493f0413199d8f64b87d60d4be4cda54a624"
+    },
+    {
+      "cid": "bafyreif56uz3i5osdzma3h7ekeouam2iuyvy4t5xudgjuzy32auc4bekfm",
+      "nsid": "private.post",
+      "sha256": "81ec2636afddb295fad28e8d5dce0a36525b9d7ddba9a2bacdec184c5f19141f"
+    }
+  ],
+  "result": "cannot self-attest namespace authority",
+  "retainedAuthorityDid": "did:plc:7ricu3knhcyiym64d752vmeo",
+  "standardDnsTxt": "absent",
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_AUTHORITY_UNRESOLVED",
+  "timestamp": "2026-08-25T08:03:00Z",
+  "zoneControl": "only edriffles.us Cloudflare zone controlled"
+}

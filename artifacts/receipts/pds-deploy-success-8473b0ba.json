@@ -1,0 +1,78 @@
+{
+  "secretsIncluded": false,
+  "format": "org.radlib.pds-deploy-success/1",
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_SUPERSEDED_BY_RADLIB_EDGE_HOST_CUTOVER",
+  "supersededBy": "radlib-edge-cutover-pending.json",
+  "bindings": {
+    "deploymentImage": "pds:sha256:8473b0ba089930f9ad61773c27f9efb65a5c238e2e666794a8ef9e0bf86b062a",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceImage": "sha256:8473b0ba089930f9ad61773c27f9efb65a5c238e2e666794a8ef9e0bf86b062a",
+    "sourceWorkingTreeDigest": "sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+    "testedAt": "2026-08-25T23:20:54Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d"
+  },
+  "deployment": {
+    "composeProject": "codex-spaces-alpha-test",
+    "imageReference": "codex/atproto-pds-spaces-alpha:test@sha256:8473b0ba089930f9ad61773c27f9efb65a5c238e2e666794a8ef9e0bf86b062a",
+    "volume": "codex_spaces_alpha_test_data",
+    "topology": "same tunnel-backed pds.edriffles.us; no DNS or domain changes"
+  },
+  "runtime": {
+    "localHealthHttpStatus": 200,
+    "publicHealthHttpStatus": 200,
+    "publicDescribeServerHttpStatus": 200,
+    "publicDescribeServerInviteCodeRequired": false,
+    "publicDidDocumentHttpStatus": 200,
+    "publicDidDocumentContentType": "application/did+json",
+    "publicDidDocumentServiceEndpoint": "https://pds.edriffles.us",
+    "unrelatedHostDidDocumentHttpStatus": 404
+  },
+  "lexicon": {
+    "authorityDid": "did:plc:4hcmfnt55n3m7ojeqtqidayn",
+    "authorityMode": "disposable PDS-local resolver configuration; independent DNS namespace authority is not claimed",
+    "oauthSpaceDeclarationResolution": "passed: org.radlib.account and org.radlib.community resolve through the configured disposable authority DID",
+    "privatePostValidateTrue": "passed",
+    "spaceReferenceValidation": "passed: complete Space URIs are required at every control-plane boundary"
+  },
+  "oauthScopeEnforcement": {
+    "result": "passed: OAuth Radlib control routes require matching org.radlib.account/community Space read or manage grants; service-auth and legacy access boundaries remain explicit",
+    "testResult": "3 suites passed, 78 tests passed"
+  },
+  "oauthProtocolFlow": {
+    "authorizationPageHttpStatus": 200,
+    "authorizationRequestCreated": true,
+    "callbackCompleted": true,
+    "consentHttpStatus": 200,
+    "implementation": "@atproto/oauth-client-node official client",
+    "profile": "PAR, PKCE S256, DPoP-bound authorization code, refresh, and revocation",
+    "refreshRestoreCompleted": true,
+    "revocationCompleted": true,
+    "signInHttpStatus": 200,
+    "status": "PASSED_DISPOSABLE_CREDENTIALED_OAUTH_PAR_PKCE_DPOP_REFRESH_REVOKE"
+  },
+  "credentialedLifecycle": {
+    "disposableAccountsCreated": 2,
+    "initialSpaceAccessIssuanceHttpStatus": 200,
+    "recordWriteHttpStatus": 200,
+    "memberRemovalHttpStatus": 200,
+    "newSpaceAccessAfterRemovalHttpStatus": 400,
+    "newSpaceAccessAfterRemovalError": "UserNotAuthorized",
+    "alreadyIssuedSpaceAccessAfterRemovalHttpStatus": 200,
+    "cleanupHttpStatus": 200,
+    "interpretation": "new issuance is blocked after member removal; an already-issued alpha Space access remains usable until expiry"
+  },
+  "notes": [
+    "Disposable alpha/staging image only; no production credentials used",
+    "The did:web service document is publicly reachable, points to the configured PDS service endpoint, and is not served for an unrelated Host header",
+    "The existing edriffles.us domain topology is retained by owner decision; no new registrable domain is required"
+  ]
+}

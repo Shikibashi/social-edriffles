@@ -87,7 +87,7 @@ methods never accept this token as a content credential.
 | Radlib put/get/list/delete record transport | No active route or Spaces-mode client caller; legacy adapter is quarantined. |
 | Radlib upload/get blob transport | No active route or Spaces-mode client caller; Space blob APIs are canonical. |
 | Radlib feed/sync-grant transport | No active route or Spaces-mode client caller; cursor reconciliation is the replacement boundary. |
-| `org.radlib.private.post` | Keep as a fork Lexicon collection, but only as a record stored inside a Space repo. |
+| `us.edriffles.radlib.private.post` | Keep as a fork Lexicon collection, but only as a record stored inside a Space repo. |
 
 The PDS control route constructs `RadlibPrivateDataStore` with
 `mode: 'control'`. The legacy tables are only created when a future migration

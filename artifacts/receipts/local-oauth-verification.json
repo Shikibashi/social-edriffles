@@ -1,0 +1,79 @@
+{
+  "bindings": {
+    "deploymentId": "df730c94-4b7f-4d11-8119-a1ca6f49686b",
+    "deploymentImage": "cloudflare-pages:df730c94.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:f09a762647b233b541b3bdf0732f2fa7bf912f0a940d7de584eb5640c2c803e9",
+    "webArtifactDigest": "sha256:e1075e2052b713c901e1ea5338b656a929861da9f915754d24f3deb42f4b7034",
+    "testedAt": "2026-08-25T10:07:21Z"
+  },
+  "checks": {
+    "productionPasswordSessionConstructors": 0,
+    "productionPasswordSessionImports": 0,
+    "focusedLint": "passed for OAuth/session files",
+    "typecheck": {
+      "android": "passed",
+      "ios": "passed",
+      "web": "passed"
+    },
+    "webBuild": {
+      "metadataArtifact": "upstream/social-app/web-build/oauth-client-metadata.json",
+      "metadataSha256": "sha256:2b2b89b6c618c3ccd7b403f052878ebe06d943e1cc00bff1682897e4eeea670d",
+      "status": "passed_with_webpack_size_warnings"
+    },
+    "deployedMetadata": {
+      "callbackStatus": 200,
+      "contentType": "application/json",
+      "httpStatus": 200,
+      "officialClientValidation": "accepted",
+      "redirectUris": [
+        "https://social.edriffles.us/oauth/callback",
+        "us.edriffles.social:/oauth/callback"
+      ],
+      "sha256": "sha256:2b2b89b6c618c3ccd7b403f052878ebe06d943e1cc00bff1682897e4eeea670d",
+      "url": "https://social.edriffles.us/oauth-client-metadata.json"
+    },
+    "deployedCallback": {
+      "contentType": "text/html; charset=utf-8",
+      "httpStatus": 200,
+      "url": "https://social.edriffles.us/oauth/callback"
+    },
+    "pdsDiscovery": {
+      "availableUserDomains": [
+        ".pds.edriffles.us",
+        ".test"
+      ],
+      "describeServerHttpStatus": 200,
+      "inviteCodeRequired": true,
+      "url": "https://pds.edriffles.us/xrpc/com.atproto.server.describeServer"
+    },
+    "credentialedOAuthFlow": {
+      "status": "BLOCKED_NO_DISPOSABLE_IDENTITY",
+      "reason": "The controlled PDS advertises inviteCodeRequired=true and no disposable identity, invite, or credential was available. No production credential was used."
+    },
+    "credentialedSpacesProbe": {
+      "status": "BLOCKED_NO_DISPOSABLE_CREDENTIAL",
+      "reason": "No disposable Space credential was available; the prior alpha receipt remains the only credentialed lifecycle evidence."
+    },
+    "authorityPublication": {
+      "status": "BLOCKED_EXTERNAL_NAMESPACE_AUTHORITY",
+      "reason": "The current workspace cannot independently publish or delegate org.radlib.* authority."
+    },
+    "relayAppviewScan": {
+      "status": "INCONCLUSIVE_APPVIEW_403",
+      "receipt": "artifacts/receipts/pds-relay-appview-canaries.json"
+    }
+  },
+  "format": "org.radlib.local-oauth-verification/1",
+  "secretsIncluded": false,
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_PASSED_LOCAL_SOURCE_AND_DEPLOYMENT_GATES_WITH_EXTERNAL_BLOCKERS"
+}

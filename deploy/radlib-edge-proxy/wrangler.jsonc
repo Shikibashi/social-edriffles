@@ -1,0 +1,61 @@
+{
+  "name": "radlib-edriffles-edge",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-25",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "logs": {"head_sampling_rate": 1},
+    "traces": {"enabled": true, "head_sampling_rate": 0.01}
+  },
+  "vars": {
+    "WEB_ORIGIN": "https://social-edriffles.pages.dev",
+    "PDS_ORIGIN": "https://pds.edriffles.us",
+    "PUBLIC_HOST": "radlib.edriffles.us",
+    "PDS_PUBLIC_HOST": "pds.edriffles.us"
+  },
+  "env": {
+    "staging": {
+      "name": "radlib-edriffles-edge-staging",
+      "compatibility_date": "2026-08-25",
+      "compatibility_flags": ["nodejs_compat"],
+      "workers_dev": true,
+      "vars": {
+        "WEB_ORIGIN": "https://social-edriffles.pages.dev",
+        "PDS_ORIGIN": "https://pds.edriffles.us",
+        "PUBLIC_HOST": "radlib.edriffles.us",
+        "PDS_PUBLIC_HOST": "pds.edriffles.us"
+      }
+    },
+    "production": {
+      "name": "radlib-edriffles-edge-production",
+      "compatibility_date": "2026-08-25",
+      "compatibility_flags": ["nodejs_compat"],
+      "observability": {
+        "enabled": true,
+        "logs": {"head_sampling_rate": 1},
+        "traces": {"enabled": true, "head_sampling_rate": 0.01}
+      },
+      "vars": {
+        "WEB_ORIGIN": "https://social-edriffles.pages.dev",
+        "PDS_ORIGIN": "https://pds.edriffles.us",
+        "PUBLIC_HOST": "radlib.edriffles.us",
+        "PDS_PUBLIC_HOST": "pds.edriffles.us"
+      },
+      "routes": [
+        {
+          "pattern": "radlib.edriffles.us/*",
+          "zone_name": "edriffles.us"
+        },
+        {
+          "pattern": "social.edriffles.us/*",
+          "zone_name": "edriffles.us"
+        },
+        {
+          "pattern": "pds.edriffles.us/*",
+          "zone_name": "edriffles.us"
+        }
+      ]
+    }
+  }
+}

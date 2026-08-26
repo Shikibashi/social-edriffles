@@ -1,0 +1,34 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "0db4d35f",
+    "deploymentImage": "cloudflare-pages:0db4d35f.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:8980a00c2f1ffc0920d6c212831a77f1ed74d68fe75866495060b20248a25093",
+    "testedAt": "2026-08-25T17:52:14Z",
+    "webArtifactDigest": "sha256:1a83f740c88a7501c360d2198be2f4ec18d0bc916c4520bab0ce8522be93ca97"
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Deploy OAuth and Spaces scope migration",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "url": "https://0db4d35f.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataSha256": "sha256:8299ca660d503534ef90a8efe5ad419ef792f6ce084b84d527bb95dc1d64782a"
+  },
+  "evidenceStatus": "historical-superseded",
+  "format": "org.radlib.cloudflare-deploy-success/1",
+  "status": "HISTORICAL_DEPLOYED_PRIOR_OAUTH_SPACES_WEB_ARTIFACT"
+}

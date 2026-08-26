@@ -22,7 +22,7 @@
       "signatureFormat": "P-256 raw IEEE P1363, 64 bytes",
       "providerDidType": "did:key",
       "requestIncluded": ["list", "listUriHash", "nonce"],
-      "pdsEndpoint": "org.radlib.moderation.recordListMuteAttestation",
+      "pdsEndpoint": "us.edriffles.radlib.moderation.recordListMuteAttestation",
       "pdsResponse": 200
     },
     "migrationDeletion": {

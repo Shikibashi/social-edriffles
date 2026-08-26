@@ -1,0 +1,436 @@
+{
+  "bindings": {
+    "currentSourceDigestAlgorithm": "sha256 over sorted path\\0sha256(file) entries for deployable client, PDS, Lexicon, and edge-worker source inputs",
+    "currentSourceInputCount": 3546,
+    "currentSourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "deploymentId": "143926c7-b082-4f5f-b859-afc070e67555",
+    "deploymentImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
+    "deploymentStatus": "SOCIAL_USER_FACING_CUTOVER_DEPLOYED",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us zone retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
+    "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819"
+  },
+  "blockers": [
+    "PUBLIC_CREDENTIALED_SPACES_NOT_RUN",
+    "OAUTH_BROWSER_CREDENTIAL_ENTRY_NOT_RUN",
+    "INCONCLUSIVE_APPVIEW_403",
+    "SPACES_ALPHA_LIMITATIONS",
+    "OAUTH_EXPIRY_GAP"
+  ],
+  "deferred": [
+    "NATIVE_PLATFORM_COMPATIBILITY",
+    "PRIVATE_APPVIEW_AND_NOTIFICATION_SERVICE"
+  ],
+  "format": "us.edriffles.radlib.oauth-spaces-manifest/1",
+  "generatedAt": "2026-08-26T05:13:36Z",
+  "receiptHashes": {
+    "authority-decision.json": "d85fdee8876f4caf4ee069aae34c373803612ba45018110cdb7fc5dd275b9a7f",
+    "cloudflare-deploy-attempt.json": "aa897d9fc52f6f9a43ed2686d23e974a48d4ef1ebfd51724a84b375b7c9cb0af",
+    "cloudflare-deploy-success-236dff2c.json": "4d467cccfa21e0983d988780cd138035e62febd36454e0a13af4bac5e4f7d758",
+    "cloudflare-deploy-success-2816da7c.json": "a5c380531f795a2c9c4fef5a9af6aedec288e4e0f7fc5151082df6d8e1299fe2",
+    "cloudflare-deploy-success-31e7cbac.json": "bb5b0fd1fb6dfadcb8ad01fbfcbd281448f8eb3c78d8cb73743294580516ad4f",
+    "cloudflare-deploy-success-51d0ffc0.json": "3cb407fd465008f32cd23d58aa0f790a5678740de341a20a29842c4881843f9d",
+    "cloudflare-deploy-success-7c5fcd1c.json": "52587823bfd71e8b0580a3c3d876b1c73eb42985cf6ffb2bb604cdc491f41d25",
+    "cloudflare-deploy-success-7e4ac417.json": "ff8753810b4b9257441154a904238926d901b826ab628d2962d731de3fd84358",
+    "cloudflare-deploy-success-b57ed1d9.json": "975ea0ad198e3637eade55fbe03875c45f5b411c3122332d43cfdd85da13dd1d",
+    "cloudflare-deploy-success-e0a052e7.json": "77eeed9945cdf26c605f28a8a9f48f9b45e0c4375bc9e001c8e5e3b02ab2f733",
+    "cloudflare-deploy-success-eee550b3.json": "dcf5a9764a2ffd5b60e07502c4a58454c728de1a5397feb4bc4156293c29b013",
+    "cloudflare-deploy-success.json": "8ea643d4455c2d4187ac5ef02d100bd29f2f1da7aabb6ee3a84ab385652c9e3c",
+    "deployed-headers.json": "4e93c9adf53ca13b5cf1026443b7ad3957a889984e200b49dadbc37ba6ceabf2",
+    "local-oauth-spaces-acceptance.json": "b3fe241063783e8fba42ab45e6b2ebabe31b0c4ac5edebb3e7dbd0b278516ee9",
+    "local-oauth-verification.json": "02dde0608f02676c32530e3c11501a0e9b48fef548b0c9b50a3ddd34f0e15e1f",
+    "local-private-canary-scan.json": "ad4ebe4b5445e57f938dde8b1bab35c3b7a1267ff96b10a55f39bcd5bd311fb2",
+    "oauth-migration.json": "c2a301b395c8c2ab11d226d6f6b65d19974175d71a26d78eaf3c8c0b16da436f",
+    "oauth-negative-cases.json": "21d07422632c2b71f2a0bd60692ca55ed9541c0cc80a0292775200009aed0f92",
+    "org-radlib-authority.json": "261cd0e9310e4397a6134a410300d454700d98720a6c2456d6385c8e95325652",
+    "pds-deploy-success-8473b0ba.json": "688bae56a10fb786d2f1bc605484a32232af21f64e7b9bbf0103252bed24270f",
+    "pds-deploy-success-decf7cc2.json": "f91948cd2ffc2d25fa9d60ef5e11ce6a80e29c981de22458b8cf96c6148898e3",
+    "pds-relay-appview-canaries.json": "a3f277fe2cad820215e47b5cd96a2e82f3a0288072766e0a32d30a3cd11f7806",
+    "radlib-edge-cutover-pending.json": "10403addb478115d1e13b9c35548acf0fec1a8240582f416a96308ae53fc674e",
+    "spaces-lifecycle.json": "cfe48c6da394e9c34cdb4d6901929a3f5d19457ff8a0eed9884d4880af6a679f"
+  },
+  "receiptBindings": {
+    "authority-decision.json": {
+      "deploymentImage": "not-applicable-policy-decision",
+      "environment": "repository-contract",
+      "origins": [
+        "https://radlib.edriffles.us"
+      ],
+      "testedAt": "2026-08-26T05:13:36Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-attempt.json": {
+      "deploymentImage": "not-deployed-cloudflare-token-rejected",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T17:04:36Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:690c855ed678f09b05c21df7f9b4a1c07ae45a3a3fe2cce9713d8331b73a0a36",
+      "sourceWorkingTreeDigest": "sha256:690c855ed678f09b05c21df7f9b4a1c07ae45a3a3fe2cce9713d8331b73a0a36",
+      "webArtifactDigest": "sha256:fcc812c38b3b9972705abe2700fd39733daf29d67e2741776f7e04f15f413ebe",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-236dff2c.json": {
+      "deploymentImage": "cloudflare-pages:236dff2c.social-edriffles.pages.dev",
+      "deploymentId": "236dff2c",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:ba44c30fd89fcf5d098b42b908556dc5ae2d5bf336cb08862f545bfdf33f1fb8",
+      "testedAt": "2026-08-25T19:38:44Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:ba44c30fd89fcf5d098b42b908556dc5ae2d5bf336cb08862f545bfdf33f1fb8",
+      "webArtifactDigest": "sha256:09e159e96f1dc17025bc62c9808c241bc813f076e518fae10590cff78ef2ba80",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-2816da7c.json": {
+      "deploymentImage": "cloudflare-pages:2816da7c.social-edriffles.pages.dev",
+      "deploymentId": "2816da7c",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:d3a74290b00bb79d2a2004efd6a43464e8a96c1557aa3dd72b66667a7db1362e",
+      "testedAt": "2026-08-25T20:01:23Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d3a74290b00bb79d2a2004efd6a43464e8a96c1557aa3dd72b66667a7db1362e",
+      "webArtifactDigest": "sha256:e6d415d3417e0e74205282da9af498f59c4f04ec22869bda7f5826ed9c59e727",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-31e7cbac.json": {
+      "deploymentImage": "cloudflare-pages:31e7cbac.social-edriffles.pages.dev",
+      "deploymentId": "31e7cbac",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:525ec73d928474475037e118d457c2be495c16ee1e0ca21f2b3aac4a09653b11",
+      "testedAt": "2026-08-25T19:18:14Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:525ec73d928474475037e118d457c2be495c16ee1e0ca21f2b3aac4a09653b11",
+      "webArtifactDigest": "sha256:2c2cfbca8e49ada3ccf038f0109967b4845af41ac23b75f32f0cab2130c8d48a",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-51d0ffc0.json": {
+      "deploymentImage": "cloudflare-pages:51d0ffc0.social-edriffles.pages.dev",
+      "deploymentId": "51d0ffc0",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:855f37bcc56e48fca30a20fb7cc882c19f904c70c08890ef0ad435b0f9de356c",
+      "testedAt": "2026-08-25T18:55:53Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:525ec73d928474475037e118d457c2be495c16ee1e0ca21f2b3aac4a09653b11",
+      "webArtifactDigest": "sha256:0f27419d7113a0d1abff7203d2d675607f8424d1164e09aa5f1f50e4bc8755e5",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-7c5fcd1c.json": {
+      "deploymentImage": "cloudflare-pages:7c5fcd1c.social-edriffles.pages.dev",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T23:41:15Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+      "sourceWorkingTreeDigest": "sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+      "webArtifactDigest": "sha256:4e8ff9c44b4f59880eef358402efd2a57e49ebb51c1a08c9fd35a57fa90b0ffc",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "deploymentId": "7c5fcd1c",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "cloudflare-deploy-success-7e4ac417.json": {
+      "deploymentImage": "cloudflare-pages:7e4ac417.social-edriffles.pages.dev",
+      "deploymentId": "7e4ac417",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:05cff7c4e26d3889d2653e8ac3f891f973507e79c1e3b11f575ab45811027cde",
+      "testedAt": "2026-08-25T18:23:43Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:05cff7c4e26d3889d2653e8ac3f891f973507e79c1e3b11f575ab45811027cde",
+      "webArtifactDigest": "sha256:dd8f87b48aab5a5bbbc76516444c9320db50e9c88476078a37a8c60d7bdd646e",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-b57ed1d9.json": {
+      "deploymentImage": "cloudflare-pages:b57ed1d9.social-edriffles.pages.dev",
+      "deploymentId": "b57ed1d9",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:e874fbd92f0ed82f68615de7caaf87c0629b3152b78912c11f376b1dba268ecc",
+      "webArtifactDigest": "sha256:cda8c646a3b8779e6268804f609ae15cc33b36f7eec30c45389ff499286f1b54",
+      "testedAt": "2026-08-25T21:42:45Z",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-e0a052e7.json": {
+      "deploymentImage": "cloudflare-pages:e0a052e7.social-edriffles.pages.dev",
+      "deploymentId": "e0a052e7",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:a88d4c61a4f73962cf900777835fd0ca3e457bbee63806be590f3ee9ad78a5a0",
+      "testedAt": "2026-08-25T20:35:06Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:a88d4c61a4f73962cf900777835fd0ca3e457bbee63806be590f3ee9ad78a5a0",
+      "webArtifactDigest": "sha256:65b8c9863a817615558ee4008fd660331dff4ed39e17a8016ea55ebc447a71e4",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success-eee550b3.json": {
+      "deploymentImage": "cloudflare-pages:eee550b3.social-edriffles.pages.dev",
+      "deploymentId": "eee550b3",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:b55aff7884a0afca63efb6c3f57be2782b760361c48915811340f74dea957480",
+      "testedAt": "2026-08-25T20:11:42Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:b55aff7884a0afca63efb6c3f57be2782b760361c48915811340f74dea957480",
+      "webArtifactDigest": "sha256:032ea0e2423370b370f69330179a33c3d5eaefcdebf854a5f81e635b6feb2ed4",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "cloudflare-deploy-success.json": {
+      "deploymentImage": "cloudflare-pages:0db4d35f.social-edriffles.pages.dev",
+      "deploymentId": "0db4d35f",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T17:52:14Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:8980a00c2f1ffc0920d6c212831a77f1ed74d68fe75866495060b20248a25093",
+      "sourceWorkingTreeDigest": "sha256:8980a00c2f1ffc0920d6c212831a77f1ed74d68fe75866495060b20248a25093",
+      "webArtifactDigest": "sha256:1a83f740c88a7501c360d2198be2f4ec18d0bc916c4520bab0ce8522be93ca97",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "deployed-headers.json": {
+      "deploymentImage": "cloudflare-pages:df730c94.social-edriffles.pages.dev",
+      "deploymentId": "df730c94-4b7f-4d11-8119-a1ca6f49686b",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T10:07:21Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:f09a762647b233b541b3bdf0732f2fa7bf912f0a940d7de584eb5640c2c803e9",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "local-oauth-spaces-acceptance.json": {
+      "deploymentImage": "not-deployed-local-test-runner",
+      "environment": "disposable-local-pds",
+      "origins": [
+        "http://127.0.0.1:<ephemeral-pds>",
+        "http://127.0.0.1:<ephemeral-plc>"
+      ],
+      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "testedAt": "2026-08-26T05:13:36Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "local-oauth-verification.json": {
+      "deploymentImage": "cloudflare-pages:df730c94.social-edriffles.pages.dev",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T10:07:21Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:f09a762647b233b541b3bdf0732f2fa7bf912f0a940d7de584eb5640c2c803e9",
+      "deploymentId": "df730c94-4b7f-4d11-8119-a1ca6f49686b",
+      "sourceWorkingTreeDigest": "sha256:f09a762647b233b541b3bdf0732f2fa7bf912f0a940d7de584eb5640c2c803e9",
+      "webArtifactDigest": "sha256:e1075e2052b713c901e1ea5338b656a929861da9f915754d24f3deb42f4b7034",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "local-private-canary-scan.json": {
+      "deploymentImage": "not-deployed-local-test-runner",
+      "environment": "disposable-local-pds",
+      "origins": [
+        "http://127.0.0.1:<ephemeral-pds>",
+        "http://127.0.0.1:<ephemeral-plc>"
+      ],
+      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "testedAt": "2026-08-26T05:13:36Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+    },
+    "oauth-migration.json": {
+      "deploymentImage": "cloudflare-pages:84d66888.social-edriffles.pages.dev",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T08:03:00Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "oauth-negative-cases.json": {
+      "deploymentImage": "cloudflare-pages:84d66888.social-edriffles.pages.dev",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T08:03:00Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "org-radlib-authority.json": {
+      "deploymentImage": "not-deployed-authority-check",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T08:03:00Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "pds-deploy-success-8473b0ba.json": {
+      "deploymentImage": "pds:sha256:8473b0ba089930f9ad61773c27f9efb65a5c238e2e666794a8ef9e0bf86b062a",
+      "sourceImage": "sha256:8473b0ba089930f9ad61773c27f9efb65a5c238e2e666794a8ef9e0bf86b062a",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T23:20:54Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+      "sourceWorkingTreeDigest": "sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "pds-deploy-success-decf7cc2.json": {
+      "deploymentImage": "pds:sha256:decf7cc2650173e3e8d9ffa6a9c4d2aa53bb3220563a75332d12f5effe774537",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:e874fbd92f0ed82f68615de7caaf87c0629b3152b78912c11f376b1dba268ecc",
+      "testedAt": "2026-08-25T22:13:29Z",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:decf7cc2650173e3e8d9ffa6a9c4d2aa53bb3220563a75332d12f5effe774537",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "pds-relay-appview-canaries.json": {
+      "deploymentImage": "pds:sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T08:03:00Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "spaces-lifecycle.json": {
+      "deploymentImage": "pds:sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us"
+      ],
+      "testedAt": "2026-08-25T08:03:00Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+      "ownerException": "existing edriffles.us topology retained; no new registrable domain"
+    },
+    "radlib-edge-cutover-pending.json": {
+      "deploymentImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us"
+      ],
+      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819",
+      "testedAt": "2026-08-26T05:13:36Z",
+      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+    }
+  },
+  "integritySidecar": "artifacts/oauth-spaces-manifest.sha256",
+  "secretsIncluded": false,
+  "status": "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES"
+}

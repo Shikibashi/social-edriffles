@@ -1,0 +1,37 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "236dff2c",
+    "deploymentImage": "cloudflare-pages:236dff2c.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:ba44c30fd89fcf5d098b42b908556dc5ae2d5bf336cb08862f545bfdf33f1fb8",
+    "testedAt": "2026-08-25T19:38:44Z",
+    "webArtifactDigest": "sha256:09e159e96f1dc17025bc62c9808c241bc813f076e518fae10590cff78ef2ba80"
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Publish CSP headers for OAuth PDS origin",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "url": "https://236dff2c.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html; charset=utf-8",
+    "contentSecurityPolicy": "connect-src includes https://pds.edriffles.us",
+    "customOriginCallback": "200 text/html; charset=utf-8",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataBytes": 842,
+    "metadataSha256": "sha256:8299ca660d503534ef90a8efe5ad419ef792f6ce084b84d527bb95dc1d64782a"
+  },
+    "evidenceStatus": "historical-superseded",
+    "format": "org.radlib.cloudflare-deploy-success/1",
+    "status": "HISTORICAL_DEPLOYED_CSP_WITH_PDS_ORIGIN_BEFORE_PLC_RESOLVER_FIX"
+}

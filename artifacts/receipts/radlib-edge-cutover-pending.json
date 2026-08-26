@@ -1,0 +1,59 @@
+{
+  "secretsIncluded": false,
+  "format": "us.edriffles.radlib.edge-cutover/1",
+  "evidenceStatus": "current",
+  "status": "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES",
+  "bindings": {
+    "deploymentImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us"
+    ],
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819",
+    "testedAt": "2026-08-26T05:13:36Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+  },
+  "deployment": {
+    "worker": "radlib-edriffles-edge-production",
+    "config": "deploy/radlib-edge-proxy/wrangler.jsonc",
+    "publicHost": "social.edriffles.us",
+    "oauthIssuerHost": "radlib.edriffles.us",
+    "route": "deployed",
+    "legacyRoute": "deployed",
+    "pdsCompatibilityRoute": "deployed",
+    "dns": "verified",
+    "dryRun": "passed",
+    "pdsPublicHost": "reconfigured",
+    "pagesArtifactUpload": "cloudflare-pages:04418fe5.social-edriffles.pages.dev",
+    "publicHttpsProbe": "passed",
+    "publicProbeMethod": "curl-and-browser",
+    "oauthProviderApiRouting": "passed",
+    "publicPostRoute": "passed",
+    "publicClientMetadata": "passed",
+    "browserOAuthHandoff": "passed",
+    "browserCredentialEntry": "not-run-browser-policy",
+    "ownerHandleCompatibilityResource": "passed",
+    "canonicalAuthorizationServerProtectedResources": "passed"
+  },
+  "sourceContract": {
+    "legacyCompatibilityOrigin": "https://radlib.edriffles.us -> 308 -> https://social.edriffles.us",
+    "publicOrigin": "https://social.edriffles.us",
+    "metadataUrl": "https://social.edriffles.us/oauth-client-metadata.json",
+    "callbackUrl": "https://social.edriffles.us/oauth/callback",
+    "nativeCallback": "us.edriffles.social:/oauth/callback",
+    "pdsProtocolOrigin": "https://pds.edriffles.us",
+    "namespace": "us.edriffles.radlib.*",
+    "dnsAuthorityRecord": "_lexicon.radlib.edriffles.us"
+  },
+  "externalGates": [
+    "PUBLIC_CREDENTIALED_SPACES_REMOVAL_PROBE",
+    "RELAY_AND_APPVIEW_CANARY_SCAN_AFTER_ROUTE_CUTOVER",
+    "ALREADY_ISSUED_SPACE_CREDENTIAL_UNTIL_EXPIRY_POLICY",
+    "OAUTH_BROWSER_CREDENTIAL_ENTRY_NOT_RUN",
+    "OAUTH_EXPIRY_GAP"
+  ]
+}

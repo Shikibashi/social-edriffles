@@ -1,5 +1,5 @@
 {
-  "format": "org.radlib.moderation-list-ab-c",
+  "format": "us.edriffles.radlib.moderation-list-ab-c",
   "version": 1,
   "accounts": {"A":"local-alice","B":"remote-bob","C":"unrelated-charlie"},
   "scenarios": [

@@ -4,6 +4,14 @@ Status: `ALPHA-GATED / OWNER ACCEPTANCE PENDING / WAVE_2_VERIFIED`
 
 Audited: 2026-08-23
 
+> Historical alpha matrix, superseded for current release binding. Current
+> source, image, and external-gate evidence is in
+> `artifacts/oauth-spaces-manifest.json` and the current receipts. This
+> document is not a current production or namespace-authority verdict.
+> The `us.edriffles.radlib.*` authority record remains pending publication
+> under `edriffles.us`; no second registrable domain is required. Already-issued Space access remaining
+> usable until expiry remains an alpha limitation.
+
 This matrix records evidence from the fork's source-built test lane and the
 current browser smoke check. It does not authorize production use of the alpha
 PDS or claim E2EE.
@@ -25,7 +33,7 @@ PDS or claim E2EE.
 | A10 | Private sync/index is direct and rebuildable | `PASS (minimal)` | Cursor/sink abstraction reconciles `listRepoOps` and persists only positions. Server-side durable private AppView is future work. |
 | A11 | Private notification transport does not leak | `PARTIAL` | Space register/unregister RPCs are generated and wrapped; no browser notification service or notification index is deployed. |
 | A12 | Custom records use reviewed/generated Lexicons | `PASS WITH COMPATIBILITY NOTE` | PDS Lexicons are generated; the client generates the same Space source set after removing unsupported pinned-runtime format validators at the boundary. |
-| A13 | Community Space Lexicon resolves and scopes writes | `PASS (local authority)` | `org.radlib.community` resolves with `org.radlib.private.post`; a declared OAuth write succeeds and an undeclared collection is rejected. Live authority publication remains pending. |
+| A13 | Community Space Lexicon resolves and scopes writes | `PASS (local authority)` | `us.edriffles.radlib.community` resolves with `us.edriffles.radlib.private.post`; a declared OAuth write succeeds and an undeclared collection is rejected. Live `_lexicon.radlib.edriffles.us` authority publication remains pending. |
 | A14 | Private XRPC responses are non-cacheable and auth-varying | `PASS (local HTTP + deployed unauthorized probe)` | Local unauthorized and authorized `listCommunities`/`getSpace` responses, plus deployed unauthorized probes for both endpoints, carry `private, no-store` and `Vary` containing `Authorization` and `DPoP`. A credentialed deployed probe was not run because no production token was used. |
 | A15 | Alpha Docker lane is isolated | `PASS (documented)` | `docs/SPACES_ALPHA_INTEGRATION.md` specifies disposable identities, loopback binding, separate volume, health, and describe-server checks. |
 | A16 | Browser UI supports accepted paths | `PARTIAL (production auth recovery)` | Cloudflare Pages serves the new production bundle and the browser shell loads, but the current persisted production session still receives `InvalidToken` from the migrated PDS; the bundle now refreshes and retries body-less PDS reads, resolves a deep-linked board through its authority when local discovery is unavailable, and a fresh sign-in is still required to complete the live private-board check. |
@@ -64,9 +72,9 @@ The private-header read-only probe is intentionally separate from automated
 tests and requires a disposable test account/token:
 
 ```sh
-curl -i "$PDS_URL/xrpc/org.radlib.private.listCommunities?limit=50"
+curl -i "$PDS_URL/xrpc/us.edriffles.radlib.private.listCommunities?limit=50"
 curl -i -H "Authorization: Bearer <disposable-test-token>" \
-  "$PDS_URL/xrpc/org.radlib.private.listCommunities?limit=50"
+  "$PDS_URL/xrpc/us.edriffles.radlib.private.listCommunities?limit=50"
 ```
 
 Both responses must include `Cache-Control: private, no-store` and a `Vary`
@@ -86,7 +94,8 @@ not a source build failure.
 - The private sync implementation is minimal and fanout-based.
 - Browser notification sync, full community member management, aggregate feed
   pagination, and external Relay/AppView leak scans are not complete.
-- Live authority publication for `org.radlib.community` remains pending. The
+- Live authority publication for `us.edriffles.radlib.community` remains pending
+  at `_lexicon.radlib.edriffles.us`. The
   private-header fix is deployed in the tunnel-backed PDS alpha lane and the
   deployed unauthorized edge probe passes; a credentialed deployed probe was
   not run because no production token was used.

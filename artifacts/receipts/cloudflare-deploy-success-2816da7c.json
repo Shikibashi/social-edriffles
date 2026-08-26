@@ -1,0 +1,55 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "2816da7c",
+    "deploymentImage": "cloudflare-pages:2816da7c.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:d3a74290b00bb79d2a2004efd6a43464e8a96c1557aa3dd72b66667a7db1362e",
+    "testedAt": "2026-08-25T20:01:23Z",
+    "webArtifactDigest": "sha256:e6d415d3417e0e74205282da9af498f59c4f04ec22869bda7f5826ed9c59e727"
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Publish CSP headers for OAuth PDS and PLC origins",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "url": "https://2816da7c.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html; charset=utf-8",
+    "contentSecurityPolicy": "connect-src includes https://pds.edriffles.us and https://plc.directory",
+    "customOriginCallback": "200 text/html; charset=utf-8",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataBytes": 842,
+    "metadataSha256": "sha256:8299ca660d503534ef90a8efe5ad419ef792f6ce084b84d527bb95dc1d64782a",
+    "pdsDescribeServer": "200 application/json; inviteCodeRequired=true"
+  },
+  "metadataValidation": {
+    "officialClientValidation": "accepted",
+    "redirectUris": [
+      "https://social.edriffles.us/oauth/callback",
+      "us.edriffles.social:/oauth/callback"
+    ],
+    "url": "https://social.edriffles.us/oauth-client-metadata.json"
+  },
+  "pdsDiscovery": {
+    "availableUserDomains": [
+      ".pds.edriffles.us",
+      ".test"
+    ],
+    "describeServerHttpStatus": 200,
+    "inviteCodeRequired": true,
+    "url": "https://pds.edriffles.us/xrpc/com.atproto.server.describeServer"
+  },
+  "evidenceStatus": "historical-superseded",
+  "format": "org.radlib.cloudflare-deploy-success/1",
+  "status": "HISTORICAL_DEPLOYED_CSP_PLC_BEFORE_RUNTIME_VALIDATION_HARDENING"
+}

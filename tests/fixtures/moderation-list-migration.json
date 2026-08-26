@@ -1,5 +1,5 @@
 {
-  "format": "org.radlib.moderation-list-migration",
+  "format": "us.edriffles.radlib.moderation-list-migration",
   "version": 1,
   "ordering": [
     "create-private-list-mute",

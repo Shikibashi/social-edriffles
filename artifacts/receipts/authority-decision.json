@@ -1,0 +1,43 @@
+{
+  "bindings": {
+    "deploymentImage": "not-applicable-policy-decision",
+    "environment": "repository-contract",
+    "origins": [
+      "https://radlib.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "testedAt": "2026-08-26T05:13:36Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+  },
+  "decision": {
+    "controlledRegistrableDomain": "edriffles.us",
+    "independentUsEdRifflesRadlibAuthority": "verified-dns-and-repository",
+    "noNewDomainSeparation": true,
+    "purchaseOrClaimRadlibOrg": false,
+    "resolverMappingsAreAuthority": false
+  },
+  "format": "us.edriffles.radlib.authority-decision/1",
+  "priorEvidence": "artifacts/receipts/org-radlib-authority.json",
+  "reason": "The public namespace follows the existing edriffles.us domain: us.edriffles.radlib.* resolves through the verified _lexicon.radlib.edriffles.us TXT authority and the checked-in schema repository. No radlib.org purchase or second registrable domain is required.",
+  "secretsIncluded": false,
+  "evidenceStatus": "current",
+  "status": "PASSED_DNS_AUTHORITY_AND_LEXICON_REPOSITORY",
+  "authority": {
+    "txtName": "_lexicon.radlib.edriffles.us",
+    "txtValue": "did=did:plc:cndgd3x3zxqmuv6rm3lsjhjm",
+    "authorityDid": "did:plc:cndgd3x3zxqmuv6rm3lsjhjm",
+    "schemas": [
+      "us.edriffles.radlib.account",
+      "us.edriffles.radlib.community",
+      "us.edriffles.radlib.private.post"
+    ],
+    "dnsResolvers": [
+      "cloudflare-doh",
+      "google-doh"
+    ],
+    "resolution": "verified"
+  }
+}

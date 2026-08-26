@@ -2,6 +2,7 @@
 """Validate the bounded PR-00/PR-01 contract and deterministic fixtures."""
 from __future__ import annotations
 import json
+from hashlib import sha256
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -119,6 +120,18 @@ REQUIRED = [
     "tests/test_moderation_list_import.py",
     "tests/test_moderation_list_bypass_guard.py",
     "docs/RELEASE_NOTES_DAILY_DRIVER_V1.md",
+    "docs/ATPROTO_BEST_PRACTICES_GATE.md",
+    "docs/OAUTH_SPACES_ACCEPTANCE.md",
+    "docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md",
+    "scripts/validate_oauth_spaces_receipts.py",
+    "artifacts/receipts/local-oauth-verification.json",
+    "artifacts/receipts/local-oauth-spaces-acceptance.json",
+    "artifacts/receipts/local-private-canary-scan.json",
+    "artifacts/receipts/radlib-edge-cutover-pending.json",
+    "artifacts/receipts/cloudflare-deploy-attempt.json",
+    "artifacts/receipts/authority-decision.json",
+    "artifacts/oauth-spaces-manifest.json",
+    "artifacts/oauth-spaces-manifest.sha256",
 ]
 
 def load(rel: str):
@@ -130,6 +143,13 @@ def load(rel: str):
 def main() -> None:
     for rel in REQUIRED:
         load(rel)
+    best_practices = load("docs/ATPROTO_BEST_PRACTICES_GATE.md")
+    assert "ALPHA-ONLY" in best_practices
+    assert "official ATProto OAuth" in best_practices
+    assert "PKCE S256" in best_practices
+    assert "us.edriffles.radlib.*" in best_practices
+    assert "https://social.edriffles.us" in best_practices
+    assert "https://radlib.edriffles.us" in best_practices
     pins = load("upstream-pins.json")
     assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
     assert pins["repositories"]["socialApp"]["checkoutCommit"] == "c0bf3f558bf2b099d4bb1a2b29156eea6c358255"
@@ -233,6 +253,46 @@ def main() -> None:
     assert deployment_config["production"]["httpsRequired"] is True
     assert deployment_config["production"]["secretBuildVars"] is False
     assert deployment["deploymentStatus"] == "READY-BUT-NOT-EXECUTED"
+    local_oauth = load("artifacts/receipts/local-oauth-verification.json")
+    assert local_oauth["format"] == "org.radlib.local-oauth-verification/1"
+    assert local_oauth["secretsIncluded"] is False
+    assert local_oauth["status"].startswith("HISTORICAL_PASSED_LOCAL_SOURCE")
+    assert local_oauth["checks"]["productionPasswordSessionImports"] == 0
+    assert local_oauth["checks"]["productionPasswordSessionConstructors"] == 0
+    local_acceptance = load("artifacts/receipts/local-oauth-spaces-acceptance.json")
+    assert local_acceptance["format"] == "us.edriffles.radlib.local-oauth-spaces-acceptance/1"
+    assert local_acceptance["secretsIncluded"] is False
+    assert local_acceptance["checks"]["credentialedSpaceAuthAndLifecycle"]["result"] == "2 suites passed, 45 tests passed"
+    assert local_acceptance["status"].startswith("PASSED_LOCAL_OAUTH_SCOPE")
+    canary = load("artifacts/receipts/local-private-canary-scan.json")
+    assert canary["format"] == "us.edriffles.radlib.private-canary-scan/1"
+    assert canary["secretsIncluded"] is False
+    assert canary["status"].startswith("PASSED_LOCAL_PRIVATE_PATH")
+    deploy_attempt = load("artifacts/receipts/cloudflare-deploy-attempt.json")
+    assert deploy_attempt["format"] == "org.radlib.cloudflare-deploy-attempt/1"
+    assert deploy_attempt["attempt"]["deploymentCreated"] is False
+    authority_decision = load("artifacts/receipts/authority-decision.json")
+    assert authority_decision["format"] == "us.edriffles.radlib.authority-decision/1"
+    assert authority_decision["status"] == "PASSED_DNS_AUTHORITY_AND_LEXICON_REPOSITORY"
+    release_manifest = load("artifacts/oauth-spaces-manifest.json")
+    assert release_manifest["secretsIncluded"] is False
+    assert "local-oauth-verification.json" in release_manifest["receiptHashes"]
+    assert "radlib-edge-cutover-pending.json" in release_manifest["receiptHashes"]
+    assert release_manifest["format"] == "us.edriffles.radlib.oauth-spaces-manifest/1"
+    assert release_manifest["bindings"]["origins"] == ["https://social.edriffles.us"]
+    assert release_manifest["bindings"]["deploymentStatus"] == "SOCIAL_USER_FACING_CUTOVER_DEPLOYED"
+    assert "LEXICON_AUTHORITY_DNS_UNVERIFIED" not in release_manifest["blockers"]
+    assert "AUTHORITY_DEFERRED_OUT_OF_SCOPE" not in release_manifest["deferred"]
+    for receipt_name, expected_hash in release_manifest["receiptHashes"].items():
+        receipt_path = ROOT / "artifacts/receipts" / receipt_name
+        assert receipt_path.is_file()
+        assert sha256(receipt_path.read_bytes()).hexdigest() == expected_hash
+        binding = release_manifest["receiptBindings"][receipt_name]
+        assert binding["testedAt"]
+        assert binding["testedSourceRevision"]
+    manifest_path = ROOT / "artifacts/oauth-spaces-manifest.json"
+    sidecar = (ROOT / "artifacts/oauth-spaces-manifest.sha256").read_text().strip()
+    assert sidecar == f"{sha256(manifest_path.read_bytes()).hexdigest()}  artifacts/oauth-spaces-manifest.json"
     baseline = load("artifacts/upstream-baseline.json")
     delta = load("artifacts/upstream-delta-inventory.json")
     receipt = load("artifacts/upstream-rebase-receipt.json")
@@ -248,7 +308,7 @@ def main() -> None:
     assert radlib["verdict"] == "RADLIB_PRODUCT_ACCEPTANCE_READY_FOR_OWNER"
     assert owner["acceptanceState"] == "OWNER_ACCEPTANCE_PENDING"
     moderation_manifest = load("artifacts/radlib-moderation-policy-manifest.json")
-    assert moderation_manifest["$type"] == "org.radlib.social.policyManifest"
+    assert moderation_manifest["$type"] == "us.edriffles.radlib.social.policyManifest"
     assert moderation_manifest["moderation"]["membershipMutationCreatesBlocks"] is False
     moderation_review = load("artifacts/radlib-moderation-list-review.json")
     assert moderation_review["verdict"] == "RADLIB_CODEX_ACCEPTANCE_BLOCKED"

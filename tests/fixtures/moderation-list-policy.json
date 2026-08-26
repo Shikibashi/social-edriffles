@@ -1,5 +1,5 @@
 {
-  "format": "org.radlib.moderation-list-policy",
+  "format": "us.edriffles.radlib.moderation-list-policy",
   "version": 1,
   "rawRecords": [
     "app.bsky.graph.block",

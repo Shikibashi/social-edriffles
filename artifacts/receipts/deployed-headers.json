@@ -1,0 +1,37 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "deploymentId": "df730c94-4b7f-4d11-8119-a1ca6f49686b",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "cloudflare-pages:df730c94.social-edriffles.pages.dev",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "changedSpaEvidence": "changed OAuth SPA and metadata deployed to the existing social.edriffles.us origin",
+  "format": "org.radlib.deployed-headers/1",
+  "metadataDeployment": {
+    "authorized": "existing-origin changed SPA deployment; no DNS or registrable-domain change",
+    "deploymentId": "df730c94-4b7f-4d11-8119-a1ca6f49686b",
+    "origin": "https://social.edriffles.us",
+    "sourceRevision": "working-tree:sha256:f09a762647b233b541b3bdf0732f2fa7bf912f0a940d7de584eb5640c2c803e9"
+  },
+  "selectedHeaders": {
+    "callback": "200",
+    "metadata": "200 application/json",
+    "metadataSha256": "sha256:2b2b89b6c618c3ccd7b403f052878ebe06d943e1cc00bff1682897e4eeea670d",
+    "privateSpacesListCommunities": "401 private,no-store; Vary Authorization, DPoP, Accept-Encoding",
+    "privateSpacesGetSpace": "401 private,no-store; Vary Authorization, DPoP, Accept-Encoding",
+    "privateSpacesCacheControl": "private,no-store",
+    "privateSpacesVary": "Authorization, DPoP, Accept-Encoding"
+  },
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_DEPLOYED_HEADERS_AND_PRIVATE_PROBE",
+  "timestamp": "2026-08-25T10:07:21Z"
+}

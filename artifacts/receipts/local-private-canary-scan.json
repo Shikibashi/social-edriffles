@@ -1,0 +1,49 @@
+{
+  "bindings": {
+    "deploymentImage": "not-deployed-local-test-runner",
+    "environment": "disposable-local-pds",
+    "origins": [
+      "http://127.0.0.1:<ephemeral-pds>",
+      "http://127.0.0.1:<ephemeral-plc>"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "testedAt": "2026-08-26T05:13:36Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+  },
+  "format": "us.edriffles.radlib.private-canary-scan/1",
+  "receiptContract": {
+    "canaryIdentity": "sha256 of a disposable private record body",
+    "publicPathEvidence": [
+      "PDS sync.getRepo CAR excludes the private collection",
+      "public repo sequencer does not advance for a private write",
+      "Relay subscription must not receive a public commit for the private write",
+      "Controlled AppView must return no canary record, or an explicit 404/empty result"
+    ],
+    "secretPolicy": "canary body, credentials, and tokens are never written to the receipt"
+  },
+  "scanTarget": {
+    "radlibOAuthScopeEnforcement": {
+      "result": "passed: OAuth Radlib control routes require matching us.edriffles.radlib Space read or manage grants",
+      "testResult": "3 suites passed, 78 tests passed"
+    },
+    "localPdsAndRelayBoundary": {
+      "command": "pnpm --config.pm-on-fail=ignore --filter @atproto/pds test:sqlite -- --runInBand tests/radlib-spaces.test.ts",
+      "result": "passed: public repo and sequencer checks"
+    },
+    "controlledAppView": {
+      "status": "NOT_AVAILABLE_NO_CONTROLLED_APPVIEW",
+      "reason": "The repository environment has no DB_POSTGRES_URL or REDIS_HOST for TestNetwork AppView startup"
+    },
+    "externalAppView": {
+      "receipt": "artifacts/receipts/pds-relay-appview-canaries.json",
+      "status": "HISTORICAL_INCONCLUSIVE_APPVIEW_403",
+      "note": "The referenced public probe used an older disposable PDS image; no controlled current AppView target is available."
+    }
+  },
+  "secretsIncluded": false,
+  "evidenceStatus": "current",
+  "status": "PASSED_LOCAL_PRIVATE_PATH_CHECKS_EXTERNAL_APPVIEW_SCAN_PENDING"
+}

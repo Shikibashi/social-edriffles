@@ -96,7 +96,7 @@ const main = async () => {
     provider = createServer(async (request, response) => {
       if (
         request.method !== 'POST' ||
-        request.url !== '/xrpc/org.radlib.moderation.getListMuteAttestation'
+        request.url !== '/xrpc/us.edriffles.radlib.moderation.getListMuteAttestation'
       ) {
         response.writeHead(404).end()
         return
@@ -187,7 +187,7 @@ const main = async () => {
     const listUriHash = await sha256Hex(listUri)
     const nonce = 'radlib-live-walkthrough-001'
     const providerResponse = await fetch(
-      `${providerUrl}/xrpc/org.radlib.moderation.getListMuteAttestation`,
+      `${providerUrl}/xrpc/us.edriffles.radlib.moderation.getListMuteAttestation`,
       {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -204,7 +204,7 @@ const main = async () => {
     }
 
     const recordResponse = await fetch(
-      `${targetPds.url}/xrpc/org.radlib.moderation.recordListMuteAttestation`,
+      `${targetPds.url}/xrpc/us.edriffles.radlib.moderation.recordListMuteAttestation`,
       {
         method: 'POST',
         headers: {

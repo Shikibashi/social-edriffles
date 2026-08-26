@@ -1,0 +1,70 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "7c5fcd1c",
+    "deploymentImage": "cloudflare-pages:7c5fcd1c.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+    "testedAt": "2026-08-25T23:41:15Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:5859c25f9099c0e9c1768a325af5cced76612deffb338861ba18d5962df1348d",
+    "webArtifactDigest": "sha256:4e8ff9c44b4f59880eef358402efd2a57e49ebb51c1a08c9fd35a57fa90b0ffc"
+  },
+  "revalidation": {
+    "revalidatedAfterSourceChange": true,
+    "basis": "Fresh local production web build matched the deployed web artifact digest; live custom and Pages metadata and callback probes returned the recorded responses.",
+    "pagesUploadPerformed": false
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Deploy Social web client with Radlib OAuth scope enforcement",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "topology": "same edriffles.us custom domain and Pages project; no DNS or domain changes",
+    "url": "https://7c5fcd1c.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html; charset=utf-8",
+    "contentSecurityPolicy": "connect-src includes https://pds.edriffles.us and https://plc.directory",
+    "customOriginCallback": "200 text/html; charset=utf-8",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataBytes": 999,
+    "metadataSha256": "sha256:27a814eba54eb51e6e0e8618fabd0e13b9836a115feee89535f4e89983bf0d6c",
+    "pdsDescribeServer": "200 application/json; inviteCodeRequired=false",
+    "pdsDidDocument": "200 application/did+json; id=did:web:pds.edriffles.us"
+  },
+  "metadataValidation": {
+    "officialClientValidation": "accepted",
+    "officialClientValidationCommand": "cd upstream/atproto-pds && node --input-type=module -e \"import { readFileSync } from 'node:fs'; import { validateClientMetadata } from './packages/oauth/oauth-client/dist/validate-client-metadata.js'; const metadata=JSON.parse(readFileSync('../../upstream/social-app/public/oauth-client-metadata.json','utf8')); validateClientMetadata(metadata); console.log('official ATProto validateClientMetadata: accepted');\"",
+    "officialClientValidationImplementation": "upstream/atproto-pds/packages/oauth/oauth-client/dist/validate-client-metadata.js",
+    "redirectUris": [
+      "https://social.edriffles.us/oauth/callback",
+      "us.edriffles.social:/oauth/callback"
+    ],
+    "url": "https://social.edriffles.us/oauth-client-metadata.json"
+  },
+  "pdsDiscovery": {
+    "availableUserDomains": [
+      ".pds.edriffles.us",
+      ".test"
+    ],
+    "describeServerHttpStatus": 200,
+    "didDocumentContentType": "application/did+json",
+    "didDocumentHttpStatus": 200,
+    "didDocumentServiceEndpoint": "https://pds.edriffles.us",
+    "inviteCodeRequired": false,
+    "url": "https://pds.edriffles.us/xrpc/com.atproto.server.describeServer"
+  },
+  "evidenceStatus": "historical-superseded",
+  "format": "org.radlib.cloudflare-deploy-success/1",
+  "status": "HISTORICAL_SUPERSEDED_BY_RADLIB_EDGE_HOST_CUTOVER",
+  "supersededBy": "radlib-edge-cutover-pending.json"
+}

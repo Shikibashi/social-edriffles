@@ -1,0 +1,71 @@
+{
+  "secretsIncluded": false,
+  "format": "org.radlib.pds-deploy-success/1",
+"evidenceStatus": "historical-superseded",
+"status": "HISTORICAL_SUPERSEDED_PDS_IMAGE_DECF7CC2",
+  "bindings": {
+    "deploymentImage": "pds:sha256:decf7cc2650173e3e8d9ffa6a9c4d2aa53bb3220563a75332d12f5effe774537",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceImage": "sha256:decf7cc2650173e3e8d9ffa6a9c4d2aa53bb3220563a75332d12f5effe774537",
+    "sourceWorkingTreeDigest": "sha256:e874fbd92f0ed82f68615de7caaf87c0629b3152b78912c11f376b1dba268ecc",
+    "testedAt": "2026-08-25T22:13:29Z",
+    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+  },
+  "deployment": {
+    "composeProject": "codex-spaces-alpha-test",
+    "volume": "codex_spaces_alpha_test_data",
+    "topology": "same tunnel-backed pds.edriffles.us; no DNS or domain changes"
+  },
+  "runtime": {
+    "localHealthHttpStatus": 200,
+    "publicHealthHttpStatus": 200,
+    "publicDescribeServerHttpStatus": 200,
+    "publicDescribeServerInviteCodeRequired": false,
+    "publicDidDocumentHttpStatus": 200,
+    "publicDidDocumentContentType": "application/did+json",
+    "publicDidDocumentServiceEndpoint": "https://pds.edriffles.us"
+  },
+  "lexicon": {
+    "authorityDid": "did:plc:4hcmfnt55n3m7ojeqtqidayn",
+    "authorityMode": "disposable PDS-local resolver configuration; independent DNS namespace authority is not claimed",
+    "oauthSpaceDeclarationResolution": "passed: org.radlib.account and org.radlib.community resolve through the configured disposable authority DID",
+    "privatePostValidateTrue": "passed",
+    "spaceReferenceValidation": "passed: complete Space URIs are required at every control-plane boundary"
+  },
+  "oauthProtocolFlow": {
+    "authorizationPageHttpStatus": 200,
+    "authorizationRequestCreated": true,
+    "callbackCompleted": true,
+    "consentHttpStatus": 200,
+    "implementation": "@atproto/oauth-client-node official client",
+    "profile": "PAR, PKCE S256, DPoP-bound authorization code, refresh, and revocation",
+    "refreshRestoreCompleted": true,
+    "revocationCompleted": true,
+    "signInHttpStatus": 200,
+    "status": "PASSED_DISPOSABLE_CREDENTIALED_OAUTH_PAR_PKCE_DPOP_REFRESH_REVOKE"
+  },
+  "credentialedLifecycle": {
+    "disposableAccountsCreated": 2,
+    "initialSpaceAccessIssuanceHttpStatus": 200,
+    "recordWriteHttpStatus": 200,
+    "memberRemovalHttpStatus": 200,
+    "newSpaceAccessAfterRemovalHttpStatus": 400,
+    "newSpaceAccessAfterRemovalError": "UserNotAuthorized",
+    "alreadyIssuedSpaceAccessAfterRemovalHttpStatus": 200,
+    "cleanupHttpStatus": 200,
+    "interpretation": "new issuance is blocked after member removal; an already-issued alpha Space access remains usable until expiry"
+  },
+  "notes": [
+    "Disposable alpha/staging image only; no production credentials used",
+    "The did:web service document is publicly reachable and points to the configured PDS service endpoint",
+    "The existing edriffles.us domain topology is retained by owner decision; radlib.org and any new registrable domain are out of scope"
+  ]
+}

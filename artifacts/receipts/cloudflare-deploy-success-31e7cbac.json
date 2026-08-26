@@ -1,0 +1,36 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "31e7cbac",
+    "deploymentImage": "cloudflare-pages:31e7cbac.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:525ec73d928474475037e118d457c2be495c16ee1e0ca21f2b3aac4a09653b11",
+    "testedAt": "2026-08-25T19:18:14Z",
+    "webArtifactDigest": "sha256:2c2cfbca8e49ada3ccf038f0109967b4845af41ac23b75f32f0cab2130c8d48a"
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Harden OAuth release evidence and callback test",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "url": "https://31e7cbac.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html; charset=utf-8",
+    "customOriginCallback": "200 text/html; charset=utf-8",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataBytes": 842,
+    "metadataSha256": "sha256:8299ca660d503534ef90a8efe5ad419ef792f6ce084b84d527bb95dc1d64782a"
+  },
+  "evidenceStatus": "historical-superseded",
+  "format": "org.radlib.cloudflare-deploy-success/1",
+  "status": "HISTORICAL_DEPLOYED_PRIOR_CSP_HEADER_FIX"
+}

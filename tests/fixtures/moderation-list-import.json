@@ -1,5 +1,5 @@
 {
-  "format": "org.radlib.moderation-list-import",
+  "format": "us.edriffles.radlib.moderation-list-import",
   "version": 1,
   "input": "standards-compliant CAR containing historical app.bsky.graph.listblock records",
   "pdsBehavior": [

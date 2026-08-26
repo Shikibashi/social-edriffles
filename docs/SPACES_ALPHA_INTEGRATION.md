@@ -1,6 +1,6 @@
 # Spaces Alpha Integration
 
-Status: `ALPHA_GATED / WAVE_2_DEPLOYED` on `codex/spaces-alpha-integration`.
+Status: `ALPHA_GATED / SOURCE_READY / RADLIB.EDRIFFLES.US_CUTOVER_PENDING` on `codex/spaces-alpha-integration`.
 
 This branch uses the upstream ATProto `permissioned-data` branch as the PDS
 base and carries the fork's protected-account/community policy above the
@@ -32,7 +32,7 @@ The standard Spaces APIs own private transport and repository data:
   record/blob/repo-discovery/recovery queries, but it is not itself a complete
   multi-PDS sync service.
 
-`org.radlib.private.*` remains only for the higher-level protected-account and
+`us.edriffles.radlib.private.*` remains only for the higher-level protected-account and
 community control plane: visibility, follow approval/revocation, community
 metadata, discovery, invites, membership policy, and bans. Its SQLite state is
 policy state, not the authority for new Space records or blobs. The old custom
@@ -66,12 +66,13 @@ checkout:
   unavailable, malformed, paginated beyond the configured bound, or exceeds
   the shared five-second lookup deadline. Confirmed blocks still revoke the
   pending/approved state.
-- `org.radlib.community` is a checked-in `type: "space"` Lexicon with
-  `key: "any"` and only `org.radlib.private.post` declared. The disposable
-  Lexicon-authority fixture resolves it and the OAuth write boundary rejects an
-  undeclared collection. Publication by the live authority DID remains
-  `PENDING`.
-- Private `org.radlib.private.*` responses set `Cache-Control: private,
+- `us.edriffles.radlib.community` is a checked-in `type: "space"` Lexicon with
+  `key: "any"` and only `us.edriffles.radlib.private.post` declared. The
+  disposable authority DID publishes the checked-in `us.edriffles.radlib.*`
+  declarations and the OAuth write boundary rejects an undeclared collection.
+  Independent DNS authority is now a named cutover gate at
+  `_lexicon.radlib.edriffles.us`; it is not claimed by the local resolver.
+- Private `us.edriffles.radlib.private.*` responses set `Cache-Control: private,
   no-store` and vary on `Authorization` and `DPoP`, including service-auth
   fallback failures and successes. The local HTTP header matrix passes, and
   deployed unauthorized probes for both `listCommunities` and `getSpace`
@@ -129,7 +130,8 @@ volumes:
 Create `.env.test` from the reference PDS `sample.env`, using disposable
 test-only keys and paths. For this fork, add the opt-in flags from the section
 above; the upstream image's “no new configuration” statement covers upstream
-Spaces support, not this fork's `org.radlib.private.*` compatibility policy.
+Spaces support, not this fork's `us.edriffles.radlib.private.*` compatibility
+policy.
 Do not publish the PDS on `0.0.0.0`, put it behind a public reverse proxy, or
 reuse production secrets for this lane.
 
@@ -167,26 +169,31 @@ Verified in this checkout:
   suites: 149 tests passed;
 - formatter and lint checks for the touched PDS/dev-env files.
 - Pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`.
-- Deployed image: `codex/atproto-pds-spaces-alpha:test` digest
-  `sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6`;
-  existing volume `codex_spaces_alpha_test_data` remained mounted.
-- Post-deploy `https://pds.edriffles.us/xrpc/_health` and
-  `com.atproto.server.describeServer` passed; the tunnel service is active.
-- Post-deploy unauthorized `listCommunities` and `getSpace` probes returned
-  `Cache-Control: private, no-store` and `Vary: Authorization, DPoP,
-  Accept-Encoding`.
+- The prior disposable image and tunnel probe are retained as historical
+  evidence. The new single-host route is described in
+  `docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md`; its Worker dry run passes, but the
+  public route and PDS public-host reconfiguration remain pending.
+- Credentialed disposable OAuth protocol flow passed through the official Node
+  client with PAR, PKCE S256, DPoP, callback, forced refresh, and revocation;
+  the browser UI walkthrough remains unrun because no browser executable is
+  available.
+- The pre-cutover PDS health, discovery, and unauthorized-header probes remain
+  historical evidence; they must be rerun through `https://radlib.edriffles.us`
+  after the edge route and PDS host configuration are live.
 
 Not established by this branch:
 
-- a credentialed deployed header probe, because no production token was used;
-- live publication of `org.radlib.community` by the authority DID;
+- a production credentialed header probe, because no production token was used;
+- independent DNS publication of `us.edriffles.radlib.*` authority at
+  `_lexicon.radlib.edriffles.us`;
 - native Hermes/Metro WebCrypto compatibility;
 - a server-side private AppView or browser notification service (the client has
   a rebuildable cursor/sink boundary and generated notification wrappers);
 - immediate invalidation of already-issued Space credentials after membership
-  removal;
-- production fielding or owner acceptance. This remains an alpha/test lane,
-  even though the tunnel-backed PDS is reachable at the public hostname.
+  removal; the disposable credentialed probe confirms that new issuance is
+  rejected while an already-issued alpha access remains usable until expiry;
+- production fielding or owner acceptance. This remains an alpha/test lane
+  until the single-host route is deployed and independently probed.
 
 These are explicit follow-up gates. They must not be inferred from a passing
 typecheck, fixture, or local PDS build.

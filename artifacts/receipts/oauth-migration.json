@@ -1,0 +1,44 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "cloudflare-pages:84d66888.social-edriffles.pages.dev",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "format": "org.radlib.oauth-migration-receipt/1",
+  "metadata": {
+    "callbackStatus": 200,
+    "clientIdMatches": true,
+    "contentType": "application/json",
+    "httpStatus": 200,
+    "officialClientValidation": "accepted",
+    "redirectUri": "https://social.edriffles.us/oauth/callback",
+    "sha256": "ebc85c642de25e68c033dc98f5feb1d1cb891c1e7a65f820eb6ca503125cafa4",
+    "url": "https://social.edriffles.us/oauth-client-metadata.json"
+  },
+  "migrationRequirement": "production source must stop importing/constructing @atproto/lex-password-session",
+  "protocolObserved": [
+    "PAR DPoP nonce 400 then 201",
+    "authorization 200 with CSRF",
+    "consent 200",
+    "callback 303 with code/state/iss",
+    "token DPoP 200",
+    "issuer DID resolution 200",
+    "XRPC DPoP 200",
+    "refresh DPoP 200",
+    "revoke DPoP 200"
+  ],
+  "evidenceStatus": "historical-superseded",
+  "result": "Historical OAuth evidence from the pre-migration deployment; superseded by the current source and deployment receipts",
+  "sourceInventory": "no top-level production SPA source is vendored; social-app is a dirty submodule and was not overwritten",
+  "status": "HISTORICAL_BLOCKED_SOURCE_MIGRATION",
+  "timestamp": "2026-08-25T08:03:00Z"
+}

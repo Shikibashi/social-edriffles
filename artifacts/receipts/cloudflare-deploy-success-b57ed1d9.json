@@ -1,0 +1,61 @@
+{
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "b57ed1d9",
+    "deploymentImage": "cloudflare-pages:b57ed1d9.social-edriffles.pages.dev",
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "sourceWorkingTreeDigest": "sha256:e874fbd92f0ed82f68615de7caaf87c0629b3152b78912c11f376b1dba268ecc",
+    "testedAt": "2026-08-25T21:42:45Z",
+    "webArtifactDigest": "sha256:cda8c646a3b8779e6268804f609ae15cc33b36f7eec30c45389ff499286f1b54"
+  },
+  "deployment": {
+    "branch": "main",
+    "commitMessage": "Deploy Social web client with current alpha release binding",
+    "dnsChanged": false,
+    "pagesProject": "social-edriffles",
+    "url": "https://b57ed1d9.social-edriffles.pages.dev"
+  },
+  "headers": {
+    "callback": "200 text/html; charset=utf-8",
+    "contentSecurityPolicy": "connect-src includes https://pds.edriffles.us and https://plc.directory",
+    "customOriginCallback": "200 text/html; charset=utf-8",
+    "customOriginMetadata": "200 application/json",
+    "deploymentMetadata": "200 application/json",
+    "metadataBytes": 842,
+    "metadataSha256": "sha256:8299ca660d503534ef90a8efe5ad419ef792f6ce084b84d527bb95dc1d64782a",
+    "pdsDescribeServer": "200 application/json; inviteCodeRequired=false",
+    "pdsDidDocument": "200 application/did+json; id=did:web:pds.edriffles.us"
+  },
+  "metadataValidation": {
+    "officialClientValidation": "accepted",
+    "officialClientValidationCommand": "cd upstream/atproto-pds && node --input-type=module -e \"import { readFileSync } from 'node:fs'; import { validateClientMetadata } from './packages/oauth/oauth-client/dist/validate-client-metadata.js'; const metadata=JSON.parse(readFileSync('../../upstream/social-app/public/oauth-client-metadata.json','utf8')); validateClientMetadata(metadata); console.log('official ATProto validateClientMetadata: accepted');\"",
+    "officialClientValidationImplementation": "upstream/atproto-pds/packages/oauth/oauth-client/dist/validate-client-metadata.js",
+    "redirectUris": [
+      "https://social.edriffles.us/oauth/callback",
+      "us.edriffles.social:/oauth/callback"
+    ],
+    "url": "https://social.edriffles.us/oauth-client-metadata.json"
+  },
+  "pdsDiscovery": {
+    "availableUserDomains": [
+      ".pds.edriffles.us",
+      ".test"
+    ],
+    "describeServerHttpStatus": 200,
+    "didDocumentContentType": "application/did+json",
+    "didDocumentHttpStatus": 200,
+    "didDocumentServiceEndpoint": "https://pds.edriffles.us",
+    "inviteCodeRequired": false,
+    "url": "https://pds.edriffles.us/xrpc/com.atproto.server.describeServer"
+  },
+"evidenceStatus": "historical-superseded",
+  "format": "org.radlib.cloudflare-deploy-success/1",
+"status": "HISTORICAL_SUPERSEDED_CLOUDFLARE_PAGES_DEPLOYMENT_B57ED1D9"
+}

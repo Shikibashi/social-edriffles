@@ -1,0 +1,58 @@
+{
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "pds:sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "format": "org.radlib.spaces-lifecycle/1",
+  "observations": [
+    {
+      "cacheControl": "private,no-store",
+      "case": "private headers",
+      "result": "passed",
+      "vary": [
+        "Authorization",
+        "DPoP",
+        "Accept-Encoding"
+      ]
+    },
+    {
+      "case": "member removal new credential",
+      "error": "400",
+      "result": "rejected"
+    },
+    {
+      "case": "already-issued credential after removal",
+      "limitation": "credential remains usable until expiry",
+      "result": "accepted",
+      "status": 200
+    },
+    {
+      "case": "getDelegationToken",
+      "result": "accepted",
+      "status": 200
+    },
+    {
+      "case": "private Lexicon write",
+      "limitation": "strict deployed validation rejects unknown org.radlib.private.post",
+      "result": "accepted with validate:false"
+    },
+    {
+      "case": "cleanup",
+      "result": "passed",
+      "status": 200
+    }
+  ],
+  "secretsIncluded": false,
+  "evidenceStatus": "alpha-local",
+  "status": "BLOCKED_ALPHA_LIMITATIONS",
+  "timestamp": "2026-08-25T08:03:00Z"
+}

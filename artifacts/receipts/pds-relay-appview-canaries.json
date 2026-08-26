@@ -1,0 +1,46 @@
+{
+  "secretsIncluded": false,
+  "appview": [
+    {
+      "canaryPresent": false,
+      "endpoint": "public.api.bsky.app",
+      "status": 403
+    },
+    {
+      "canaryPresent": false,
+      "endpoint": "api.bsky.app",
+      "status": 403
+    }
+  ],
+  "appviewInterpretation": "INCONCLUSIVE_APPVIEW_403, not a privacy pass",
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "pds:sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "canarySha256": "3d7471883d190128d2a19fa30b20b40ab65d151fa16fb0bc7df132ab81ceac30",
+  "cleanup": "owner deleted 200",
+  "format": "org.radlib.pds-relay-appview-canaries/1",
+  "pds": {
+    "bytes": 329,
+    "canaryPresent": false,
+    "endpoint": "sync.getRepo",
+    "httpStatus": 200,
+    "responseSha256": "b2e5bb52835c56e8f0d68a73760cc52df73c4038d64e8572bb44d50fac41e9d1"
+  },
+  "relay": {
+    "canaryPresent": false,
+    "endpoint": "bsky.network Relay"
+  },
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_INCONCLUSIVE_APPVIEW_403",
+  "timestamp": "2026-08-25T08:03:00Z"
+}

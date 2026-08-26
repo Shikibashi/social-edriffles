@@ -33,7 +33,7 @@
         "packages/pds/src/api/com/atproto/repo/importRepo.ts",
         "packages/pds/src/api/com/atproto/space",
         "packages/pds/src/api/com/atproto/simplespace",
-        "packages/pds/src/api/org/radlib/private",
+        "packages/pds/src/api/us/edriffles/radlib/private",
         "packages/pds/src/permissioned-data"
       ],
       "buildCommand": "npm exec --yes --package=pnpm@11.11.0 -- pnpm --dir upstream/atproto-pds --filter @atproto/pds build"

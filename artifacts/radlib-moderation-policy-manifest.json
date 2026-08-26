@@ -1,5 +1,5 @@
 {
-  "$type": "org.radlib.social.policyManifest",
+  "$type": "us.edriffles.radlib.social.policyManifest",
   "version": "1.0",
   "policyVersion": "radlib-moderation/1",
   "classification": ["PRODUCT POLICY", "NORMATIVE", "INTEROPERABILITY"],

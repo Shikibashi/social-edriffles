@@ -24,7 +24,7 @@ The private adapter is `RadlibPrivateDataStore`, behind the
 `PermissionedSpaceAdapter` interface. It is mounted only when
 `PDS_PERMISSIONED_DATA_ENABLED=true`. It has no dependency on `ActorStore`,
 the public repository, the public sequencer, CAR export, or `subscribeRepos`.
-Private record collections are reserved to `org.radlib.private.*`; the shared
+Private record collections are reserved to `us.edriffles.radlib.private.*`; the shared
 public `prepareCreate`, `prepareUpdate`, `createRecord`, `putRecord`, and
 `applyWrites` boundaries reject that namespace even if the feature is later
 disabled. Public CAR import rejects non-delete writes in that namespace.
@@ -58,33 +58,33 @@ repository or a public AppView index.
 
 ### Permissioned records and blobs
 
-- `org.radlib.private.putRecord` writes only fork-owned private collections.
-- `org.radlib.private.getRecord` and `listRecords` re-evaluate the ACL on every
+- `us.edriffles.radlib.private.putRecord` writes only fork-owned private collections.
+- `us.edriffles.radlib.private.getRecord` and `listRecords` re-evaluate the ACL on every
   request; failed authorization returns not-found behavior.
-- `org.radlib.private.uploadBlob` writes outside the public blob store with
+- `us.edriffles.radlib.private.uploadBlob` writes outside the public blob store with
   `0600` file permissions and size/MIME limits.
-- `org.radlib.private.getBlob` performs an authenticated current ACL check and
+- `us.edriffles.radlib.private.getBlob` performs an authenticated current ACL check and
   sends `Cache-Control: private, no-store` and `X-Content-Type-Options: nosniff`.
 - Direct blocks authored by the private-record owner are checked again at the
   PDS API read boundary, so an old approval row cannot keep serving a blocked
   viewer.
 - The generic write API does not accept `app.bsky.feed.post` in the private
-  store; the private post schema is `org.radlib.private.post`.
+  store; the private post schema is `us.edriffles.radlib.private.post`.
 
 ### Private feed and direct PDS synchronization
 
-- `org.radlib.private.getFeed` is an explicit PDS-local private feed. It fixes
-  the collection to `org.radlib.private.post`, checks the current viewer ACL,
+- `us.edriffles.radlib.private.getFeed` is an explicit PDS-local private feed. It fixes
+  the collection to `us.edriffles.radlib.private.post`, checks the current viewer ACL,
   rechecks direct blocks, and returns the actual hosting PDS DID as provider
   provenance.
 - The client exposes the feed at `/private-feed` from the private-spaces
   settings surface. Its React Query root is excluded from persisted snapshots;
   the screen does not route through the public AppView or a Relay.
-- `org.radlib.private.createSyncGrant` issues a 256-bit random bearer
+- `us.edriffles.radlib.private.createSyncGrant` issues a 256-bit random bearer
   capability whose SHA-256 hash is stored. The grant names one target PDS DID,
   one target actor DID, an optional private collection, and an expiry no more
   than 30 days away. The raw token is returned only at creation.
-- `org.radlib.private.syncPull` is a direct POST capability endpoint. Every
+- `us.edriffles.radlib.private.syncPull` is a direct POST capability endpoint. Every
   pull checks the token hash, space, target PDS, target actor, collection,
   expiry, and revocation before returning records. `revokeSyncGrant` makes
   subsequent pulls fail immediately.
@@ -120,11 +120,11 @@ repository or a public AppView index.
 | Adapter contract and private store | `upstream/atproto-pds/packages/pds/src/permissioned-data/adapter.ts`, `store.ts` |
 | Config and flags | `upstream/atproto-pds/packages/pds/src/config/env.ts`, `config.ts`, `example.env` |
 | PDS lifecycle | `upstream/atproto-pds/packages/pds/src/context.ts`, `src/index.ts` |
-| Private XRPC | `upstream/atproto-pds/packages/pds/src/api/org/radlib/private/index.ts` |
-| Private Lexicons | `upstream/atproto-pds/lexicons/org/radlib/private/*.json` |
+| Private XRPC | `upstream/atproto-pds/packages/pds/src/api/us/edriffles/radlib/private/index.ts` |
+| Private Lexicons | `upstream/atproto-pds/lexicons/us/edriffles/radlib/private/*.json` |
 | Public write boundary | `src/repo/permissioned-policy.ts`, `src/repo/prepare.ts`, public repo write APIs |
 | CAR boundary | `src/api/com/atproto/repo/importRepo.ts` |
-| Client generated types | `upstream/social-app/lexicons/org/radlib/private/*.json`, generated `src/lexicons/org/radlib/private/*` |
+| Client generated types | `upstream/social-app/lexicons/us/edriffles/radlib/private/*.json`, generated `src/lexicons/us/edriffles/radlib/private/*` |
 | Client policy and private composer | `upstream/social-app/src/state/queries/protected-account.ts`, `src/screens/Settings/components/ProtectedAccountToggle.tsx`, `PrivacyAndSecuritySettings.tsx`, `src/lib/permissioned-data.ts`, `src/view/com/composer/Composer.tsx` |
 | Store/API/privacy tests | `upstream/atproto-pds/packages/pds/tests/private-permission-store.test.ts`, `private-permission-api.test.ts`, `permissioned-policy.test.ts`; `upstream/social-app/src/lib/permissioned-data.test.ts` |
 
@@ -137,7 +137,7 @@ repository or a public AppView index.
 | P3 private blobs deny unauthorized access | PASS | Store ACL/blob test and private response headers. |
 | P4 unauthorized direct lookup fails closed | PASS for private XRPC | `getRecord`/`getBlob` return not-found behavior; auth success and failure responses are `private, no-store` and vary on `Authorization, DPoP`; no public AppView private lookup exists. |
 | P5 global public search has no private records | PASS structurally | No private records are indexed in public tables or public APIs; private search is not implemented. |
-| P6 private feeds are viewer-authorized | PASS for PDS-local private feed | `org.radlib.private.getFeed` fixes the private-post collection, re-checks the current viewer ACL and direct block boundary, returns provider DID provenance, and is hydrated by the client `/private-feed` screen. This is intentionally not a public AppView/indexer. |
+| P6 private feeds are viewer-authorized | PASS for PDS-local private feed | `us.edriffles.radlib.private.getFeed` fixes the private-post collection, re-checks the current viewer ACL and direct block boundary, returns provider DID provenance, and is hydrated by the client `/private-feed` screen. This is intentionally not a public AppView/indexer. |
 | P7 revocation blocks later access | PASS locally | Approved-follower revocation, community leave, and ban tests re-read after transition. |
 | P8 blocking invalidates account-space access | PARTIAL | PDS owner-block lookup is applied to private API reads; end-to-end direct-block integration is not yet exercised in a live multi-account harness. |
 | P9 hidden communities do not leak discovery metadata | PASS locally | `getSpaceForViewer` returns null to non-members for private/invite-only spaces; tests cover membership ACL. |
@@ -153,7 +153,7 @@ scenario.
 
 - The current Bluesky public composer still writes ordinary public records.
   Protected-account users now have an explicit, text-only private-post mode in
-  the composer. It calls `org.radlib.private.putRecord` and never calls the
+  the composer. It calls `us.edriffles.radlib.private.putRecord` and never calls the
   public post writer. Public composition remains an explicit separate mode.
 - Private media composition, private thread/quote/repost/like semantics,
   private notifications, private search, and a viewer-aware private AppView

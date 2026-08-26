@@ -1,0 +1,47 @@
+{
+  "bindings": {
+    "environment": "disposable-public-alpha/staging",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us"
+    ],
+    "ownerException": "existing edriffles.us topology retained; no new registrable domain",
+    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
+    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
+    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
+    "deploymentImage": "cloudflare-pages:84d66888.social-edriffles.pages.dev",
+    "sourceImage": "sha256:a747128904ece7d65e7184f0637ece535aa25ded9f3838d8cd8e37dcb1e557b6"
+  },
+  "cases": [
+    {
+      "case": "invalid callback",
+      "error": "OAuthCallbackError",
+      "result": "rejected"
+    },
+    {
+      "case": "callback replay",
+      "error": "OAuthCallbackError",
+      "result": "rejected"
+    },
+    {
+      "case": "invalid scope PAR",
+      "error": "OAuthResponseError",
+      "result": "rejected"
+    },
+    {
+      "case": "post-signout restore",
+      "error": "TokenRefreshError",
+      "result": "rejected"
+    },
+    {
+      "case": "short-TTL expiry",
+      "note": "no remote short-TTL expiry was available",
+      "result": "NOT_OBSERVED"
+    }
+  ],
+  "format": "org.radlib.oauth-negative-cases/1",
+  "secretsIncluded": false,
+  "evidenceStatus": "historical-superseded",
+  "status": "HISTORICAL_PARTIAL_REMOTE_EVIDENCE",
+  "timestamp": "2026-08-25T08:03:00Z"
+}
