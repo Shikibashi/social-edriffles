@@ -54,7 +54,8 @@ EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
 EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public Bluesky AppView (explicit read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
 EXPO_PUBLIC_ACCOUNT_SERVICE=https://social.edriffles.us \
-EXPO_PUBLIC_SPACES_ALPHA_ENABLED=0 \
+EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1 \
+EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1 \
 pnpm build-web
 ```
 
@@ -65,6 +66,12 @@ to `/index.html`. The post-build step also normalizes entrypoint asset URLs to
 uses the single public origin for account/PDS paths. The edge Worker routes
 those paths to the PDS implementation target; AppView, resolver, feed, and
 labeler services remain explicitly configured service boundaries.
+
+The two Spaces settings are intentionally required for this deployment: the
+first activates the Space-backed community board and the second explicitly
+acknowledges the alpha protocol in the production web bundle. This is an
+operational alpha opt-in and does not waive the remaining Spaces credential,
+revocation, interoperability, or production-readiness limitations.
 
 ## Re-deploying Pages
 
@@ -81,7 +88,8 @@ EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
 EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public Bluesky AppView (explicit read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
 EXPO_PUBLIC_ACCOUNT_SERVICE=https://social.edriffles.us \
-EXPO_PUBLIC_SPACES_ALPHA_ENABLED=0 \
+EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1 \
+EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1 \
 pnpm build-web
 
 cd /var/home/tcs/Code/atproto

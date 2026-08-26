@@ -17,8 +17,11 @@ authorize production use of the Spaces alpha.
 - Keep `com.atproto.space.*` and `com.atproto.simplespace.*` behind an explicit
   alpha feature/deployment gate. The official Spaces announcement says the
   alpha may break and must not be used for production code.
-- The client now rejects private Space writes when
-  `EXPO_PUBLIC_ENV=production` and `EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1`.
+- The client keeps the alpha path fail-closed unless a production build sets
+  both `EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1` and the separate
+  `EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1` acknowledgement. This is an
+  explicit operational opt-in for the web community board, not a claim that
+  the Spaces alpha is production-ready.
 - The disposable credentialed OAuth protocol flow and deployed HTTPS/header
   probes pass on the canonical origin. Run the fresh credentialed Spaces
   removal test and an external Relay/AppView leak scan. The browser handoff

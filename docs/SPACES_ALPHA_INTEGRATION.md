@@ -55,7 +55,11 @@ The client defaults to the standard Space adapter when
 unless `EXPO_PUBLIC_LEGACY_RADLIB_PRIVATE_ENABLED=1` is explicitly set for a
 migration-only lane. The PDS control routes do not require
 `PDS_LEGACY_RADLIB_PRIVATE_ENABLED`; that flag is not part of the normal
-Spaces path.
+Spaces path. A production web bundle must also set
+`EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1`; that second setting is an
+explicit operator acknowledgement for the requested community-board
+deployment and does not change the alpha status or production-readiness gates
+below.
 
 ## Wave 1/2 hardening evidence
 
