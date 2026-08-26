@@ -152,7 +152,7 @@ def main() -> None:
     assert "https://radlib.edriffles.us" in best_practices
     pins = load("upstream-pins.json")
     assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
-    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "bbb7d784bf831b2334d020ca6a27759ecebda32e"
+    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "31d7c8b083ddac2c44dc156f29081712211581c1"
     assert pins["repositories"]["atprotoPds"]["branch"] == "permissioned-data"
     assert pins["repositories"]["atprotoPds"]["commit"] == "89deb9fac20e56fa2a262fe9746ed52bc1095ba"
     assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "37f823c7e0e81eae8589c7ebed30fc38dfc0326a"
