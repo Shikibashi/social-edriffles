@@ -11,6 +11,7 @@
   "vars": {
     "WEB_ORIGIN": "https://social-edriffles.pages.dev",
     "PDS_ORIGIN": "https://pds.edriffles.us",
+    "APPVIEW_ORIGIN": "https://api.bsky.app",
     "PUBLIC_HOST": "radlib.edriffles.us",
     "PDS_PUBLIC_HOST": "pds.edriffles.us"
   },
@@ -23,6 +24,7 @@
       "vars": {
         "WEB_ORIGIN": "https://social-edriffles.pages.dev",
         "PDS_ORIGIN": "https://pds.edriffles.us",
+        "APPVIEW_ORIGIN": "https://api.bsky.app",
         "PUBLIC_HOST": "radlib.edriffles.us",
         "PDS_PUBLIC_HOST": "pds.edriffles.us"
       }
@@ -39,6 +41,7 @@
       "vars": {
         "WEB_ORIGIN": "https://social-edriffles.pages.dev",
         "PDS_ORIGIN": "https://pds.edriffles.us",
+        "APPVIEW_ORIGIN": "https://api.bsky.app",
         "PUBLIC_HOST": "radlib.edriffles.us",
         "PDS_PUBLIC_HOST": "pds.edriffles.us"
       },

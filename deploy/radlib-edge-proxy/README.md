@@ -18,6 +18,16 @@ issuer.
 | `/.well-known/*`, `/xrpc/*`, `/_health`, `/oauth/*` except `/oauth/callback`, and `/@atproto/oauth-provider/*` | PDS | DID, OAuth provider page/assets, sign-in/consent API, PAR, token, revocation, and AT Protocol APIs |
 | Web paths on `radlib.edriffles.us` | Worker redirect | Compatibility URL to `social.edriffles.us` |
 
+For canonical Social post routes (`/profile/:handleOrDID/post/:rkey`), the
+Worker resolves the public post through `APPVIEW_ORIGIN` and enriches the Pages
+HTML shell with Edriffles-branded Open Graph and Twitter-card metadata. This is
+the metadata contract used by chat clients and link unfurlers: author, post
+text, post media, timestamp, likes, replies, and reposts are exposed for public
+posts. AppView failures leave the normal SPA shell intact, so a provider outage
+does not turn a working web route into a 5xx response. Author-authenticated and
+sensitive-labeled posts intentionally receive only the minimal/private preview
+metadata used by the existing bskyweb implementation.
+
 The two upstream URLs in `wrangler.jsonc` are implementation targets only. They
 must not appear in the OAuth client metadata or in the public DID service
 document after cutover. No secret, token, credential, or Cloudflare API key is
@@ -31,6 +41,12 @@ From the repository root:
 npx --yes wrangler@latest types --config deploy/radlib-edge-proxy/wrangler.jsonc
 npx --yes wrangler@latest deploy --dry-run --config deploy/radlib-edge-proxy/wrangler.jsonc --env production
 npx --yes wrangler@latest deploy --config deploy/radlib-edge-proxy/wrangler.jsonc --env production
+```
+
+The focused metadata regression tests run without project dependencies:
+
+```sh
+node --experimental-strip-types --test deploy/radlib-edge-proxy/src/post-metadata.test.ts
 ```
 
 With the current Wrangler release, `deploy --dry-run` is the bundle and

@@ -1,3 +1,9 @@
+import {
+  fetchPostMetadata,
+  parsePostRoute,
+  renderPostMetadata,
+} from './post-metadata'
+
 const PDS_EXACT_PATHS = new Set([
   '/oauth/authorize',
   '/oauth/authorize/redirect',
@@ -15,6 +21,11 @@ const LEGACY_PDS_HOST = 'pds.edriffles.us'
 const CANONICAL_PUBLIC_ORIGIN = `https://${CANONICAL_PUBLIC_HOST}`
 const OAUTH_ISSUER_ORIGIN = `https://${OAUTH_ISSUER_HOST}`
 const LEGACY_PDS_ORIGIN = `https://${LEGACY_PDS_HOST}`
+const DEFAULT_APPVIEW_ORIGIN = 'https://api.bsky.app'
+
+type EdgeEnv = Env & {
+  APPVIEW_ORIGIN?: string
+}
 
 /**
  * Select the public origin the upstream PDS should use for URL-bound auth.
@@ -217,8 +228,53 @@ async function proxy(
   })
 }
 
+async function proxyPublicPostPage(
+  request: Request,
+  incomingUrl: URL,
+  env: EdgeEnv,
+): Promise<Response> {
+  const response = await proxy(
+    request,
+    env.WEB_ORIGIN,
+    incomingUrl,
+    upstreamPublicHost(incomingUrl, env),
+  )
+  const contentType = response.headers.get('content-type') ?? ''
+  if (!contentType.toLowerCase().includes('text/html')) return response
+
+  const route = parsePostRoute(incomingUrl.pathname)
+  if (!route) return response
+
+  const metadata = await fetchPostMetadata(
+    route,
+    env.APPVIEW_ORIGIN ?? DEFAULT_APPVIEW_ORIGIN,
+  )
+  if (!metadata) return response
+
+  const html = await response.text()
+  const canonicalUrl = new URL(incomingUrl.toString())
+  canonicalUrl.search = ''
+  canonicalUrl.hash = ''
+
+  const headers = new Headers(response.headers)
+  headers.delete('content-encoding')
+  headers.delete('content-length')
+  headers.delete('etag')
+  headers.set('cache-control', 'public, max-age=60, s-maxage=300')
+  headers.set('content-type', 'text/html; charset=utf-8')
+
+  return new Response(
+    renderPostMetadata(html, metadata, canonicalUrl.toString()),
+    {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    },
+  )
+}
+
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: EdgeEnv): Promise<Response> {
     const incomingUrl = new URL(request.url)
 
     const legacyRedirect = redirectLegacyPublicHost(incomingUrl)
@@ -243,6 +299,13 @@ export default {
           upstreamPublicHost(incomingUrl, env),
         )
       }
+      if (
+        request.method === 'GET' &&
+        incomingUrl.hostname === CANONICAL_PUBLIC_HOST &&
+        parsePostRoute(incomingUrl.pathname)
+      ) {
+        return await proxyPublicPostPage(request, incomingUrl, env)
+      }
       return await proxy(
         request,
         origin,
@@ -261,4 +324,4 @@ export default {
       return new Response('Upstream unavailable', {status: 502})
     }
   },
-} satisfies ExportedHandler<Env>
+} satisfies ExportedHandler<EdgeEnv>
