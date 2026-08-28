@@ -38,5 +38,39 @@
       "already-issued credential revocation"
     ],
     "ownerAcceptance": "PENDING"
+  },
+  "latestLocalSpacesAlphaSynchronization": {
+    "timestamp": "2026-08-27",
+    "strategy": "merge-upstream-into-fork",
+    "localOnly": false,
+    "pushed": true,
+    "defaultBranchChanged": false,
+    "socialApp": {
+      "baseBranch": "main",
+      "baseSha": "c4c999ff4f8f6bf42e752a1b0d39718a6330b68b",
+      "checkoutSha": "9fb8bfb623bb09b05acb7533e3d043211d233ba9",
+      "conflictCount": 15
+    },
+    "atprotoPds": {
+      "baseBranch": "permissioned-data-alpha",
+      "baseSha": "4c33457afe96ad2e5d2fe6bd975f094cd6f67328",
+      "checkoutSha": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "conflictCount": 0
+    },
+    "verification": [
+      "python3 scripts/check_upstream.py --fast",
+      "python3 scripts/validate_contract.py",
+      "python3 -m unittest discover -s tests -p 'test_*.py'",
+      "social-app: pnpm typecheck:web",
+      "social-app: focused Spaces Jest suites",
+      "social-app: EXPO_PUBLIC_ENV=production pnpm build-web",
+      "atproto-pds: focused Spaces/Radlib Jest suites",
+      "atproto-pds: pnpm exec tsc --build tsconfig.build.json"
+    ],
+    "warnings": [
+      "social-app web build completed with asset and entrypoint size warnings"
+    ],
+    "result": "ALPHA_SYNC_PUSHED",
+    "ownerAcceptance": "PENDING"
   }
 }

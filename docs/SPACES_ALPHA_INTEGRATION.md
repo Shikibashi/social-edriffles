@@ -2,7 +2,7 @@
 
 Status: `ALPHA_GATED / SOURCE_READY / RADLIB.EDRIFFLES.US_CUTOVER_PENDING` on `codex/spaces-alpha-integration`.
 
-This branch uses the upstream ATProto `permissioned-data` branch as the PDS
+This branch uses the upstream ATProto `permissioned-data-alpha` branch as the PDS
 base and carries the fork's protected-account/community policy above the
 standard Spaces data plane. It is a disposable alpha test lane, not a
 production activation or owner acceptance receipt.
@@ -11,14 +11,14 @@ production activation or owner acceptance receipt.
 
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
-| PDS | `bluesky-social/atproto` `permissioned-data` at `89deb9fac20e56fa2a262fe9746ed52bc1095ba` | `2a119ba5f15a349d0db63fe46d1d3c854dfb9760` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` at `1f5c698165c922e707833809902ee959e9824f00` | `c0bf3f558bf2b099d4bb1a2b29156eea6c358255` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
+| PDS | `bluesky-social/atproto` `permissioned-data-alpha` at `4c33457afe96ad2e5d2fe6bd975f094cd6f67328` | `9c3d92f04335d624a79acbbf5f346130f00ffbdd` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
+| Client | `bluesky-social/social-app` `main` at `c4c999ff4f8f6bf42e752a1b0d39718a6330b68b` | `9fb8bfb623bb09b05acb7533e3d043211d233ba9` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
-checkouts are pinned branch state; the commits are pushed to the fork remotes,
-but nothing in this document authorizes production activation or a moving-head
-rebase.
+checkouts are pinned branch state; the synchronized PDS and client commits are
+pushed to their fork branches. Nothing in this document authorizes production
+activation, default-branch changes, or a moving-head rebase.
 
 ## Boundary
 
@@ -172,7 +172,11 @@ Verified in this checkout:
 - PDS header, Radlib Spaces, community Lexicon, OAuth, record, and membership
   suites: 149 tests passed;
 - formatter and lint checks for the touched PDS/dev-env files.
-- Pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`.
+- Current pushed fork synchronization: PDS `9c3d92f04335d624a79acbbf5f346130f00ffbdd`
+  and client `9fb8bfb623bb09b05acb7533e3d043211d233ba9`; both fork branches
+  are pushed, while owner acceptance and production gates remain separate.
+- Previous pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`;
+  it remains historical evidence for the earlier alpha receipt.
 - The prior disposable image and tunnel probe are retained as historical
   evidence. The new single-host route is described in
   `docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md`; its Worker dry run passes, but the

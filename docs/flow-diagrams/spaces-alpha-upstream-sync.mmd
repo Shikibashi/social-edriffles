@@ -1,0 +1,24 @@
+%% Approved WorkPM Option A: preserve fork history with local upstream merges.
+%% The parent checkout may remain dirty; unrelated root changes are never rewritten.
+flowchart TD
+  Start([Begin approved Option A]) --> Inventory[Record parent and nested state; preserve unrelated dirty root changes]
+  Inventory --> Snapshot[Capture baseline SHAs and rollback refs]
+  Snapshot --> Worktrees[[Create disposable study and integration worktrees]]
+  Worktrees --> Fetch[Fetch live upstream tips into disposable worktrees]
+  Fetch --> PdsMerge[Merge atproto permissioned-data-alpha into the PDS fork]
+  PdsMerge --> PdsConflict{PDS merge conflict?}
+  PdsConflict -->|No| ClientMerge[Merge current social-app main into the client fork]
+  PdsConflict -->|Yes| PdsResolve[Resolve only PDS integration conflicts and inspect generated output]
+  PdsResolve --> ClientMerge
+  ClientMerge --> ClientConflict{Client conflict set remains?}
+  ClientConflict -->|No| Generated[Regenerate generated files and refresh dependencies from source]
+  ClientConflict -->|Yes| ClientResolve[Resolve package, session, login, feed, settings, and translation hotspots]
+  ClientResolve --> Generated
+  Generated --> Boundary[Verify Spaces data plane and Radlib policy boundary remain separated]
+  Boundary --> Pins[Update nested gitlinks, upstream pins, baseline, and rebase receipt]
+  Pins --> Verify[Run fast, focused, contract, unit, typecheck, build, and PDS gates]
+  Verify --> Gates{All required local gates pass?}
+  Gates -->|No| Rollback([Discard candidate worktrees or restore prior local refs; record failure])
+  Gates -->|Yes| Canonical{Push or default-branch change authorized?}
+  Canonical -->|No| LocalDone([Complete local synchronization only])
+  Canonical -->|Yes| OutOfScope([Stop and request separate authorization])
