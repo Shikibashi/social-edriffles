@@ -12,7 +12,7 @@ production activation or owner acceptance receipt.
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
 | PDS | `bluesky-social/atproto` `permissioned-data-alpha` at `4c33457afe96ad2e5d2fe6bd975f094cd6f67328` | `9c3d92f04335d624a79acbbf5f346130f00ffbdd` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` `main` at `c4c999ff4f8f6bf42e752a1b0d39718a6330b68b` | `9fb8bfb623bb09b05acb7533e3d043211d233ba9` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
+| Client | `bluesky-social/social-app` `main` at `c4c999ff4f8f6bf42e752a1b0d39718a6330b68b` | `fa14f7e46dcd6675797db5ce917e094cc17e46ed` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
@@ -173,7 +173,7 @@ Verified in this checkout:
   suites: 149 tests passed;
 - formatter and lint checks for the touched PDS/dev-env files.
 - Current pushed fork synchronization: PDS `9c3d92f04335d624a79acbbf5f346130f00ffbdd`
-  and client `9fb8bfb623bb09b05acb7533e3d043211d233ba9`; both fork branches
+  and client `fa14f7e46dcd6675797db5ce917e094cc17e46ed`; both fork branches
   are pushed, while owner acceptance and production gates remain separate.
 - Previous pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`;
   it remains historical evidence for the earlier alpha receipt.

@@ -2,7 +2,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 OBSERVATIONS = ROOT / "artifacts/live-block-presentation-observations.json"
 SURFACES = ROOT / "artifacts/live-block-presentation-surface-summary.json"
@@ -42,6 +41,7 @@ class LiveBlockPresentationTests(unittest.TestCase):
             self.assertIn("status", thread["alice.test"])
         self.assertIn("Historical read-provider behavior", self.matrix)
         self.assertIn("Target fork behavior", self.matrix)
+
     def test_author_feeds_and_search_do_not_collateral_suppress_c(self):
         c = self.surfaces["carla.test"]
         self.assertIn(self.observations["fixture"]["A1"], c["alice.test"])
@@ -54,8 +54,14 @@ class LiveBlockPresentationTests(unittest.TestCase):
         self.assertEqual(probes["pds_create_B_reply_after_block"], "accepted")
         self.assertEqual(probes["pds_create_B_mention_after_block"], "accepted")
         self.assertEqual(probes["pds_create_B_follow_A_after_block"], "accepted")
-        self.assertIn("no B-originated direct notification", probes["appview_notifications_after_probes"]["A"])
-        self.assertIn("no A-originated direct notification", probes["appview_notifications_after_probes"]["B"])
+        self.assertIn(
+            "no B-originated direct notification",
+            probes["appview_notifications_after_probes"]["A"],
+        )
+        self.assertIn(
+            "no A-originated direct notification",
+            probes["appview_notifications_after_probes"]["B"],
+        )
 
     def test_matrix_records_reference_and_no_patch_decision(self):
         self.assertIn("Current Bluesky-reference behavior", self.matrix)

@@ -1,7 +1,6 @@
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 CLIENT = ROOT / "upstream" / "social-app"
 PDS = ROOT / "upstream" / "atproto-pds" / "packages" / "pds"
@@ -50,7 +49,9 @@ class ModerationListBypassGuardTests(unittest.TestCase):
                 "legacy Radlib import journal is outside the pinned Spaces PDS surface"
             )
         source = (PDS / "src/api/com/atproto/repo/importRepo.ts").read_text()
-        self.assertIn("CAR import does not pass through prepareCreate/prepareUpdate", source)
+        self.assertIn(
+            "CAR import does not pass through prepareCreate/prepareUpdate", source
+        )
         self.assertIn("RadlibMigrationJournal", source)
         self.assertIn("markImportFailed", source)
 

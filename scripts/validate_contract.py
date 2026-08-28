@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Validate the bounded PR-00/PR-01 contract and deterministic fixtures."""
+
 from __future__ import annotations
+
 import json
 from hashlib import sha256
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
@@ -134,15 +137,15 @@ REQUIRED = [
     "artifacts/oauth-spaces-manifest.sha256",
 ]
 
-def load(rel: str):
+
+def load(rel: str) -> Any:
     path = ROOT / rel
     if not path.is_file():
         raise AssertionError(f"missing required file: {rel}")
     return json.loads(path.read_text()) if path.suffix == ".json" else path.read_text()
 
-def main() -> None:
-    for rel in REQUIRED:
-        load(rel)
+
+def validate_foundation() -> None:
     best_practices = load("docs/ATPROTO_BEST_PRACTICES_GATE.md")
     assert "ALPHA-ONLY" in best_practices
     assert "official ATProto OAuth" in best_practices
@@ -151,42 +154,103 @@ def main() -> None:
     assert "https://social.edriffles.us" in best_practices
     assert "https://radlib.edriffles.us" in best_practices
     pins = load("upstream-pins.json")
-    assert pins["repositories"]["socialApp"]["commit"] == "1f5c698165c922e707833809902ee959e9824f00"
-    assert pins["repositories"]["socialApp"]["checkoutCommit"] == "31d7c8b083ddac2c44dc156f29081712211581c1"
-    assert pins["repositories"]["atprotoPds"]["branch"] == "permissioned-data"
-    assert pins["repositories"]["atprotoPds"]["commit"] == "89deb9fac20e56fa2a262fe9746ed52bc1095ba"
-    assert pins["repositories"]["atprotoPds"]["checkoutCommit"] == "37f823c7e0e81eae8589c7ebed30fc38dfc0326a"
+    assert (
+        pins["repositories"]["socialApp"]["commit"]
+        == "c4c999ff4f8f6bf42e752a1b0d39718a6330b68b"
+    )
+    assert pins["repositories"]["socialApp"]["branch"] == "main"
+    assert (
+        pins["repositories"]["socialApp"]["checkoutCommit"]
+        == "fa14f7e46dcd6675797db5ce917e094cc17e46ed"
+    )
+    assert (
+        pins["repositories"]["atprotoPds"]["branch"]
+        == "permissioned-data-alpha"
+    )
+    assert (
+        pins["repositories"]["atprotoPds"]["commit"]
+        == "4c33457afe96ad2e5d2fe6bd975f094cd6f67328"
+    )
+    assert (
+        pins["repositories"]["atprotoPds"]["checkoutCommit"]
+        == "9c3d92f04335d624a79acbbf5f346130f00ffbdd"
+    )
     assert "appviewlite" not in pins["repositories"]
     assert "fishyflip" not in pins["repositories"]
     assert pins["retrievedAt"]
 
+
+def validate_feed_contracts() -> None:
     blocking = load("tests/fixtures/blocking-matrix.json")
     assert blocking["baseline"] == "historical-read-provider-characterization/1"
-    assert set(blocking["surfaces"]) >= {"posts", "threads", "profiles", "follows", "replies", "mentions", "notifications", "quotes", "feeds"}
+    assert set(blocking["surfaces"]) >= {
+        "posts",
+        "threads",
+        "profiles",
+        "follows",
+        "replies",
+        "mentions",
+        "notifications",
+        "quotes",
+        "feeds",
+    }
     assert {row["viewer"] for row in blocking["rows"]} >= {"A", "B", "C"}
     for surface in blocking["surfaces"]:
-        assert any(row["surface"] == surface for row in blocking["rows"]), f"no fixture row for {surface}"
+        assert any(
+            row["surface"] == surface for row in blocking["rows"]
+        ), f"no fixture row for {surface}"
 
     feed = load("tests/fixtures/feed-contract.json")
-    required = {"personalization-sovereignty", "integrity-separation", "viewpoint-neutrality", "explanation-fidelity", "credible-exit"}
+    required = {
+        "personalization-sovereignty",
+        "integrity-separation",
+        "viewpoint-neutrality",
+        "explanation-fidelity",
+        "credible-exit",
+    }
     assert required <= set(feed["invariants"])
     assert feed["treatments"] == ["chronological", "engagement", "diversified"]
     assert all(case["id"] for case in feed["cases"])
-    assert json.dumps(feed, sort_keys=True) == json.dumps(json.loads(json.dumps(feed)), sort_keys=True)
+    assert json.dumps(feed, sort_keys=True) == json.dumps(
+        json.loads(json.dumps(feed)), sort_keys=True
+    )
     attention = load("tests/fixtures/attention-contract.json")
     assert attention["format"] == "org.radical-liberal.attention-constitution"
     assert attention["version"] == 1
     assert len(attention["surfaces"]) == 10
-    assert set(attention["explanationScopes"]) == {"public", "audit", "confidential-anti-abuse"}
-    assert set(attention["authorityClasses"]) == {"one-shot-advice", "continuous-policy", "local-reversible-filter", "durable-account-mutation"}
-    assert {"author-cap", "duplicate-suppression", "exploration-budget", "dogpile-amplification-control"} <= set(attention["concentrationControls"])
-    assert set(attention["frozenBoundaries"]) == {"association-constitution", "service-constitution", "portable-personalization-v1"}
+    assert set(attention["explanationScopes"]) == {
+        "public",
+        "audit",
+        "confidential-anti-abuse",
+    }
+    assert set(attention["authorityClasses"]) == {
+        "one-shot-advice",
+        "continuous-policy",
+        "local-reversible-filter",
+        "durable-account-mutation",
+    }
+    assert {
+        "author-cap",
+        "duplicate-suppression",
+        "exploration-budget",
+        "dogpile-amplification-control",
+    } <= set(attention["concentrationControls"])
+    assert set(attention["frozenBoundaries"]) == {
+        "association-constitution",
+        "service-constitution",
+        "portable-personalization-v1",
+    }
     security = load("tests/fixtures/feed-provider-security.json")
     assert security["format"] == "org.radical-liberal.feed-provider-security"
     assert security["version"] == 1
     assert len(security["cases"]) >= 18
     assert security["dataOnly"] is True
-    assert {"timeout", "identity-failure", "signature-failure", "hydration-disagreement"} <= set(security["failureClasses"])
+    assert {
+        "timeout",
+        "identity-failure",
+        "signature-failure",
+        "hydration-disagreement",
+    } <= set(security["failureClasses"])
     replay = load("tests/fixtures/candidate-protocol-replay.json")
     assert replay["format"] == "org.radical-liberal.candidate-replay"
     assert replay["version"] == 1
@@ -207,6 +271,9 @@ def main() -> None:
     assert experimental["format"] == "org.radical-liberal.experimental-attention"
     assert len(experimental["modules"]) == 5
     assert experimental["optIn"] is True
+
+
+def validate_identity_contracts() -> None:
     audit = load("artifacts/attention-stack-v1-release-audit.json")
     assert audit["decision"] == "ATTENTION_STACK_V1_RELEASE_READY"
     assert audit["severity"]["P1"] == 0
@@ -226,18 +293,30 @@ def main() -> None:
     review = load("artifacts/identity-stack-v1-ultra-review.json")
     assert review["verdict"] == "IDENTITY_STACK_V1_RELEASE_READY"
     assert review["severity"]["P1"] == 0
+
+
+def validate_constitutional_stack() -> None:
     authority = load("tests/fixtures/constitutional-stack-authority.json")
     capabilities = load("tests/fixtures/constitutional-stack-capabilities.json")
     data_flow = load("tests/fixtures/constitutional-stack-data-flow.json")
     gaps = load("tests/fixtures/constitutional-stack-upstream-gaps.json")
     assert authority["format"] == "org.radical-liberal.constitutional-stack-authority"
     assert "pds-change-does-not-change-appview" in authority["invariants"]
-    assert capabilities["vocabulary"] == ["LIVE", "FIXTURE-TESTED", "SIMULATED", "UNSUPPORTED-UPSTREAM", "SKIPPED_ENVIRONMENT"]
+    assert capabilities["vocabulary"] == [
+        "LIVE",
+        "FIXTURE-TESTED",
+        "SIMULATED",
+        "UNSUPPORTED-UPSTREAM",
+        "SKIPPED_ENVIRONMENT",
+    ]
     assert "refresh-token-to-personalization" in data_flow["forbidden"]
     assert len(gaps["gaps"]) >= 3
     integration = load("artifacts/constitutional-stack-v1-integration-review.json")
     assert integration["verdict"] == "CONSTITUTIONAL_STACK_V1_RELEASE_READY"
     assert integration["severity"]["P1"] == 0
+
+
+def validate_daily_driver_and_deployment() -> None:
     daily = load("tests/fixtures/daily-driver-v1-config.json")
     assert daily["format"] == "org.radical-liberal.daily-driver-config"
     assert daily["production"]["localhostDefaults"] is False
@@ -253,6 +332,9 @@ def main() -> None:
     assert deployment_config["production"]["httpsRequired"] is True
     assert deployment_config["production"]["secretBuildVars"] is False
     assert deployment["deploymentStatus"] == "READY-BUT-NOT-EXECUTED"
+
+
+def validate_oauth_receipts() -> None:
     local_oauth = load("artifacts/receipts/local-oauth-verification.json")
     assert local_oauth["format"] == "org.radlib.local-oauth-verification/1"
     assert local_oauth["secretsIncluded"] is False
@@ -260,9 +342,15 @@ def main() -> None:
     assert local_oauth["checks"]["productionPasswordSessionImports"] == 0
     assert local_oauth["checks"]["productionPasswordSessionConstructors"] == 0
     local_acceptance = load("artifacts/receipts/local-oauth-spaces-acceptance.json")
-    assert local_acceptance["format"] == "us.edriffles.radlib.local-oauth-spaces-acceptance/1"
+    assert (
+        local_acceptance["format"]
+        == "us.edriffles.radlib.local-oauth-spaces-acceptance/1"
+    )
     assert local_acceptance["secretsIncluded"] is False
-    assert local_acceptance["checks"]["credentialedSpaceAuthAndLifecycle"]["result"] == "2 suites passed, 45 tests passed"
+    assert (
+        local_acceptance["checks"]["credentialedSpaceAuthAndLifecycle"]["result"]
+        == "2 suites passed, 45 tests passed"
+    )
     assert local_acceptance["status"].startswith("PASSED_LOCAL_OAUTH_SCOPE")
     canary = load("artifacts/receipts/local-private-canary-scan.json")
     assert canary["format"] == "us.edriffles.radlib.private-canary-scan/1"
@@ -280,7 +368,10 @@ def main() -> None:
     assert "radlib-edge-cutover-pending.json" in release_manifest["receiptHashes"]
     assert release_manifest["format"] == "us.edriffles.radlib.oauth-spaces-manifest/1"
     assert release_manifest["bindings"]["origins"] == ["https://social.edriffles.us"]
-    assert release_manifest["bindings"]["deploymentStatus"] == "SOCIAL_USER_FACING_CUTOVER_DEPLOYED"
+    assert (
+        release_manifest["bindings"]["deploymentStatus"]
+        == "SOCIAL_USER_FACING_CUTOVER_DEPLOYED"
+    )
     assert "LEXICON_AUTHORITY_DNS_UNVERIFIED" not in release_manifest["blockers"]
     assert "AUTHORITY_DEFERRED_OUT_OF_SCOPE" not in release_manifest["deferred"]
     for receipt_name, expected_hash in release_manifest["receiptHashes"].items():
@@ -292,7 +383,13 @@ def main() -> None:
         assert binding["testedSourceRevision"]
     manifest_path = ROOT / "artifacts/oauth-spaces-manifest.json"
     sidecar = (ROOT / "artifacts/oauth-spaces-manifest.sha256").read_text().strip()
-    assert sidecar == f"{sha256(manifest_path.read_bytes()).hexdigest()}  artifacts/oauth-spaces-manifest.json"
+    assert (
+        sidecar
+        == f"{sha256(manifest_path.read_bytes()).hexdigest()}  artifacts/oauth-spaces-manifest.json"
+    )
+
+
+def validate_upstream_and_product_acceptance() -> None:
     baseline = load("artifacts/upstream-baseline.json")
     delta = load("artifacts/upstream-delta-inventory.json")
     receipt = load("artifacts/upstream-rebase-receipt.json")
@@ -324,14 +421,20 @@ def main() -> None:
     balanced_walkthrough = load("artifacts/radlib-live-balanced-feed-walkthrough.json")
     assert balanced_walkthrough["selection"]["enabled"] is True
     assert balanced_walkthrough["selection"]["toggleObserved"] == "false -> true"
-    assert balanced_walkthrough["provenance"]["version"] == "org.radical-liberal.balanced/1"
+    assert (
+        balanced_walkthrough["provenance"]["version"]
+        == "org.radical-liberal.balanced/1"
+    )
     assert balanced_walkthrough["provenance"]["renderedLabel"].endswith(
         "(version org.radical-liberal.balanced/1)"
     )
     assert balanced_walkthrough["restoredBaseline"]["balancedEnabled"] is False
     migration_ui = load("artifacts/radlib-live-migration-status-ui.json")
     assert migration_ui["migrationStatus"] == "unavailable"
-    assert migration_ui["displayed"] == "PDS status unavailable; no migration claim was made"
+    assert (
+        migration_ui["displayed"]
+        == "PDS status unavailable; no migration claim was made"
+    )
     assert migration_ui["secretsDisplayed"] is False
     moderation_policy = load("tests/fixtures/moderation-list-policy.json")
     assert moderation_policy["effectiveSemantics"]["directBlock"] == "hard"
@@ -341,7 +444,24 @@ def main() -> None:
     assert "C" in abc["accounts"]
     import_fixture = load("tests/fixtures/moderation-list-import.json")
     assert "inventory listblocks before commit" in import_fixture["pdsBehavior"]
-    print(f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases")
+
+
+def main() -> None:
+    for rel in REQUIRED:
+        load(rel)
+    validate_foundation()
+    validate_feed_contracts()
+    validate_identity_contracts()
+    validate_constitutional_stack()
+    validate_daily_driver_and_deployment()
+    validate_oauth_receipts()
+    validate_upstream_and_product_acceptance()
+    blocking = load("tests/fixtures/blocking-matrix.json")
+    feed = load("tests/fixtures/feed-contract.json")
+    print(
+        f"contract validation passed: {len(REQUIRED)} files, {len(blocking['rows'])} blocking rows, {len(feed['cases'])} feed cases"
+    )
+
 
 if __name__ == "__main__":
     main()

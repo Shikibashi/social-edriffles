@@ -3,7 +3,6 @@ import subprocess
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SOCIAL = ROOT / "upstream/social-app/src"
 PDS = ROOT / "upstream/atproto-pds/packages/pds/src"
@@ -28,7 +27,12 @@ class ProviderBoundaryContractTests(unittest.TestCase):
         self.assertEqual(tracked.stdout, "")
 
         config = subprocess.run(
-            ["git", "config", "--get-regexp", r"^submodule\.(upstream/AppViewLite|upstream/FishyFlip)\."],
+            [
+                "git",
+                "config",
+                "--get-regexp",
+                r"^submodule\.(upstream/AppViewLite|upstream/FishyFlip)\.",
+            ],
             cwd=ROOT,
             check=False,
             capture_output=True,

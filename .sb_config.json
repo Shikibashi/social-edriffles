@@ -1,0 +1,38 @@
+{
+  "myopia": {
+    "gates": {
+      "dependency-risk.py": {
+        "enabled": false
+      },
+      "vulnerability-blindness.py": {
+        "enabled": false
+      },
+      "code-sprawl": {
+        "include_dirs": [
+          "scripts",
+          "tests",
+          "services",
+          "deploy/radlib-edge-proxy/src"
+        ]
+      },
+      "conflicting-metadata": {
+        "exclude_dirs": [
+          "upstream"
+        ]
+      }
+    }
+  },
+  "disabled_gates": [
+    "myopia:dependency-risk.py",
+    "myopia:vulnerability-blindness.py"
+  ],
+  "overconfidence": {
+    "gates": {
+      "dangling-references": {
+        "exclude_dirs": [
+          "upstream"
+        ]
+      }
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import pathlib
 import unittest
 
-
 ROOT = pathlib.Path(__file__).parents[1]
 PROFILE = (ROOT / "upstream/social-app/src/lib/feed-sovereignty/profile.ts").read_text()
 POST_FEED = (ROOT / "upstream/social-app/src/view/com/posts/PostFeed.tsx").read_text()
@@ -21,7 +20,9 @@ class FeedPrototypeAuditTests(unittest.TestCase):
         self.assertIn("seen: false", POST_FEED)
 
     def test_following_integration_has_no_topic_signal(self):
-        mapping = POST_FEED[POST_FEED.index("page.slices"):POST_FEED.index("page.slices") + 2500]
+        mapping = POST_FEED[
+            POST_FEED.index("page.slices") : POST_FEED.index("page.slices") + 2500
+        ]
         self.assertNotIn("topic:", mapping)
 
     def test_page_local_reranking_is_explicit_and_traced(self):

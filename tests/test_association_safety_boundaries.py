@@ -2,7 +2,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 OBS = ROOT / "artifacts/live-block-presentation-observations.json"
 MATRIX = ROOT / "docs/LIVE_BLOCK_PRESENTATION_MATRIX.md"
@@ -64,6 +63,7 @@ class AssociationSafetyBoundaryTests(unittest.TestCase):
         self.assertEqual(state["appViewAuthorFeedStatus"], 200)
         self.assertEqual(state["appViewAuthorFeedItems"], 0)
         self.assertIn("profile placeholder", state["appViewProfileFinding"])
+
 
 if __name__ == "__main__":
     unittest.main()

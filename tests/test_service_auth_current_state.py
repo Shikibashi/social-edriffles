@@ -1,7 +1,6 @@
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).parents[1]
 SOCIAL = ROOT / "upstream/social-app/src"
 PDS = ROOT / "upstream/atproto-pds/packages/pds/src"

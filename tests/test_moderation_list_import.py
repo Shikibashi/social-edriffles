@@ -2,7 +2,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PDS = ROOT / "upstream" / "atproto-pds" / "packages" / "pds"
 ACCOUNT_MANAGER = PDS / "src/account-manager/account-manager.ts"
@@ -18,9 +17,7 @@ class ModerationListImportTests(unittest.TestCase):
         cls.fixture = json.loads(
             (ROOT / "tests/fixtures/moderation-list-import.json").read_text()
         )
-        cls.import_path = (
-            PDS / "src/api/com/atproto/repo/importRepo.ts"
-        ).read_text()
+        cls.import_path = (PDS / "src/api/com/atproto/repo/importRepo.ts").read_text()
         cls.status_path = (
             PDS / "src/api/com/atproto/sync/getRepoStatus.ts"
         ).read_text()
@@ -28,8 +25,12 @@ class ModerationListImportTests(unittest.TestCase):
 
     def test_import_fixture_is_truthful_about_the_boundary(self):
         self.assertIn("inventory listblocks before commit", self.fixture["pdsBehavior"])
-        self.assertIn("client creates/verifies private mute", self.fixture["postImportMigration"])
-        self.assertIn("automatic provider-side mute conversion", self.fixture["activationTruth"])
+        self.assertIn(
+            "client creates/verifies private mute", self.fixture["postImportMigration"]
+        )
+        self.assertIn(
+            "automatic provider-side mute conversion", self.fixture["activationTruth"]
+        )
 
     def test_car_import_has_a_distinct_inventory_path(self):
         self.assertIn("verifyDiff", self.import_path)

@@ -1,5 +1,8 @@
 .gjc/
 .omc/
+.slopmop/
+.venv/
+venv/
 .wrangler/
 node_modules/
 # Retired submodule worktrees retained locally for recovery; never stage them.
@@ -7,4 +10,7 @@ upstream/AppViewLite/
 upstream/FishyFlip/
 __pycache__/
 *.pyc
+.coverage
+coverage.xml
+.testmondata*
 gjc-session-*.html

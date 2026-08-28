@@ -2,7 +2,6 @@ import json
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 CLIENT = ROOT / "upstream" / "social-app"
 PDS = ROOT / "upstream" / "atproto-pds" / "packages" / "pds"
@@ -22,8 +21,12 @@ class ModerationListMigrationTests(unittest.TestCase):
                 "verify-public-listblock-deletion",
             ],
         )
-        self.assertEqual(fixture["failureInvariants"]["muteFailure"], "source-listblock-remains")
-        self.assertEqual(fixture["failureInvariants"]["directBlocksWithoutReview"], "unchanged")
+        self.assertEqual(
+            fixture["failureInvariants"]["muteFailure"], "source-listblock-remains"
+        )
+        self.assertEqual(
+            fixture["failureInvariants"]["directBlocksWithoutReview"], "unchanged"
+        )
 
     def test_client_migration_has_safe_order_and_cas_delete(self):
         source = (CLIENT / "src/state/queries/list.ts").read_text()

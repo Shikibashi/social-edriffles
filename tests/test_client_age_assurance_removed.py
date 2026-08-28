@@ -5,8 +5,8 @@ but this fork's client must not prefetch, gate, redirect, or present that
 feature. Ordinary birthdate/account metadata is intentionally out of scope.
 """
 
+from collections.abc import Iterator
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 CLIENT_SRC = ROOT / "upstream" / "social-app" / "src"
@@ -18,7 +18,7 @@ BSKYWEB_MAIN = (
 )
 
 
-def _runtime_sources():
+def _runtime_sources() -> Iterator[Path]:
     for path in CLIENT_SRC.rglob("*"):
         if path.suffix not in {".ts", ".tsx", ".js", ".jsx"}:
             continue
@@ -51,7 +51,7 @@ def test_client_runtime_has_no_age_assurance_import_or_gate():
         "NoAccessScreen",
         "RedirectOverlay",
     )
-    offenders = []
+    offenders: list[str] = []
     for path in _runtime_sources():
         text = path.read_text(encoding="utf-8")
         if any(token in text for token in forbidden):

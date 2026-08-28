@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Fail-closed validation for the secret-free OAuth/Spaces acceptance bundle."""
+
 from __future__ import annotations
 
 import hashlib
 import json
 import re
 from pathlib import Path
+from typing import Any, cast
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT_DIR = ROOT / "artifacts/receipts"
@@ -65,9 +67,7 @@ CURRENT_SOURCE_BOUND_RECEIPTS = {
     "radlib-edge-cutover-pending.json",
 }
 CURRENT_CUTOVER_RECEIPT = "radlib-edge-cutover-pending.json"
-EXPECTED_MANIFEST_STATUS = (
-    "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES"
-)
+EXPECTED_MANIFEST_STATUS = "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES"
 EXPECTED_BLOCKERS = {
     "PUBLIC_CREDENTIALED_SPACES_NOT_RUN",
     "OAUTH_BROWSER_CREDENTIAL_ENTRY_NOT_RUN",
@@ -85,13 +85,15 @@ EVIDENCE_STATUSES = {
     "policy-decision",
 }
 
+JsonObject = dict[str, Any]
+
 
 def normalize_key(key: str) -> str:
     return re.sub(r"[^a-z0-9]", "", key.lower())
 
 
-def _reject_duplicate_keys(pairs):
-    value = {}
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> JsonObject:
+    value: JsonObject = {}
     for key, child in pairs:
         if key in value:
             raise ValueError(f"duplicate JSON key: {key}")
@@ -99,15 +101,35 @@ def _reject_duplicate_keys(pairs):
     return value
 
 
-def parse_json(text: str, source: str):
+def parse_json(text: str, source: str) -> Any:
     try:
         return json.loads(text, object_pairs_hook=_reject_duplicate_keys)
     except ValueError as exc:
         raise AssertionError(f"invalid JSON at {source}: {exc}") from exc
 
 
-def load_json(path: Path):
+def load_json(path: Path) -> Any:
     return parse_json(path.read_text(), str(path))
+
+
+def as_object(value: Any, source: str) -> JsonObject:
+    if not isinstance(value, dict):
+        raise AssertionError(f"expected JSON object at {source}")
+    return cast(JsonObject, value)
+
+
+def as_string_map(value: Any, source: str) -> dict[str, str]:
+    obj = as_object(value, source)
+    if not all(
+        isinstance(key, str) and isinstance(child, str) for key, child in obj.items()
+    ):
+        raise AssertionError(f"expected string map at {source}")
+    return cast(dict[str, str], obj)
+
+
+def as_object_map(value: Any, source: str) -> dict[str, JsonObject]:
+    obj = as_object(value, source)
+    return {key: as_object(child, f"{source}.{key}") for key, child in obj.items()}
 
 
 def source_inputs() -> list[Path]:
@@ -117,9 +139,7 @@ def source_inputs() -> list[Path]:
     # built; otherwise recording the receipt would invalidate the image.
     paths: list[Path] = []
     paths.extend(
-        path
-        for path in (ROOT / "upstream/social-app/src").rglob("*")
-        if path.is_file()
+        path for path in (ROOT / "upstream/social-app/src").rglob("*") if path.is_file()
     )
     paths.extend(
         ROOT / path
@@ -147,16 +167,14 @@ def source_inputs() -> list[Path]:
     )
     paths.extend(
         path
-        for path in (ROOT / "upstream/atproto-pds/lexicons/us/edriffles/radlib/private").glob(
-            "*.json"
-        )
+        for path in (
+            ROOT / "upstream/atproto-pds/lexicons/us/edriffles/radlib/private"
+        ).glob("*.json")
         if path.is_file()
     )
     paths.extend(
         path
-        for path in (ROOT / "upstream/atproto-pds/packages/pds/src/lexicons").rglob(
-            "*"
-        )
+        for path in (ROOT / "upstream/atproto-pds/packages/pds/src/lexicons").rglob("*")
         if path.is_file()
     )
     return sorted(set(paths), key=lambda path: path.as_posix())
@@ -179,7 +197,10 @@ def source_digest() -> tuple[str, int]:
 def web_artifact_digest() -> str:
     build = ROOT / "upstream/social-app/web-build"
     entries: list[bytes] = []
-    for path in sorted((path for path in build.rglob("*") if path.is_file()), key=lambda path: path.as_posix()):
+    for path in sorted(
+        (path for path in build.rglob("*") if path.is_file()),
+        key=lambda path: path.as_posix(),
+    ):
         entries.append(
             path.as_posix().encode()
             + b"\0"
@@ -191,23 +212,27 @@ def web_artifact_digest() -> str:
     return "sha256:" + hashlib.sha256(b"".join(entries)).hexdigest()
 
 
-def assert_no_secret_keys(value, path: str) -> None:
+def assert_no_secret_keys(value: Any, path: str) -> None:
     if isinstance(value, dict):
-        for key, child in value.items():
+        mapping = cast(dict[Any, Any], value)
+        for key, child in mapping.items():
             if normalize_key(key) in FORBIDDEN_KEYS:
                 raise AssertionError(f"forbidden secret-bearing key at {path}.{key}")
             assert_no_secret_keys(child, f"{path}.{key}")
     elif isinstance(value, list):
-        for index, child in enumerate(value):
+        children = cast(list[Any], value)
+        for index, child in enumerate(children):
             assert_no_secret_keys(child, f"{path}[{index}]")
 
 
-def assert_no_secret_values(value, path: str) -> None:
+def assert_no_secret_values(value: Any, path: str) -> None:
     if isinstance(value, dict):
-        for key, child in value.items():
+        mapping = cast(dict[Any, Any], value)
+        for key, child in mapping.items():
             assert_no_secret_values(child, f"{path}.{key}")
     elif isinstance(value, list):
-        for index, child in enumerate(value):
+        children = cast(list[Any], value)
+        for index, child in enumerate(children):
             assert_no_secret_values(child, f"{path}[{index}]")
     elif isinstance(value, str):
         for pattern in SENSITIVE_VALUE_PATTERNS:
@@ -260,12 +285,16 @@ def assert_secret_policy_is_fail_closed() -> None:
         raise AssertionError("JSON parser accepted a duplicate secret-bearing key")
 
 
-def assert_receipt_binding_matches(receipt: dict, manifest_binding: dict, name: str) -> None:
-    receipt_binding = receipt.get("bindings", {})
+def assert_receipt_binding_matches(
+    receipt: JsonObject, manifest_binding: JsonObject, name: str
+) -> None:
+    receipt_binding = as_object(receipt.get("bindings", {}), f"{name}.bindings")
     receipt_time = receipt_binding.get("testedAt") or receipt.get("timestamp")
     assert receipt_time and manifest_binding["testedAt"] == receipt_time, name
     assert receipt_binding.get("environment") == manifest_binding["environment"], name
-    receipt_image = receipt_binding.get("deploymentImage") or receipt_binding.get("sourceImage")
+    receipt_image = receipt_binding.get("deploymentImage") or receipt_binding.get(
+        "sourceImage"
+    )
     assert receipt_image and manifest_binding["deploymentImage"] == receipt_image, name
     for revision_key, prefix in (
         ("rootRevision", "root"),
@@ -274,7 +303,9 @@ def assert_receipt_binding_matches(receipt: dict, manifest_binding: dict, name: 
     ):
         revision = receipt_binding.get(revision_key)
         if revision:
-            assert f"{prefix}:{revision}" in manifest_binding["testedSourceRevision"], name
+            assert (
+                f"{prefix}:{revision}" in manifest_binding["testedSourceRevision"]
+            ), name
 
 
 def assert_deployment_image_policy(value: str) -> None:
@@ -287,13 +318,16 @@ def assert_deployment_image_policy(value: str) -> None:
     ), value
 
 
-def main() -> None:
-    manifest = load_json(MANIFEST_PATH)
-    receipt_paths = sorted(RECEIPT_DIR.glob("*.json"))
-    receipt_names = {path.name for path in receipt_paths}
-    manifest_bindings = manifest["bindings"]
-    assert set(manifest["receiptHashes"]) == receipt_names
-    assert set(manifest["receiptBindings"]) == receipt_names
+def validate_manifest(
+    manifest: JsonObject, receipt_names: set[str]
+) -> tuple[JsonObject, dict[str, str], dict[str, JsonObject]]:
+    receipt_hashes = as_string_map(manifest["receiptHashes"], "manifest.receiptHashes")
+    receipt_bindings = as_object_map(
+        manifest["receiptBindings"], "manifest.receiptBindings"
+    )
+    manifest_bindings = as_object(manifest["bindings"], "manifest.bindings")
+    assert set(receipt_hashes) == receipt_names
+    assert set(receipt_bindings) == receipt_names
     assert manifest["format"] == "us.edriffles.radlib.oauth-spaces-manifest/1"
     assert manifest["integritySidecar"] == "artifacts/oauth-spaces-manifest.sha256"
     assert manifest["status"] == EXPECTED_MANIFEST_STATUS
@@ -309,32 +343,47 @@ def main() -> None:
     assert manifest["secretsIncluded"] is False
     assert "AUTHORITY_UNRESOLVED" not in manifest["blockers"]
     assert_secret_policy_is_fail_closed()
-    for name, binding in manifest["receiptBindings"].items():
+    for name, binding in receipt_bindings.items():
         assert "gjcReviewSourceHash" not in binding, name
         assert "gjcReviewPathCount" not in binding, name
+    return manifest_bindings, receipt_hashes, receipt_bindings
 
+
+def validate_cutover_receipt(receipt_bindings: dict[str, JsonObject]) -> None:
     cutover = load_json(RECEIPT_DIR / CURRENT_CUTOVER_RECEIPT)
+    cutover = as_object(cutover, CURRENT_CUTOVER_RECEIPT)
+    deployment = as_object(
+        cutover["deployment"], f"{CURRENT_CUTOVER_RECEIPT}.deployment"
+    )
+    cutover_bindings = as_object(
+        cutover["bindings"], f"{CURRENT_CUTOVER_RECEIPT}.bindings"
+    )
     assert cutover["format"] == "us.edriffles.radlib.edge-cutover/1"
     assert cutover["status"] == EXPECTED_MANIFEST_STATUS
-    assert cutover["deployment"]["dryRun"] == "passed"
-    assert cutover["deployment"]["route"] == "deployed"
-    assert cutover["deployment"]["dns"] == "verified"
-    assert cutover["deployment"]["pdsPublicHost"] == "reconfigured"
-    assert cutover["deployment"]["publicHttpsProbe"] == "passed"
-    assert cutover["deployment"]["oauthProviderApiRouting"] == "passed"
-    assert cutover["deployment"]["publicPostRoute"] == "passed"
-    assert cutover["deployment"]["publicClientMetadata"] == "passed"
-    assert cutover["deployment"]["browserOAuthHandoff"] == "passed"
-    assert cutover["deployment"]["browserCredentialEntry"] == (
-        "not-run-browser-policy"
+    assert deployment["dryRun"] == "passed"
+    assert deployment["route"] == "deployed"
+    assert deployment["dns"] == "verified"
+    assert deployment["pdsPublicHost"] == "reconfigured"
+    assert deployment["publicHttpsProbe"] == "passed"
+    assert deployment["oauthProviderApiRouting"] == "passed"
+    assert deployment["publicPostRoute"] == "passed"
+    assert deployment["publicClientMetadata"] == "passed"
+    assert deployment["browserOAuthHandoff"] == "passed"
+    assert deployment["browserCredentialEntry"] == ("not-run-browser-policy")
+    assert cutover_bindings["origins"] == ["https://social.edriffles.us"]
+    assert receipt_bindings[CURRENT_CUTOVER_RECEIPT]["deploymentImage"] == (
+        cutover_bindings["deploymentImage"]
     )
-    assert cutover["bindings"]["origins"] == ["https://social.edriffles.us"]
-    assert manifest["receiptBindings"][CURRENT_CUTOVER_RECEIPT][
-        "deploymentImage"
-    ] == cutover["bindings"]["deploymentImage"]
 
+
+def validate_receipts(
+    manifest_bindings: JsonObject,
+    receipt_paths: list[Path],
+    receipt_bindings: dict[str, JsonObject],
+    receipt_hashes: dict[str, str],
+) -> None:
     for path in receipt_paths:
-        receipt = load_json(path)
+        receipt = as_object(load_json(path), path.name)
         assert receipt.get("secretsIncluded") is False, path.name
         evidence_status = receipt.get("evidenceStatus")
         assert evidence_status in EVIDENCE_STATUSES, path.name
@@ -347,27 +396,35 @@ def main() -> None:
         assert_no_secret_keys(receipt, path.name)
         assert_no_secret_values(receipt, path.name)
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
-        assert manifest["receiptHashes"][path.name] == digest, path.name
-        binding = manifest["receiptBindings"][path.name]
+        assert receipt_hashes[path.name] == digest, path.name
+        binding = receipt_bindings[path.name]
         assert binding["testedAt"]
         assert binding["testedSourceRevision"]
         assert_deployment_image_policy(binding["deploymentImage"])
         assert_receipt_binding_matches(receipt, binding, path.name)
         if path.name in CURRENT_SOURCE_BOUND_RECEIPTS:
-            receipt_source = receipt["bindings"].get("sourceWorkingTreeDigest")
+            receipt_source_bindings = as_object(
+                receipt["bindings"], f"{path.name}.bindings"
+            )
+            receipt_source = receipt_source_bindings.get("sourceWorkingTreeDigest")
             assert receipt_source == binding.get("sourceWorkingTreeDigest"), path.name
             assert binding.get("sourceWorkingTreeDigest") == receipt_source, path.name
             assert (
                 binding.get("sourceWorkingTreeDigest")
-                == manifest["bindings"]["currentSourceWorkingTreeDigest"]
+                == manifest_bindings["currentSourceWorkingTreeDigest"]
             ), path.name
-            receipt_web = receipt["bindings"].get("webArtifactDigest")
+            receipt_web = receipt_source_bindings.get("webArtifactDigest")
             if receipt_web:
                 assert binding.get("webArtifactDigest") == receipt_web, path.name
-                assert (
-                    receipt_web == manifest["bindings"]["webArtifactDigest"]
-                ), path.name
+                assert receipt_web == manifest_bindings["webArtifactDigest"], path.name
 
+
+def validate_manifest_integrity(
+    manifest: JsonObject,
+    manifest_bindings: JsonObject,
+    receipt_bindings: dict[str, JsonObject],
+    receipt_names: set[str],
+) -> int:
     assert_no_secret_keys(manifest, "manifest")
     assert_no_secret_values(manifest, "manifest")
     expected_sidecar = (
@@ -377,14 +434,15 @@ def main() -> None:
     assert SIDECAR_PATH.read_text().strip() == expected_sidecar
 
     expected_source, input_count = source_digest()
-    assert manifest["bindings"]["currentSourceWorkingTreeDigest"] == expected_source
-    assert manifest["bindings"]["currentSourceInputCount"] == input_count
-    assert manifest["bindings"]["webArtifactDigest"] == web_artifact_digest()
-    receipt_times = [
-        manifest["receiptBindings"][name]["testedAt"] for name in receipt_names
-    ]
-    assert manifest["generatedAt"] >= max(receipt_times)
+    assert manifest_bindings["currentSourceWorkingTreeDigest"] == expected_source
+    assert manifest_bindings["currentSourceInputCount"] == input_count
+    assert manifest_bindings["webArtifactDigest"] == web_artifact_digest()
+    receipt_times = [str(receipt_bindings[name]["testedAt"]) for name in receipt_names]
+    assert str(manifest["generatedAt"]) >= max(receipt_times)
+    return input_count
 
+
+def validate_acceptance_receipts() -> None:
     local = load_json(RECEIPT_DIR / "local-oauth-spaces-acceptance.json")
     assert local["format"] == "us.edriffles.radlib.local-oauth-spaces-acceptance/1"
     assert local["checks"]["oauthScopeAndSignupPrompt"]["result"] == (
@@ -409,6 +467,23 @@ def main() -> None:
     authority = load_json(RECEIPT_DIR / "authority-decision.json")
     assert authority["format"] == "us.edriffles.radlib.authority-decision/1"
     assert authority["status"] == "PASSED_DNS_AUTHORITY_AND_LEXICON_REPOSITORY"
+
+
+def main() -> None:
+    manifest = as_object(load_json(MANIFEST_PATH), str(MANIFEST_PATH))
+    receipt_paths = sorted(RECEIPT_DIR.glob("*.json"))
+    receipt_names = {path.name for path in receipt_paths}
+    manifest_bindings, receipt_hashes, receipt_bindings = validate_manifest(
+        manifest, receipt_names
+    )
+    validate_cutover_receipt(receipt_bindings)
+    validate_receipts(
+        manifest_bindings, receipt_paths, receipt_bindings, receipt_hashes
+    )
+    input_count = validate_manifest_integrity(
+        manifest, manifest_bindings, receipt_bindings, receipt_names
+    )
+    validate_acceptance_receipts()
 
     print(
         f"OAuth/Spaces receipt validation passed: {len(receipt_paths)} receipts, "
