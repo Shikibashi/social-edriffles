@@ -96,6 +96,44 @@ test("serves alias metadata and augments issuer metadata on every public host", 
   }
 });
 
+test("passes PDS websocket upgrades through without wrapping the response", async () => {
+  const env = {
+    WEB_ORIGIN: "https://social-edriffles.pages.dev",
+    PDS_ORIGIN: "https://pds.edriffles.us",
+    PUBLIC_HOST: "radlib.edriffles.us",
+    PDS_PUBLIC_HOST: "pds.edriffles.us",
+  } as never;
+  const upstream = {
+    status: 101,
+    headers: new Headers({ upgrade: "websocket" }),
+    body: null,
+    webSocket: {} as WebSocket,
+  } as unknown as Response;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input) => {
+    const request = new Request(input);
+    assert.equal(
+      request.url,
+      "https://pds.edriffles.us/xrpc/com.atproto.sync.subscribeRepos",
+    );
+    assert.equal(request.headers.get("upgrade"), "websocket");
+    return upstream;
+  };
+
+  try {
+    const response = await edge.fetch(
+      new Request(
+        "https://pds.edriffles.us/xrpc/com.atproto.sync.subscribeRepos",
+        { headers: { upgrade: "websocket" } },
+      ),
+      env,
+    );
+    assert.equal(response, upstream);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 const publicPost = {
   thread: {
     post: {

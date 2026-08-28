@@ -250,6 +250,13 @@ async function proxy(
   const upstream = await fetch(
     buildUpstreamRequest(request, incomingUrl, origin, publicHost),
   )
+  // Cloudflare Workers expose the upgraded peer on the Response.webSocket
+  // property. Re-wrapping a 101 response in a new Response drops that peer,
+  // which makes the PDS firehose look offline to relays even though ordinary
+  // HTTP/XRPC requests still work.
+  if (request.headers.get('upgrade')?.toLowerCase() === 'websocket') {
+    return upstream
+  }
   return new Response(upstream.body, {
     status: upstream.status,
     statusText: upstream.statusText,
