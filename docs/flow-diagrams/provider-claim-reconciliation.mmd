@@ -1,0 +1,18 @@
+flowchart TD
+  Start([Resolve a handle or DID]) --> Inputs[Read registered providers and local identity policy]
+  Inputs --> Capability[Keep enabled providers with identity-resolution capability]
+  Capability --> Public[Build unauthenticated public clients]
+  Public --> Fanout[[Query every resolver concurrently]]
+  Fanout --> DidDoc[Resolve each returned DID through its DID method and validate the PDS endpoint]
+  DidDoc --> Claims[Retain provider ID, DID, endpoint, timestamp, and safe claim status]
+  DidDoc --> Unavailable[Record resolver failures as unavailable]
+  Claims --> Compare{All usable claims agree and no resolver is unavailable?}
+  Compare -->|Yes| Verified[Return the claim with all provenance]
+  Compare -->|No| Policy{Apply explicit local policy}
+  Policy -->|Require agreement| Fail[Fail closed and expose disagreement or unavailable providers]
+  Policy -->|Prefer provider| Preferred{Preferred verified claim exists?}
+  Preferred -->|Yes| Explicit[Return selected claim with disputed/incomplete status]
+  Preferred -->|No| Fail
+  Policy -->|First verified| First{Any verified claim exists?}
+  First -->|Yes| Explicit
+  First -->|No| Fail

@@ -144,6 +144,17 @@ content, and behavioral metadata may still correlate accounts.
 The warning and acknowledgement gate are implemented in
 `upstream/social-app/src/screens/Settings/components/ChangeHandleDialog.tsx`.
 
+Handle and URI resolution is now a separate read capability from feed/profile
+AppView selection. `upstream/social-app/src/state/queries/resolve-uri.ts`
+collects claims from every enabled identity-capable provider through public
+clients, validates the DID-method PDS endpoint, and applies the local
+agreement/preference policy. Disagreement and unavailable resolvers remain
+visible evidence; they are not silently converted into a canonical DID. The
+decision record and flow are in
+[`docs/ANARCHISTIC_PROVIDER_COMPOSITION_DECISION.md`](ANARCHISTIC_PROVIDER_COMPOSITION_DECISION.md)
+and
+[`docs/flow-diagrams/provider-claim-reconciliation.mmd`](flow-diagrams/provider-claim-reconciliation.mmd).
+
 ## Standard records and compatibility
 
 The fork retains standard records and wire formats for:
