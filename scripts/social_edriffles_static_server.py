@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from typing import Any
 from urllib.parse import urlsplit
 
 
@@ -38,12 +39,15 @@ def main() -> None:
     if not (directory / "index.html").is_file():
         raise SystemExit(f"production export is missing: {directory / 'index.html'}")
 
-    handler = lambda *handler_args, **handler_kwargs: SpaHandler(  # noqa: E731
-        *handler_args,
-        directory=str(directory),
-        **handler_kwargs,
-    )
-    server = ThreadingHTTPServer((args.host, args.port), handler)
+    class BoundSpaHandler(SpaHandler):
+        def __init__(self, *handler_args: Any, **handler_kwargs: Any) -> None:
+            super().__init__(
+                *handler_args,
+                directory=str(directory),
+                **handler_kwargs,
+            )
+
+    server = ThreadingHTTPServer((args.host, args.port), BoundSpaHandler)
     print(f"Social static export: http://{args.host}:{args.port} -> {directory}")
     try:
         server.serve_forever()

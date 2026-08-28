@@ -1,9 +1,9 @@
 # Default Configuration
 
-Production defaults use `EXPO_PUBLIC_ENV=production` and the compatible account
-entryway `EXPO_PUBLIC_ACCOUNT_SERVICE=https://bsky.social` only for login and
-handle availability. Public reads require an explicitly configured first-party
-AppView:
+Production defaults use `EXPO_PUBLIC_ENV=production` and the first-party account
+entryway `EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us` only for login
+and handle availability. Public reads require an explicitly configured
+first-party AppView:
 `EXPO_PUBLIC_APPVIEW_SERVICE_DID`,
 `EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT`, and
 `EXPO_PUBLIC_PUBLIC_APPVIEW_URL`. An unset production AppView is an explicit

@@ -32,7 +32,7 @@ For the real owner account `edriffles.us`, use the same command with the
 account-entryway line changed to:
 
 ```sh
-EXPO_PUBLIC_ACCOUNT_SERVICE=https://bsky.social
+EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us
 ```
 
 That real-account variant still requires a provider that indexes the remote
@@ -49,7 +49,7 @@ EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
 EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public AT Protocol AppView (external read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
 EXPO_PUBLIC_DEFAULT_LABELER_DIDS= \
-EXPO_PUBLIC_ACCOUNT_SERVICE=https://bsky.social \
+EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us \
 pnpm web -- --port 8081
 ```
 

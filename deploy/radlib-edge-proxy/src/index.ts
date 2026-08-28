@@ -2,7 +2,7 @@ import {
   fetchPostMetadata,
   parsePostRoute,
   renderPostMetadata,
-} from './post-metadata'
+} from './post-metadata.ts'
 
 const PDS_EXACT_PATHS = new Set([
   '/oauth/authorize',
@@ -22,6 +22,19 @@ const CANONICAL_PUBLIC_ORIGIN = `https://${CANONICAL_PUBLIC_HOST}`
 const OAUTH_ISSUER_ORIGIN = `https://${OAUTH_ISSUER_HOST}`
 const LEGACY_PDS_ORIGIN = `https://${LEGACY_PDS_HOST}`
 const DEFAULT_APPVIEW_ORIGIN = 'https://api.bsky.app'
+const PUBLIC_PROTOCOL_HOSTS = new Set([
+  CANONICAL_PUBLIC_HOST,
+  OAUTH_ISSUER_HOST,
+  LEGACY_PDS_HOST,
+])
+
+type ProtectedResourceMetadata = {
+  resource: string
+  authorization_servers: string[]
+  scopes_supported: string[]
+  bearer_methods_supported: string[]
+  resource_documentation: string
+}
 
 type EdgeEnv = Env & {
   APPVIEW_ORIGIN?: string
@@ -94,28 +107,44 @@ export function isPdsPath(pathname: string): boolean {
 
 /**
  * The owner's existing PLC DID still declares pds.edriffles.us as its PDS.
- * Keep that identity declaration usable while the user-facing web origin is
- * social.edriffles.us. The authorization server remains radlib.edriffles.us,
- * the configured PDS OAuth issuer.
+ * Keep that identity declaration usable while also allowing the user-facing
+ * web origin to be used as a protocol alias. The authorization server remains
+ * radlib.edriffles.us, the configured PDS OAuth issuer.
  */
-function legacyPdsProtectedResourceMetadata(
+export function protectedResourceMetadataForHost(
+  hostname: string,
+): ProtectedResourceMetadata | undefined {
+  const normalizedHostname = hostname.toLowerCase()
+  const resource =
+    normalizedHostname === CANONICAL_PUBLIC_HOST
+      ? CANONICAL_PUBLIC_ORIGIN
+      : normalizedHostname === LEGACY_PDS_HOST
+        ? LEGACY_PDS_ORIGIN
+        : undefined
+
+  if (!resource) return
+
+  return {
+    resource,
+    authorization_servers: [OAUTH_ISSUER_ORIGIN],
+    scopes_supported: [],
+    bearer_methods_supported: ['header'],
+    resource_documentation: 'https://atproto.com',
+  }
+}
+
+function publicPdsProtectedResourceMetadata(
   incomingUrl: URL,
 ): Response | undefined {
-  if (
-    incomingUrl.hostname !== LEGACY_PDS_HOST ||
-    incomingUrl.pathname !== '/.well-known/oauth-protected-resource'
-  ) {
+  if (incomingUrl.pathname !== '/.well-known/oauth-protected-resource') {
     return
   }
 
+  const metadata = protectedResourceMetadataForHost(incomingUrl.hostname)
+  if (!metadata) return
+
   return new Response(
-    JSON.stringify({
-      resource: LEGACY_PDS_ORIGIN,
-      authorization_servers: [OAUTH_ISSUER_ORIGIN],
-      scopes_supported: [],
-      bearer_methods_supported: ['header'],
-      resource_documentation: 'https://atproto.com',
-    }),
+    JSON.stringify(metadata),
     {
       status: 200,
       headers: {
@@ -130,8 +159,8 @@ function legacyPdsProtectedResourceMetadata(
 }
 
 /**
- * The configured OAuth issuer must explicitly list the user-facing resource
- * and the owner's legacy PDS resource. This lets an OAuth client validate the
+ * The configured OAuth issuer must explicitly list every public resource alias
+ * that can return the issuer metadata. This lets an OAuth client validate the
  * resource-to-issuer relationship without changing the PDS issuer identity.
  */
 async function proxyAuthorizationServerMetadata(
@@ -280,7 +309,7 @@ export default {
     const legacyRedirect = redirectLegacyPublicHost(incomingUrl)
     if (legacyRedirect) return legacyRedirect
 
-    const legacyResourceMetadata = legacyPdsProtectedResourceMetadata(incomingUrl)
+    const legacyResourceMetadata = publicPdsProtectedResourceMetadata(incomingUrl)
     if (legacyResourceMetadata) return legacyResourceMetadata
 
     const origin = isPdsPath(incomingUrl.pathname)
@@ -289,8 +318,8 @@ export default {
 
     try {
       if (
-        incomingUrl.hostname === OAUTH_ISSUER_HOST &&
-        incomingUrl.pathname === '/.well-known/oauth-authorization-server'
+        incomingUrl.pathname === '/.well-known/oauth-authorization-server' &&
+        PUBLIC_PROTOCOL_HOSTS.has(incomingUrl.hostname)
       ) {
         return await proxyAuthorizationServerMetadata(
           request,

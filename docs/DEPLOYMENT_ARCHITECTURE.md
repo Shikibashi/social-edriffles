@@ -11,7 +11,7 @@ No application server is required for the static client deployment. Build-time
 public variables include `EXPO_PUBLIC_ENV`, `EXPO_PUBLIC_RELEASE_VERSION`,
 `EXPO_PUBLIC_APPVIEW_SERVICE_DID`, `EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT`,
 and `EXPO_PUBLIC_PUBLIC_APPVIEW_URL`; secrets must never be public build
-variables. `EXPO_PUBLIC_ACCOUNT_SERVICE` is an optional login/handle-entryway
-setting and is not a public-read provider.
+variables. Production uses `EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us`
+for login/handle resolution; this is not a public-read provider.
 OAuth requires an HTTPS canonical origin and registered redirect
 configuration.

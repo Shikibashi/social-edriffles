@@ -7,6 +7,94 @@ import {
   postAtUri,
   renderPostMetadata,
 } from "./post-metadata.ts";
+import edge, { protectedResourceMetadataForHost } from "./index.ts";
+
+test("keeps public PDS resource aliases bound to the Radlib issuer", () => {
+  assert.deepEqual(
+    protectedResourceMetadataForHost("social.edriffles.us"),
+    {
+      resource: "https://social.edriffles.us",
+      authorization_servers: ["https://radlib.edriffles.us"],
+      scopes_supported: [],
+      bearer_methods_supported: ["header"],
+      resource_documentation: "https://atproto.com",
+    },
+  );
+  assert.deepEqual(
+    protectedResourceMetadataForHost("PDS.EDRIFFLES.US"),
+    {
+      resource: "https://pds.edriffles.us",
+      authorization_servers: ["https://radlib.edriffles.us"],
+      scopes_supported: [],
+      bearer_methods_supported: ["header"],
+      resource_documentation: "https://atproto.com",
+    },
+  );
+  assert.equal(
+    protectedResourceMetadataForHost("radlib.edriffles.us"),
+    undefined,
+  );
+});
+
+test("serves alias metadata and augments issuer metadata on every public host", async () => {
+  const env = {
+    WEB_ORIGIN: "https://social-edriffles.pages.dev",
+    PDS_ORIGIN: "https://pds.edriffles.us",
+    PUBLIC_HOST: "radlib.edriffles.us",
+    PDS_PUBLIC_HOST: "pds.edriffles.us",
+    APPVIEW_ORIGIN: "https://api.bsky.app",
+  } as never;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async input => {
+    assert.equal(
+      new Request(input).url,
+      "https://pds.edriffles.us/.well-known/oauth-authorization-server",
+    );
+    return new Response(
+      JSON.stringify({
+        issuer: "https://radlib.edriffles.us",
+        protected_resources: ["https://radlib.edriffles.us"],
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    );
+  };
+
+  try {
+    const protectedResourceResponse = await edge.fetch(
+      new Request(
+        "https://social.edriffles.us/.well-known/oauth-protected-resource",
+      ),
+      env,
+    );
+    assert.deepEqual(
+      await protectedResourceResponse.json(),
+      protectedResourceMetadataForHost("social.edriffles.us"),
+    );
+
+    for (const hostname of [
+      "social.edriffles.us",
+      "radlib.edriffles.us",
+      "pds.edriffles.us",
+    ]) {
+      const authorizationServerResponse = await edge.fetch(
+        new Request(
+          `https://${hostname}/.well-known/oauth-authorization-server`,
+        ),
+        env,
+      );
+      assert.deepEqual(await authorizationServerResponse.json(), {
+        issuer: "https://radlib.edriffles.us",
+        protected_resources: [
+          "https://radlib.edriffles.us",
+          "https://social.edriffles.us",
+          "https://pds.edriffles.us",
+        ],
+      });
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 
 const publicPost = {
   thread: {

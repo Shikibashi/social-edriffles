@@ -53,7 +53,7 @@ EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
 EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public AT Protocol AppView (external read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
-EXPO_PUBLIC_ACCOUNT_SERVICE=https://social.edriffles.us \
+EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us \
 EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1 \
 EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1 \
 pnpm build-web
@@ -62,10 +62,12 @@ pnpm build-web
 The static artifact is `upstream/social-app/web-build/`. It must be served at
 the site root over HTTPS with an SPA fallback from unknown application routes
 to `/index.html`. The post-build step also normalizes entrypoint asset URLs to
-`/static/...`, which is required for direct visits to nested routes. The browser
-uses the single public origin for account/PDS paths. The edge Worker routes
-those paths to the PDS implementation target; AppView, resolver, feed, and
-labeler services remain explicitly configured service boundaries.
+`/static/...`, which is required for direct visits to nested routes. The
+production browser uses `pds.edriffles.us` for account/handle resolution, while
+the OAuth client metadata and callback remain on the single user-facing
+`social.edriffles.us` origin. The edge Worker routes PDS protocol paths to the
+PDS implementation target; AppView, resolver, feed, and labeler services remain
+explicitly configured service boundaries.
 
 The two Spaces settings are intentionally required for this deployment: the
 first activates the Space-backed community board and the second explicitly
@@ -87,7 +89,7 @@ EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app \
 EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview \
 EXPO_PUBLIC_APPVIEW_DISPLAY_NAME='Public AT Protocol AppView (external read provider)' \
 EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app \
-EXPO_PUBLIC_ACCOUNT_SERVICE=https://social.edriffles.us \
+EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us \
 EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1 \
 EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1 \
 pnpm build-web
