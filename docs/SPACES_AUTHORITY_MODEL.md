@@ -74,9 +74,11 @@ methods never accept this token as a content credential.
   be a separate explicit operation.
 - Leave, revoke, block, and ban remove Space membership before committing the
   Radlib state transition. New credential exchange then fails closed.
-- The pinned alpha credential is self-contained; an already-issued credential
-  may survive until expiry. This is an explicit acceptance gap, not a hidden
-  claim of immediate token revocation.
+- The pinned upstream alpha credential is self-contained and may survive until
+  expiry. The deployed fork-owned `us.edriffles.radlib.*` namespace adds an
+  authority-status check so its already-issued credentials are rejected after
+  membership removal. This extension is intentionally scoped and does not
+  change standard Spaces wire compatibility.
 
 ## Legacy classification
 

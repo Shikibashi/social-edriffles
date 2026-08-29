@@ -1,37 +1,60 @@
 {
   "bindings": {
     "currentSourceDigestAlgorithm": "sha256 over sorted path\\0sha256(file) entries for deployable client, PDS, Lexicon, and edge-worker source inputs",
-    "currentSourceInputCount": 3546,
-    "currentSourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-    "deploymentId": "143926c7-b082-4f5f-b859-afc070e67555",
-    "deploymentImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
-    "deploymentStatus": "SOCIAL_USER_FACING_CUTOVER_DEPLOYED",
+    "currentSourceInputCount": 3588,
+    "currentSourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+    "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentStatus": "CURRENT_SOURCE_DEPLOYED",
     "environment": "disposable-public-alpha/staging",
     "origins": [
       "https://social.edriffles.us"
     ],
     "ownerException": "existing edriffles.us zone retained; no new registrable domain",
-    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
-    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-    "sourceImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
-    "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819"
+    "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+    "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+    "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+    "sourceImage": "pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6",
+    "deploymentComponents": {
+      "pages": {
+        "project": "social-edriffles",
+        "deploymentId": "161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6",
+        "host": "161c1fc9.social-edriffles.pages.dev",
+        "customDomain": "social.edriffles.us",
+        "sourceCommit": "016f92e"
+      },
+      "worker": {
+        "name": "radlib-edriffles-edge-production",
+        "versionId": "caf863a7-0f4c-4507-84e3-ec55e78c10ce",
+        "routes": [
+          "radlib.edriffles.us/*",
+          "social.edriffles.us/*",
+          "pds.edriffles.us/*"
+        ]
+      },
+      "pds": {
+        "host": "pds.edriffles.us",
+        "serviceDid": "did:web:radlib.edriffles.us",
+        "image": "pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+        "spaceCredentialRevocation": true
+      }
+    },
+    "testedAt": "2026-08-28T11:14:05.826Z"
   },
   "blockers": [
-    "PUBLIC_CREDENTIALED_SPACES_NOT_RUN",
-    "OAUTH_BROWSER_CREDENTIAL_ENTRY_NOT_RUN",
-    "INCONCLUSIVE_APPVIEW_403",
-    "SPACES_ALPHA_LIMITATIONS",
-    "OAUTH_EXPIRY_GAP"
+    "PRIVATE_CANARY_RELAY_APPVIEW_NOT_RUN",
+    "OAUTH_EXPIRY_GAP",
+    "PLC_OPERATOR_INDEPENDENCE_NOT_PROVEN"
   ],
   "deferred": [
     "NATIVE_PLATFORM_COMPATIBILITY",
     "PRIVATE_APPVIEW_AND_NOTIFICATION_SERVICE"
   ],
   "format": "us.edriffles.radlib.oauth-spaces-manifest/1",
-  "generatedAt": "2026-08-26T05:13:36Z",
+  "generatedAt": "2026-08-28T11:31:02.898034Z",
   "receiptHashes": {
-    "authority-decision.json": "d85fdee8876f4caf4ee069aae34c373803612ba45018110cdb7fc5dd275b9a7f",
+    "authority-decision.json": "243c543ed73f88f8838732fa285ee26a68b9954382175ae4a483543b43e4cc96",
     "cloudflare-deploy-attempt.json": "aa897d9fc52f6f9a43ed2686d23e974a48d4ef1ebfd51724a84b375b7c9cb0af",
     "cloudflare-deploy-success-236dff2c.json": "4d467cccfa21e0983d988780cd138035e62febd36454e0a13af4bac5e4f7d758",
     "cloudflare-deploy-success-2816da7c.json": "a5c380531f795a2c9c4fef5a9af6aedec288e4e0f7fc5151082df6d8e1299fe2",
@@ -44,17 +67,20 @@
     "cloudflare-deploy-success-eee550b3.json": "dcf5a9764a2ffd5b60e07502c4a58454c728de1a5397feb4bc4156293c29b013",
     "cloudflare-deploy-success.json": "8ea643d4455c2d4187ac5ef02d100bd29f2f1da7aabb6ee3a84ab385652c9e3c",
     "deployed-headers.json": "4e93c9adf53ca13b5cf1026443b7ad3957a889984e200b49dadbc37ba6ceabf2",
-    "local-oauth-spaces-acceptance.json": "b3fe241063783e8fba42ab45e6b2ebabe31b0c4ac5edebb3e7dbd0b278516ee9",
+    "local-oauth-spaces-acceptance.json": "e783ac0f233d56d1b043d1228fb4ae722340d0af5ad63458e522295172216788",
     "local-oauth-verification.json": "02dde0608f02676c32530e3c11501a0e9b48fef548b0c9b50a3ddd34f0e15e1f",
-    "local-private-canary-scan.json": "ad4ebe4b5445e57f938dde8b1bab35c3b7a1267ff96b10a55f39bcd5bd311fb2",
+    "local-private-canary-scan.json": "08db1af9c645357e1713f2b93808c016ffabb144b534b46a906bc183bf3c7a64",
     "oauth-migration.json": "c2a301b395c8c2ab11d226d6f6b65d19974175d71a26d78eaf3c8c0b16da436f",
     "oauth-negative-cases.json": "21d07422632c2b71f2a0bd60692ca55ed9541c0cc80a0292775200009aed0f92",
     "org-radlib-authority.json": "261cd0e9310e4397a6134a410300d454700d98720a6c2456d6385c8e95325652",
     "pds-deploy-success-8473b0ba.json": "688bae56a10fb786d2f1bc605484a32232af21f64e7b9bbf0103252bed24270f",
     "pds-deploy-success-decf7cc2.json": "f91948cd2ffc2d25fa9d60ef5e11ce6a80e29c981de22458b8cf96c6148898e3",
     "pds-relay-appview-canaries.json": "a3f277fe2cad820215e47b5cd96a2e82f3a0288072766e0a32d30a3cd11f7806",
-    "radlib-edge-cutover-pending.json": "10403addb478115d1e13b9c35548acf0fec1a8240582f416a96308ae53fc674e",
-    "spaces-lifecycle.json": "cfe48c6da394e9c34cdb4d6901929a3f5d19457ff8a0eed9884d4880af6a679f"
+    "radlib-edge-cutover-pending.json": "9c57abae09aa69b605719e22fae6b426fa76dac40fff6f943257b4202c988183",
+    "spaces-lifecycle.json": "cfe48c6da394e9c34cdb4d6901929a3f5d19457ff8a0eed9884d4880af6a679f",
+    "live-public-contract-probe.json": "0e6f8041fde92e099af515985aefe6bc2841676d9712e9882625b04ae9c7a3f1",
+    "credentialed-public-oauth.json": "c5398016856ceca3f6f2044cf78c2dd9292690aa279c7b8644af6f69771515ec",
+    "credentialed-public-spaces.json": "4d7366c0e58871a94b8a8e5de935ed65b1d0e233ecaea4ba825e3c85392c337d"
   },
   "receiptBindings": {
     "authority-decision.json": {
@@ -63,12 +89,12 @@
       "origins": [
         "https://radlib.edriffles.us"
       ],
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
       "testedAt": "2026-08-26T05:13:36Z",
-      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee"
     },
     "cloudflare-deploy-attempt.json": {
       "deploymentImage": "not-deployed-cloudflare-token-rejected",
@@ -269,13 +295,13 @@
         "http://127.0.0.1:<ephemeral-pds>",
         "http://127.0.0.1:<ephemeral-plc>"
       ],
-      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
       "testedAt": "2026-08-26T05:13:36Z",
-      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-      "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819",
-      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
     },
     "local-oauth-verification.json": {
       "deploymentImage": "cloudflare-pages:df730c94.social-edriffles.pages.dev",
@@ -301,12 +327,12 @@
         "http://127.0.0.1:<ephemeral-pds>",
         "http://127.0.0.1:<ephemeral-plc>"
       ],
-      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
       "testedAt": "2026-08-26T05:13:36Z",
-      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760"
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee"
     },
     "oauth-migration.json": {
       "deploymentImage": "cloudflare-pages:84d66888.social-edriffles.pages.dev",
@@ -416,21 +442,122 @@
       "ownerException": "existing edriffles.us topology retained; no new registrable domain"
     },
     "radlib-edge-cutover-pending.json": {
-      "deploymentImage": "cloudflare-worker:radlib-edriffles-edge-production@143926c7-b082-4f5f-b859-afc070e67555",
+      "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
       "environment": "disposable-public-alpha/staging",
       "origins": [
         "https://social.edriffles.us"
       ],
-      "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-      "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-      "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
-      "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-      "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819",
-      "testedAt": "2026-08-26T05:13:36Z",
-      "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6",
+      "testedAt": "2026-08-28T11:14:05.826Z",
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "deploymentStatus": "CURRENT_SOURCE_DEPLOYED"
+    },
+    "live-public-contract-probe.json": {
+      "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "deploymentStatus": "CURRENT_SOURCE_DEPLOYED",
+      "environment": "live-public-internet-read-only",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us",
+        "https://radlib.edriffles.us"
+      ],
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "testedAt": "2026-08-28T11:30:58.355993Z",
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+    },
+    "credentialed-public-oauth.json": {
+      "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://social.edriffles.us",
+        "https://pds.edriffles.us",
+        "https://radlib.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "testedAt": "2026-08-28T11:11:36.708Z",
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6",
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "deploymentStatus": "CURRENT_SOURCE_DEPLOYED"
+    },
+    "credentialed-public-spaces.json": {
+      "deploymentImage": "pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+      "environment": "disposable-public-alpha/staging",
+      "origins": [
+        "https://pds.edriffles.us"
+      ],
+      "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "testedAt": "2026-08-28T10:56:34.848Z",
+      "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348"
     }
   },
   "integritySidecar": "artifacts/oauth-spaces-manifest.sha256",
   "secretsIncluded": false,
-  "status": "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES"
+  "status": "BLOCKED_EXTERNAL_APPVIEW_EXPIRY_AND_PLC_INDEPENDENCE_GATES",
+  "deployment": {
+    "format": "us.edriffles.radlib.deployment-record/1",
+    "evidenceStatus": "current",
+    "secretsIncluded": false,
+    "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "sourceImage": "pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentStatus": "CURRENT_SOURCE_DEPLOYED",
+    "environment": "disposable-public-alpha/staging",
+    "verifiedAt": "2026-08-28T11:14:05.826Z",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us",
+      "https://radlib.edriffles.us"
+    ],
+    "source": {
+      "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+      "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+      "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+      "workingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+      "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+    },
+    "components": {
+      "pages": {
+        "project": "social-edriffles",
+        "deploymentId": "161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6",
+        "host": "161c1fc9.social-edriffles.pages.dev",
+        "customDomain": "social.edriffles.us",
+        "sourceCommit": "016f92e"
+      },
+      "worker": {
+        "name": "radlib-edriffles-edge-production",
+        "versionId": "caf863a7-0f4c-4507-84e3-ec55e78c10ce",
+        "routes": [
+          "radlib.edriffles.us/*",
+          "social.edriffles.us/*",
+          "pds.edriffles.us/*"
+        ]
+      },
+      "pds": {
+        "host": "pds.edriffles.us",
+        "serviceDid": "did:web:radlib.edriffles.us",
+        "image": "pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+        "spaceCredentialRevocation": true
+      }
+    },
+    "recordPath": "artifacts/deployment-current.json",
+    "recordSha256": "b4d08cdafb8de3dedaa8bc97554d615dfad2de2904c97a0ae8e9d2009844d227"
+  }
 }

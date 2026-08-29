@@ -1,0 +1,55 @@
+{
+  "format": "us.edriffles.radlib.live-public-probe/1",
+  "status": "PASS_CURRENT_PUBLIC_CONTRACT",
+  "evidenceStatus": "current",
+  "secretsIncluded": false,
+  "bindings": {
+    "deploymentId": "pages:161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker:caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds:sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentImage": "release:pages=161c1fc9-766c-4b3e-b3cd-4cc71e5a8ce6;worker=caf863a7-0f4c-4507-84e3-ec55e78c10ce;pds=sha256:3d4c971691f205fdd7afd8050681669eb0a563495c334531f801bd0ebe6dc348",
+    "deploymentStatus": "CURRENT_SOURCE_DEPLOYED",
+    "environment": "live-public-internet-read-only",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds.edriffles.us",
+      "https://radlib.edriffles.us"
+    ],
+    "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+    "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+    "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+    "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+    "testedAt": "2026-08-28T11:30:58.355993Z",
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+  },
+  "checks": {
+    "publicClientMetadata": {
+      "contractStatus": "PASS",
+      "legacyTransitionScopesObserved": [],
+      "sourceArtifactStatus": "CURRENT",
+      "spaceScopeAdvertised": false,
+      "status": "PASS"
+    },
+    "protectedResource": "PASS",
+    "authorizationServer": "PASS",
+    "didDocuments": "PASS",
+    "health": "PASS",
+    "privateBoundary": "PASS",
+    "lexiconDnsAuthority": {
+      "agreement": true,
+      "resolverCount": 3,
+      "status": "PASS"
+    },
+    "plcEndpoints": {
+      "auditShape": "PASS",
+      "dataShape": "PASS",
+      "cryptographicHistoryVerification": {
+        "headCid": "bafyreiatizq6566n4dffpulg24sj2lcdo2wck2lni6qjrx7tymdh7zl33i",
+        "status": "PASS",
+        "verifiedOperations": 1,
+        "verifierStatus": "verified"
+      }
+    },
+    "credentialsUsed": false,
+    "writesPerformed": false
+  }
+}

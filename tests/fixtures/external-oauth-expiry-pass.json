@@ -1,0 +1,35 @@
+{
+  "format": "us.edriffles.radlib.external-oauth-expiry/1",
+  "evidenceStatus": "fixture",
+  "secretsIncluded": false,
+  "status": "PASSED_EXTERNAL_OAUTH_SHORT_TTL_EXPIRY_REPLAY",
+  "bindings": {
+    "environment": "synthetic-disposable-oauth-short-ttl",
+    "testedAt": "2026-08-28T16:00:00Z",
+    "testedSourceRevision": "root:fixture-oauth-expiry",
+    "deploymentImage": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sourceWorkingTreeDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "webArtifactDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "target": {
+    "authorizationServer": "https://pds.fixture.example.test",
+    "resourceServer": "https://pds.fixture.example.test",
+    "clientMetadata": "https://social.fixture.example.test/oauth-client-metadata.json"
+  },
+  "checks": {
+    "ttlWithinConfiguredLimit": true,
+    "preExpiryAuthorizedRequest": true,
+    "staleAccessTokenRejected": true,
+    "refreshSucceeded": true,
+    "refreshTokenRotated": true,
+    "oldRefreshTokenReplayRejected": true,
+    "authorizationCodeReplayRejected": true,
+    "authorizationCodeReplayRevokedSession": true,
+    "revokedOnCleanup": true
+  },
+  "timing": {
+    "configuredTokenMaxAgeMs": 5000,
+    "observedExpiresInSeconds": 5,
+    "waitMs": 5250
+  }
+}

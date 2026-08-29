@@ -1,0 +1,32 @@
+flowchart TD
+  start[User opens a feature] --> policy[Load exported or local capability policy]
+  policy --> provider[Select providers by surface capability]
+  provider --> fanout[Query independent public providers]
+  fanout --> claims[Retain result, provider, operator, timestamp, and error]
+  claims --> verify{Can the result be cryptographically verified?}
+  verify -->|No| unverified[Mark unverified; do not promote to authority]
+  verify -->|Yes| compare[Compare usable claims and stale or partial results]
+  compare --> reconcile{User-owned reconciliation policy}
+  reconcile -->|agreement| result[Render attributable result]
+  reconcile -->|disagreement| disclose[Show disagreement and preserve alternatives]
+  reconcile -->|unavailable| fallback[Use explicit fallback or fail closed]
+  unverified --> result
+  disclose --> result
+  fallback --> result
+
+  result --> write{Does the action need a write grant?}
+  write -->|No| done[Complete read-only action]
+  write -->|Yes| grant[Compute missing feature-scoped OAuth permissions]
+  grant --> granted{Grant present?}
+  granted -->|Yes| execute[Use the existing DPoP-bound session]
+  granted -->|No| reauth[Request explicit reauthorization with current plus missing scopes]
+  reauth --> execute
+  execute --> done
+
+  done --> export[Export or reset portable provider and policy state]
+  export --> custody{Does identity recovery need a user-held key?}
+  custody -->|No| end[Record evidence and exit]
+  custody -->|Yes| prepare[Prepare non-exportable or explicitly backed-up rotation key]
+  prepare --> authority[Require current protocol authority and verify the signed operation]
+  authority -->|unsupported or rejected| end
+  authority -->|accepted| end

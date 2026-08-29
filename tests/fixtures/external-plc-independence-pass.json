@@ -1,0 +1,93 @@
+{
+  "format": "us.edriffles.radlib.external-plc-independence/1",
+  "evidenceStatus": "fixture",
+  "secretsIncluded": false,
+  "status": "PASSED_EXTERNAL_PLC_OPERATOR_INDEPENDENCE",
+  "bindings": {
+    "environment": "synthetic-independent-plc-replica",
+    "testedAt": "2026-08-28T16:00:00Z",
+    "testedSourceRevision": "root:fixture-plc-independence",
+    "deploymentImage": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sourceWorkingTreeDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "webArtifactDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "operators": {
+    "primary": {
+      "operatorId": "operator:plc-primary-independent",
+      "serviceDid": "did:web:plc-primary.example.test",
+      "publicKey": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "endpoint": "https://plc-primary.example.test",
+      "controlEvidence": [
+        {
+          "evidenceRef": "https://plc-primary.example.test/operator-control.json",
+          "verifiedBy": "independent-auditor-a",
+          "verifiedAt": "2026-08-28T15:55:00Z"
+        }
+      ]
+    },
+    "mirror": {
+      "operatorId": "operator:plc-mirror-independent",
+      "serviceDid": "did:web:plc-mirror.example.test",
+      "publicKey": "6Z_az3GxW5S91eJE_t2__Q640hbtk2mrZf4OSl02jnU",
+      "endpoint": "https://plc-mirror.example.test",
+      "controlEvidence": [
+        {
+          "evidenceRef": "https://plc-mirror.example.test/operator-control.json",
+          "verifiedBy": "independent-auditor-b",
+          "verifiedAt": "2026-08-28T15:56:00Z"
+        }
+      ]
+    }
+  },
+  "independence": {
+    "proven": true,
+    "basis": [
+      "https://independent-auditor-a.example.test/report",
+      "https://independent-auditor-b.example.test/report"
+    ]
+  },
+  "didHistoryVerification": {
+    "did": "did:plc:2vhzfagabnjj4is3y2x4u6sh",
+    "historyDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "operationCount": 3,
+    "genesisDerivedDid": true,
+    "previousCidsVerified": true,
+    "rotationSignaturesVerified": true,
+    "tombstoneRulesVerified": true,
+    "primaryMirrorAgreement": true,
+    "staleFixtureRejected": true,
+    "malformedFixtureRejected": true,
+    "invalidSignatureRejected": true,
+    "disagreementVisible": true
+  },
+  "resolverDisagreement": {
+    "observed": true,
+    "visible": true,
+    "reconciliation": "freshness disagreement surfaced to the user",
+    "primaryValueDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "mirrorValueDigest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "signedReceipt": {
+    "signedBy": "operator:plc-mirror-independent",
+    "signatureAlgorithm": "Ed25519",
+    "signedPayloadSha256": "sha256:6d61736f999b3a6bef801c55716c974aaeb606f9a79e35c96aeb1118d2293f6e",
+    "publicKey": "6Z_az3GxW5S91eJE_t2__Q640hbtk2mrZf4OSl02jnU",
+    "signature": "nzjPYXvqaDUofbgKX1CSD9eOisd7DxSJPI-7C05ITHQDzLu5LB_iVjmVMPEB8p4FPgk15sHgGsZC-BN0100yCQ",
+    "signatureVerified": true,
+    "signedStatement": {
+      "did": "did:plc:2vhzfagabnjj4is3y2x4u6sh",
+      "disagreementWindow": "freshness",
+      "genesisDerivedDid": true,
+      "historyDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "invalidSignatureRejected": true,
+      "malformedFixtureRejected": true,
+      "operationCount": 3,
+      "previousCidsVerified": true,
+      "primaryMirrorAgreement": true,
+      "resolverDisagreementVisible": true,
+      "rotationSignaturesVerified": true,
+      "staleFixtureRejected": true,
+      "tombstoneRulesVerified": true
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Spaces Alpha Integration
 
-Status: `ALPHA_GATED / SOURCE_READY / RADLIB.EDRIFFLES.US_CUTOVER_PENDING` on `codex/spaces-alpha-integration`.
+Status: `ALPHA_GATED / SOURCE_READY / SOCIAL_EDRIFFLES_CURRENT_SOURCE_NOT_DEPLOYED` on `codex/spaces-alpha-integration`.
 
 This branch uses the upstream ATProto `permissioned-data-alpha` branch as the PDS
 base and carries the fork's protected-account/community policy above the
@@ -12,7 +12,7 @@ production activation or owner acceptance receipt.
 | Component | Base | Reviewed checkout | Role |
 |---|---|---|---|
 | PDS | `bluesky-social/atproto` `permissioned-data-alpha` at `4c33457afe96ad2e5d2fe6bd975f094cd6f67328` | `9c3d92f04335d624a79acbbf5f346130f00ffbdd` | Spaces protocol, DPoP credentials, ActorStore data plane, and fork product control API |
-| Client | `bluesky-social/social-app` `main` at `c4c999ff4f8f6bf42e752a1b0d39718a6330b68b` | `fa14f7e46dcd6675797db5ce917e094cc17e46ed` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
+| Client | `bluesky-social/social-app` `main` at `c4c999ff4f8f6bf42e752a1b0d39718a6330b68b` | `105a1691ec78c12c9326863199a53a0db0beadf2` | Generated Space adapter, multi-writer fanout, sync boundary, composer, Bulletin-style board, self-contained Communities board creation, resilient deep-link board discovery, migrated-PDS auth recovery, and private bulletin posting |
 
 The machine-readable copies are `upstream-pins.json` and
 `artifacts/upstream-baseline.json`. The root checkout and both submodule
@@ -48,6 +48,7 @@ PDS deployments using this slice must set:
 PDS_SPACES_ALPHA_ENABLED=true
 PDS_PROTECTED_ACCOUNTS_ENABLED=true
 PDS_COMMUNITIES_ENABLED=true
+PDS_SPACE_CREDENTIAL_REVOCATION_ENABLED=true
 ```
 
 The client defaults to the standard Space adapter when
@@ -60,6 +61,13 @@ Spaces path. A production web bundle must also set
 explicit operator acknowledgement for the requested community-board
 deployment and does not change the alpha status or production-readiness gates
 below.
+
+`PDS_SPACE_CREDENTIAL_REVOCATION_ENABLED` is a fork extension, not a new
+standard credential format. When enabled, the PDS records opaque credential
+status for `us.edriffles.radlib.*` Spaces and checks the issuing authority
+before accepting a credential. The check fails closed on revoked, unknown, or
+unavailable status. Ordinary standard Spaces continue through the upstream
+credential path.
 
 ## Wave 1/2 hardening evidence
 
@@ -74,8 +82,9 @@ checkout:
   `key: "any"` and only `us.edriffles.radlib.private.post` declared. The
   disposable authority DID publishes the checked-in `us.edriffles.radlib.*`
   declarations and the OAuth write boundary rejects an undeclared collection.
-  Independent DNS authority is now a named cutover gate at
-  `_lexicon.radlib.edriffles.us`; it is not claimed by the local resolver.
+  DNS authority is now verified at
+  `_lexicon.radlib.edriffles.us` through three public resolvers; independent
+  operation of that authority is not claimed merely from DNS agreement.
 - Private `us.edriffles.radlib.private.*` responses set `Cache-Control: private,
   no-store` and vary on `Authorization` and `DPoP`, including service-auth
   fallback failures and successes. The local HTTP header matrix passes, and
@@ -170,24 +179,22 @@ Verified in this checkout:
 - root contract and pinned-tree checks;
 - PDS Lexicon code generation and TypeScript build;
 - PDS header, Radlib Spaces, community Lexicon, OAuth, record, and membership
-  suites: 149 tests passed;
+  suites, including the immediate-revocation cross-PDS assertions;
 - formatter and lint checks for the touched PDS/dev-env files.
-- Current pushed fork synchronization: PDS `9c3d92f04335d624a79acbbf5f346130f00ffbdd`
-  and client `fa14f7e46dcd6675797db5ce917e094cc17e46ed`; both fork branches
-  are pushed, while owner acceptance and production gates remain separate.
+- Current local fork synchronization: PDS `9c3d92f04335d624a79acbbf5f346130f00ffbdd`
+  and client `105a1691ec78c12c9326863199a53a0db0beadf2`; the current source
+  trees are bound to the deployed release in `artifacts/deployment-current.json`.
 - Previous pushed fork source: PDS `2a119ba5f15a349d0db63fe46d1d3c854dfb9760`;
   it remains historical evidence for the earlier alpha receipt.
 - The prior disposable image and tunnel probe are retained as historical
   evidence. The new single-host route is described in
-  `docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md`; its Worker dry run passes, but the
-  public route and PDS public-host reconfiguration remain pending.
+  `docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md`; its Worker dry run and deployed
+  source-bound public probe pass.
 - Credentialed disposable OAuth protocol flow passed through the official Node
-  client with PAR, PKCE S256, DPoP, callback, forced refresh, and revocation;
-  the browser UI walkthrough remains unrun because no browser executable is
-  available.
-- The pre-cutover PDS health, discovery, and unauthorized-header probes remain
-  historical evidence; they must be rerun through `https://radlib.edriffles.us`
-  after the edge route and PDS host configuration are live.
+  client with PAR, PKCE S256, DPoP, callback, profile read, restore, and cleanup;
+  the isolated browser lane entered only a disposable credential.
+- The deployed PDS health, discovery, DNS, cryptographic PLC-history, and
+  unauthorized-header probes pass through the existing `edriffles.us` hosts.
 
 Not established by this branch:
 
@@ -197,11 +204,14 @@ Not established by this branch:
 - native Hermes/Metro WebCrypto compatibility;
 - a server-side private AppView or browser notification service (the client has
   a rebuildable cursor/sink boundary and generated notification wrappers);
-- immediate invalidation of already-issued Space credentials after membership
-  removal; the disposable credentialed probe confirms that new issuance is
-  rejected while an already-issued alpha access remains usable until expiry;
-- production fielding or owner acceptance. This remains an alpha/test lane
-  until the single-host route is deployed and independently probed.
+- independent invalidation of standard upstream Space credentials remains an
+  alpha limitation. The deployed fork-owned `us.edriffles.radlib.*` extension
+  now rejects both new and already-issued credentials after member removal;
+  that result is limited to the extension namespace and is recorded in the
+  current public receipt;
+- production fielding or owner acceptance. The single-host route is deployed,
+  but Relay/AppView privacy, short-TTL expiry/replay, and independent
+  PLC-operator gates remain open.
 
 These are explicit follow-up gates. They must not be inferred from a passing
-typecheck, fixture, or local PDS build.
+typecheck, fixture, local PDS build, or the credential-free public probe.

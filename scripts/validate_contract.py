@@ -127,10 +127,29 @@ REQUIRED = [
     "docs/OAUTH_SPACES_ACCEPTANCE.md",
     "docs/RADLIB_EDRIFFLES_HOST_CUTOVER.md",
     "scripts/validate_oauth_spaces_receipts.py",
+    "scripts/verify_social_edriffles_live.py",
+    "scripts/refresh_oauth_spaces_evidence.py",
+    "scripts/credentialed_public_oauth.mjs",
+    "scripts/credentialed_public_spaces_lifecycle.mjs",
+    "scripts/validate_external_gate_receipts.py",
+    "scripts/validate_external_gate_manifest.py",
+    "scripts/verify_plc_mirror_candidate.py",
+    "docs/EXTERNAL_GATE_REMEDIATION.md",
+    "docs/flow-diagrams/external-gate-remediation.mmd",
+    "tests/fixtures/external-private-canary-pass.json",
+    "tests/fixtures/external-oauth-expiry-pass.json",
+    "tests/fixtures/external-plc-independence-pass.json",
+    "tests/test_external_gate_receipts.py",
+    "artifacts/deployment-current.json",
     "artifacts/receipts/local-oauth-verification.json",
     "artifacts/receipts/local-oauth-spaces-acceptance.json",
     "artifacts/receipts/local-private-canary-scan.json",
+    "artifacts/receipts/credentialed-public-oauth.json",
+    "artifacts/receipts/credentialed-public-spaces.json",
+    "artifacts/receipts/live-public-contract-probe.json",
     "artifacts/receipts/radlib-edge-cutover-pending.json",
+    "artifacts/external-gates/staging-manifest.json",
+    "artifacts/external-gates/staging-manifest.sha256",
     "artifacts/receipts/cloudflare-deploy-attempt.json",
     "artifacts/receipts/authority-decision.json",
     "artifacts/oauth-spaces-manifest.json",
@@ -161,7 +180,7 @@ def validate_foundation() -> None:
     assert pins["repositories"]["socialApp"]["branch"] == "main"
     assert (
         pins["repositories"]["socialApp"]["checkoutCommit"]
-        == "fa14f7e46dcd6675797db5ce917e094cc17e46ed"
+        == "105a1691ec78c12c9326863199a53a0db0beadf2"
     )
     assert (
         pins["repositories"]["atprotoPds"]["branch"]
@@ -349,7 +368,7 @@ def validate_oauth_receipts() -> None:
     assert local_acceptance["secretsIncluded"] is False
     assert (
         local_acceptance["checks"]["credentialedSpaceAuthAndLifecycle"]["result"]
-        == "2 suites passed, 45 tests passed"
+        == "3 suites passed, 48 tests passed"
     )
     assert local_acceptance["status"].startswith("PASSED_LOCAL_OAUTH_SCOPE")
     canary = load("artifacts/receipts/local-private-canary-scan.json")
@@ -370,7 +389,7 @@ def validate_oauth_receipts() -> None:
     assert release_manifest["bindings"]["origins"] == ["https://social.edriffles.us"]
     assert (
         release_manifest["bindings"]["deploymentStatus"]
-        == "SOCIAL_USER_FACING_CUTOVER_DEPLOYED"
+        == "CURRENT_SOURCE_DEPLOYED"
     )
     assert "LEXICON_AUTHORITY_DNS_UNVERIFIED" not in release_manifest["blockers"]
     assert "AUTHORITY_DEFERRED_OUT_OF_SCOPE" not in release_manifest["deferred"]
@@ -387,6 +406,28 @@ def validate_oauth_receipts() -> None:
         sidecar
         == f"{sha256(manifest_path.read_bytes()).hexdigest()}  artifacts/oauth-spaces-manifest.json"
     )
+
+
+def validate_external_gate_contracts() -> None:
+    import sys
+
+    scripts_path = str(ROOT / "scripts")
+    sys.path.insert(0, scripts_path)
+    try:
+        import validate_external_gate_receipts as external
+
+        for name in (
+            "external-private-canary-pass.json",
+            "external-oauth-expiry-pass.json",
+            "external-plc-independence-pass.json",
+        ):
+            external.validate_receipt(ROOT / "tests/fixtures" / name)
+        import validate_external_gate_manifest as staging
+
+        staging.validate_manifest()
+    finally:
+        if sys.path[0] == scripts_path:
+            sys.path.pop(0)
 
 
 def validate_upstream_and_product_acceptance() -> None:
@@ -455,6 +496,7 @@ def main() -> None:
     validate_constitutional_stack()
     validate_daily_driver_and_deployment()
     validate_oauth_receipts()
+    validate_external_gate_contracts()
     validate_upstream_and_product_acceptance()
     blocking = load("tests/fixtures/blocking-matrix.json")
     feed = load("tests/fixtures/feed-contract.json")

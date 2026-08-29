@@ -1,0 +1,26 @@
+flowchart TD
+  A[Disposable PDS] -->|short token TTL| B[OAuth browser walkthrough]
+  B --> B1[Expiry and stale access rejection]
+  B --> B2[Refresh rotation and old refresh replay rejection]
+  B --> B3[Authorization-code replay rejection]
+
+  A -->|public control and private canary| R[Controlled Relay]
+  R --> RS[Capture, storage, and log export]
+  R --> V[Controlled AppView]
+  V --> VS[Query, storage, and log export]
+  RS --> C[Fail-closed canary receipt]
+  VS --> C
+
+  P[PLC primary operator] --> H[Signed DID history]
+  M[Independent PLC mirror operator] --> H
+  H --> PV[Cryptographic verification]
+  P --> D[Resolver disagreement]
+  M --> D
+  D --> U[Visible provenance and user policy]
+
+  B3 --> G[Immutable release manifest]
+  C --> G
+  PV --> G
+  G --> Q{All external receipts bound?}
+  Q -->|no| X[Keep exact blockers]
+  Q -->|yes| Y[Review for gate promotion]

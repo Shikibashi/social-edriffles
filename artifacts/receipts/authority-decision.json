@@ -5,23 +5,24 @@
     "origins": [
       "https://radlib.edriffles.us"
     ],
-    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
-    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+    "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+    "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+    "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
     "testedAt": "2026-08-26T05:13:36Z",
-    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee"
   },
   "decision": {
     "controlledRegistrableDomain": "edriffles.us",
-    "independentUsEdRifflesRadlibAuthority": "verified-dns-and-repository",
+    "independentUsEdRifflesRadlibAuthority": "dns-and-repository-resolved;operator-independence-unproven",
+    "operatorIndependenceEvidence": "NOT_PROVIDED",
     "noNewDomainSeparation": true,
     "purchaseOrClaimRadlibOrg": false,
     "resolverMappingsAreAuthority": false
   },
   "format": "us.edriffles.radlib.authority-decision/1",
   "priorEvidence": "artifacts/receipts/org-radlib-authority.json",
-  "reason": "The public namespace follows the existing edriffles.us domain: us.edriffles.radlib.* resolves through the verified _lexicon.radlib.edriffles.us TXT authority and the checked-in schema repository. No radlib.org purchase or second registrable domain is required.",
+  "reason": "The public namespace follows the existing edriffles.us domain: us.edriffles.radlib.* resolves through the verified _lexicon.radlib.edriffles.us TXT authority and the checked-in schema repository. DNS resolution and repository authority do not, by themselves, prove that the operator is independent of the rest of the deployment. No radlib.org purchase or second registrable domain is required.",
   "secretsIncluded": false,
   "evidenceStatus": "current",
   "status": "PASSED_DNS_AUTHORITY_AND_LEXICON_REPOSITORY",
@@ -36,8 +37,14 @@
     ],
     "dnsResolvers": [
       "cloudflare-doh",
-      "google-doh"
+      "google-doh",
+      "quad9-doh"
     ],
     "resolution": "verified"
+  },
+  "liveProbe": {
+    "receipt": "artifacts/receipts/live-public-contract-probe.json",
+    "dnsStatus": "PASS",
+    "plcHistoryCryptographicVerification": "NOT_RUN_LIVE_CLIENT_VERIFIER_REQUIRED"
   }
 }

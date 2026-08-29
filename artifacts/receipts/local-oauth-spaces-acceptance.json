@@ -6,13 +6,13 @@
       "http://127.0.0.1:<ephemeral-pds>",
       "http://127.0.0.1:<ephemeral-plc>"
     ],
-    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
-    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+    "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+    "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+    "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
     "testedAt": "2026-08-26T05:13:36Z",
-    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
-    "webArtifactDigest": "sha256:7b990602170706e5f3567a6800465ff1342a1e9d6f8f20abfa5d79d869271819"
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
   },
   "checks": {
     "oauthClientMetadataSchema": "passed",
@@ -28,12 +28,18 @@
     "strictPrivatePostValidation": "passed: us.edriffles.radlib.private.post is accepted with validate:true",
     "activeOAuthSignupPath": "passed: LoggedOut renders OAuthSignup; signUp uses prompt=create; legacy createAccount fails explicitly with LegacySignupRequiresOAuthError",
     "credentialedSpaceAuthAndLifecycle": {
-      "command": "pnpm --config.pm-on-fail=ignore --filter @atproto/pds test:sqlite -- --runInBand tests/space/auth.test.ts tests/radlib-spaces.test.ts",
-      "result": "2 suites passed, 45 tests passed",
+      "command": "NODE_OPTIONS=--experimental-vm-modules ./node_modules/.bin/jest packages/pds/tests/space/auth.test.ts packages/pds/tests/radlib-spaces.test.ts packages/pds/tests/radlib-private-headers.test.ts --runInBand",
+      "result": "3 suites passed, 48 tests passed",
       "credentialType": "local DPoP-bound Space credentials"
     },
     "memberRemovalNewCredential": "passed: new credential exchange is rejected after membership removal",
-    "alreadyIssuedCredentialAfterRemoval": "accepted alpha limitation: the explicit local assertion confirms an existing credential remains usable until expiry",
+    "alreadyIssuedCredentialAfterRemoval": "passed: fork-owned Radlib Space credentials are rejected immediately after membership removal on both the authority PDS and a member PDS",
+    "immediateRevocationBoundary": {
+      "status": "PASSED_LOCAL_FORK_EXTENSION",
+      "scope": "us.edriffles.radlib.*",
+      "failureMode": "fail-closed when authority status is revoked, unknown, or unavailable",
+      "wireCompatibility": "standard signed Spaces JWT and DPoP proof remain unchanged"
+    },
     "privateCanaryPublicRepoAndSequencer": "passed: private writes are absent from the public repo CAR and do not advance the public sequencer",
     "fullBrowserOAuth": {
       "reason": "The in-app browser completed the existing-session OAuth handoff, consent, callback, and authenticated feed/post rendering; no password or OTP was entered by Codex, so credential entry remains an external owner-controlled gate. The official disposable Node OAuth flow passed separately.",
@@ -62,13 +68,14 @@
       "status": "PASSED_DISPOSABLE_ALPHA_CREDENTIALED_IDENTITY"
     },
     "remoteCredentialedSpaces": {
-      "alreadyIssuedSpaceAccessAfterRemovalHttpStatus": 200,
+      "alreadyIssuedSpaceAccessAfterRemovalHttpStatus": 401,
       "cleanupHttpStatus": 200,
       "memberRemovalHttpStatus": 200,
       "newSpaceAccessAfterRemovalError": "UserNotAuthorized",
       "newSpaceAccessAfterRemovalHttpStatus": 400,
-      "reason": "Credentialed disposable alpha lifecycle passed: new issuance is denied after member removal, while the already-issued alpha access remains usable until expiry",
-      "status": "PASSED_DISPOSABLE_ALPHA_WITH_EXPLICIT_UNTIL_EXPIRY_LIMITATION"
+      "alreadyIssuedSpaceAccessAfterRemovalError": "InvalidCredential",
+      "reason": "Fresh credentialed disposable lifecycle on the deployed revocation-enabled PDS passed: new issuance and already-issued access are both denied after member removal",
+      "status": "PASSED_PUBLIC_DISPOSABLE_SPACES_IMMEDIATE_REVOCATION"
     },
     "freshNamespaceFocusedPds": {
       "command": "NODE_OPTIONS=--experimental-vm-modules pnpm --config.pm-on-fail=ignore --filter @atproto/pds test:sqlite -- --runInBand tests/radlib-spaces.test.ts tests/radlib-private-headers.test.ts tests/space/radlib-community-lexicon.test.ts",
@@ -79,5 +86,5 @@
   "format": "us.edriffles.radlib.local-oauth-spaces-acceptance/1",
   "secretsIncluded": false,
   "evidenceStatus": "current",
-  "status": "PASSED_LOCAL_OAUTH_SCOPE_AND_SPACES_GATES_WITH_REMOTE_CREDENTIAL_GATES_PENDING"
+  "status": "PASSED_LOCAL_OAUTH_SCOPE_AND_IMMEDIATE_REVOCATION_WITH_EXTERNAL_GATES_PENDING"
 }

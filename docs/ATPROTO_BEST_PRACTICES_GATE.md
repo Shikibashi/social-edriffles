@@ -23,11 +23,11 @@ authorize production use of the Spaces alpha.
   explicit operational opt-in for the web community board, not a claim that
   the Spaces alpha is production-ready.
 - The disposable credentialed OAuth protocol flow and deployed HTTPS/header
-  probes pass on the canonical origin. Run the fresh credentialed Spaces
-  removal test and an external Relay/AppView leak scan. The browser handoff
-  reaches the provider password UI, but browser password entry and the
-  short-TTL expiry/replay walkthrough remain open. Never use production
-  credentials for acceptance testing.
+  probes pass on the canonical origin. The deployed credentialed Spaces
+  removal test rejects both new and already-issued fork-owned credentials
+  after member removal. An external Relay/AppView leak scan and the short-TTL
+  expiry/replay walkthrough remain open. Never use production credentials for
+  acceptance testing.
 - Use the single owner-approved user-facing origin `https://social.edriffles.us`.
   The edge route sends the web client and callback to Pages and sends PDS,
   OAuth, DID, and XRPC paths to the PDS. The configured protocol authority is
@@ -78,13 +78,13 @@ registrable domain is part of the contract.
 
 ## Explicit alpha limitations
 
-Already-issued Space credentials may remain usable until expiry after
-membership removal. Aggregate multi-writer pagination, a server-side private
-AppView, browser notification delivery, and full external interoperability
-coverage remain deferred. These are blockers to production claims, not hidden
-fallbacks. The local disposable DPoP credential tests explicitly record this
-alpha limitation; they do not convert it into a production revocation
-guarantee.
+Standard upstream Space credentials may remain usable until expiry after
+membership removal. The deployed fork-owned `us.edriffles.radlib.*` extension
+adds an authority-status check and rejects both new and already-issued
+credentials after removal. Aggregate multi-writer pagination, a server-side
+private AppView, browser notification delivery, and full external
+interoperability coverage remain deferred. These are blockers to production
+claims, not hidden fallbacks.
 
 The current local acceptance, canary receipt contract, and deployed single-host
 cutover are recorded in

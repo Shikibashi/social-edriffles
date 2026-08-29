@@ -1,0 +1,89 @@
+{
+  "format": "us.edriffles.radlib.external-private-canary/1",
+  "evidenceStatus": "current",
+  "secretsIncluded": false,
+  "status": "PASSED_EXTERNAL_PRIVATE_CANARY_RELAY_APPVIEW",
+  "bindings": {
+    "deploymentImage": "sha256:20a66ccccf20d5c9c52ea0af11a106790904b40d1798867d6b96773459ce4c08",
+    "environment": "disposable-public-alpha/controlled-relay-appview",
+    "testedAt": "2026-08-28T23:05:24.804Z",
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "sourceWorkingTreeDigest": "sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+  },
+  "canary": {
+    "publicControlId": "sha256:b9b5bf6415d6b131baabf28b1af27e5111475a4f53468454b978ef980dc3d3ac",
+    "privateCanaryId": "sha256:2d36ff4c2bd319d92c1bcce48dc3049dd8ad11071085cf02a9f1531b09a73f9a",
+    "pdsEndpoint": "https://pds-oauth-test.edriffles.us"
+  },
+  "targets": {
+    "relay": {
+      "endpoint": "https://relay-oauth-test.edriffles.us",
+      "operator": {
+        "operatorId": "local-controlled-radlib-deployment",
+        "identityDocument": "https://social.edriffles.us/.well-known/atproto-operator.json"
+      },
+      "deployment": {
+        "imageDigest": "sha256:873fb154ffd364ed713e11ef07b1fb72ef71a1b2a1778624e9e6aebb50a71e98",
+        "sourceRevision": "indigo:0ae16078d6a6137c0c93f8cbd6e486292dcea93a",
+        "capturedAt": "2026-08-28T23:05:24.805Z"
+      },
+      "access": {
+        "capture": {
+          "accessReference": "hostfs:/var/home/tcs/.local/radlib-external-gate/relay/captures/latest-firehose.bin"
+        },
+        "storage": {
+          "accessReference": "hostfs:/var/home/tcs/.local/radlib-external-gate/relay"
+        },
+        "logs": {
+          "accessReference": "docker:radlib-external-gate-relay"
+        }
+      }
+    },
+    "appView": {
+      "endpoint": "https://appview-oauth-test.edriffles.us",
+      "operator": {
+        "operatorId": "local-controlled-radlib-deployment",
+        "identityDocument": "https://social.edriffles.us/.well-known/atproto-operator.json"
+      },
+      "deployment": {
+        "imageDigest": "sha256:20a66ccccf20d5c9c52ea0af11a106790904b40d1798867d6b96773459ce4c08",
+        "sourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+        "capturedAt": "2026-08-28T23:05:24.805Z"
+      },
+      "access": {
+        "capture": {
+          "accessReference": "http://127.0.0.1:2470/xrpc/com.atproto.sync.subscribeRepos"
+        },
+        "storage": {
+          "accessReference": "postgres:radlib_external_gate/appview_external"
+        },
+        "logs": {
+          "accessReference": "docker:radlib-external-gate-appview"
+        }
+      }
+    }
+  },
+  "checks": {
+    "publicControlCanaryObserved": true,
+    "privateCanaryDirectPdsRead": true,
+    "privateCanaryInPdsPublicCar": false,
+    "privateCanaryInPdsSequencer": false,
+    "privateCanaryInRelayStream": false,
+    "privateCanaryInRelayStorage": false,
+    "privateCanaryInRelayLogs": false,
+    "privateCanaryInAppViewQuery": false,
+    "privateCanaryInAppViewStorage": false,
+    "privateCanaryInAppViewLogs": false,
+    "canaryBodyIncluded": false
+  },
+  "observations": {
+    "publicControlUri": "at://did:plc:ydqsewhmzlb3am74jo4ny3d4/app.bsky.feed.post/3mu6hyd4ur22g",
+    "privateCanaryUri": "at://did:plc:ydqsewhmzlb3am74jo4ny3d4/space/us.edriffles.radlib.community/canary-dk7x4vca6e/did:plc:ydqsewhmzlb3am74jo4ny3d4/us.edriffles.radlib.private.canary/latest",
+    "pdsPublicCarStatus": 200,
+    "appViewControlStatus": 200,
+    "appViewPrivateStatus": 200,
+    "relayCapturePath": "/var/home/tcs/.local/radlib-external-gate/relay/captures/latest-firehose.bin",
+    "cleanup": true
+  }
+}

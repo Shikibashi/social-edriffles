@@ -1,6 +1,6 @@
 # Social user-facing host and Radlib protocol authority
 
-Status: `SOCIAL_USER_FACING_CUTOVER_DEPLOYED / OAUTH_CLIENT_LIVE / EXTERNAL_SPACES_APPVIEW_AND_EXPIRY_GATES_PENDING`
+Status: `CURRENT_SOURCE_DEPLOYED / PASS_CURRENT_PUBLIC_CONTRACT / EXTERNAL_GATES_PENDING`
 
 The canonical user-facing web and OAuth client origin for this fork is:
 
@@ -79,31 +79,42 @@ python3 scripts/validate_contract.py
 python3 scripts/validate_oauth_spaces_receipts.py
 ```
 
-The dry run validates the Worker bundle and configuration. The current live
-deployment and public probes are recorded in the cutover receipt; they do not
-replace credentialed Spaces, AppView, or short-TTL expiry/replay evidence.
+The dry run validates the Worker bundle and configuration. The current source
+is deployed as the Pages deployment, the production edge Worker version, and
+the source-built revocation-enabled PDS image recorded in
+`artifacts/deployment-current.json`. The live public contract probe is
+recorded in `artifacts/receipts/live-public-contract-probe.json`; it proves
+the endpoint shape, source-bound metadata, boundary headers, DNS authority,
+and cryptographic PLC-history verification. It does not replace an
+independently operated Relay/AppView privacy scan, a forced short-TTL
+expiry/replay walkthrough, or independent PLC-operator evidence.
 
 ## External completion sequence
 
-1. The `radlib.edriffles.us`, `social.edriffles.us`, and existing
-   `pds.edriffles.us` routes are deployed in the `edriffles.us` Cloudflare zone.
+1. The current release deploys the Worker, Pages artifact, and
+   revocation-enabled PDS configuration for the `radlib.edriffles.us`,
+   `social.edriffles.us`, and existing `pds.edriffles.us` routes in the
+   `edriffles.us` Cloudflare zone. The exact release identifiers are bound in
+   `artifacts/deployment-current.json` and the immutable manifest.
 2. The disposable PDS hostname and `did:web` service DID are configured, and
    the public health, DID, OAuth, metadata, and XRPC probes pass.
 3. The `us.edriffles.radlib.*` authority is independently verified through the
    `_lexicon.radlib.edriffles.us` TXT record and the checked-in schema
    repository.
 4. The official disposable Node OAuth flow passes discovery, PAR, PKCE S256,
-   DPoP, callback, refresh, and revocation. The browser handoff reaches the
-   PDS password UI; password entry remains intentionally unrun in the browser
-   lane.
+   DPoP, callback, refresh, profile read, restore, and cleanup revocation. The
+   disposable browser lane entered only the generated disposable account
+   credential; no production credential was used.
 5. Run the controlled Relay/AppView canary scan and record whether the public
    AppView response is a privacy pass rather than an HTTP 403 inconclusive
    result.
-6. Run the credentialed Spaces removal test and retain the explicit
-   already-issued-credential behavior as either an accepted alpha limitation or
-   a remediated revocation result.
+6. The deployed credentialed Spaces removal test passes both required
+   revocation checks: new grant issuance is rejected and an already-issued
+   grant is rejected immediately after member removal. The behavior is scoped
+   to the fork-owned `us.edriffles.radlib.*` extension; standard Spaces wire
+   compatibility remains unchanged.
 
-The release manifest remains blocked only by the external Spaces, AppView,
-browser-credential, and expiry/replay gates. The pre-cutover Pages and PDS
-receipts are retained as historical evidence and are not reclassified as
-evidence for the Social user-facing origin.
+The release manifest remains blocked only by the external Relay/AppView,
+short-TTL expiry/replay, and independent PLC-operator gates. Earlier
+pre-cutover Pages and PDS receipts remain historical evidence and are not
+reclassified as evidence for the Social user-facing origin.

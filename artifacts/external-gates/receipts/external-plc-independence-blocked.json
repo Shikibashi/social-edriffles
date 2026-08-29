@@ -1,0 +1,82 @@
+{
+  "format": "us.edriffles.radlib.external-plc-independence/1",
+  "evidenceStatus": "blocked-external",
+  "secretsIncluded": false,
+  "status": "BLOCKED_EXTERNAL_PLC_SIGNED_OPERATOR_STATEMENT",
+  "bindings": {
+    "deploymentImage": "sha256:62f8c703fd69f55a98e195f6e02f5446198036c99abe95e466e0f1ed757494cb",
+    "environment": "disposable-public-alpha/external-gates/plc-candidate",
+    "testedAt": "2026-08-28T23:45:45.365581Z",
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "sourceWorkingTreeDigest": "sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+  },
+  "candidate": {
+    "did": "did:plc:ewvi7nxzyoun6zhxrhs64oiz",
+    "primaryEndpoint": "https://plc.directory",
+    "mirrorEndpoint": "https://didplc.directory",
+    "mirrorSoftware": "did-method-plc/go-didplc",
+    "mirrorLandingPage": "https://didplc.directory/",
+    "operatorIdentityDocument": "https://vayumandala.com/.well-known/did.json",
+    "operatorDid": "did:web:vayumandala.com",
+    "operatorPublicKeyMultibase": "zQ3shq1x66k7qRh5T8q4kmX6C2jnvk2odBBDK8wSUnFBiAi7A",
+    "operatorKeyStatus": "not-ed25519"
+  },
+  "checks": {
+    "primaryHistoryFetched": true,
+    "mirrorHistoryFetched": true,
+    "primaryHistoryCryptographicallyVerified": true,
+    "mirrorHistoryCryptographicallyVerified": true,
+    "historyAgreement": true,
+    "operationHashesVerified": true,
+    "previousCidsVerified": true,
+    "genesisDerivedDid": true,
+    "rotationSignaturesVerified": true,
+    "tombstoneRulesVerified": false,
+    "operatorIdentityPublished": true,
+    "separateEndpoint": true,
+    "distinctServiceDid": true,
+    "ed25519PublicKeyPublished": false,
+    "signedDidHistoryReceiptPublished": false,
+    "visibleResolverDisagreement": false
+  },
+  "observations": {
+    "primaryDataStatus": 200,
+    "primaryAuditStatus": 200,
+    "mirrorDataStatus": 200,
+    "mirrorAuditStatus": 200,
+    "mirrorHealthStatus": 200,
+    "mirrorHealth": {
+      "lastCommittedOpTime": "2026-08-28T23:29:39.191Z",
+      "version": "v0.2.2-rev-e00ab88"
+    },
+    "operationCount": 3,
+    "primaryHistoryDigest": "sha256:7cea19cb4b6f11673ca9b1e21aaf542418a8bc5cc78561728ad01d47cda42eb8",
+    "mirrorHistoryDigest": "sha256:7cea19cb4b6f11673ca9b1e21aaf542418a8bc5cc78561728ad01d47cda42eb8",
+    "primaryHeadCid": "bafyreihevsrjgmed5yvvfucpqfvyygat6mozxllhomkt2x4lcbk75k6use",
+    "mirrorHeadCid": "bafyreihevsrjgmed5yvvfucpqfvyygat6mozxllhomkt2x4lcbk75k6use",
+    "primaryData": {
+      "did": "did:plc:ewvi7nxzyoun6zhxrhs64oiz",
+      "serviceCount": 1
+    },
+    "mirrorData": {
+      "did": "did:plc:ewvi7nxzyoun6zhxrhs64oiz",
+      "serviceCount": 1
+    },
+    "tombstoneEvidence": {
+      "provided": false,
+      "did": null
+    },
+    "resolverDisagreement": {
+      "provided": false,
+      "did": null,
+      "reconciliation": ""
+    },
+    "missingRequiredEvidence": [
+      "operator-signed-DID-history-statement",
+      "Ed25519-operator-public-key",
+      "terminal-tombstone-fixture-evidence",
+      "visible-resolver-disagreement-and-reconciliation"
+    ]
+  }
+}

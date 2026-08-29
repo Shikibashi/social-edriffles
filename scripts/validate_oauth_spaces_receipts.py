@@ -62,18 +62,24 @@ SENSITIVE_VALUE_PATTERNS = (
 
 CURRENT_SOURCE_BOUND_RECEIPTS = {
     "authority-decision.json",
+    "credentialed-public-oauth.json",
+    "credentialed-public-spaces.json",
+    "live-public-contract-probe.json",
     "local-oauth-spaces-acceptance.json",
     "local-private-canary-scan.json",
     "radlib-edge-cutover-pending.json",
 }
+CURRENT_RELEASE_BOUND_RECEIPTS = {
+    "credentialed-public-oauth.json",
+    "live-public-contract-probe.json",
+    "radlib-edge-cutover-pending.json",
+}
 CURRENT_CUTOVER_RECEIPT = "radlib-edge-cutover-pending.json"
-EXPECTED_MANIFEST_STATUS = "BLOCKED_EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES"
+EXPECTED_MANIFEST_STATUS = "BLOCKED_EXTERNAL_APPVIEW_EXPIRY_AND_PLC_INDEPENDENCE_GATES"
 EXPECTED_BLOCKERS = {
-    "PUBLIC_CREDENTIALED_SPACES_NOT_RUN",
-    "OAUTH_BROWSER_CREDENTIAL_ENTRY_NOT_RUN",
-    "INCONCLUSIVE_APPVIEW_403",
-    "SPACES_ALPHA_LIMITATIONS",
+    "PRIVATE_CANARY_RELAY_APPVIEW_NOT_RUN",
     "OAUTH_EXPIRY_GAP",
+    "PLC_OPERATOR_INDEPENDENCE_NOT_PROVEN",
 }
 
 EVIDENCE_STATUSES = {
@@ -155,6 +161,17 @@ def source_inputs() -> list[Path]:
             "deploy/radlib-edge-proxy/worker-configuration.d.ts",
             "upstream/atproto-pds/packages/pds/src/api/index.ts",
             "upstream/atproto-pds/packages/pds/src/api/us/edriffles/radlib/private/index.ts",
+            "upstream/atproto-pds/packages/pds/src/api/com/atproto/space/getSpaceCredential.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/db/migrations/index.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/db/migrations/003-space-credential.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/db/schema/index.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/db/schema/space-credential.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/space/reader.ts",
+            "upstream/atproto-pds/packages/pds/src/actor-store/space/transactor.ts",
+            "upstream/atproto-pds/packages/pds/src/auth-verifier.ts",
+            "upstream/atproto-pds/packages/pds/src/config/config.ts",
+            "upstream/atproto-pds/packages/pds/src/config/env.ts",
+            "upstream/atproto-pds/packages/pds/src/context.ts",
             "upstream/atproto-pds/packages/pds/src/well-known.ts",
             "upstream/atproto-pds/packages/pds/src/repo/schemas.ts",
             "upstream/atproto-pds/packages/dev-env/src/service-profile-lexicon.ts",
@@ -314,6 +331,7 @@ def assert_deployment_image_policy(value: str) -> None:
         or value.startswith("pds:sha256:")
         or value.startswith("cloudflare-pages:")
         or value.startswith("cloudflare-worker:")
+        or value.startswith("release:")
         or value.startswith("not-")
     ), value
 
@@ -331,15 +349,27 @@ def validate_manifest(
     assert manifest["format"] == "us.edriffles.radlib.oauth-spaces-manifest/1"
     assert manifest["integritySidecar"] == "artifacts/oauth-spaces-manifest.sha256"
     assert manifest["status"] == EXPECTED_MANIFEST_STATUS
-    assert manifest["blockers"]
-    assert EXPECTED_BLOCKERS.issubset(set(manifest["blockers"]))
+    assert set(manifest["blockers"]) == EXPECTED_BLOCKERS
     assert "AUTHORITY_DEFERRED_OUT_OF_SCOPE" not in manifest["deferred"]
-    assert manifest_bindings["deploymentStatus"] == (
-        "SOCIAL_USER_FACING_CUTOVER_DEPLOYED"
-    )
+    assert manifest_bindings["deploymentStatus"] == "CURRENT_SOURCE_DEPLOYED"
+    assert manifest_bindings["deploymentId"]
     assert manifest_bindings["origins"] == ["https://social.edriffles.us"]
     assert_deployment_image_policy(manifest_bindings["deploymentImage"])
     assert_deployment_image_policy(manifest_bindings["sourceImage"])
+    assert manifest_bindings["deploymentImage"].startswith("release:")
+    assert manifest_bindings["sourceImage"].startswith("pds:sha256:")
+    deployment = as_object(manifest["deployment"], "manifest.deployment")
+    assert deployment["deploymentId"] == manifest_bindings["deploymentId"]
+    assert deployment["deploymentImage"] == manifest_bindings["deploymentImage"]
+    assert deployment["deploymentStatus"] == "CURRENT_SOURCE_DEPLOYED"
+    assert deployment["source"]["workingTreeDigest"] == manifest_bindings[
+        "currentSourceWorkingTreeDigest"
+    ]
+    assert deployment["source"]["webArtifactDigest"] == manifest_bindings[
+        "webArtifactDigest"
+    ]
+    assert deployment["recordPath"] == "artifacts/deployment-current.json"
+    assert deployment["recordSha256"]
     assert manifest["secretsIncluded"] is False
     assert "AUTHORITY_UNRESOLVED" not in manifest["blockers"]
     assert_secret_policy_is_fail_closed()
@@ -349,7 +379,9 @@ def validate_manifest(
     return manifest_bindings, receipt_hashes, receipt_bindings
 
 
-def validate_cutover_receipt(receipt_bindings: dict[str, JsonObject]) -> None:
+def validate_cutover_receipt(
+    receipt_bindings: dict[str, JsonObject], manifest: JsonObject
+) -> None:
     cutover = load_json(RECEIPT_DIR / CURRENT_CUTOVER_RECEIPT)
     cutover = as_object(cutover, CURRENT_CUTOVER_RECEIPT)
     deployment = as_object(
@@ -361,15 +393,31 @@ def validate_cutover_receipt(receipt_bindings: dict[str, JsonObject]) -> None:
     assert cutover["format"] == "us.edriffles.radlib.edge-cutover/1"
     assert cutover["status"] == EXPECTED_MANIFEST_STATUS
     assert deployment["dryRun"] == "passed"
-    assert deployment["route"] == "deployed"
+    assert deployment["route"] == "current"
+    assert deployment["legacyRoute"] == "verified-current-source"
+    assert deployment["pdsCompatibilityRoute"] == "verified-current-source"
     assert deployment["dns"] == "verified"
-    assert deployment["pdsPublicHost"] == "reconfigured"
-    assert deployment["publicHttpsProbe"] == "passed"
-    assert deployment["oauthProviderApiRouting"] == "passed"
-    assert deployment["publicPostRoute"] == "passed"
-    assert deployment["publicClientMetadata"] == "passed"
-    assert deployment["browserOAuthHandoff"] == "passed"
-    assert deployment["browserCredentialEntry"] == ("not-run-browser-policy")
+    assert deployment["pdsPublicHost"] == "live-compatibility-observed"
+    assert deployment["publicHttpsProbe"] == "passed-live-current-source"
+    assert deployment["oauthProviderApiRouting"] == "passed-live-discovery"
+    assert deployment["publicPostRoute"] == "passed-live"
+    assert deployment["publicClientMetadata"] == "passed-source-match"
+    assert deployment["browserOAuthHandoff"] == "passed-disposable-node-browser-flow"
+    assert deployment["browserCredentialEntry"] == "passed-disposable-account-only"
+    manifest_deployment = as_object(manifest["deployment"], "manifest.deployment")
+    components = as_object(
+        manifest_deployment["components"], "manifest.deployment.components"
+    )
+    pages = as_object(components["pages"], "manifest.deployment.components.pages")
+    worker = as_object(
+        components["worker"], "manifest.deployment.components.worker"
+    )
+    pds = as_object(components["pds"], "manifest.deployment.components.pds")
+    assert deployment["pagesArtifactUpload"] == (
+        f"cloudflare-pages:{pages['host']}"
+    )
+    assert deployment["workerVersionId"] == worker["versionId"]
+    assert deployment["pdsImage"] == pds["image"]
     assert cutover_bindings["origins"] == ["https://social.edriffles.us"]
     assert receipt_bindings[CURRENT_CUTOVER_RECEIPT]["deploymentImage"] == (
         cutover_bindings["deploymentImage"]
@@ -402,6 +450,8 @@ def validate_receipts(
         assert binding["testedSourceRevision"]
         assert_deployment_image_policy(binding["deploymentImage"])
         assert_receipt_binding_matches(receipt, binding, path.name)
+        if path.name in CURRENT_RELEASE_BOUND_RECEIPTS:
+            assert binding["deploymentImage"] == manifest_bindings["deploymentImage"], path.name
         if path.name in CURRENT_SOURCE_BOUND_RECEIPTS:
             receipt_source_bindings = as_object(
                 receipt["bindings"], f"{path.name}.bindings"
@@ -437,6 +487,14 @@ def validate_manifest_integrity(
     assert manifest_bindings["currentSourceWorkingTreeDigest"] == expected_source
     assert manifest_bindings["currentSourceInputCount"] == input_count
     assert manifest_bindings["webArtifactDigest"] == web_artifact_digest()
+    deployment_record = ROOT / "artifacts/deployment-current.json"
+    assert deployment_record.is_file()
+    assert manifest["deployment"]["recordSha256"] == hashlib.sha256(
+        deployment_record.read_bytes()
+    ).hexdigest()
+    assert load_json(deployment_record)["deploymentId"] == manifest_bindings[
+        "deploymentId"
+    ]
     receipt_times = [str(receipt_bindings[name]["testedAt"]) for name in receipt_names]
     assert str(manifest["generatedAt"]) >= max(receipt_times)
     return input_count
@@ -449,14 +507,14 @@ def validate_acceptance_receipts() -> None:
         "8 suites passed, 52 tests passed"
     )
     assert local["checks"]["credentialedSpaceAuthAndLifecycle"]["result"] == (
-        "2 suites passed, 45 tests passed"
+        "3 suites passed, 48 tests passed"
     )
     assert local["checks"]["fullBrowserOAuth"]["status"] == "NOT_RUN"
     assert local["checks"]["remoteCredentialedPds"]["status"] == (
         "PASSED_DISPOSABLE_ALPHA_CREDENTIALED_IDENTITY"
     )
     assert local["checks"]["remoteCredentialedSpaces"]["status"] == (
-        "PASSED_DISPOSABLE_ALPHA_WITH_EXPLICIT_UNTIL_EXPIRY_LIMITATION"
+        "PASSED_PUBLIC_DISPOSABLE_SPACES_IMMEDIATE_REVOCATION"
     )
 
     deployment = load_json(RECEIPT_DIR / "cloudflare-deploy-attempt.json")
@@ -469,6 +527,67 @@ def validate_acceptance_receipts() -> None:
     assert authority["status"] == "PASSED_DNS_AUTHORITY_AND_LEXICON_REPOSITORY"
 
 
+def validate_disposable_credential_receipts(manifest_bindings: JsonObject) -> None:
+    oauth = as_object(
+        load_json(RECEIPT_DIR / "credentialed-public-oauth.json"),
+        "credentialed-public-oauth.json",
+    )
+    assert oauth["format"] == "us.edriffles.radlib.public-credentialed-oauth/1"
+    oauth_status = oauth["status"]
+    oauth_checks = as_object(
+        oauth["checks"], "credentialed-public-oauth.json.checks"
+    )
+    if oauth_status == "PASSED_PUBLIC_DISPOSABLE_OAUTH_BROWSER_CALLBACK_RESTORE_REVOKE":
+        assert oauth_checks["browserCredentialEntry"] == "PASS_DISPOSABLE_ACCOUNT_ONLY"
+        assert oauth_checks["callback"] == "PASS"
+        assert oauth_checks["issuerBinding"] is True
+        assert oauth_checks["subjectBinding"] is True
+        assert oauth_checks["profileReadAfterCallback"] is True
+        assert oauth_checks["restore"] is True
+        assert oauth_checks["revokedOnCleanup"] is True
+    elif oauth_status == "PASSED_EXTERNAL_OAUTH_SHORT_TTL_EXPIRY_REPLAY":
+        for check in (
+            "expiry",
+            "staleAccessTokenRejected",
+            "refreshSucceeded",
+            "refreshTokenRotated",
+            "oldRefreshTokenReplayRejected",
+            "authorizationCodeReplayRejected",
+            "authorizationCodeReplayRevokedSession",
+            "revokedOnCleanup",
+        ):
+            assert oauth_checks[check] is True
+        timing = as_object(
+            oauth.get("timing"), "credentialed-public-oauth.json.timing"
+        )
+        configured = timing["configuredTokenMaxAgeMs"]
+        observed = timing["observedExpiresInSeconds"]
+        assert isinstance(configured, int) and configured > 0 and configured <= 60_000
+        assert isinstance(observed, int) and observed > 0
+        assert observed <= (configured + 1_999) // 1_000
+        assert isinstance(timing["waitMs"], int) and timing["waitMs"] > 0
+    else:
+        raise AssertionError(f"unexpected credentialed OAuth status: {oauth_status}")
+    assert oauth["bindings"]["deploymentImage"] == manifest_bindings["deploymentImage"]
+
+    spaces = as_object(
+        load_json(RECEIPT_DIR / "credentialed-public-spaces.json"),
+        "credentialed-public-spaces.json",
+    )
+    assert spaces["format"] == "us.edriffles.radlib.public-credentialed-spaces/1"
+    assert spaces["status"] == (
+        "PASSED_PUBLIC_DISPOSABLE_SPACES_IMMEDIATE_REVOCATION"
+    )
+    spaces_test = as_object(
+        spaces["test"], "credentialed-public-spaces.json.test"
+    )
+    assert spaces_test["initialGrantRead"]["status"] == 200
+    assert spaces_test["newGrantAfterRemoval"]["status"] == 400
+    assert spaces_test["alreadyIssuedGrantAfterRemoval"]["status"] == 401
+    assert spaces_test["cleanup"]["status"] == 200
+    assert spaces["bindings"]["deploymentImage"].startswith("pds:sha256:")
+
+
 def main() -> None:
     manifest = as_object(load_json(MANIFEST_PATH), str(MANIFEST_PATH))
     receipt_paths = sorted(RECEIPT_DIR.glob("*.json"))
@@ -476,7 +595,7 @@ def main() -> None:
     manifest_bindings, receipt_hashes, receipt_bindings = validate_manifest(
         manifest, receipt_names
     )
-    validate_cutover_receipt(receipt_bindings)
+    validate_cutover_receipt(receipt_bindings, manifest)
     validate_receipts(
         manifest_bindings, receipt_paths, receipt_bindings, receipt_hashes
     )
@@ -484,6 +603,7 @@ def main() -> None:
         manifest, manifest_bindings, receipt_bindings, receipt_names
     )
     validate_acceptance_receipts()
+    validate_disposable_credential_receipts(manifest_bindings)
 
     print(
         f"OAuth/Spaces receipt validation passed: {len(receipt_paths)} receipts, "

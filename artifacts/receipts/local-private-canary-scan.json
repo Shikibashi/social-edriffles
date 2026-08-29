@@ -6,12 +6,12 @@
       "http://127.0.0.1:<ephemeral-pds>",
       "http://127.0.0.1:<ephemeral-plc>"
     ],
-    "pdsRevision": "2a119ba5f15a349d0db63fe46d1d3c854dfb9760",
-    "rootRevision": "76a9b596d8fa229213001a11daf4f8b94c87e13a",
-    "socialRevision": "c0bf3f558bf2b099d4bb1a2b29156eea6c358255",
-    "sourceWorkingTreeDigest": "sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0",
+    "pdsRevision": "9c3d92f04335d624a79acbbf5f346130f00ffbdd",
+    "rootRevision": "016f92eb4a9214ad8df6070733659faa14a00862",
+    "socialRevision": "105a1691ec78c12c9326863199a53a0db0beadf2",
+    "sourceWorkingTreeDigest": "sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee",
     "testedAt": "2026-08-26T05:13:36Z",
-    "testedSourceRevision": "root:76a9b596d8fa229213001a11daf4f8b94c87e13a;social:c0bf3f558bf2b099d4bb1a2b29156eea6c358255;pds:2a119ba5f15a349d0db63fe46d1d3c854dfb9760;working-tree:sha256:d20130b40d8886de7336bb7705572ae28a45ad7cb4897e2b180fa9c16deb34f0"
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:7d71491f3e9269b6a0e4b1ee6fa843a219a8300f389f8940d05c15e1bec92dee"
   },
   "format": "us.edriffles.radlib.private-canary-scan/1",
   "receiptContract": {
@@ -33,6 +33,10 @@
       "command": "pnpm --config.pm-on-fail=ignore --filter @atproto/pds test:sqlite -- --runInBand tests/radlib-spaces.test.ts",
       "result": "passed: public repo and sequencer checks"
     },
+    "controlledRelay": {
+      "status": "NOT_AVAILABLE_NO_CONTROLLED_RELAY",
+      "reason": "No separately deployed controlled Relay target with capture, storage, or log access is available in this environment; the upstream dev environment used for local checks is TestNetworkNoAppView."
+    },
     "controlledAppView": {
       "status": "NOT_AVAILABLE_NO_CONTROLLED_APPVIEW",
       "reason": "The repository environment has no DB_POSTGRES_URL or REDIS_HOST for TestNetwork AppView startup"
@@ -41,9 +45,14 @@
       "receipt": "artifacts/receipts/pds-relay-appview-canaries.json",
       "status": "HISTORICAL_INCONCLUSIVE_APPVIEW_403",
       "note": "The referenced public probe used an older disposable PDS image; no controlled current AppView target is available."
+    },
+    "currentPublicContract": {
+      "receipt": "artifacts/receipts/live-public-contract-probe.json",
+      "status": "PASS_PUBLIC_ENDPOINTS_ONLY",
+      "note": "The current credential-free probe confirms public route and boundary headers, but it does not substitute for a disposable private-canary write followed by Relay and AppView scans."
     }
   },
   "secretsIncluded": false,
   "evidenceStatus": "current",
-  "status": "PASSED_LOCAL_PRIVATE_PATH_CHECKS_EXTERNAL_APPVIEW_SCAN_PENDING"
+  "status": "PASSED_LOCAL_PRIVATE_PATH_CHECKS_RELAY_APPVIEW_CANARY_PENDING"
 }

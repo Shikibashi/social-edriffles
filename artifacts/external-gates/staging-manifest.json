@@ -1,0 +1,97 @@
+{
+  "format": "us.edriffles.radlib.external-gate-staging-manifest/1",
+  "evidenceStatus": "current",
+  "secretsIncluded": false,
+  "status": "BLOCKED_EXTERNAL_PLC_INDEPENDENCE_GATE",
+  "blockers": [
+    "PLC_OPERATOR_INDEPENDENCE_NOT_PROVEN"
+  ],
+  "bindings": {
+    "environment": "disposable-public-alpha/external-gates",
+    "origins": [
+      "https://social.edriffles.us",
+      "https://pds-oauth-test.edriffles.us",
+      "https://oauth-oauth-test.edriffles.us",
+      "https://relay-oauth-test.edriffles.us",
+      "https://appview-oauth-test.edriffles.us"
+    ],
+    "testedAt": "2026-08-28T23:45:46Z",
+    "testedSourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "sourceWorkingTreeDigest": "sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+    "webArtifactDigest": "sha256:f6c5d440e6091181cf5f831346e3b78fe7af74c3ac99654946a10215c81923b6"
+  },
+  "shortTtlPds": {
+    "endpoint": "https://pds-oauth-test.edriffles.us",
+    "issuer": "https://oauth-oauth-test.edriffles.us",
+    "imageDigest": "sha256:62f8c703fd69f55a98e195f6e02f5446198036c99abe95e466e0f1ed757494cb",
+    "tokenMaxAgeMs": 5000,
+    "inviteRequired": false,
+    "disposableHandleDomain": ".oauth-test.edriffles.us"
+  },
+  "testConfiguration": {
+    "PDS_OAUTH_TOKEN_MAX_AGE_MS": "5000",
+    "RADLIB_ALLOW_EDRIFFLES_SUBDOMAIN_DISPOSABLE": "1",
+    "RADLIB_DISPOSABLE_PDS_ORIGIN": "https://pds-oauth-test.edriffles.us",
+    "RADLIB_EXPECTED_OAUTH_ISSUER": "https://oauth-oauth-test.edriffles.us",
+    "RADLIB_DISPOSABLE_HANDLE_DOMAIN": ".oauth-test.edriffles.us",
+    "RADLIB_CONFIRM_DISPOSABLE_TEST": "1",
+    "RADLIB_RUN_EXPIRY_REPLAY": "1",
+    "RADLIB_OAUTH_EXPECTED_TOKEN_MAX_AGE_MS": "5000",
+    "RADLIB_EXPIRY_WAIT_MAX_MS": "30000"
+  },
+  "controlledTargets": {
+    "relay": {
+      "endpoint": "https://relay-oauth-test.edriffles.us",
+      "imageDigest": "sha256:873fb154ffd364ed713e11ef07b1fb72ef71a1b2a1778624e9e6aebb50a71e98",
+      "sourceRevision": "indigo:0ae16078d6a6137c0c93f8cbd6e486292dcea93a",
+      "capture": "hostfs:/var/home/tcs/.local/radlib-external-gate/relay/captures/latest-firehose.bin",
+      "storage": "hostfs:/var/home/tcs/.local/radlib-external-gate/relay",
+      "logs": "docker:radlib-external-gate-relay"
+    },
+    "appView": {
+      "endpoint": "https://appview-oauth-test.edriffles.us",
+      "imageDigest": "sha256:20a66ccccf20d5c9c52ea0af11a106790904b40d1798867d6b96773459ce4c08",
+      "sourceRevision": "root:016f92eb4a9214ad8df6070733659faa14a00862;social:105a1691ec78c12c9326863199a53a0db0beadf2;pds:9c3d92f04335d624a79acbbf5f346130f00ffbdd;working-tree:sha256:bd712f549b6c60f1e0434e0398c39efde8d73dd80aa14110f8fcd33e07788139",
+      "capture": "http://127.0.0.1:2470/xrpc/com.atproto.sync.subscribeRepos",
+      "storage": "postgres:radlib_external_gate/appview_external",
+      "logs": "docker:radlib-external-gate-appview"
+    }
+  },
+  "receipts": {
+    "external-oauth-expiry-current.json": {
+      "path": "artifacts/external-gates/receipts/external-oauth-expiry-current.json",
+      "sha256": "dcbc9f86a456359b321c69b2d896f8ee7d202f5134294eb36f296b5b241b5988",
+      "testedAt": "2026-08-28T22:19:33.297Z",
+      "deploymentImage": "sha256:62f8c703fd69f55a98e195f6e02f5446198036c99abe95e466e0f1ed757494cb",
+      "environment": "disposable-public-alpha/short-ttl-staging"
+    },
+    "external-private-canary-current.json": {
+      "path": "artifacts/external-gates/receipts/external-private-canary-current.json",
+      "sha256": "45f01a642d99bc6ff3d160dc2e47a9a9426405c0cfeb76f4b3caf6711fde85d3",
+      "testedAt": "2026-08-28T23:05:24.804Z",
+      "deploymentImage": "sha256:20a66ccccf20d5c9c52ea0af11a106790904b40d1798867d6b96773459ce4c08",
+      "environment": "disposable-public-alpha/controlled-relay-appview"
+    },
+    "external-plc-independence-blocked.json": {
+      "path": "artifacts/external-gates/receipts/external-plc-independence-blocked.json",
+      "sha256": "07628f358d42be73a1541d0c026256890330c9ebc947e23cb939928ffd2dbecc",
+      "testedAt": "2026-08-28T23:45:45.365581Z",
+      "deploymentImage": "sha256:62f8c703fd69f55a98e195f6e02f5446198036c99abe95e466e0f1ed757494cb",
+      "environment": "disposable-public-alpha/external-gates/plc-candidate"
+    }
+  },
+  "dns": {
+    "pdsOauthTest": "verified-https",
+    "oauthOauthTest": "verified-https",
+    "relayOauthTest": "verified-https",
+    "appViewOauthTest": "verified-https",
+    "callback": "https://social.edriffles.us/oauth/callback",
+    "domainPolicy": "existing-edriffles-us-zone-only"
+  },
+  "operator": {
+    "operatorId": "local-controlled-radlib-deployment",
+    "independenceClaimed": false,
+    "independenceStatus": "not-proven",
+    "note": "This manifest records a controlled test deployment, not an independently operated PLC service."
+  }
+}

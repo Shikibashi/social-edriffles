@@ -1,6 +1,6 @@
 # Edriffles at `social.edriffles.us`
 
-Status: `SOCIAL_USER_FACING_CUTOVER_DEPLOYED / OAUTH_CLIENT_LIVE / EXTERNAL_SPACES_APPVIEW_BROWSER_AND_EXPIRY_GATES_PENDING`
+Status: `CURRENT_SOURCE_DEPLOYED / PASS_CURRENT_PUBLIC_CONTRACT / EXTERNAL_APPVIEW_EXPIRY_AND_PLC_INDEPENDENCE_GATES_PENDING`
 
 The public product name is **Edriffles**. The radical-liberal constitutional
 implementation remains documented and machine-readable internally, but the
@@ -24,8 +24,8 @@ protocol authority, not the browser-facing web origin.
 | Edge Worker | `radlib-edriffles-edge-production` from `deploy/radlib-edge-proxy/wrangler.jsonc` |
 | Web implementation target | `https://social-edriffles.pages.dev` (private implementation target) |
 | PDS resource/implementation alias | `https://pds.edriffles.us` (existing owner-DID resource alias; not an OAuth issuer) |
-| DNS/route status | Verified and deployed in the existing `edriffles.us` Cloudflare zone |
-| Public HTTPS probes | Passed for health, DID, OAuth discovery, metadata, XRPC, headers, and post routing |
+| DNS/route status | Existing `edriffles.us` DNS and all three configured routes are current and source-bound |
+| Public HTTPS probes | Passed for source-bound metadata, health, DID, OAuth discovery, XRPC headers, DNS authority, and cryptographic PLC-history verification |
 
 The site is a static client. It does not replace the account PDS, repository,
 AppView, resolver, feed provider, labeler, or messaging service. Those service
@@ -74,6 +74,12 @@ first activates the Space-backed community board and the second explicitly
 acknowledges the alpha protocol in the production web bundle. This is an
 operational alpha opt-in and does not waive the remaining Spaces credential,
 revocation, interoperability, or production-readiness limitations.
+
+The revocation-enabled PDS source also requires
+`PDS_SPACE_CREDENTIAL_REVOCATION_ENABLED=1` in the disposable or separately
+controlled staging PDS environment. It must not be enabled by changing the web
+bundle alone; the PDS migration and source-built image must be deployed and
+probed together.
 
 ## Re-deploying Pages
 
@@ -124,26 +130,29 @@ manager, and revoke it after the upload.
 Cloudflare Pages references: [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/)
 and [custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/).
 
-## Pre-cutover deployment evidence
+## Current deployment evidence
 
 The earlier Pages and PDS receipts tested the pre-cutover two-host topology.
 They are retained as historical evidence only and are marked
 `historical-superseded` in the receipt bundle. They do not prove the new public
 host.
 
-The current cutover receipt records the live checks and the credential-safe
-browser boundary:
+The current cutover receipt records the deployed source and the
+credential-safe browser boundary:
 
-- the Worker configuration passes `wrangler deploy --dry-run` and the Worker
-  is deployed as `radlib-edriffles-edge-production`;
+- the Worker configuration passes its dry run and the current Worker, Pages,
+  and revocation-enabled PDS identifiers are bound in
+  `artifacts/deployment-current.json`;
 - the source metadata registers `https://social.edriffles.us/oauth/callback`
   and `us.edriffles.social:/oauth/callback`;
-- the public route, PDS host binding, deployed header probes, and public post
-  route pass;
-- the owner-handle browser flow reaches the PDS password screen with the
-  canonical HTTPS client ID; browser password entry is not run by policy;
-- the Relay/AppView scan, fresh credentialed Spaces proof, and short-TTL
-  expiry/replay walkthrough remain external gates.
+- the public route, live PDS host compatibility, source-bound metadata, live
+  header probes, and public post route pass;
+- the disposable browser OAuth flow passes credential entry, callback, profile
+  read, restore, and cleanup using only a disposable account;
+- the deployed Spaces lifecycle rejects both new and already-issued grants
+  after member removal;
+- the Relay/AppView scan, short-TTL expiry/replay walkthrough, and independent
+  PLC-operator evidence remain external gates.
 
 The direct official Node OAuth protocol walkthrough passes against the public
 configured OAuth/PDS origin using a disposable identity, including callback, refresh, and
@@ -153,17 +162,20 @@ blocker state are recorded in
 `artifacts/receipts/local-oauth-spaces-acceptance.json`, and
 `artifacts/oauth-spaces-manifest.json`.
 
-### Current local scope fix
+### Current release binding
 
-The current working tree builds and deploys an artifact containing the explicit
+The current source builds an artifact containing the explicit
 account and community Space read/write/manage scopes, the provider-owned
 `prompt=create` signup option, browser OAuth callback initialization, the local
 account Space Lexicon fixture, and strict validation for
-`us.edriffles.radlib.private.post`. The corrected Pages upload is deployed at
-`social.edriffles.us`; the failed token attempt remains preserved as historical
-evidence in
+`us.edriffles.radlib.private.post`. The current deployment and source digests
+are bound in
+`artifacts/deployment-current.json` and
+`artifacts/oauth-spaces-manifest.json`. The failed token attempt remains
+preserved as historical evidence in
 `artifacts/receipts/cloudflare-deploy-attempt.json`, while the successful upload
-is recorded as a pre-cutover historical receipt in
+is recorded by the current cutover receipt and the deployment record. Earlier
+successful uploads remain historical receipts in
 `artifacts/receipts/cloudflare-deploy-success-7c5fcd1c.json`.
 
 ## Local fallback and start-on-login
