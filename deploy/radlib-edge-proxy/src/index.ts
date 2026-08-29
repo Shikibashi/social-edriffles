@@ -40,6 +40,10 @@ type EdgeEnv = Env & {
   APPVIEW_ORIGIN?: string
 }
 
+type ProxyOptions = {
+  bypassCache?: boolean
+}
+
 /**
  * Select the public origin the upstream PDS should use for URL-bound auth.
  * OAuth issuer routes remain Radlib; account/PDS resource routes remain on the
@@ -246,9 +250,13 @@ async function proxy(
   origin: string,
   incomingUrl: URL,
   publicHost: string,
+  options: ProxyOptions = {},
 ): Promise<Response> {
   const upstream = await fetch(
     buildUpstreamRequest(request, incomingUrl, origin, publicHost),
+    options.bypassCache
+      ? { cf: { cacheTtl: 0, cacheEverything: false } }
+      : undefined,
   )
   // Cloudflare Workers expose the upgraded peer on the Response.webSocket
   // property. Re-wrapping a 101 response in a new Response drops that peer,
@@ -309,6 +317,29 @@ async function proxyPublicPostPage(
   )
 }
 
+async function proxyPublicClientMetadata(
+  request: Request,
+  incomingUrl: URL,
+  env: EdgeEnv,
+): Promise<Response> {
+  const response = await proxy(
+    request,
+    env.WEB_ORIGIN,
+    incomingUrl,
+    upstreamPublicHost(incomingUrl, env),
+    { bypassCache: true },
+  )
+  const headers = new Headers(response.headers)
+  headers.delete('etag')
+  headers.delete('content-length')
+  headers.set('cache-control', 'no-store')
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  })
+}
+
 export default {
   async fetch(request: Request, env: EdgeEnv): Promise<Response> {
     const incomingUrl = new URL(request.url)
@@ -334,6 +365,13 @@ export default {
           incomingUrl,
           upstreamPublicHost(incomingUrl, env),
         )
+      }
+      if (
+        (request.method === 'GET' || request.method === 'HEAD') &&
+        incomingUrl.hostname === CANONICAL_PUBLIC_HOST &&
+        incomingUrl.pathname === '/oauth-client-metadata.json'
+      ) {
+        return await proxyPublicClientMetadata(request, incomingUrl, env)
       }
       if (
         request.method === 'GET' &&

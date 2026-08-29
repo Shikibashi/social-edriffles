@@ -96,6 +96,50 @@ test("serves alias metadata and augments issuer metadata on every public host", 
   }
 });
 
+test("bypasses the edge cache for browser OAuth client metadata", async () => {
+  const env = {
+    WEB_ORIGIN: "https://social-edriffles.pages.dev",
+    PDS_ORIGIN: "https://pds.edriffles.us",
+    PUBLIC_HOST: "radlib.edriffles.us",
+    PDS_PUBLIC_HOST: "pds.edriffles.us",
+  } as never;
+  const originalFetch = globalThis.fetch;
+  let fetchInit: RequestInit | undefined;
+  globalThis.fetch = async (input, init) => {
+    assert.equal(
+      new Request(input).url,
+      "https://social-edriffles.pages.dev/oauth-client-metadata.json",
+    );
+    fetchInit = init;
+    return new Response(JSON.stringify({ client_id: "test" }), {
+      status: 200,
+      headers: {
+        "content-type": "application/json",
+        etag: '"test"',
+        "cache-control": "public, max-age=300",
+      },
+    });
+  };
+
+  try {
+    const response = await edge.fetch(
+      new Request(
+        "https://social.edriffles.us/oauth-client-metadata.json",
+      ),
+      env,
+    );
+    assert.deepEqual(fetchInit?.cf, {
+      cacheTtl: 0,
+      cacheEverything: false,
+    });
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("etag"), null);
+    assert.deepEqual(await response.json(), { client_id: "test" });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("passes PDS websocket upgrades through without wrapping the response", async () => {
   const env = {
     WEB_ORIGIN: "https://social-edriffles.pages.dev",
