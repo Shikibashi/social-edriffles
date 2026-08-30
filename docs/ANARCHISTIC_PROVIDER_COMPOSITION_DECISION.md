@@ -382,7 +382,39 @@ The slice does not claim general media-provider plurality. Non-owner profile
 media remains the existing public AppView/CDN view until a safe, verified PDS
 endpoint can be derived without sending account credentials to public readers.
 
-## 15. Remaining concentrations worth attacking next
+## 15. Iteration 8 — make provider substitution reachable from evidence
+
+The provider-composition inspector already made source, disagreement, and
+limitations visible, but it stopped at explanation. This iteration adds a
+progressive `Change read provider` action to the expanded inspector. The
+action routes to the existing Services workbench, where the user can select
+capabilities, reconciliation, and provider configuration. It does not create
+a second provider-settings store or silently change the active provider.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/components/ProviderCompositionProvenance.tsx`
+  adds the accessible action and keeps it inside the expanded evidence view.
+  It uses the existing `ServicesSettings` route and provider-composition
+  policy.
+- Web TypeScript, targeted Oxlint, Prettier, whitespace validation, and the
+  production web export pass. The bundle retains the Plumbline title, icon,
+  and public-origin configuration.
+- Client commit `30e165ef3` was pushed to
+  `fork/codex/spaces-alpha-integration`.
+- Wrangler deployed the exact export at
+  `https://95255e0f.social-edriffles.pages.dev`; the preview and canonical
+  `https://plumblines.uk/` return HTTP 200, the Plumbline title, and
+  `main.12405af4.js`.
+- The credential-free ChatGPT in-app-browser smoke check loaded the canonical
+  shell, populated public feed content, and exposed the existing provenance
+  control. No credentials were read and no mutation was performed.
+
+This is a reachability improvement at the existing policy boundary. It does
+not claim that every surface has an independent provider available, or that
+the canonical public smoke check proves signed-in provider mutation behavior.
+
+## 16. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
