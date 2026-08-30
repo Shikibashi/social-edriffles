@@ -763,3 +763,49 @@ Relay/AppView or short-TTL OAuth gates, or prove credentialed write behavior.
 6. **Operator and community jurisdiction:** keep legitimate refusal-to-host,
    abuse prevention, and private Space ACL authority narrow and attributable;
    do not convert any of them into universal public-visibility authority.
+
+## 25. Iteration 18 — persistent feed authority summary
+
+The feed surface previously exposed its provider and ordering model only after
+the user opened `Show feed details`. That made the ordinary timeline look
+more authoritative than the underlying composed read actually was: a user
+could see posts without seeing which feed and provider supplied the current
+candidate set. The existing provenance inspector remains the detailed seam;
+this iteration adds a compact summary beside it rather than creating a second
+feed-state model.
+
+### Authority before versus after
+
+| Surface | Before iteration 18 | After iteration 18 |
+| --- | --- | --- |
+| Active feed context | Provider and ordering hidden behind an expansion | Feed name, ordering model, and source provider visible in the ordinary view |
+| Provider substitution | Available from expanded details | Still available from the same existing inspector and Services route |
+| Protocol evidence | Detailed feed/provider IDs remained inspectable | Detailed IDs remain inspectable; the summary does not imply verification or operator independence |
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/components/FeedProvenanceCard.tsx` now renders a
+  compact, accessible `feed-provenance-summary` with the active feed name,
+  algorithm/order label, and source provider. The existing expanded details
+  retain provider DIDs, observations, health, privacy, feed URI, and
+  change-provider controls.
+- The summary uses the existing theme contrast token and Plumbline's vertical
+  rule grammar. The disclosure control now has an explicit border while
+  preserving its existing state and browser-visible interaction.
+- The feed still receives candidates from the configured provider boundary;
+  this UI change does not make a provider authoritative, add a hidden
+  fallback, or move account credentials across services.
+
+### Verification
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Feed attention model tests | PASS | `upstream/social-app/src/lib/attention-ui.test.ts` — 6 tests |
+| Targeted Prettier | PASS | `pnpm exec prettier --check src/components/FeedProvenanceCard.tsx` |
+| Targeted Oxlint | PASS | `pnpm exec oxlint --quiet src/components/FeedProvenanceCard.tsx` |
+| Web TypeScript | PASS | `pnpm run typecheck:web` |
+| Browser baseline | PASS | ChatGPT in-app browser loaded the canonical feed and showed the existing feed-details control plus posts; deployment verification follows the build |
+
+This iteration improves ordinary-view legibility of feed authority without
+claiming provider independence, cryptographic feed manifests, or completion
+of the external OAuth/Relay/AppView/PLC gates.
