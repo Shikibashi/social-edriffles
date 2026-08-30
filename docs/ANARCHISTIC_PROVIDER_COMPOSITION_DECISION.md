@@ -864,3 +864,53 @@ This iteration makes delegated authority legible and keeps revocation claims
 honest. It does not yet enforce action-level scope preflight at every write
 caller, prove credentialed browser mutations, or close the external
 Relay/AppView, short-TTL OAuth, and independent-PLC gates.
+
+## 27. Iteration 20 — enforce feature-scoped OAuth at action boundaries
+
+The Authorization workbench made OAuth delegation inspectable, but the
+important mutation callers could still proceed directly to a PDS or service
+client. That left a residual ambient-authority path: a user could be shown a
+missing feature grant while an action still reached the transport boundary,
+and optimistic UI could be updated before consent had completed.
+
+### Authority before versus after
+
+| Boundary | Before iteration 20 | After iteration 20 |
+| --- | --- | --- |
+| Posts, likes, reposts, and deletes | Mutation callers relied on the captured client and provider rejection | Posting is checked before optimistic state or the PDS call; a missing OAuth grant opens the existing feature upgrade and stops the attempt |
+| Profile edits and media uploads | Profile writes/uploads could begin without a feature preflight | Profile-editing is checked before any write; media is checked before avatar, banner, or post-media work |
+| Chat and Spaces | Chat optimistic messages/reactions and Spaces controls had no shared action gate | Chat mutations and Spaces control/private-record actions check their feature grant before state changes or writes |
+| Compatibility | A new parallel authorization model would risk legacy sessions | Password sessions, non-OAuth sessions, native grants, and documented legacy compatibility remain allowed; new requests still use the existing granular scope ledger |
+
+### Implementation evidence
+
+- `upstream/social-app/src/state/session/oauth-authority.ts` is a pure
+  decision/error boundary. It distinguishes OAuth feature absence from token
+  expiry or revocation, which remain transport/session concerns.
+- `upstream/social-app/src/state/session/oauth-feature-gate.ts` reuses
+  `upgradeOAuthFeature`, requests only the missing feature, deduplicates
+  simultaneous prompts per feature, and returns control without authorizing a
+  pending write.
+- Posting, likes, reposts, profile editing, community/Spaces controls, and
+  private record actions call the gate before optimistic updates, uploads, or
+  PDS/service writes. Chat sends now report whether a message was accepted, so
+  a stopped consent attempt cannot trigger send metrics or scroll behavior.
+- The provider-owned OAuth implementation remains responsible for PAR, PKCE,
+  DPoP, refresh, state, and credential storage. This change only narrows the
+  client-side delegation boundary.
+
+### Verification
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| OAuth authority contract | PASS | `src/state/session/__tests__/oauth-authority-test.ts` plus `oauth-scopes-test.ts` — 15 tests |
+| Targeted Prettier | PASS | All touched TypeScript/TSX files |
+| Targeted Oxlint | PASS | All touched TypeScript/TSX files |
+| Web TypeScript | PASS | `pnpm run typecheck:web` |
+| Diff hygiene | PASS | `git diff --check`; the existing `oxlint-suppressions.json` newline-only change remains unstaged |
+
+This iteration removes the ambient write path for the principal social,
+profile, chat, media, and Spaces actions without claiming that every settings
+mutation has been converted. Remaining work includes other optional chat
+administration/preferences callers, credentialed browser mutation evidence,
+and the external Relay/AppView, short-TTL OAuth, and independent-PLC gates.
