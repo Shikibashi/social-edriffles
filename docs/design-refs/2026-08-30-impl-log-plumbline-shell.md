@@ -1035,6 +1035,66 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 46: Align Moderation & Reach with Plumbline grammar
+
+### Implementation
+
+The shared `PlumblineAuthoritySummary` already provided the source, rule, and
+state seam used by feed, identity, media, and moderation surfaces. This
+iteration added the existing Plumbline line-and-brass-bob alignment marker to
+that shared component and tightened the Moderation & Reach workbench around
+the existing moderation model. Its source-to-assertion-to-user-rule-to-client
+action explanation now uses the active Lingui catalog, while moderation tools,
+content filters, and labeler states use square bordered groups consistent with
+the ECW workbench direction. Provider, label, preference, and authorization
+behavior was not changed.
+
+### Authority boundary
+
+The UI now makes the moderation seam visually and verbally consistent with the
+other Plumbline inspectors: the source remains an attributable assertion, the
+user rule remains local and changeable, and the client action is not presented
+as a network-wide deletion or universal authority. The brass marker is
+decorative state/provenance grammar only; it grants no authority and carries no
+moderation severity meaning. Existing service links and moderation controls
+remain the replacement and revocation paths.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- Lingui extraction and compile: PASS; 3712 source messages after extraction;
+  generated non-English catalog churn was excluded from the scoped commit;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.f3b41bb9.js`; the existing bundle-size warnings remain for the 4.14 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `205e5c6c3` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `e1c34a6a` at
+  `https://e1c34a6a.social-edriffles.pages.dev`;
+- HTTPS delivery and branding inspection: PASS; the generated artifact
+  contains the Plumbline title, favicon/mark, canonical OAuth metadata, and
+  no local-origin references;
+- final ChatGPT in-app-browser inspection: PASS; canonical
+  `https://plumblines.uk/moderation` rendered the Moderation & Reach workbench,
+  the brass alignment marker, the source/rule/state summary, the moderation
+  authority chain, square tool/filter groups, label controls, navigation, and
+  the existing inspector without a visible application error. The preview
+  domain correctly remained signed out and exposed only public controls. No
+  representational, account, provider, labeler, or preference mutation was
+  performed.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 45: Localize the Services authority workbench
 
 ### Implementation
