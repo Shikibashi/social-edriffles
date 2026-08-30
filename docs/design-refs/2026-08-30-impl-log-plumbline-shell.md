@@ -415,3 +415,52 @@ The nested client continues to contain the pre-existing newline-only change
 in `oxlint-suppressions.json`; it is intentionally excluded. The external
 Relay/AppView, short-TTL OAuth, and independent-PLC operator evidence gates
 remain unresolved.
+
+## Iteration 34: Chat document-workbench refinement
+
+### Intent
+
+Carry the Plumbline document-stream grammar into the existing Chat workbench
+without changing message authorization, conversation queries, navigation, or
+mutation behavior. Split-view conversations should read as a continuous list
+of records, and unread state should have the same explicit alignment cue used
+by the notification stream.
+
+### Change
+
+`upstream/social-app/src/screens/Messages/components/ChatListItem.tsx` now
+removes the split-view row's floating rounded treatment and horizontal inset,
+uses a contrast rule between conversation records, and adds the existing
+primary-color left rule for unread conversations. The full-screen list and
+native rendering paths retain their existing layout behavior.
+
+`upstream/social-app/src/screens/Messages/ChatList.tsx` now uses the existing
+square control geometry for the desktop and mobile Chat settings and New chat
+icon actions. Labels, keyboard/focus behavior, OAuth gating, and button target
+sizes are unchanged.
+
+### Authority boundary
+
+This is a presentation-only extension of the existing Chat surface. It does
+not add a provider, alter the Chat OAuth grant, widen account authority, change
+PDS or AppView routing, or introduce a second messaging state boundary.
+
+### Verification record
+
+- touched-file Prettier: PASS;
+- changed-file Oxlint: PASS with the existing compiler immutability warning at
+  `ChatList.tsx:365`;
+- web TypeScript: PASS;
+- focused provider, attention, and OAuth regression tests: PASS, 4 suites and
+  39 tests;
+- production web export: PASS with Node `v24.19.0`; the existing bundle-size
+  warnings remain;
+- nested client code commit/push: PASS; `c1b9f726d` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment and ChatGPT in-app-browser inspection: NOT RUN; this
+  iteration requested a source push and did not authorize a live deployment.
+
+The nested client continues to contain the pre-existing newline-only change
+in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
