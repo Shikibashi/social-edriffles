@@ -4,10 +4,10 @@ source: ECW token contract and Communities forum brief
 updated: 2026-08-26
 direction: editorial-forum-workbench
 brand:
-  name: edriffles
-  descriptor: Computer Web
-  origin: https://social.edriffles.us
-  emblem: upstream/social-app/assets/edriffles/edriffles-emblem.png
+  name: Plumbline
+  descriptor: AT Protocol client
+  origin: https://plumblines.uk
+  emblem: upstream/social-app/assets/plumbline/plumbline-mark.svg
 tokens:
   color:
     canvas: {oklch: 'oklch(0.87 0.03 270)', fallback: '#d6d9e8'}
@@ -38,9 +38,9 @@ tokens:
     control-radius: '1px'
 ---
 
-# Edriffles Computer Web design source
+# Plumbline design source
 
-Edriffles Computer Web is the web product identity for this AT Protocol client.
+Plumbline is the web product identity for this AT Protocol client.
 Communities is an editorial forum workbench inside that shell. It should feel
 like entering a named place with its own membership, topics, and moderation
 rules. The screen is intentionally denser than a public feed, but it does not
@@ -48,10 +48,10 @@ become an administration console.
 
 ## Brand identity
 
-- Use the current Edriffles ship-and-compass emblem from
-  `upstream/social-app/assets/edriffles/edriffles-emblem.png` for the web mark.
-- Use the lowercase `edriffles` wordmark and the descriptor `Computer Web` in
-  web identity surfaces, metadata, splash screens, and share cards.
+- Use the Plumbline plumb-bob mark from
+  `upstream/social-app/assets/plumbline/plumbline-mark.svg` for the web mark.
+- Use the `plumbline` wordmark in web identity surfaces, metadata, splash
+  screens, and share cards.
 - Keep AT Protocol facts, `app.bsky.*` record namespaces, hosting-provider
   names, and account handles technically accurate. They are interoperability
   and service references, not the product identity.
