@@ -558,7 +558,50 @@ This reduces a user-facing authority ambiguity. It does not change the
 hosting provider's legal documents, establish independent policy authority, or
 close the external Relay/AppView, short-TTL OAuth, or PLC-operator gates.
 
-## 20. Remaining concentrations worth attacking next
+## 20. Iteration 13 — make provider ownership visible on support and identity entry points
+
+The previous policy-link work did not cover every user-facing entry point. The
+support screen still described the help destination as if Plumbline itself
+owned the support relationship, the age-gate linked directly to an unlabeled
+provider document, and the custom-handle flow used an unsourced “Learn more”
+label. This iteration keeps the existing provider destinations but makes their
+ownership explicit and keeps the links addressable through the existing
+Plumbline support routes where appropriate.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/view/screens/Support.tsx` now identifies the
+  hosting provider's support form while preserving the external help-desk
+  destination.
+- `upstream/social-app/src/components/dialogs/BirthDateSettings.tsx` now
+  routes the age-gate policy link through `/support/tos` and labels it as the
+  hosting provider's Terms of Service.
+- `upstream/social-app/src/screens/Settings/components/ChangeHandleDialog.tsx`
+  now labels the existing provider domain-handle article as the hosting
+  provider's domain-handle guide; the external provider URL remains intact.
+- `upstream/social-app/src/locale/locales/en/messages.po` was regenerated and
+  the compiled English catalog was rebuilt. The live route previously exposed
+  the generated message ID `kfpVmS`; the post-build browser probe now shows the
+  complete English support sentence and no message ID.
+- Targeted `git diff --check`, Prettier, and Oxlint pass. The focused OAuth,
+  provider-composition, attention, and account-profile suites pass (40 tests).
+  The production web export completes with only the existing bundle-size
+  warnings.
+- Client commits `4a6bab405` and `4f9d54fd6` were pushed to
+  `fork/codex/spaces-alpha-integration`.
+- Wrangler deployed the corrected export at
+  `https://d6bbc7bf.social-edriffles.pages.dev`; the canonical
+  `https://plumblines.uk/` browser check verified the provider-labelled
+  support copy, provider terms/privacy labels, `Following — Plumbline` home
+  title, `/plumbline-mark.svg` favicon, and no visible error state. No
+  credentials were read and no mutation was performed.
+
+This makes three remaining provider-owned destinations inspectable without
+pretending they are Plumbline-operated services. It does not change provider
+policy, establish independent operator control, or close the external
+Relay/AppView, short-TTL OAuth, or PLC-operator gates.
+
+## 21. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
