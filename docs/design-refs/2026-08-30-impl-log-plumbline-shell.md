@@ -379,3 +379,39 @@ below the summary.
   `https://plumblines.uk/moderation?deployment=67ef54e3`; the summary,
   four-layer explanation, and Services link rendered without an alert, and the
   link reached `Services — Plumbline?section=providers`.
+
+## Iteration 33: notification document-stream refinement
+
+### Intent
+
+Continue the Plumbline document-stream treatment through Notifications. The
+provider composition and source disclosure were already present, so this
+slice changes only the activity record renderer: unread state becomes a clear
+semantic left boundary, and embedded feed/starter-pack records use square
+geometry instead of floating rounded cards.
+
+### Change
+
+`upstream/social-app/src/view/com/notifications/NotificationFeedItem.tsx`
+now adds the existing primary-color unread rule and removes rounded corners
+from the two embedded record treatments. Existing links, actions, author
+grouping, moderation, notification data, and provider provenance are
+unchanged.
+
+### Verification record
+
+- touched-file Oxlint: PASS;
+- touched-file Prettier and `git diff --check`: PASS;
+- web TypeScript: PASS;
+- production web export: PASS with Node `v24.19.0`; existing bundle-size
+  warnings remain;
+- root contract validator: PASS; 144 files, 29 blocking rows, 6 feed cases;
+- client commit/push: PASS; `dbbe66fd8` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- deployment/browser inspection: NOT RUN because this iteration requested a
+  repository push and did not request a Pages deployment.
+
+The nested client continues to contain the pre-existing newline-only change
+in `oxlint-suppressions.json`; it is intentionally excluded. The external
+Relay/AppView, short-TTL OAuth, and independent-PLC operator evidence gates
+remain unresolved.
