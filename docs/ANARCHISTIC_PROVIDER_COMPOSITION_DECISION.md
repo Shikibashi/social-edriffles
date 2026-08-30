@@ -167,7 +167,63 @@ The local verification record for this iteration is:
 | Full client lint/format | FAIL (baseline) | Existing import-sort, unused-variable, type-rule, suppression, and 33 formatting findings; changed files pass targeted checks |
 | Deployment | NOT RUN | No deployment is claimed from this iteration; full repository gates remain unresolved |
 
-## 9. Remaining concentrations worth attacking next
+## 9. Iteration 2 — user-visible provider evidence
+
+The first implementation left successful composed reads as the selected API
+value in most screens. That was compatible, but it made the provider seam
+visible only on selected feed surfaces or when a read failed. Iteration 2 keeps
+the existing selected-value contract and carries the complete composition
+alongside it for progressive inspection.
+
+### Authority before versus after
+
+| Surface | Before iteration 2 | After iteration 2 |
+| --- | --- | --- |
+| Profile | Selected profile view without source evidence | Profile view plus expandable provider observations and reconciliation policy |
+| Thread | Selected thread without source evidence | Thread view plus the same evidence; PDS fallback clears AppView evidence |
+| Search | Selected page without source evidence | Each loaded page retains its search-provider composition |
+| Notifications | Selected page without source evidence | Each fetched page retains notification-provider composition; unread cache remains explicitly cache-backed |
+| Label service | Selected labeler metadata without source evidence | Label-service metadata carries its composed provider observations |
+| Provider failure | Error text could hide the cause of disagreement | Fail-closed errors retain the composition for inspection where the boundary exposes it |
+
+### Implementation evidence
+
+- `upstream/social-app/src/components/ProviderCompositionProvenance.tsx` is a
+  shared progressive inspector for status, policy, selected providers,
+  declared operator IDs, endpoints, freshness, verification, and errors. It
+  states that declared operator identity is not proof of independent control.
+- `upstream/social-app/src/state/queries/profile.ts` and
+  `upstream/social-app/src/state/queries/usePostThread/` retain composition
+  only when the displayed value came from the composed AppView boundary.
+  Account-PDS fallback values do not inherit stale AppView provenance.
+- `upstream/social-app/src/state/queries/search-posts-v2.ts`,
+  `notifications/feed.ts`, and `labeler.ts` retain composition at their
+  existing query/page boundaries; no parallel cache or provider registry was
+  introduced.
+- `upstream/social-app/src/view/screens/Profile.tsx`,
+  `screens/PostThread/index.tsx`, `screens/Search/SearchResults.tsx`,
+  `view/com/notifications/NotificationFeed.tsx`, and
+  `screens/Profile/Sections/Labels.tsx` expose the seam progressively.
+
+### Verification evidence
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Profile/thread/provider/identity focused tests | PASS | 8 suites, 52 tests |
+| Search/notification/provider focused tests | PASS | 5 suites, 61 tests |
+| Label-service/provider focused tests | PASS | 4 suites, 28 tests |
+| Web TypeScript check | PASS | `pnpm run typecheck:web` |
+| Changed-file Oxlint | PASS | New and modified client files |
+| Changed-file Prettier and whitespace | PASS | `pnpm exec prettier --check`; `git diff --check` |
+| Deployment | NOT RUN | This batch has not been deployed; external evidence remains separate |
+
+This iteration improves contestability without claiming that the selected
+provider is independently operated, cryptographically authoritative for every
+view, or current in an eventually consistent network. Media remains an
+account-PDS boundary and communities remain a Spaces/Radlib boundary; neither
+is falsely routed through the generic AppView composition layer.
+
+## 10. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
