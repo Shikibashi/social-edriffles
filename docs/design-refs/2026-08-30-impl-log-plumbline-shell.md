@@ -976,3 +976,61 @@ The nested client retains pre-existing `oxlint-suppressions.json`; root
 memory/conversation updates and nested PDS worktree remain outside this
 change. External Relay/AppView, short-TTL OAuth, and independent-PLC operator
 evidence gates remain unresolved.
+
+## Iteration 44: Localize feed and delegated OAuth provenance
+
+### Implementation
+
+The feed provenance card and delegated-authority inspector already used the
+shared Plumbline provider and OAuth seams, but their visible labels and status
+descriptions bypassed the translation boundary. This iteration added reusable
+Lingui message descriptors for OAuth feature, authority, resource, purpose,
+and grant-status labels, then routed feed algorithm, provider, health,
+manifest, privacy, operator, and action labels through the active locale. The
+protocol identifiers, endpoints, scopes, provider values, and account data
+remain inspectable data rather than translated or rewritten identifiers.
+
+### Authority boundary
+
+Before this correction, the underlying source/rule/state evidence was
+available but a language change could leave the feed and authorization seams
+partly in English. After it, ordinary and expanded views retain the same
+provider attribution, least-authority grant ledger, and explicit change/revoke
+controls while rendering their interface language through the existing
+Lingui runtime. No new provider, fallback, authorization mechanism, or
+credential store was introduced.
+
+### Verification record
+
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- web TypeScript: PASS;
+- scoped changed-file Prettier and Oxlint: PASS;
+- Lingui extraction and compile: PASS; 3477 source messages after extraction;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.00141ab3.js`; the existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `d0ef85aff` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `1bdf84b9` at
+  `https://1bdf84b9.social-edriffles.pages.dev`;
+- HTTPS delivery: PASS; preview and canonical `https://plumblines.uk/`
+  returned HTTP 200, served `static/js/main.00141ab3.js`, and contained no
+  localhost references in fetched HTML;
+- final ChatGPT in-app-browser inspection: PASS; the deployed home view
+  rendered the Plumbline mark, posts, feed action controls, provider summary,
+  and navigation without a visible application error. Expanded feed details
+  displayed the algorithm, AppView provider, operator-independence state,
+  manifest, privacy, health, and read-provider change control. The feed
+  directory displayed its source summary; opening the source inspector
+  displayed reconciliation, claims compared, provider observations,
+  operator-independence status, retrieval time, and `Change read provider`.
+  No representational or account actions were taken.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
