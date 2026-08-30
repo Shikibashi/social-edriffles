@@ -766,3 +766,35 @@ The nested client still contains the pre-existing newline-only change in
 `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
+
+### Follow-up correction and final verification
+
+The first browser inspection of this iteration exposed a real localization
+defect: the new label rendered as the Lingui message ID `YZ+A56` instead of
+`Claims compared`. The English catalog was regenerated and compiled from the
+current source. The tracked `.po` catalog now contains the source-of-truth
+entry; the generated `messages.ts` remains ignored and is rebuilt as part of
+the web export.
+
+- focused source verification after the catalog correction: PASS; Prettier,
+  Oxlint, 3 focused suites and 21 tests, and web TypeScript all passed;
+- production web export after the catalog correction: PASS with Node
+  `v24.19.0`; existing bundle-size warnings remain; generated asset
+  `main.431b1078.js` contains the claim-summary strings;
+- nested client catalog commit/push: PASS; `99a010698` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- final Pages deployment: PASS; Production deployment `b4eff5b1` at
+  `https://b4eff5b1.social-edriffles.pages.dev`, source `99a010698`;
+- final HTTPS delivery: PASS; the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and served
+  `main.431b1078.js` with the configured CSP, Permissions Policy,
+  referrer policy, and `X-Content-Type-Options: nosniff` header;
+- final ChatGPT in-app-browser inspection: PASS; after reload at
+  `https://plumblines.uk/search` with the `edriffles.us` query, opening Search
+  source details displayed `Claims compared: 1 claim from 1 responding
+  provider`, the selected `project-appview`, the `api.bsky.app` endpoint, and
+  the agreement state. No representational or account actions were taken.
+
+The catalog correction commit still excludes the pre-existing newline-only
+change in `oxlint-suppressions.json`. The external Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
