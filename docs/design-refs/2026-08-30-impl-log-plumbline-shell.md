@@ -858,3 +858,60 @@ The nested client still contains the pre-existing newline-only change in
 PDS worktree remain outside this change. The external Relay/AppView,
 short-TTL OAuth, and independent-PLC operator evidence gates remain
 unresolved.
+
+## Iteration 42: Expose provider composition on the feed directory
+
+### Research and implementation
+
+The feed directory and its search mutation already queried the shared `feeds`
+provider-composition boundary, but both UI-facing paths discarded the complete
+composition result after selecting the response. The catalog now retains a
+typed `providerComposition` on every paginated result, carries the same
+composition into precached feed-source metadata, and returns the composition
+alongside feed-directory search results. The existing provider inspector is
+shown below the directory search control and uses the composition attached to
+the active catalog or search state, including composition evidence recovered
+from a fail-closed provider error.
+
+The deployment-owned Discover feed fallback remains an explicit configured
+feed inclusion. It is not represented as an independent provider claim, so the
+directory does not overstate what the provider comparison established.
+
+### Authority boundary
+
+Before this change, the feed directory showed provider-backed feed choices but
+did not let the user inspect which read provider answered, which reconciliation
+rule selected the result, whether providers disagreed, or whether operator
+independence was established. After this change, the same inspectable
+provenance used by profiles, threads, custom feeds, search, notifications, and
+labels is available on the directory catalog and directory search. Provider
+selection remains user-configurable through Services; the UI does not promote
+the bundled provider to an independent or universally authoritative source.
+
+### Verification record
+
+- changed-file Prettier check and Oxlint: PASS;
+- focused provider, feed, feed-composition, attention, and actor-search tests:
+  PASS, 6 suites and 34 tests;
+- web TypeScript: PASS;
+- production web export: PASS; generated `main.8a85d3c2.js`; existing
+  bundle-size warnings remain for the main and supporting JavaScript assets;
+- nested client commit/push: PASS; `fcab2827d` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `4288e538` at
+  `https://4288e538.social-edriffles.pages.dev`, source `fcab2827d`;
+- HTTPS delivery: PASS; both the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and referenced
+  `static/js/main.8a85d3c2.js`;
+- final ChatGPT in-app-browser inspection: PASS; `/feeds` displayed the
+  `Popular feeds` source summary and opening it displayed the agreement rule,
+  selected `project-appview`, `api.bsky.app`, the responding-provider count,
+  endpoint, retrieval timestamp, and `Change read provider`. A read-only
+  `science` directory search refreshed the feed results while retaining the
+  same inspectable provider evidence. No representational or account actions
+  were taken.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`; root memory/conversation updates and the nested PDS
+worktree remain outside this change. The external Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
