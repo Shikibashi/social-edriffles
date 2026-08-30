@@ -674,7 +674,43 @@ This removes a concrete session-routing concentration without making the PDS
 the OAuth authorization server by assumption. It does not close the external
 Relay/AppView, short-TTL OAuth, or independent PLC-operator gates.
 
-## 23. Remaining concentrations worth attacking next
+## 23. Iteration 16 — make the service authority map inspectable
+
+The Services workbench already exposed provider registration and policy
+controls, but the overview required users to infer the relationship between
+identity, hosting, read providers, authorization, moderation, media, and
+communities from separate rows and sections. This iteration adds a compact
+capability map to the existing overview. It keeps the current session and
+provider registry as the sources of truth; it does not add a new service or
+make the bundled AppView authoritative.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/screens/Settings/ServicesSettings.tsx` now presents
+  an explicit capability map for Identity, Personal Data Server, AppView
+  reads, Feeds, Moderation & Reach, Search, Notifications, Authorization,
+  Media, Communities, and Exit & backups. Each row identifies the current
+  source, state, explanation, and an `Inspect` action into the existing
+  workbench section.
+- Boundary-owned media and community services remain labeled as such instead
+  of being exposed as AppView choices. Provider names and endpoints are still
+  rendered as inspectable values, and no account credential is moved across a
+  provider boundary by this UI change.
+- The map keeps a wide table-like layout only at the wide-tablet breakpoint;
+  narrower workspaces stack source and state details so the Inspector does not
+  make the primary service surface unreadable.
+- Targeted Prettier, Oxlint, and web TypeScript checks pass. The production web
+  export completes with the existing bundle-size warnings and was deployed to
+  `https://177916bd.social-edriffles.pages.dev` behind the canonical
+  `https://plumblines.uk` host. The credential-free in-app-browser check found
+  all eleven rows, no error state, and a working Identity inspection action.
+
+This makes the service seams legible in one place while preserving the existing
+authority boundaries. It does not establish independent operator control,
+close the external Relay/AppView or short-TTL OAuth gates, or prove
+credentialed write behavior.
+
+## 24. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
