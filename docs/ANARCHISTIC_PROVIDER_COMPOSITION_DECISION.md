@@ -309,7 +309,40 @@ This iteration changes only user-facing share destinations. It does not make
 the web client, a bundled provider, or a starter-pack AppView authoritative
 over the underlying ATProto records.
 
-## 13. Remaining concentrations worth attacking next
+## 13. Iteration 6 — canonical quote, draft, chat, and RSS paths
+
+The internal post-link generators now use the shared runtime-origin helper.
+Quote composition, draft restoration, embedded-post chat previews, and
+relative RSS opening stay on Plumbline for new internal links. Canonical RSS
+URLs are classified as internal alongside legacy `bsky.app` URLs, so the
+change does not turn a supported reference link into an external destination.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/state/shell/composer/index.tsx` and
+  `upstream/social-app/src/view/com/composer/state/composer.ts` use the
+  runtime helper for quote precaching and quote embed URLs.
+- `upstream/social-app/src/view/com/composer/drafts/state/api.ts` uses the
+  runtime helper when restoring persisted quote embeds.
+- `upstream/social-app/src/components/dms/getMessageInfo.ts` and
+  `upstream/social-app/src/lib/hooks/useOpenLink.ts` use the same boundary for
+  embedded post previews and relative RSS paths.
+- `upstream/social-app/src/lib/strings/url-helpers.ts` removes the obsolete
+  internal Bsky-origin generators and recognizes canonical Plumbline RSS.
+- The focused URL and route suites pass 17/17 tests; targeted Oxlint,
+  Prettier, whitespace checks, and `pnpm run typecheck:web` pass.
+- Client commit `fd5b65112` was pushed to
+  `fork/codex/spaces-alpha-integration`, and Wrangler deployed the exact
+  export at `https://61288ec7.social-edriffles.pages.dev`. The canonical
+  shell and preview serve the Plumbline title, mark, and
+  `main.16493acb.js`; the live public-contract probe passed at
+  `2026-08-30T08:50:12Z` with no credentials and no writes.
+
+This is a destination and classification change only. ATProto collection
+names, external provider URLs, account-PDS writes, and legacy reference-link
+compatibility remain unchanged.
+
+## 14. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
