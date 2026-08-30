@@ -464,3 +464,52 @@ The nested client continues to contain the pre-existing newline-only change
 in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
+
+## Iteration 35: identity authority and exit-workbench entry point
+
+### Intent
+
+Make the Identity & recovery screen answer the authority questions at the
+point where account portability, hosting, recovery, and sessions are managed.
+The existing screen already exposes these controls, but it presented them as
+a flat diagnostic list and left the read-provider replacement path implicit.
+
+### Change
+
+`upstream/social-app/src/screens/Settings/IdentitySovereigntySettings.tsx`
+now places the shared `PlumblineAuthoritySummary` above the identity details.
+The summary identifies the resolved PDS or DID resolver, states that the DID
+identifies the account while the PDS hosts repository and sessions, and shows
+the current resolution/migration state without inventing a successful result.
+
+The same screen now has an explicit `Inspect or change read providers` action
+that opens the existing Services provider workbench. The action keeps provider
+selection a reversible local choice and makes the replacement path visible
+without changing identity hosting or write authority.
+
+### Authority boundary
+
+The screen reuses the current resolver, session, migration, export, recovery,
+and Services navigation boundaries. It does not add a provider, alter DID or
+PDS authority, widen OAuth, change migration behavior, or claim that a local
+resolver result proves independent operation.
+
+### Verification record
+
+- touched-file Prettier: PASS;
+- changed-file Oxlint: PASS with the existing React compiler warnings in the
+  identity screen;
+- web TypeScript: PASS;
+- focused provider, attention, and OAuth regression tests: PASS, 4 suites and
+  39 tests;
+- production web export: PASS with Node `v24.19.0`; the existing bundle-size
+  warnings remain;
+- nested client code commit/push: PASS; `010a3f15f` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment and ChatGPT in-app-browser inspection: NOT RUN; this
+  iteration requested implementation and source push, not live deployment.
+
+The nested client continues to contain the pre-existing newline-only change
+in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
