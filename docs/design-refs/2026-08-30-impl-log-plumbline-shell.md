@@ -231,7 +231,8 @@ records.
 - English catalog extraction/compile: PASS, 3321 source messages;
 - production web export: PASS, with existing bundle-size warnings;
 - client code commit `91f7e4314`: pushed to the fork branch;
-- client decision record commit `2bd0816f0`: pushed to the fork branch;
+- client decision record commits `2bd0816f0` and `68afc3735`: pushed to the
+  fork branch;
 - Pages deployment: PASS at `https://aad5cdf4.social-edriffles.pages.dev`,
   uploaded with Node `v24.19.0` after the host's Node `v26.7.0` path was
   rejected by the repository runtime requirement;
