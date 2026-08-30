@@ -247,3 +247,57 @@ records.
 This is a UI/provenance extension only. It does not establish an independent
 media operator, change PDS/AppView routing, add OAuth authority, or close the
 external Relay/AppView, short-TTL OAuth, and independent-PLC evidence gates.
+
+## Iteration 30: inline Services workbench controls
+
+The Services screen now exposes provider and policy changes in the workspace
+instead of routing them through native alert menus. Provider rows open an
+inspector with the service DID, HTTPS endpoint, declared capabilities, current
+selection, and an explicit read-provider action. Per-surface capability rows,
+reconciliation modes, explicit provider preferences, identity-resolution
+policy, and PLC resolver state use the same inline, reversible interaction
+grammar.
+
+### Contract applied
+
+- Keep the existing provider registry, local policy persistence, and probing
+  functions as the only state-changing boundaries.
+- Make source, rule, current state, and available replacement visible before a
+  choice is applied.
+- Keep PDS writes, account identity, and OAuth/session authority separate from
+  read-provider selection.
+- Preserve browser-visible selected states, selectable endpoint/DID values, and
+  ordinary close/back paths.
+
+### Implementation evidence
+
+- `upstream/social-app/src/screens/Settings/ServicesSettings.tsx` adds the
+  inline `WorkbenchActionPanel` and `ProviderSurfaceActionPanel` components.
+- Provider, surface, reconciliation, identity, and resolver rows now open
+  inspectable controls with explicit selected state and no hidden fallback.
+- Nested client commits `246e3c5fd` (implementation) and `dba27a84f`
+  (decision record) are pushed to
+  `fork/codex/spaces-alpha-integration`.
+
+### Verification record
+
+- focused Oxlint, Prettier, and `git diff --check`: PASS;
+- web TypeScript check: PASS;
+- production web export: PASS, with existing bundle-size warnings;
+- Pages deployment: PASS at
+  `https://e8965e7d.social-edriffles.pages.dev`, uploaded with Node
+  `v24.19.0`;
+- ChatGPT in-app browser canonical Services provider inspection: PASS; the
+  page showed the provider DID, HTTPS endpoint, capabilities, selected state,
+  and explicit `Use for new reads` / `Configure surfaces` controls;
+- browser surface configuration inspection: PASS; each runtime surface and
+  its allow/remove state was visible;
+- browser reconciliation and identity policy inspection: PASS; modes,
+  provider preferences, selected state, and close controls were visible;
+- logged-out disposable deployment route: PASS; the protected Services route
+  returned the logged-out shell without exposing a raw error.
+
+The nested client still has the pre-existing uncommitted
+`oxlint-suppressions.json` newline-only change; it was not included. The PDS,
+OAuth, external Relay/AppView, short-TTL OAuth, and independent-PLC operator
+evidence gates remain unchanged and unresolved.
