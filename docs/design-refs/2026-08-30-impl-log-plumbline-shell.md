@@ -341,3 +341,41 @@ portable and directly actionable.
 - ChatGPT in-app-browser inspection: PASS at
   `https://plumblines.uk/?deployment=470139e7`; expanded post provenance showed
   the copy control and the read-only click retained the route without an alert.
+
+## Iteration 32: moderation source-state summary
+
+### Intent
+
+Make the main Moderation & Reach screen answer the source and rule questions
+before the user opens an individual labeler or moderation detail. The existing
+screen already described the generic Source / Assertion / My rule / Client
+action chain, but did not summarize the current label-source availability.
+
+### Change
+
+`upstream/social-app/src/screens/Moderation/index.tsx` now uses the shared
+`PlumblineAuthoritySummary` to show configured label sources, their loading or
+availability state, and the local rule that interprets label claims. It also
+exposes a visible link to the existing Services provider workbench.
+
+### Authority boundary
+
+The summary reads the existing labeler query and preferences only. It does not
+create a moderation provider, select a fallback, reinterpret labels, or change
+the PDS/account write boundary. The detailed four-layer explanation remains
+below the summary.
+
+### Verification record
+
+- touched-file Oxlint, Prettier, and web TypeScript: PASS;
+- provider-composition and attention model tests: PASS, 24 tests;
+- catalog extraction/compile: PASS, 3330 source messages;
+- production web export: PASS, with existing bundle-size warnings;
+- nested client implementation commit `f801b7099`: PASS; pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS at
+  `https://67ef54e3.social-edriffles.pages.dev`, uploaded with Node `v24.19.0`;
+- ChatGPT in-app-browser verification: PASS at
+  `https://plumblines.uk/moderation?deployment=67ef54e3`; the summary,
+  four-layer explanation, and Services link rendered without an alert, and the
+  link reached `Services — Plumbline?section=providers`.
