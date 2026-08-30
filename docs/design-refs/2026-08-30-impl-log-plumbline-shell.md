@@ -915,3 +915,64 @@ The nested client still contains the pre-existing newline-only change in
 `oxlint-suppressions.json`; root memory/conversation updates and the nested PDS
 worktree remain outside this change. The external Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
+
+## Iteration 43: Localize shared Plumbline provenance inspectors
+
+### Implementation
+
+The shared authority summary, provider-composition inspector, and
+identity-resolution inspector already formed the existing seam for source,
+rule, state, claims, resolver, and operator evidence. This iteration routed
+their user-facing labels, status text, policy text, diagnostic labels, and
+plural counts through the existing Lingui runtime rather than creating a
+parallel localization layer. English source-catalog entries were extracted
+and compiled; non-English catalogs were not rewritten beyond this scoped
+source update to avoid unrelated reference churn.
+
+### Authority boundary
+
+Before this correction, provider and identity provenance was structurally
+inspectable but several status, policy, count, and diagnostic strings bypassed
+the client translation boundary as raw English. After it, the same
+inspectable evidence remains attributable and the shared seam can render
+through the active locale. Protocol identifiers, provider IDs, endpoints,
+claim values, and error payloads remain data; only their user-facing labels
+are translated. The feed card, OAuth authorization workbench, and Services
+settings still have separate localization debt and are intentionally a
+follow-up slice.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- focused provider-composition and identity-runtime tests: PASS, 3 suites and
+  30 tests;
+- web TypeScript: PASS;
+- full TypeScript: FAIL on existing iOS/session fixture and Logomark baseline
+  errors; no errors in changed files;
+- full Oxlint: FAIL on existing repository-wide import-sort/type-rule/
+  suppression baseline; scoped changed-file Oxlint: PASS;
+- Lingui extraction and compile: PASS;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.6e3bd572.js`; existing bundle-size warnings remain;
+- nested client commit/push: PASS; `36acda698` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `c2e45e6c` at
+  `https://c2e45e6c.social-edriffles.pages.dev`;
+- HTTPS delivery: PASS; preview and canonical `https://plumblines.uk/`
+  returned HTTP 200 and referenced `static/js/main.6e3bd572.js`; no localhost
+  references appeared in fetched HTML;
+- metadata contract: PASS; `https://plumblines.uk/oauth-client-metadata.json`
+  returned Plumbline metadata with an HTTPS callback, authorization-code and
+  refresh-token grants, and DPoP-bound access tokens;
+- final ChatGPT in-app-browser inspection: PASS; the deployed home view
+  rendered the Plumbline mark, posts, feed action controls, provider summary,
+  and navigation without a visible application error. The feed directory
+  source inspector exposed source, rule, state, reconciliation, claim
+  comparison, provider observations, operator-independence status, retrieval
+  time, and `Change read provider`. No representational or account actions
+  were taken.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. External Relay/AppView, short-TTL OAuth, and independent-PLC operator
+evidence gates remain unresolved.
