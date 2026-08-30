@@ -914,3 +914,13 @@ profile, chat, media, and Spaces actions without claiming that every settings
 mutation has been converted. Remaining work includes other optional chat
 administration/preferences callers, credentialed browser mutation evidence,
 and the external Relay/AppView, short-TTL OAuth, and independent-PLC gates.
+
+### Hosted release evidence
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Production-shaped export from the pushed client revision | PASS | `pnpm run build-web`; deployment input was built from nested client revision `d1f8c0d52` |
+| Canonical Plumbline home | PASS | `https://plumblines.uk/?deployment=68880dc6`; read-only ChatGPT in-app-browser inspection found title `Following — Plumbline`, posts, and no application error |
+| Plumbline browser asset | PASS | The published document advertises `/plumbline-mark.svg` as its favicon; the deployment preserves the Plumbline title and visual shell |
+| Delegated-authority inspector | PASS | `https://plumblines.uk/settings/services?section=authorization&deployment=68880dc6`; the inspector expanded with feature authority, upgrade controls, and the whole-session revocation boundary |
+| Credentialed mutation walkthrough | NOT RUN | No browser credential or social mutation was used during this release check; this is not evidence that a live account posted, liked, reposted, edited a profile, or sent chat |
