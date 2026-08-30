@@ -924,3 +924,50 @@ and the external Relay/AppView, short-TTL OAuth, and independent-PLC gates.
 | Plumbline browser asset | PASS | The published document advertises `/plumbline-mark.svg` as its favicon; the deployment preserves the Plumbline title and visual shell |
 | Delegated-authority inspector | PASS | `https://plumblines.uk/settings/services?section=authorization&deployment=68880dc6`; the inspector expanded with feature authority, upgrade controls, and the whole-session revocation boundary |
 | Credentialed mutation walkthrough | NOT RUN | No browser credential or social mutation was used during this release check; this is not evidence that a live account posted, liked, reposted, edited a profile, or sent chat |
+
+## 28. Iteration 21 — make authority seams visible and addressable
+
+The provider composition boundary already retained observations and local
+reconciliation choices, but several ordinary read surfaces made that evidence
+available only after an inspection click. The Services workbench likewise kept
+section selection in local state even though its route already accepted a
+section parameter.
+
+The client now shows a compact Source / Rule / State summary from the existing
+composition result before the detailed inspector, uses readable labels for
+the four existing reconciliation modes, and updates the Services route
+parameter whenever a workbench section is selected. The change is a UI and
+navigation extension, not a new provider registry or authority model.
+
+### Authority before versus after
+
+| Boundary | Before iteration 21 | After iteration 21 |
+| --- | --- | --- |
+| Public read provenance | Provider participation and state were hidden until expansion on several surfaces. | Source names, local rule, and observed state are visible before expansion; observations and independence caveats remain inspectable. |
+| Policy language | Internal mode identifiers could be exposed to ordinary users. | Existing modes are presented as `Require agreement`, `Use first verified result`, `Merge attributable results`, or an explicit provider preference. |
+| Service inspection | A selected section could be lost on refresh or could not be copied as a stable URL. | Section selection updates the existing `ServicesSettings` route parameter and remains deep-linkable. |
+
+### Existing ecosystem precedent
+
+The change follows the web's addressable-resource model and the AT Protocol
+client pattern of keeping service selection and provider metadata explicit.
+It does not treat URL addressability, a provider label, or a declared operator
+ID as proof of independent control.
+
+### Interoperability and security tradeoffs
+
+The summary is derived only from observations already returned by the generic
+composition contract. No endpoint, token, service-auth material, or private
+read is added to the UI. Updating a route parameter improves browser history
+and refresh behavior while leaving account writes on the account PDS and the
+existing OAuth boundary.
+
+### Implementation evidence and remaining concentrations
+
+- `upstream/social-app/src/components/ProviderCompositionProvenance.tsx`
+  exposes the compact seam and retains the detailed source observations.
+- `upstream/social-app/src/screens/Settings/ServicesSettings.tsx` makes the
+  existing workbench section parameter authoritative for navigation state.
+- The bundled default read provider remains a convenience default, and the
+  external Relay/AppView privacy, short-TTL OAuth, and independent PLC operator
+  gates remain open.
