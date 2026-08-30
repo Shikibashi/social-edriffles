@@ -642,7 +642,39 @@ client can discover a PDS when the DID-backed session state does not provide
 one. It does not establish independent operators, close the external
 Relay/AppView or short-TTL OAuth gates, or prove authenticated write flows.
 
-## 22. Remaining concentrations worth attacking next
+## 22. Iteration 15 — recover the repository PDS during browser OAuth initialization
+
+The deployed browser callback path could authenticate through the Plumbline
+OAuth entryway while leaving the repository PDS absent from the persisted
+account snapshot when the identity response omitted `didDoc`. This made the
+login service look like the only account authority and left later requests
+without an explicit repository route. The existing DID-backed resolver is now
+used as the recovery boundary, with the resolved endpoint retained across
+refresh and persisted-session reconstruction.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/state/session/oauth-session.ts` resolves a missing
+  repository PDS from the authenticated DID and keeps the endpoint available
+  to the session adapter across token rotation. `plumblines.uk` remains the
+  OAuth issuer/account service; `pds.edriffles.us` remains the DID-declared
+  repository host.
+- The omitted-`didDoc` regression fixture and the focused OAuth,
+  PDS-resolution, and session suite pass (23 tests). Targeted Oxlint,
+  Prettier, web TypeScript, and the production web export pass; the export
+  reports only the existing bundle-size warnings.
+- The exact export was deployed at
+  `https://e6660482.social-edriffles.pages.dev`. The credential-free
+  in-app-browser probe showed the separate account service and repository PDS
+  rows, a loaded post feed, the owner profile, and PDS-backed media
+  provenance. No credentials were read and no authenticated mutation was
+  performed.
+
+This removes a concrete session-routing concentration without making the PDS
+the OAuth authorization server by assumption. It does not close the external
+Relay/AppView, short-TTL OAuth, or independent PLC-operator gates.
+
+## 23. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
