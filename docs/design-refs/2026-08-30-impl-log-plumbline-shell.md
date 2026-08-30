@@ -133,3 +133,31 @@ Verification:
 This is a shell disclosure slice only. Provider selection, PDS/AppView
 routing, OAuth, social mutations, records, storage, identity custody, and the
 external Relay/AppView/PLC evidence gates are unchanged.
+
+## Iteration 27: explicit Chat OAuth boundary
+
+The Chat route no longer attempts Chat reads when the separate Chat OAuth
+permission is absent. Status, unread-count, conversation-list,
+request-inbox, and direct-conversation query hooks now share the existing
+feature-scoped grant check. The main Chat and request-inbox screens show a
+square, bordered Plumbline authorization panel with the feature name, an
+explicit `Authorize this feature` action, and an `Open Services` path. Consent
+is not opened automatically, and no grant was widened.
+
+Verification:
+
+- touched-file Oxlint: PASS;
+- English catalog extraction and compilation: PASS;
+- web TypeScript: PASS;
+- OAuth authority and scope tests: PASS, 15 tests;
+- production web export: PASS, with existing bundle-size warnings;
+- client commit `9d1f6c6fc`: pushed to the fork branch;
+- Pages deployment: PASS at
+  `https://49ede667.social-edriffles.pages.dev`;
+- logged-out deployment shell and Chat route: PASS, no alert or raw
+  missing-scope error;
+- canonical signed-in Chat and request-inbox routes: PASS, explicit
+  authorization panel visible and no raw missing-scope error;
+- repository-wide lint: FAIL (baseline) from unrelated existing diagnostics;
+- Relay/AppView, short-TTL OAuth, and independent-PLC evidence gates remain
+  unresolved.
