@@ -1035,6 +1035,65 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 52: Align post engagement relationship views with the workbench
+
+### Implementation
+
+The existing liked-by, reposted-by, quotes, and custom-feed-liked-by routes now
+opt into the ECW workbench shell. Their existing read and mutation boundaries
+were preserved. The desktop inspector now identifies the route-specific source,
+local moderation or block rule, and user control: like records, repost records,
+quoted-post records, and feed-generator engagement records remain distinct
+instead of appearing as an unexplained generic page.
+
+This is a provenance and presentation boundary, not a new provider
+composition implementation. The underlying engagement queries continue to use
+the existing AppView read paths; no provider, account, post, like, repost,
+quote, or preference state was changed.
+
+### Authority boundary
+
+Before this iteration, these relationship views inherited a generic page shell
+with no route-specific explanation of who supplied the result or which local
+rule shaped visibility. After it, the user can inspect the relevant source and
+local rule and follow the existing Services workbench to compare or inspect
+provider boundaries. The client still does not present one provider as
+constitutional authority, and it does not claim multi-provider reconciliation
+where the current query path does not provide it.
+
+### Verification record
+
+- changed-file Prettier: PASS;
+- changed-file Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, OAuth-scope, and post-quotes
+  tests: PASS, 5 suites and 48 tests;
+- Lingui extraction and compile: PASS; the English source catalog was
+  regenerated to 3823 messages;
+- staged diff check: PASS;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `a60785f4e` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.7bae8e0c.js`; existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- Pages deployment: PASS; deployment `4b790fc3` at
+  `https://4b790fc3.social-edriffles.pages.dev`;
+- signed-out preview inspection: PASS; the Pages preview rendered Discover,
+  Sign in, and Create account without a Not Found or Oops state;
+- signed-in ChatGPT in-app-browser inspection: PASS; canonical Plumbline
+  Following loaded with the composer, and all four engagement relationship
+  routes rendered their route-specific Workbench inspector source/rule/control
+  text without a Not Found or Oops state. The browser was restored to the
+  canonical Plumbline root after inspection.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 51: Align Lists and saved-state surfaces with the Plumbline workbench
 
 ### Implementation
