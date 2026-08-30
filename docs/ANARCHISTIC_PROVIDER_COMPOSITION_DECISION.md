@@ -810,3 +810,57 @@ feed-state model.
 This iteration improves ordinary-view legibility of feed authority without
 claiming provider independence, cryptographic feed manifests, or completion
 of the external OAuth/Relay/AppView/PLC gates.
+
+## 26. Iteration 19 — delegated OAuth authority inspector
+
+The client already had a feature-scoped OAuth ledger and upgrade path, but the
+Authorization workbench reduced that state to permission counts. That hid the
+institutional boundary that matters to the user: which feature is delegated,
+for what purpose, to which resource, and whether the current grant is native,
+legacy-compatible, or still absent.
+
+### Authority before versus after
+
+| Surface | Before iteration 19 | After iteration 19 |
+| --- | --- | --- |
+| OAuth grant explanation | Feature rows showed counts or an upgrade action | Each feature can expose purpose, authority, resource, audiences, requested scopes, granted scopes, and missing scopes |
+| Revocation | Session revocation existed elsewhere in account settings | Authorization explains that revocation is whole-session and exposes the existing session logout action without claiming per-feature revocation |
+| Spaces upgrade path | Missing Spaces access redirected to the provider selector | Community composer/read gates open the Authorization workbench directly |
+
+### Implementation evidence
+
+- `upstream/social-app/src/state/session/oauth-scopes.ts` now derives
+  presentation metadata from the existing scope ledger. It does not add a
+  second permission model or include access tokens, refresh tokens, keys, or
+  cookies.
+- `upstream/social-app/src/components/AuthorizationProvenance.tsx` adds a
+  progressive disclosure inspector to the existing Services Authorization
+  section. The ordinary view remains compact; the expanded view identifies the
+  account, recorded OAuth service, account PDS, feature purpose, authority,
+  audience, exact scope strings, upgrade action, and whole-session revocation
+  boundary.
+- `upstream/social-app/src/screens/Settings/ServicesSettings.tsx` reuses the
+  existing upgrade and logout APIs. No write path was silently changed, so
+  posting, likes, profile edits, chat, and Spaces retain their current
+  compatibility behavior while the delegated authority becomes inspectable.
+- `upstream/social-app/src/screens/CommunityBoardScreen.tsx` now routes missing
+  Spaces permission prompts to Authorization rather than Providers.
+
+### Verification
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| OAuth permission contract | PASS | `src/state/session/__tests__/oauth-scopes-test.ts` — 11 tests |
+| Targeted Prettier | PASS | All five touched TypeScript/TSX files |
+| Targeted Oxlint | PASS | All five touched TypeScript/TSX files |
+| Web TypeScript | PASS | `pnpm run typecheck:web` |
+| Production-shaped web export | PASS | `pnpm run build-web`; completed with existing bundle-size warnings |
+| Repository contract validation | PASS | `python3 scripts/validate_contract.py` — 144 files, 29 blocking rows, 6 feed cases |
+| Client commit and fork push | PASS | `168a70986 ui: expose delegated oauth authority`; pushed to `https://github.com/Shikibashi/social-app` branch `codex/spaces-alpha-integration` |
+| Hosted anonymous/home check | PASS | Wrangler Pages deployment `https://53c2d93b.social-edriffles.pages.dev`; canonical `https://plumblines.uk/?deployment=53c2d93b` rendered Plumbline branding, feed posts, and no application error in the in-app browser |
+| Hosted Authorization workbench check | PASS | `https://plumblines.uk/settings/services?section=authorization&deployment=53c2d93b` exposed and expanded delegated authority, requested scopes, feature upgrades, and whole-session revocation text without an application error |
+
+This iteration makes delegated authority legible and keeps revocation claims
+honest. It does not yet enforce action-level scope preflight at every write
+caller, prove credentialed browser mutations, or close the external
+Relay/AppView, short-TTL OAuth, and independent-PLC gates.
