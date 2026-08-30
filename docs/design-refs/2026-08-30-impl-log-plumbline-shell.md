@@ -63,3 +63,33 @@ The implementation checks and deployed browser inspection completed with:
 This slice changes shell presentation and selected-state disclosure only. It
 does not change PDS/AppView routing, OAuth grants, social mutations, provider
 reconciliation, identity custody, or external Relay/AppView/PLC evidence.
+
+## Iteration 25: horizontal tab alignment
+
+The shared web tab bar now carries the Plumbline selection grammar used by
+the desktop shell. The existing blue underline remains the selection contrast
+cue, while a small brass diamond marks the selected tab. Each web tab exposes
+`accessibilityState.selected` and `aria-selected`; the marker is decorative,
+`aria-hidden`, pointer-transparent, and has a stable test ID.
+
+This is a presentation-only change in
+`upstream/social-app/src/view/com/pager/TabBar.web.tsx`. It does not alter
+routes, browser links, provider selection, PDS/AppView behavior, OAuth, social
+mutations, records, storage, or the native tab bar. It follows the existing
+ECW tab component and Plumbline `DESIGN.md` alignment/brass rules instead of
+introducing a parallel navigation abstraction.
+
+Verification:
+
+- focused Oxlint: PASS;
+- Prettier and `git diff --check`: PASS;
+- web TypeScript: PASS;
+- production export: PASS, with existing bundle-size warnings;
+- client commit `80b823b95`: pushed to the fork branch;
+- production Pages deployment `d15a243a`: PASS;
+- ChatGPT in-app browser Home route: PASS; one selected tab, explicit
+  `aria-selected`, brass marker, no alert;
+- ChatGPT in-app browser profile route: PASS; one selected tab, explicit
+  `aria-selected`, brass marker, no alert.
+
+The remaining external authority/evidence gates are unchanged.
