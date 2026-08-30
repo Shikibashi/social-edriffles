@@ -1035,6 +1035,61 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 53: Make custom-feed pages seamful
+
+### Implementation
+
+The primary custom-feed route now uses the ECW workbench shell in its loading,
+error, and resolved states. The desktop inspector has a dedicated Custom feed
+context that identifies the feed generator and selected read provider, the
+generator ordering and local feed policy, and the existing Services path for
+inspection, comparison, or provider change. The existing feed provenance card,
+local curation, filtering, query, and mutation behavior remain unchanged.
+
+### Authority boundary
+
+Before this iteration, the feed itself could expose provenance inside the
+workspace, but the desktop shell treated the route as a generic page. After it,
+the page-level context makes the feed's provider and ordering rule visible at
+the same boundary as its content, while keeping the feed generator, read
+provider, and user policy as separate responsibilities. This is not a new
+multi-provider query implementation and does not elevate the bundled provider
+to network-wide authority.
+
+### Verification record
+
+- changed-file Prettier: PASS;
+- changed-file Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, OAuth-scope, and post-quotes
+  tests: PASS, 5 suites and 48 tests;
+- Lingui extraction and compile: PASS; the English source catalog contains
+  3828 messages;
+- staged diff check: PASS;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `234d257a1` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.ecd38861.js`; existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- Pages deployment: PASS; deployment `fdad3f9d` at
+  `https://fdad3f9d.social-edriffles.pages.dev`;
+- signed-out preview inspection: PASS; the Pages preview rendered Discover,
+  Sign in, and Create account without a Not Found or Oops state;
+- signed-in ChatGPT in-app-browser inspection: PASS; the deployed custom-feed
+  route showed the Custom feed inspector with Feed generator and selected read
+  provider, Generator ordering and local feed policy, and the feed-provider
+  control. Its feed-liked-by route showed the Feed liked by inspector. The
+  canonical Following root and composer also loaded without a Not Found or
+  Oops state, and the browser was restored to the canonical root.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 52: Align post engagement relationship views with the workbench
 
 ### Implementation
