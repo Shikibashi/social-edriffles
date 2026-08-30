@@ -5,8 +5,8 @@ interface __BaseEnv_Env {
 	WEB_ORIGIN: "https://social-edriffles.pages.dev";
 	PDS_ORIGIN: "https://pds.edriffles.us";
 	APPVIEW_ORIGIN: "https://api.bsky.app";
-	PUBLIC_HOST: "radlib.edriffles.us";
-	PDS_PUBLIC_HOST: "pds.edriffles.us";
+	PUBLIC_HOST: "plumblines.uk";
+	PDS_PUBLIC_HOST: "plumblines.uk";
 }
 declare namespace Cloudflare {
 	interface GlobalProps {
@@ -16,15 +16,15 @@ declare namespace Cloudflare {
 		WEB_ORIGIN: "https://social-edriffles.pages.dev";
 		PDS_ORIGIN: "https://pds.edriffles.us";
 		APPVIEW_ORIGIN: "https://api.bsky.app";
-		PUBLIC_HOST: "radlib.edriffles.us";
-		PDS_PUBLIC_HOST: "pds.edriffles.us";
+		PUBLIC_HOST: "plumblines.uk";
+		PDS_PUBLIC_HOST: "plumblines.uk";
 	}
 	interface ProductionEnv {
 		WEB_ORIGIN: "https://social-edriffles.pages.dev";
 		PDS_ORIGIN: "https://pds.edriffles.us";
 		APPVIEW_ORIGIN: "https://api.bsky.app";
-		PUBLIC_HOST: "radlib.edriffles.us";
-		PDS_PUBLIC_HOST: "pds.edriffles.us";
+		PUBLIC_HOST: "plumblines.uk";
+		PDS_PUBLIC_HOST: "plumblines.uk";
 	}
 	interface Env extends __BaseEnv_Env {}
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a credential-free, read-only probe of the Social/Radlib public contract.
+"""Run a credential-free, read-only probe of the Plumbline public contract.
 
 This probe deliberately does not log in, mint credentials, send authorization
 headers, or write to any service. It distinguishes a valid public endpoint from
@@ -25,9 +25,9 @@ from urllib.parse import quote, urlencode, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_ORIGIN = "https://social.edriffles.us"
+PUBLIC_ORIGIN = "https://plumblines.uk"
 PDS_ORIGIN = "https://pds.edriffles.us"
-OAUTH_ORIGIN = "https://radlib.edriffles.us"
+OAUTH_ORIGIN = "https://plumblines.uk"
 LEXICON_AUTHORITY_NAME = "_lexicon.radlib.edriffles.us"
 LEXICON_AUTHORITY_RESOLVERS = ("1.1.1.1", "8.8.8.8", "9.9.9.9")
 AUTHORITY_DID_FALLBACK = "did:plc:cndgd3x3zxqmuv6rm3lsjhjm"
@@ -133,12 +133,14 @@ def is_https_url(value: Any, *, no_port: bool = False) -> bool:
     )
 
 
-def is_native_callback(value: Any) -> bool:
-    return (
-        isinstance(value, str)
-        and value.startswith("us.edriffles.social:/")
-        and " " not in value
-    )
+def is_native_callback(value: Any, client_id: Any) -> bool:
+    if not isinstance(value, str) or not isinstance(client_id, str):
+        return False
+    parsed = urlparse(client_id)
+    if not parsed.hostname or parsed.scheme != "https":
+        return False
+    reverse_dns_scheme = ".".join(reversed(parsed.hostname.split(".")))
+    return value.startswith(f"{reverse_dns_scheme}:/") and " " not in value
 
 
 def metadata_probe(timeout: float) -> dict[str, Any]:
@@ -171,7 +173,10 @@ def metadata_probe(timeout: float) -> dict[str, Any]:
         "webCallback": isinstance(redirect_uris, list)
         and f"{PUBLIC_ORIGIN}/oauth/callback" in redirect_uris,
         "nativeCallback": isinstance(redirect_uris, list)
-        and any(is_native_callback(item) for item in redirect_uris),
+        and any(
+            is_native_callback(item, live.get("client_id"))
+            for item in redirect_uris
+        ),
     }
     contract_passed = all(required_contract.values())
     matches_local = live == expected
@@ -204,7 +209,7 @@ def protected_resource_probe(timeout: float) -> dict[str, Any]:
     checks = {
         "http200": response.status == 200,
         "resource": payload.get("resource") == PDS_ORIGIN,
-        "radlibIssuer": isinstance(auth_servers, list) and OAUTH_ORIGIN in auth_servers,
+        "oauthIssuer": isinstance(auth_servers, list) and OAUTH_ORIGIN in auth_servers,
         "headerBearer": isinstance(bearer_methods, list) and "header" in bearer_methods,
     }
     return {

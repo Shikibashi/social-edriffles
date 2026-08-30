@@ -34,12 +34,12 @@ const CALLBACK_ORIGIN =
   process.env.RADLIB_OAUTH_CALLBACK_URL ??
   (LOCAL_MODE
     ? "http://127.0.0.1:2595/oauth/callback"
-    : "https://social.edriffles.us/oauth/callback");
+    : "https://plumblines.uk/oauth/callback");
 const CLIENT_ID =
   process.env.RADLIB_OAUTH_CLIENT_ID ??
   (LOCAL_MODE
     ? `http://localhost?redirect_uri=${encodeURIComponent(CALLBACK_ORIGIN)}`
-    : "https://social.edriffles.us/oauth-client-metadata.json");
+    : "https://plumblines.uk/oauth-client-metadata.json");
 const HANDLE_DOMAIN = (
   process.env.RADLIB_DISPOSABLE_HANDLE_DOMAIN ?? "radlib.edriffles.us"
 ).replace(/^\./, "");
@@ -51,7 +51,7 @@ const EXPECTED_ISSUER =
         url.hostname = "localhost";
         return url.origin;
       })()
-    : "https://radlib.edriffles.us");
+    : "https://plumblines.uk");
 const OUTPUT_PATH = process.env.RADLIB_PUBLIC_OAUTH_RECEIPT ?? "";
 const SOURCE_REVISION = process.env.RADLIB_SOURCE_REVISION ?? "unknown";
 const SOURCE_DIGEST = process.env.RADLIB_SOURCE_DIGEST ?? "unknown";
@@ -701,7 +701,7 @@ const receiptBindings = () => ({
       : "disposable-public-alpha/staging",
   origins: LOCAL_MODE
     ? [PDS_ORIGIN, CALLBACK_ORIGIN]
-    : ["https://social.edriffles.us", PDS_ORIGIN, EXPECTED_ISSUER],
+    : ["https://plumblines.uk", PDS_ORIGIN, EXPECTED_ISSUER],
   sourceWorkingTreeDigest: SOURCE_DIGEST,
   testedAt: TESTED_AT,
   testedSourceRevision: SOURCE_REVISION,

@@ -12,8 +12,8 @@
     "WEB_ORIGIN": "https://social-edriffles.pages.dev",
     "PDS_ORIGIN": "https://pds.edriffles.us",
     "APPVIEW_ORIGIN": "https://api.bsky.app",
-    "PUBLIC_HOST": "radlib.edriffles.us",
-    "PDS_PUBLIC_HOST": "pds.edriffles.us"
+    "PUBLIC_HOST": "plumblines.uk",
+    "PDS_PUBLIC_HOST": "plumblines.uk"
   },
   "env": {
     "staging": {
@@ -25,8 +25,8 @@
         "WEB_ORIGIN": "https://social-edriffles.pages.dev",
         "PDS_ORIGIN": "https://pds.edriffles.us",
         "APPVIEW_ORIGIN": "https://api.bsky.app",
-        "PUBLIC_HOST": "radlib.edriffles.us",
-        "PDS_PUBLIC_HOST": "pds.edriffles.us"
+        "PUBLIC_HOST": "plumblines.uk",
+        "PDS_PUBLIC_HOST": "plumblines.uk"
       }
     },
     "production": {
@@ -42,8 +42,8 @@
         "WEB_ORIGIN": "https://social-edriffles.pages.dev",
         "PDS_ORIGIN": "https://pds.edriffles.us",
         "APPVIEW_ORIGIN": "https://api.bsky.app",
-        "PUBLIC_HOST": "radlib.edriffles.us",
-        "PDS_PUBLIC_HOST": "pds.edriffles.us"
+        "PUBLIC_HOST": "plumblines.uk",
+        "PDS_PUBLIC_HOST": "plumblines.uk"
       },
       "routes": [
         {
@@ -53,6 +53,10 @@
         {
           "pattern": "social.edriffles.us/*",
           "zone_name": "edriffles.us"
+        },
+        {
+          "pattern": "plumblines.uk",
+          "custom_domain": true
         },
         {
           "pattern": "pds.edriffles.us/*",

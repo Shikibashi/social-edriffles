@@ -7,14 +7,27 @@ import {
   postAtUri,
   renderPostMetadata,
 } from "./post-metadata.ts";
-import edge, { protectedResourceMetadataForHost } from "./index.ts";
+import edge, {
+  protectedResourceMetadataForHost,
+  redirectLegacyPublicHost,
+} from "./index.ts";
 
-test("keeps public PDS resource aliases bound to the Radlib issuer", () => {
+test("keeps public PDS resource aliases bound to the Plumbline issuer", () => {
+  assert.deepEqual(
+    protectedResourceMetadataForHost("plumblines.uk"),
+    {
+      resource: "https://plumblines.uk",
+      authorization_servers: ["https://plumblines.uk"],
+      scopes_supported: [],
+      bearer_methods_supported: ["header"],
+      resource_documentation: "https://atproto.com",
+    },
+  );
   assert.deepEqual(
     protectedResourceMetadataForHost("social.edriffles.us"),
     {
       resource: "https://social.edriffles.us",
-      authorization_servers: ["https://radlib.edriffles.us"],
+      authorization_servers: ["https://plumblines.uk"],
       scopes_supported: [],
       bearer_methods_supported: ["header"],
       resource_documentation: "https://atproto.com",
@@ -24,7 +37,7 @@ test("keeps public PDS resource aliases bound to the Radlib issuer", () => {
     protectedResourceMetadataForHost("PDS.EDRIFFLES.US"),
     {
       resource: "https://pds.edriffles.us",
-      authorization_servers: ["https://radlib.edriffles.us"],
+      authorization_servers: ["https://plumblines.uk"],
       scopes_supported: [],
       bearer_methods_supported: ["header"],
       resource_documentation: "https://atproto.com",
@@ -36,12 +49,32 @@ test("keeps public PDS resource aliases bound to the Radlib issuer", () => {
   );
 });
 
+test("redirects legacy web hosts to the canonical Plumbline origin", () => {
+  for (const hostname of ["social.edriffles.us", "radlib.edriffles.us"]) {
+    const response = redirectLegacyPublicHost(
+      new URL(`https://${hostname}/profile/author.example?tab=posts`),
+    );
+    assert.equal(response?.status, 308);
+    assert.equal(
+      response?.headers.get("location"),
+      "https://plumblines.uk/profile/author.example?tab=posts",
+    );
+  }
+
+  assert.equal(
+    redirectLegacyPublicHost(
+      new URL("https://radlib.edriffles.us/oauth/authorize"),
+    ),
+    undefined,
+  );
+});
+
 test("serves alias metadata and augments issuer metadata on every public host", async () => {
   const env = {
     WEB_ORIGIN: "https://social-edriffles.pages.dev",
     PDS_ORIGIN: "https://pds.edriffles.us",
-    PUBLIC_HOST: "radlib.edriffles.us",
-    PDS_PUBLIC_HOST: "pds.edriffles.us",
+    PUBLIC_HOST: "plumblines.uk",
+    PDS_PUBLIC_HOST: "plumblines.uk",
     APPVIEW_ORIGIN: "https://api.bsky.app",
   } as never;
   const originalFetch = globalThis.fetch;
@@ -52,8 +85,8 @@ test("serves alias metadata and augments issuer metadata on every public host", 
     );
     return new Response(
       JSON.stringify({
-        issuer: "https://radlib.edriffles.us",
-        protected_resources: ["https://radlib.edriffles.us"],
+        issuer: "https://plumblines.uk",
+        protected_resources: ["https://plumblines.uk"],
       }),
       { status: 200, headers: { "content-type": "application/json" } },
     );
@@ -62,16 +95,17 @@ test("serves alias metadata and augments issuer metadata on every public host", 
   try {
     const protectedResourceResponse = await edge.fetch(
       new Request(
-        "https://social.edriffles.us/.well-known/oauth-protected-resource",
+        "https://plumblines.uk/.well-known/oauth-protected-resource",
       ),
       env,
     );
     assert.deepEqual(
       await protectedResourceResponse.json(),
-      protectedResourceMetadataForHost("social.edriffles.us"),
+      protectedResourceMetadataForHost("plumblines.uk"),
     );
 
     for (const hostname of [
+      "plumblines.uk",
       "social.edriffles.us",
       "radlib.edriffles.us",
       "pds.edriffles.us",
@@ -83,9 +117,9 @@ test("serves alias metadata and augments issuer metadata on every public host", 
         env,
       );
       assert.deepEqual(await authorizationServerResponse.json(), {
-        issuer: "https://radlib.edriffles.us",
+        issuer: "https://plumblines.uk",
         protected_resources: [
-          "https://radlib.edriffles.us",
+          "https://plumblines.uk",
           "https://social.edriffles.us",
           "https://pds.edriffles.us",
         ],
@@ -100,8 +134,8 @@ test("bypasses the edge cache for browser OAuth client metadata", async () => {
   const env = {
     WEB_ORIGIN: "https://social-edriffles.pages.dev",
     PDS_ORIGIN: "https://pds.edriffles.us",
-    PUBLIC_HOST: "radlib.edriffles.us",
-    PDS_PUBLIC_HOST: "pds.edriffles.us",
+    PUBLIC_HOST: "plumblines.uk",
+    PDS_PUBLIC_HOST: "plumblines.uk",
   } as never;
   const originalFetch = globalThis.fetch;
   let fetchInit: RequestInit | undefined;
@@ -124,7 +158,7 @@ test("bypasses the edge cache for browser OAuth client metadata", async () => {
   try {
     const response = await edge.fetch(
       new Request(
-        "https://social.edriffles.us/oauth-client-metadata.json",
+        "https://plumblines.uk/oauth-client-metadata.json",
       ),
       env,
     );
@@ -144,8 +178,8 @@ test("passes PDS websocket upgrades through without wrapping the response", asyn
   const env = {
     WEB_ORIGIN: "https://social-edriffles.pages.dev",
     PDS_ORIGIN: "https://pds.edriffles.us",
-    PUBLIC_HOST: "radlib.edriffles.us",
-    PDS_PUBLIC_HOST: "pds.edriffles.us",
+    PUBLIC_HOST: "plumblines.uk",
+    PDS_PUBLIC_HOST: "plumblines.uk",
   } as never;
   const upstream = {
     status: 101,
@@ -173,6 +207,41 @@ test("passes PDS websocket upgrades through without wrapping the response", asyn
       env,
     );
     assert.equal(response, upstream);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("preserves the requested PDS alias for DPoP URL verification", async () => {
+  const env = {
+    WEB_ORIGIN: "https://social-edriffles.pages.dev",
+    PDS_ORIGIN: "https://pds.edriffles.us",
+    PUBLIC_HOST: "plumblines.uk",
+    PDS_PUBLIC_HOST: "plumblines.uk",
+  } as never;
+  const originalFetch = globalThis.fetch;
+  const forwardedHosts: string[] = [];
+  globalThis.fetch = async (input) => {
+    const request = new Request(input);
+    forwardedHosts.push(request.headers.get("x-forwarded-host") ?? "");
+    return new Response("ok", { status: 200 });
+  };
+
+  try {
+    await edge.fetch(
+      new Request(
+        "https://pds.edriffles.us/xrpc/com.atproto.server.getSession",
+      ),
+      env,
+    );
+    await edge.fetch(
+      new Request(
+        "https://plumblines.uk/xrpc/com.atproto.server.getSession",
+      ),
+      env,
+    );
+
+    assert.deepEqual(forwardedHosts, ["pds.edriffles.us", "plumblines.uk"]);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -229,7 +298,7 @@ test("parses canonical post routes and safely rejects path injection", () => {
   assert.equal(parsePostRoute("/profile/author.example/followers"), undefined);
 });
 
-test("resolves a public post into Edriffles preview metadata", async () => {
+test("resolves a public post into Plumbline preview metadata", async () => {
   let requestedUrl = "";
   const metadata = await fetchPostMetadata(
     { identifier: "author.example", rkey: "3mtyxt7qj622a" },
@@ -293,7 +362,7 @@ test("does not expose protected post content or media", async () => {
 
 test("rewrites the generic SPA shell with rich post metadata", () => {
   const shell =
-    '<html><head><title>Edriffles</title><meta name="description" content="generic"></head><body></body></html>';
+    '<html><head><title>Plumbline</title><meta name="description" content="generic"></head><body></body></html>';
   const metadata = {
     atUri: "at://did:plc:author/app.bsky.feed.post/3mtyxt7qj622a",
     title: "Author Example (@author.example)",
@@ -311,12 +380,12 @@ test("rewrites the generic SPA shell with rich post metadata", () => {
   const html = renderPostMetadata(
     shell,
     metadata,
-    "https://social.edriffles.us/profile/author.example/post/3mtyxt7qj622a",
+    "https://plumblines.uk/profile/author.example/post/3mtyxt7qj622a",
   );
 
   assert.match(
     html,
-    /<title>Author Example \(@author\.example\) \| Edriffles<\/title>/,
+    /<title>Author Example \(@author\.example\) \| Plumbline<\/title>/,
   );
   assert.match(
     html,

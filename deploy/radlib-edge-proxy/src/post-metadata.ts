@@ -239,7 +239,7 @@ function buildPostMetadata(post: JsonObject): PostMetadata | undefined {
   return {
     atUri,
     title,
-    description: text ?? `Post by @${authorHandle} on Edriffles`,
+    description: text ?? `Post by @${authorHandle} on Plumbline`,
     authorHandle,
     authorDid,
     postedAt: asString(post.indexedAt) ?? asString(record?.createdAt),
@@ -309,7 +309,7 @@ function removeCanonicalLinks(html: string): string {
 function metadataBlock(metadata: PostMetadata, canonicalUrl: string): string {
   const lines = [
     "<!-- EDRIFFLES_POST_METADATA -->",
-    '<meta property="og:site_name" content="Edriffles">',
+    '<meta property="og:site_name" content="Plumbline">',
     '<meta property="og:type" content="article">',
     `<meta property="profile:username" content="${escapeHtml(metadata.authorHandle)}">`,
     `<meta property="og:url" content="${escapeHtml(canonicalUrl)}">`,
@@ -384,7 +384,7 @@ export function renderPostMetadata(
   );
   updated = updated.replace(
     /<title\b[^>]*>[\s\S]*?<\/title>/i,
-    `<title>${escapeHtml(metadata.title)} | Edriffles</title>`,
+    `<title>${escapeHtml(metadata.title)} | Plumbline</title>`,
   );
   updated = removeMetaTags(updated, [
     "description",

@@ -14,17 +14,21 @@ const PDS_EXACT_PATHS = new Set([
 ])
 
 const OAUTH_PROVIDER_PATH_PREFIX = '/@atproto/oauth-provider/'
-const CANONICAL_PUBLIC_HOST = 'social.edriffles.us'
-const LEGACY_PUBLIC_HOST = 'radlib.edriffles.us'
-const OAUTH_ISSUER_HOST = 'radlib.edriffles.us'
+const CANONICAL_PUBLIC_HOST = 'plumblines.uk'
+const LEGACY_WEB_HOST = 'social.edriffles.us'
+const LEGACY_OAUTH_HOST = 'radlib.edriffles.us'
+const OAUTH_ISSUER_HOST = CANONICAL_PUBLIC_HOST
 const LEGACY_PDS_HOST = 'pds.edriffles.us'
 const CANONICAL_PUBLIC_ORIGIN = `https://${CANONICAL_PUBLIC_HOST}`
+const LEGACY_WEB_ORIGIN = `https://${LEGACY_WEB_HOST}`
 const OAUTH_ISSUER_ORIGIN = `https://${OAUTH_ISSUER_HOST}`
 const LEGACY_PDS_ORIGIN = `https://${LEGACY_PDS_HOST}`
 const DEFAULT_APPVIEW_ORIGIN = 'https://api.bsky.app'
+const LEGACY_PUBLIC_HOSTS = new Set([LEGACY_WEB_HOST, LEGACY_OAUTH_HOST])
 const PUBLIC_PROTOCOL_HOSTS = new Set([
   CANONICAL_PUBLIC_HOST,
-  OAUTH_ISSUER_HOST,
+  LEGACY_WEB_HOST,
+  LEGACY_OAUTH_HOST,
   LEGACY_PDS_HOST,
 ])
 
@@ -46,15 +50,28 @@ type ProxyOptions = {
 
 /**
  * Select the public origin the upstream PDS should use for URL-bound auth.
- * OAuth issuer routes remain Radlib; account/PDS resource routes remain on the
- * owner's pds.edriffles.us endpoint.
+ * The canonical web, OAuth issuer, and PDS routes are all plumblines.uk;
+ * pds.edriffles.us remains an owner-DID compatibility alias.
  */
 function upstreamPublicHost(incomingUrl: URL, env: Env): string {
   if (
     isPdsPath(incomingUrl.pathname) &&
-    incomingUrl.hostname !== OAUTH_ISSUER_HOST &&
     incomingUrl.pathname !== '/.well-known/did.json'
   ) {
+    /*
+     * DPoP signs the public URL that the OAuth client actually requests. The
+     * PDS uses this forwarded host to reconstruct the URL before verifying
+     * that proof. Preserve a known protocol alias (especially the
+     * owner-declared pds.edriffles.us endpoint) instead of rewriting every
+     * request to the canonical host. Rewriting an alias makes an otherwise
+     * valid proof fail with HTTP 401 during the first getSession call.
+     *
+     * Unknown worker/custom-domain hosts still use the configured canonical
+     * PDS host; they are not allowed to become trusted forwarded hosts.
+     */
+    if (PUBLIC_PROTOCOL_HOSTS.has(incomingUrl.hostname)) {
+      return incomingUrl.hostname
+    }
     return env.PDS_PUBLIC_HOST
   }
   return env.PUBLIC_HOST
@@ -62,12 +79,13 @@ function upstreamPublicHost(incomingUrl: URL, env: Env): string {
 
 /**
  * Keep the former public URL usable as a compatibility entry point while the
- * user-facing OAuth client and callback live on social.edriffles.us. Protocol
- * paths remain on radlib.edriffles.us because that is the configured PDS/OAuth
- * issuer; web paths redirect to the user-facing origin.
+ * user-facing web client, OAuth issuer, and callback live on plumblines.uk.
+ * The former social and radlib hosts remain compatibility entry points; web
+ * paths redirect to the user-facing origin while protocol paths are proxied to
+ * the canonical PDS host.
  */
 export function redirectLegacyPublicHost(incomingUrl: URL): Response | undefined {
-  if (incomingUrl.hostname !== LEGACY_PUBLIC_HOST) return
+  if (!LEGACY_PUBLIC_HOSTS.has(incomingUrl.hostname)) return
   if (isPdsPath(incomingUrl.pathname)) return
 
   const target = new URL(incomingUrl.toString())
@@ -111,9 +129,8 @@ export function isPdsPath(pathname: string): boolean {
 
 /**
  * The owner's existing PLC DID still declares pds.edriffles.us as its PDS.
- * Keep that identity declaration usable while also allowing the user-facing
- * web origin to be used as a protocol alias. The authorization server remains
- * radlib.edriffles.us, the configured PDS OAuth issuer.
+ * Keep that identity declaration usable while moving the canonical web and
+ * OAuth/PDS authority to plumblines.uk.
  */
 export function protectedResourceMetadataForHost(
   hostname: string,
@@ -122,7 +139,9 @@ export function protectedResourceMetadataForHost(
   const resource =
     normalizedHostname === CANONICAL_PUBLIC_HOST
       ? CANONICAL_PUBLIC_ORIGIN
-      : normalizedHostname === LEGACY_PDS_HOST
+      : normalizedHostname === LEGACY_WEB_HOST
+        ? LEGACY_WEB_ORIGIN
+        : normalizedHostname === LEGACY_PDS_HOST
         ? LEGACY_PDS_ORIGIN
         : undefined
 
@@ -184,6 +203,7 @@ async function proxyAuthorizationServerMetadata(
   }
   const protectedResources = new Set(metadata.protected_resources ?? [])
   protectedResources.add(CANONICAL_PUBLIC_ORIGIN)
+  protectedResources.add(LEGACY_WEB_ORIGIN)
   protectedResources.add(OAUTH_ISSUER_ORIGIN)
   protectedResources.add(LEGACY_PDS_ORIGIN)
 
