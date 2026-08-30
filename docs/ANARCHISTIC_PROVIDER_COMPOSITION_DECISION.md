@@ -342,7 +342,47 @@ This is a destination and classification change only. ATProto collection
 names, external provider URLs, account-PDS writes, and legacy reference-link
 compatibility remain unchanged.
 
-## 14. Remaining concentrations worth attacking next
+## 14. Iteration 7 — inspectable account-PDS profile media
+
+The owner-profile path already kept the account PDS authoritative for avatar
+and banner blob references, but that authority was not visible in the UI. The
+client now carries typed media provenance beside the owner profile, retains
+the direct `com.atproto.sync.getBlob` delivery path, and exposes a progressive
+profile inspector for the PDS endpoint, record owner, protocol method, and
+blob CIDs. This makes the existing boundary contestable without inventing a
+second media authority or promoting a CDN URL to record ownership.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/lib/api/account-profile.ts` owns CID extraction,
+  safe HTTP(S) PDS-origin normalization, direct blob URL derivation, and
+  `AccountProfileMediaProvenance`.
+- `upstream/social-app/src/components/MediaDeliveryProvenance.tsx` and
+  `upstream/social-app/src/view/screens/Profile.tsx` expose the source only
+  when owner-PDS media evidence exists. The expanded view states that an
+  AppView or CDN can be a cached delivery view but cannot replace the account
+  profile record.
+- `upstream/social-app/src/lib/api/account-profile.test.ts` passes all 6
+  focused tests, including valid provenance and missing-endpoint/blob refusal.
+  Web TypeScript, targeted Oxlint, Prettier, and whitespace checks pass.
+- Client commit `0774e978e` is pushed to
+  `fork/codex/spaces-alpha-integration`; the root gitlink is advanced only
+  after this client commit is integrated below.
+- Wrangler deployed the exact export at
+  `https://22c77414.social-edriffles.pages.dev`; the preview and canonical
+  `https://plumblines.uk/` serve the Plumbline title, mark, and
+  `main.40c760a2.js` bundle.
+- The credential-free public-contract probe passed at
+  `2026-08-30T09:06:34.065473Z` with no credentials and no writes. The
+  connected ChatGPT in-app browser loaded the canonical public shell, feed
+  content, media, and provenance controls; it was not used for signed-in
+  mutations.
+
+The slice does not claim general media-provider plurality. Non-owner profile
+media remains the existing public AppView/CDN view until a safe, verified PDS
+endpoint can be derived without sending account credentials to public readers.
+
+## 15. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
