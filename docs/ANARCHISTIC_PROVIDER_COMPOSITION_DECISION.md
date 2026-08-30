@@ -448,7 +448,40 @@ The browser smoke check does not claim that an authenticated provider switch
 was performed. It verifies the deployed route shell; authenticated selection
 remains guarded by the existing session and provider availability checks.
 
-## 17. Remaining concentrations worth attacking next
+## 17. Iteration 10 — make identity exit utilities first-class
+
+The Identity & recovery workbench now exposes the existing exit utilities at
+the same boundary as DID, PDS, recovery, and session state. It reuses the
+repository/chat export dialog and links to the existing portable policy backup
+controls rather than introducing duplicate state or a second exporter. The
+migration status remains honest: an unavailable upstream migration API is not
+presented as a completed migration workflow.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/screens/Settings/IdentitySovereigntySettings.tsx`
+  adds an Exit utilities group with repository/chat export and a route to
+  portable policy backup, import, and reset controls.
+- The existing CAR / JSONL exporter remains the implementation boundary and
+  keeps credentials excluded; the existing Personalization workbench remains
+  the policy backup boundary.
+- Client commits `688a0e2d0` and `7ff0c06fe` were pushed to
+  `fork/codex/spaces-alpha-integration`.
+- Targeted Oxlint, Prettier, whitespace validation, web TypeScript, and the
+  focused provider/identity/PLC-custody/OAuth suite pass (33 tests).
+- Wrangler deployed the exact export at
+  `https://d7bbfe2a.social-edriffles.pages.dev`; the preview and canonical
+  `https://plumblines.uk/` return HTTP 200, the Plumbline title, and
+  `main.0e1bc6c1.js`.
+- The credential-free ChatGPT in-app-browser smoke check loaded the canonical
+  shell with Plumbline branding and feed tabs and without an error state. No
+  credentials were read and no mutation was performed.
+
+This makes export and portable policy controls directly discoverable from the
+identity boundary. It does not claim that an authenticated export was run in
+the browser or that PDS migration is available when the upstream API is not.
+
+## 18. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
