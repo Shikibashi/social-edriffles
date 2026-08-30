@@ -1128,3 +1128,69 @@ may lag, so the UI separates submitted state from verified directory evidence.
 The next remaining concentrations are the PDS-controlled bootstrap email,
 the unresolved external PLC operator-independence gate, and the still-open
 Relay/AppView and short-TTL OAuth evidence gates.
+
+## 31. Iteration 24 — make the Plumbline shell's current route inspectable
+
+The route controls in the web shell still inherited generic pill geometry and
+left selection state largely implicit. That presentation seam mattered because
+the workbench is the user's first boundary for understanding which surface is
+active and which controls belong to it.
+
+### Residual authority concentration
+
+The issue was not a new network authority. It was a local interface default
+that made the client's own active-route state harder to inspect. The shell
+presented the route as an inherited social-app convention instead of a
+contestable, visible workbench state.
+
+### Ecosystem precedent and chosen architectural change
+
+The change applies the existing Plumbline `DESIGN.md` and ECW workbench
+precedent at the shared navigation seam. The selected desktop route now has a
+theme-aware vertical alignment rule and a small Plumbline brass bob, while the
+interactive element carries `accessibilityState.selected`. Web navigation and
+compose controls use the existing square one-pixel web geometry. The marker is
+presentation-only and pointer-transparent; route URLs and navigation behavior
+remain unchanged.
+
+### Authority before versus after
+
+| Boundary | Before iteration 24 | After iteration 24 |
+| --- | --- | --- |
+| Active route | Mostly implicit through inherited pill styling, color, and text weight. | Explicit through the existing route calculation, accessibility-selected state, and a visible alignment marker. |
+| Shell control geometry | Generic rounded web controls were used for route and compose controls. | Plumbline square geometry is applied to those web controls; semantic avatar and count shapes are preserved. |
+| Identity accent | Brass values were repeated in the brand mark. | `PLUMBLINE_BRASS` is a shared token for the brand mark and route marker; semantic warning/success colors remain separate. |
+
+### Interoperability and security tradeoffs
+
+This is a presentation-only extension at the existing shell boundary. It adds
+no provider, resolver, permission, route, storage, or protocol authority and
+does not change native layout behavior. The decorative marker is hidden from
+assistive technology, while selection remains on the control. Browser links,
+focus, target size, hover behavior, and reduced-motion behavior are retained.
+
+### Implementation evidence
+
+- `upstream/social-app/src/view/shell/PlumblineSelectionMarker.tsx` owns the
+  reusable alignment geometry.
+- `upstream/social-app/src/view/shell/desktop/LeftNav.tsx` applies selection,
+  stable test IDs, square web geometry, and unchanged route links.
+- `upstream/social-app/src/lib/brand.ts` and
+  `upstream/social-app/src/view/icons/PlumblineBrandMark.tsx` centralize the
+  Plumbline brass identity token.
+
+### Verification
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Touched-file lint | PASS | Oxlint passed on the four changed client files |
+| Formatting and whitespace | PASS | Prettier check and `git diff --check` |
+| Web TypeScript | PASS | `pnpm run typecheck:web` |
+| Focused test | PASS | Brand test — 3 tests |
+| Production export | PASS | `EXPO_PUBLIC_ENV=production pnpm run build-web` |
+| Production Pages upload | PASS | `https://151da74a.social-edriffles.pages.dev`, source `e330ff0` |
+| Canonical browser inspection | PASS | `https://plumblines.uk/?deployment=151da74a` rendered the Plumbline shell, feed provenance, square 1px route controls, Home marker, 48px targets, and no alert |
+| Narrow browser inspection | NOT RUN | Persistent in-app browser connector exposes no viewport-resize control |
+
+The update reduces presentation ambiguity without claiming closure of the
+external Relay/AppView, short-TTL OAuth, or independent-PLC-operator gates.
