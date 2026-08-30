@@ -465,58 +465,6 @@ in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
 
-## Iteration 37: Search provider composition for People and Feeds
-
-### Research and implementation
-
-Post search already retained provider observations, but the People and Feeds
-tabs still used an implicit AppView path and did not expose which provider
-answered or failed. The current `app.bsky.actor.searchActors` Lexicon defines
-an unauthenticated query with cursor pagination, while the existing
-`composeAppViewProviderRead` boundary already supplies attributable provider
-observations and reconciliation policy. The implementation reuses that
-boundary rather than introducing a second provider registry.
-
-Actor search now uses the public `profiles` composition surface, keeps its
-page cursor and provider receipt through deduplication, and adds a focused
-regression test. Popular feed search retains its existing account-scoped
-provider boundary while preserving its composition receipt. The People and
-Feeds result and error states now render the shared provider-provenance
-inspector, including cleaned provider errors.
-
-### Authority boundary
-
-Public actor search does not fan out account credentials. Feed-generator
-search keeps the existing account-scoped provider factory because that is the
-current project contract. The change adds source visibility and preserves
-pagination; it does not add write authority, alter OAuth grants, or make a
-built-in AppView constitutionally authoritative.
-
-### Verification record
-
-- changed-file Oxlint: PASS;
-- changed-file Prettier check: PASS;
-- web TypeScript: PASS;
-- focused regression tests: PASS, 5 suites and 25 tests;
-- production web export: PASS with Node `v24.19.0`; existing bundle-size
-  warnings remain;
-- nested client commit: PASS; `4efa4f472` pushed to
-  `fork/codex/spaces-alpha-integration`;
-- Pages deployment: PASS; Production deployment
-  `8263f873` at `https://8263f873.social-edriffles.pages.dev/`, source
-  `4efa4f472`;
-- HTTPS asset verification: PASS; both the deployment URL and
-  `https://plumblines.uk/` returned HTTP 200 and served `main.9f8bf579.js`
-  with the configured security headers;
-- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
-  was unavailable in this runtime and the generic Playwright connector could
-  not initialize because its Chrome distribution was absent.
-
-The nested client still contains the pre-existing newline-only change in
-`oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
-included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
-operator evidence gates remain unresolved.
-
 ## Iteration 35: identity authority and exit-workbench entry point
 
 ### Intent
@@ -595,5 +543,57 @@ asset as that deployment.
 
 The nested client continues to contain the pre-existing newline-only change
 in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
+
+## Iteration 37: Search provider composition for People and Feeds
+
+### Research and implementation
+
+Post search already retained provider observations, but the People and Feeds
+tabs still used an implicit AppView path and did not expose which provider
+answered or failed. The current `app.bsky.actor.searchActors` Lexicon defines
+an unauthenticated query with cursor pagination, while the existing
+`composeAppViewProviderRead` boundary already supplies attributable provider
+observations and reconciliation policy. The implementation reuses that
+boundary rather than introducing a second provider registry.
+
+Actor search now uses the public `profiles` composition surface, keeps its
+page cursor and provider receipt through deduplication, and adds a focused
+regression test. Popular feed search retains its existing account-scoped
+provider boundary while preserving its composition receipt. The People and
+Feeds result and error states now render the shared provider-provenance
+inspector, including cleaned provider errors.
+
+### Authority boundary
+
+Public actor search does not fan out account credentials. Feed-generator
+search keeps the existing account-scoped provider factory because that is the
+current project contract. The change adds source visibility and preserves
+pagination; it does not add write authority, alter OAuth grants, or make a
+built-in AppView constitutionally authoritative.
+
+### Verification record
+
+- changed-file Oxlint: PASS;
+- changed-file Prettier check: PASS;
+- web TypeScript: PASS;
+- focused regression tests: PASS, 5 suites and 25 tests;
+- production web export: PASS with Node `v24.19.0`; existing bundle-size
+  warnings remain;
+- nested client commit: PASS; `4efa4f472` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; Production deployment
+  `8263f873` at `https://8263f873.social-edriffles.pages.dev/`, source
+  `4efa4f472`;
+- HTTPS asset verification: PASS; both the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and served `main.9f8bf579.js`
+  with the configured security headers;
+- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
+  was unavailable in this runtime and the generic Playwright connector could
+  not initialize because its Chrome distribution was absent.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
