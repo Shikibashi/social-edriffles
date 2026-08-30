@@ -1035,6 +1035,63 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 47: Organize Identity & recovery as a Plumbline workbench
+
+### Implementation
+
+The existing Identity & recovery screen already owns the identity, repository
+PDS, read-provider, migration, export, user-held PLC rotation-key, session, and
+authority-map seams. This iteration preserved those operations and reorganized
+the surface into explicit Identity and hosting, Migration and exit, Recovery
+and rotation, Sessions and delegation, and Authority map sections. It added
+structural section rules, localized the visible labels and action affordances,
+and localized the resolver/recovery state summaries without changing provider,
+credential, PDS, or PLC behavior.
+
+### Authority boundary
+
+The screen now presents identity continuity, hosting, portability, recovery,
+and session control as separate inspectable domains. The DID remains the
+identity reference, the PDS remains the repository/session host, the selected
+AppView remains a replaceable read provider, local policy remains portable,
+and the user-held rotation-key flow remains feature-scoped and explicitly
+authorization-gated. Section rules and the brass marker are visual grammar
+only; they grant no authority and do not imply a successful migration or
+resolver claim.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- Lingui extraction and compile: PASS; 3796 source messages after extraction;
+  generated non-English catalog churn was excluded from the scoped commit;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.e1d8ee98.js`; the existing bundle-size warnings remain for the 4.14 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `dd0370919` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `86b96ca9` at
+  `https://86b96ca9.social-edriffles.pages.dev`;
+- final ChatGPT in-app-browser inspection: PASS; canonical
+  `https://plumblines.uk/settings/identity-sovereignty` rendered the Identity
+  & recovery workbench with the Plumbline authority summary, verified
+  `https://pds.edriffles.us` resolver/PDS state, localized identity/hosting,
+  migration/exit, recovery/rotation, sessions/delegation, and authority-map
+  sections, plus the existing Services workbench and portable backup controls.
+  The signed-in inspection used the existing session and performed no account,
+  provider, recovery-key, export, or session mutation.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 46: Align Moderation & Reach with Plumbline grammar
 
 ### Implementation
