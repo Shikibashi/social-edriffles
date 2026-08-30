@@ -187,3 +187,62 @@ Verification:
 - old generic PDS authorization error: absent from the canonical route;
 - repository-wide lint: FAIL (baseline) from unrelated existing diagnostics;
 - Relay/AppView, short-TTL OAuth, and independent-PLC gates remain unresolved.
+
+## Iteration 29: profile media provenance source links
+
+The existing profile-media boundary now makes the authored record and its
+delivery path explicit. The profile inspector localizes its authority summary,
+exposes the account's `app.bsky.actor.profile/self` AT URI, and provides
+browser-native links to the exact avatar and banner `com.atproto.sync.getBlob`
+URLs derived from the record-owned CIDs. This extends the existing account-PDS
+boundary; it does not add a second media-provider authority or change profile
+records.
+
+### Contract applied
+
+- Treat the account PDS profile record as the authority for avatar/banner CIDs.
+- Treat the PDS `getBlob` URL as a derived transport path, not as a second
+  author of the media.
+- Make the record address, endpoint, method, and CIDs selectable in the
+  inspector.
+- Preserve browser-native external links, accessible labels, URL normalization,
+  and direct PDS media loading.
+- Use the existing Plumbline brass token for the source-media alignment marker.
+
+### Implementation evidence
+
+- `upstream/social-app/src/lib/api/account-profile.ts` adds
+  `recordUri` to the existing media provenance value and retains direct PDS
+  blob URL derivation.
+- `upstream/social-app/src/components/MediaDeliveryProvenance.tsx` adds the
+  localized source summary, record URI, and accessible avatar/banner source
+  links.
+- `upstream/social-app/src/lib/api/account-profile.test.ts` covers the new
+  record URI while preserving existing PDS-owned media and unsafe-endpoint
+  cases.
+- `upstream/social-app/src/locale/locales/en/messages.po` contains the
+  extracted English strings.
+
+### Verification record
+
+- focused Oxlint, Prettier, and `git diff --check`: PASS;
+- account-profile Jest suite: PASS, 6 tests;
+- web TypeScript check: PASS;
+- English catalog extraction/compile: PASS, 3321 source messages;
+- production web export: PASS, with existing bundle-size warnings;
+- client code commit `91f7e4314`: pushed to the fork branch;
+- client decision record commit `2bd0816f0`: pushed to the fork branch;
+- Pages deployment: PASS at `https://aad5cdf4.social-edriffles.pages.dev`,
+  uploaded with Node `v24.19.0` after the host's Node `v26.7.0` path was
+  rejected by the repository runtime requirement;
+- ChatGPT in-app browser canonical profile inspection: PASS; the deployed
+  page showed the authority summary, selectable AT URI, source links, and no
+  alert;
+- direct media load: PASS; the deployed avatar and banner PDS images reported
+  complete with non-zero dimensions.
+
+### Remaining boundary
+
+This is a UI/provenance extension only. It does not establish an independent
+media operator, change PDS/AppView routing, add OAuth authority, or close the
+external Relay/AppView, short-TTL OAuth, and independent-PLC evidence gates.
