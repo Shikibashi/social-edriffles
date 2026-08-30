@@ -597,3 +597,68 @@ The nested client still contains the pre-existing newline-only change in
 `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
+
+## Iteration 38: Explicit provider exit and local authority cleanup
+
+### Research and implementation
+
+The Services workbench already allowed a user to register a read provider,
+change its declared capability surfaces, and change reconciliation policy, but
+it did not provide a way to remove a custom provider. That left local provider
+registration and dependent selections, fallbacks, and preferred-provider
+policies behind after a user chose to leave the service. The implementation
+extends the existing provider-store boundary rather than adding another
+registry: `removeAppViewProvider` rejects unknown and bundled providers,
+removes the custom registration, clears selections and per-account fallbacks
+that point to it, resets affected `prefer-provider` policies to
+`require-agreement`, and resets identity-resolution preference when necessary.
+
+The Services inspector now exposes `Remove from device` for custom providers
+with an explicit confirmation explaining that this is local registration
+removal, not remote service deletion or a PDS change. The bundled provider
+remains a named convenience default; its optional surfaces can still be
+revoked or its policy reset. A focused store test proves dependent state
+cleanup, default-provider selection after removal, and bundled-provider
+rejection.
+
+### Authority boundary
+
+Before this change, a user could alter a provider's local capabilities but
+could not fully exit the local registration, and stale local choices could
+continue to influence future reads. After this change, the user can remove a
+custom read provider and its local authority references in one inspectable
+operation. The operation does not delete a remote provider, mutate identity or
+PDS state, widen OAuth, fan out credentials, or change records. It also does
+not silently remove the bundled convenience provider; that provider remains
+explicitly identifiable and subject to surface and policy controls.
+
+This is a genuine local exit boundary, not a second provider architecture.
+The existing provider composition, Services workbench, policy reset, and
+identity-resolution mechanisms remain the contracts used by the feature.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint: PASS with the existing React compiler warnings in the
+  settings effect;
+- focused provider, OAuth, and provider-composition tests: PASS, 4 suites and
+  48 tests;
+- web TypeScript: PASS;
+- production web export: PASS with Node `v24.19.0`; the existing bundle-size
+  warnings remain;
+- nested client commit/push: PASS; `7668c7105` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; Production deployment `37fd33cc` at
+  `https://37fd33cc.social-edriffles.pages.dev/`, source `7668c7105`;
+- HTTPS asset verification: PASS; both the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and served
+  `main.9a50ce99.js` with the configured CSP, frame-ancestor restriction, and
+  `X-Content-Type-Options: nosniff` header;
+- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
+  was unavailable in this runtime and the generic Playwright connector could
+  not initialize because its Chrome distribution was absent.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
