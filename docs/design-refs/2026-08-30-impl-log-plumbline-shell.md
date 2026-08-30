@@ -1035,6 +1035,60 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 51: Align Lists and saved-state surfaces with the Plumbline workbench
+
+### Implementation
+
+The existing Lists, Saved Posts, and Saved Feeds surfaces now opt into the
+ECW workbench mode in both the ordinary and accessibility-aware Saved Feeds
+branches. The shared desktop inspector now identifies each route's existing
+authority boundary: account/list reads for Lists, the bookmark service and
+author repositories for Saved Posts, and the account preference repository
+for Saved Feeds. It exposes the source, local rule, and available control
+without changing list records, bookmarks, feed preferences, provider
+selection, or authorization behavior.
+
+### Authority boundary
+
+The UI no longer presents these collections as unexplained generic pages.
+Their current storage/read boundary and user-controlled action surface are
+visible, while the inspector links back to the existing Services or saved-feed
+controls. This is provenance and progressive seamfulness only; it grants no
+new provider authority and does not claim that a read provider is an identity
+or write authority.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- Lingui extraction and compile: PASS; the English source catalog now contains
+  the new inspector messages so clean builds do not render message IDs;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.04ea34de.js`; the existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client commits/push: PASS; `c69f6be64` added the workbench surface
+  changes and `d67b2e46a` added the English catalog entries, both pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; the first artifact was replaced after browser
+  inspection found missing catalog entries, and corrected deployment `aa7903dd`
+  is available at `https://aa7903dd.social-edriffles.pages.dev`;
+- final ChatGPT in-app-browser inspection: PASS; signed-in canonical Lists,
+  Saved Posts, and Saved Feeds routes rendered their expected titles, visible
+  workbench inspectors, actual English source/rule/control text, navigation,
+  and no Not Found/Oops screen. The separate Pages preview rendered the
+  signed-out Discover shell with public content and sign-in/create-account
+  controls. No account, list, bookmark, feed-preference, or provider mutation
+  was performed.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 48: Align Profile and Post Thread with the Plumbline workbench
 
 ### Implementation
