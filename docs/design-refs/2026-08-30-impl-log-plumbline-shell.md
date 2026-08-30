@@ -798,3 +798,63 @@ the web export.
 The catalog correction commit still excludes the pre-existing newline-only
 change in `oxlint-suppressions.json`. The external Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
+
+## Iteration 41: Expose provider composition on direct custom-feed routes
+
+### Research and implementation
+
+The first feed-composition deployment retained complete provider observations
+through feed API responses, feed-source metadata, paginated feed pages, and
+the shared feed provenance card. A browser inspection of the actual direct
+custom-feed route exposed one remaining integration gap: `CustomFeedScreen`
+used its own `CustomFeedScreenInner` and did not pass `onFeedContext` or the
+full composition result into `ActiveFeedProvenance`. As a result, the route
+could show the selected provider and ranking rule but could not open the
+existing provider-composition inspector.
+
+The route now uses the existing feed-context callback contract and forwards
+provider observations, composition status, operator independence, and the
+complete composition result to `ActiveFeedProvenance`. This is a route wiring
+correction, not a second provider architecture or a change to reconciliation
+semantics.
+
+### Authority boundary
+
+Before this correction, direct custom-feed pages silently dropped provider
+composition evidence at the screen boundary. After it, the same feed source
+inspector is available on direct custom-feed routes, so selected-provider
+claims, agreement state, responding-provider count, and operator-independence
+metadata remain inspectable where the user is viewing the feed. The UI still
+reports the source's declared verification state and does not convert an
+unverified provider into an independent or authoritative source.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint: PASS;
+- focused provider, feed-composition, attention, and actor-search tests:
+  PASS, 4 suites and 30 tests;
+- web TypeScript: PASS;
+- production web export: PASS; generated `main.e5dd1f39.js`; existing bundle
+  size warnings remain for the main and supporting JavaScript assets;
+- nested client follow-up commit/push: PASS; `1f5f3b4cf` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `c39ba8a0` at
+  `https://c39ba8a0.social-edriffles.pages.dev`, source `1f5f3b4cf`;
+- HTTPS delivery: PASS; both the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and referenced
+  `static/js/main.e5dd1f39.js`;
+- final ChatGPT in-app-browser inspection: PASS; after navigation to
+  `https://plumblines.uk/profile/bsky.app/feed/with-friends`, the direct
+  custom-feed route displayed `Show Popular With Friends source details`.
+  Opening it displayed `Rule: Require agreement · State: agreement`,
+  `Claims compared: 1 claim from 1 responding provider`, and the provider
+  observation `Public AT Protocol AppView (external read provider) · ok ·
+  unverified`, along with `Change read provider`. No representational or
+  account actions were taken.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`; root memory/conversation updates and the nested
+PDS worktree remain outside this change. The external Relay/AppView,
+short-TTL OAuth, and independent-PLC operator evidence gates remain
+unresolved.
