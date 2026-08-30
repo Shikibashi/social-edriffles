@@ -283,7 +283,33 @@ This is a presentation and link-boundary change. It does not rename ATProto
 protocol namespaces, external service identifiers, or the provider provenance
 shown when Bluesky is the actual external service.
 
-## 12. Remaining concentrations worth attacking next
+## 12. Iteration 5 — canonical profile invites and starter-pack links
+
+The client now applies the runtime Plumbline origin to profile invite QR and
+share output as well as starter-pack share links. The display and copy paths
+share one canonical generator, while existing reference `bsky.app` links
+remain parseable for interoperability. This removes another user-facing
+product-identity redirect without changing ATProto record or provider
+identifiers.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/features/inviteFriends/urls.ts` uses
+  `getRuntimePublicWebOrigin()` for new profile share output.
+- `upstream/social-app/src/lib/routes/links.ts` uses the same runtime-origin
+  boundary for starter-pack links.
+- Focused invite and route-link suites pass 13/13 tests; targeted Oxlint,
+  Prettier, whitespace checks, and `pnpm run typecheck:web` pass.
+- `pnpm run build-web` completed with the existing bundle-size warnings. The
+  generated `web-build` is the artifact intended for the next Pages deploy;
+  live deployment evidence is recorded only after Wrangler and the public
+  contract probe run.
+
+This iteration changes only user-facing share destinations. It does not make
+the web client, a bundled provider, or a starter-pack AppView authoritative
+over the underlying ATProto records.
+
+## 13. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
