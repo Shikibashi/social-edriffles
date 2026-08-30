@@ -971,3 +971,15 @@ existing OAuth boundary.
 - The bundled default read provider remains a convenience default, and the
   external Relay/AppView privacy, short-TTL OAuth, and independent PLC operator
   gates remain open.
+
+### Verification
+
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Provider composition tests | PASS | `src/lib/provider-composition.test.ts` — 18 tests; no selection or verification semantics changed |
+| Client formatting, lint, and typecheck | PASS | Prettier and Oxlint passed for the changed files; `pnpm run typecheck:web` passed |
+| Production-shaped web export | PASS | `pnpm run build-web`; existing bundle-size warnings only |
+| Nested client push | PASS | `c89cf049b docs: record live authority ui verification` pushed to `fork/codex/spaces-alpha-integration`; source fix is `5dea1ea00` |
+| Root push | PASS | `c78ce37 docs: bind live authority ui evidence` pushed to `origin/codex/spaces-alpha-integration` |
+| Canonical public browser check | PASS | `https://plumblines.uk/profile/davidwilliampippy.bsky.social?deployment=fdd04899` rendered Plumbline branding and literal `Source:`, `Rule:`, and `State:` labels without application errors or Lingui ID artifacts |
+| Services authenticated browser check | NOT RUN | The in-app browser session was logged out; no credential was supplied, so the authenticated workbench content and signed-in mutation paths remain unverified |
