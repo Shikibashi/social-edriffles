@@ -93,3 +93,43 @@ Verification:
   `aria-selected`, brass marker, no alert.
 
 The remaining external authority/evidence gates are unchanged.
+
+## Iteration 26: contextual right-rail inspector
+
+The desktop right rail now begins with a compact, route-aware Plumbline
+Inspector. It identifies the current route, source category, rule, and
+available control, then links to the existing feed or Services workbench.
+This makes the Navigator → Workspace → Inspector model visible without
+creating another provider registry, policy engine, or privileged AppView.
+
+The feed shortcut links now expose selected state and stable
+`plumbline-feed-*` test IDs. Their web controls and the More feeds control use
+the existing square one-pixel Plumbline geometry; avatars and semantic
+shapes retain their intended forms. New inspector copy was extracted and
+compiled through the existing Lingui workflow after the first production
+probe exposed untranslated message IDs.
+
+Verification:
+
+- focused Oxlint, Prettier, and `git diff --check`: PASS;
+- web TypeScript: PASS;
+- English catalog extraction and compilation: PASS;
+- production web export: PASS, with existing bundle-size warnings;
+- client commits `3c018fd02` and `5f836207a`: pushed to the fork branch;
+- Pages deployment: PASS at
+  `https://46c0c74f.social-edriffles.pages.dev`;
+- logged-out deployment browser inspection: PASS; Sign in/Create account,
+  readable inspector copy, selected Discover tab, Plumbline title, and no
+  alerts;
+- canonical Home: PASS; `Following — Plumbline`, inspector copy, selected
+  tab marker, Plumbline favicon, and no alerts;
+- canonical profile: PASS; profile inspector, selected Posts marker, loaded
+  profile/PDS/CDN media, and no alerts;
+- canonical post thread: PASS; post inspector and reply/repost/like controls,
+  with no alerts;
+- narrow viewport: NOT RUN because the persistent ChatGPT in-app browser
+  connector does not expose viewport resizing.
+
+This is a shell disclosure slice only. Provider selection, PDS/AppView
+routing, OAuth, social mutations, records, storage, identity custody, and the
+external Relay/AppView/PLC evidence gates are unchanged.
