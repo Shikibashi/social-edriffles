@@ -1035,6 +1035,63 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 54: Complete route-wide Plumbline workbench coverage
+
+### Implementation
+
+The shared Plumbline inspector now translates remaining internal route names
+into user-facing surface labels and groups moderation and notification
+subroutes under their existing authority contexts. Existing settings,
+moderation, hashtag, and topic screens now opt into the Plumbline workbench
+through their existing `Layout.Screen` boundary. This closes the route-wide
+presentation gap without adding a second navigation system or changing
+provider, authentication, record, or authorization behavior.
+
+### Authority boundary
+
+Before this correction, some routes exposed implementation identifiers such as
+`ModerationModlists`, `NotificationSettings`, and
+`PrivacyAndSecuritySettings`, while other user-facing screens lost the
+Navigator | Workspace | Inspector composition. After it, the same route
+surfaces expose readable source, rule, control, and replaceability context
+through the existing inspector, and the route content remains the authority
+for its own data and actions.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS after correcting notification-screen import
+  order;
+- web TypeScript check: PASS;
+- Plumbline theme regression test: PASS, 3 tests;
+- root contract validation: PASS; `144 files, 29 blocking rows, 6 feed cases`;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.169024cf.js`; existing bundle-size warnings remain;
+- nested client commit/push: PASS; `5b08796b3` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; `https://ca289df6.social-edriffles.pages.dev`,
+  uploaded with commit hash `5b08796b3` and `--skip-caching`;
+- HTTPS asset comparison: PASS; local, preview, and canonical
+  `https://plumblines.uk/` all served `main.169024cf.js` with the same SHA-256
+  `8f327d339932f57e1661b1f55873f02937bd3874cea0c96e22a2d68139cd752d`;
+- ChatGPT in-app-browser route inspection: PASS for the home, moderation
+  lists, notification settings, privacy and security, and hashtag surfaces;
+  each rendered the workbench inspector and none exposed the replaced
+  internal route names;
+- account-settings browser inspection: NOT PASS; the existing browser session
+  supplied a malformed/expired token and rendered
+  `InvalidTokenError: Invalid token specified: missing part #2`. This is a
+  separate session/authentication problem and is not evidence of a successful
+  account-settings walkthrough.
+
+The first Pages upload was rejected as stale after it served the previous
+hashed asset; the completed build was then redeployed and compared against
+the served preview and canonical HTML before this record was written. The
+nested client's pre-existing `oxlint-suppressions.json` newline-only change
+remains unstaged. Root memory/conversation updates and nested PDS worktree
+changes remain outside this batch. External Relay/AppView, short-TTL OAuth,
+and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 53: Make custom-feed pages seamful
 
 ### Implementation
