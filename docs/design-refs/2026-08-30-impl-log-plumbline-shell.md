@@ -1088,6 +1088,61 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 50: Expose Communities authority in the workbench inspector
+
+### Implementation
+
+The Communities route already used the Plumbline workbench shell and already
+showed its Spaces authorization and directory provenance in the workspace. Its
+desktop inspector still fell through to generic `CommunityBoard` context. This
+iteration added an explicit shared-inspector branch for Communities. It now
+identifies the Spaces transport and community authority, states the declared
+membership/record boundary, and links to Services for inspection, change,
+export, or reset. No community record, membership, credential, provider, or
+OAuth behavior changed.
+
+### Authority boundary
+
+The inspector distinguishes the community authority and Spaces transport from
+the AppView read path without granting Plumbline authority over either one.
+Membership and community records remain governed by the declared Spaces/Radlib
+transport; Services remains the user-facing replacement and inspection path.
+The inspector is explanatory UI only and does not turn the bundled client,
+community directory, or selected provider into a universal authority.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS; `pnpm typecheck:web`;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.c2ad3f74.js`; the existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for the staged inspector file;
+- nested client commit/push: PASS; `40f2ce53a` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `f6f1afea` at
+  `https://f6f1afea.social-edriffles.pages.dev`;
+- final ChatGPT in-app-browser inspection: PASS; canonical
+  `https://plumblines.uk/community?plumbline-deploy=f6f1afea` rendered the
+  Communities workbench with the explicit inspector context and no `Not Found`
+  or `Oops!` state. The signed-in workspace accurately showed that the current
+  session lacks the separate Spaces permission and offered the existing
+  authorization path. The signed-out preview
+  `https://f6f1afea.social-edriffles.pages.dev/community?plumbline-deploy=f6f1afea`
+  rendered its public signed-out shell without a visible error. Browser
+  verification was read-only; no community, membership, OAuth, provider,
+  resolver, moderation, or content mutation was performed.
+
+The nested client retains the pre-existing `oxlint-suppressions.json` change;
+root memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 49: Align core read surfaces with the Plumbline workbench
 
 ### Implementation
