@@ -465,6 +465,38 @@ in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
 
+## Iteration 36: live production Pages binding for the current Plumbline shell
+
+### Deployment evidence
+
+The verified web export from nested client commit `010a3f15f` was uploaded to
+the `social-edriffles` Cloudflare Pages project as a Production deployment on
+the `main` branch. The deployment identifier is
+`23467a9d-1345-40c0-bd0e-e2c617632daf`, with preview URL
+`https://23467a9d.social-edriffles.pages.dev`. The canonical
+`https://plumblines.uk/` response now serves the same `main.0b646aa7.js`
+asset as that deployment.
+
+### Verification record
+
+- production Pages upload: PASS; Wrangler reported the deployment as
+  Production / `main`, source `010a3f1`;
+- HTTPS response for the deployment URL: PASS, HTTP 200;
+- HTTPS response for `https://plumblines.uk/`: PASS, HTTP 200, same current
+  asset hash;
+- required document headers remained present, including CSP,
+  `frame-ancestors 'none'`, `X-Content-Type-Options: nosniff`, and the
+  configured Permissions Policy;
+- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
+  was unavailable in this runtime, while the generic Playwright connector
+  could not initialize because its Chrome distribution was absent. HTTP
+  delivery is not being treated as rendered browser evidence.
+
+The nested client continues to contain the pre-existing newline-only change
+in `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
+
 ## Iteration 35: identity authority and exit-workbench entry point
 
 ### Intent
