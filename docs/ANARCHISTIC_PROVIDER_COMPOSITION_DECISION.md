@@ -215,7 +215,7 @@ alongside it for progressive inspection.
 | Web TypeScript check | PASS | `pnpm run typecheck:web` |
 | Changed-file Oxlint | PASS | New and modified client files |
 | Changed-file Prettier and whitespace | PASS | `pnpm exec prettier --check`; `git diff --check` |
-| Deployment | PASS | Wrangler Pages deployment completed at `https://87a62d21.social-edriffles.pages.dev`; canonical `https://plumblines.uk/` serves the Plumbline bundle and the credential-free public-contract probe passes without writes |
+| Deployment | PASS | Wrangler Pages deployment completed at `https://7361cb4b.social-edriffles.pages.dev`; canonical `https://plumblines.uk/` serves the Plumbline bundle and the credential-free public-contract probe passes without writes |
 
 This iteration improves contestability without claiming that the selected
 provider is independently operated, cryptographically authoritative for every
@@ -223,7 +223,40 @@ view, or current in an eventually consistent network. Media remains an
 account-PDS boundary and communities remain a Spaces/Radlib boundary; neither
 is falsely routed through the generic AppView composition layer.
 
-## 10. Remaining concentrations worth attacking next
+## 10. Iteration 3 — canonical Plumbline share URLs and thread provenance
+
+The next UI pass closed a remaining product-identity leak at the shared-link
+boundary. Internal profile, post, feed, list, embed, hashtag, topic, and search
+links now resolve against the runtime Plumbline origin rather than defaulting to
+`bsky.app`. Absolute external HTTP(S) links remain unchanged. The thread view
+also retains the existing feed-row `Why this post?` inspector when a post is
+opened from a feed, and the Moderation & Reach web link now points to
+`plumblines.uk`.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/lib/strings/url-helpers.ts` uses the existing
+  runtime-origin resolver for internal share paths and preserves external
+  HTTP(S) URLs.
+- `upstream/social-app/src/screens/Hashtag.tsx`, `Topic.tsx`, and
+  `Search/Shell.tsx` use the shared helper; no ATProto lexicon or provider
+  endpoint was renamed.
+- The client commit is `dca8068f2` and is pushed to
+  `fork/codex/spaces-alpha-integration`.
+- URL-helper and attention tests pass (8 tests total); targeted Oxlint,
+  Prettier, whitespace, and `pnpm run typecheck:web` pass.
+- `pnpm run build-web` completed with the existing bundle-size warnings, and
+  Wrangler deployed the exact export at
+  `https://7361cb4b.social-edriffles.pages.dev`.
+- The live public-contract probe passed at `2026-08-30T08:16:45Z` with
+  `credentialsUsed: false` and `writesPerformed: false`; the hosted shell
+  serves the Plumbline title, mark, and `main.5bcabf4f.js` bundle.
+
+This iteration changes presentation and share authority only. It does not make
+the public AppView authoritative, prove independent PLC operators, or close the
+credentialed OAuth expiry/replay and private Relay/AppView canary gates.
+
+## 11. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
