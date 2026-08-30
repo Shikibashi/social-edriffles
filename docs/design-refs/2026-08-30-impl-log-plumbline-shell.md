@@ -1088,6 +1088,65 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 49: Align core read surfaces with the Plumbline workbench
+
+### Implementation
+
+The existing provider and policy provenance was already present on Home,
+Notifications, Search, and Feeds. This iteration declared those route shells
+as `ecwMode="workbench"` and added the missing Notifications inspector
+context. Home, Notifications, Feeds, and Search now use the existing ECW
+canvas, structural border, heading, and hit-target grammar. The Notifications
+inspector identifies the notification service, the user's notification rule,
+and the existing notification-settings control. Queries, records, provider
+selection, OAuth, moderation, and notification behavior were not changed.
+
+### Authority boundary
+
+The route shells now match the authority model already represented by their
+contents: Home and read surfaces remain provider-backed workspaces; the
+selected AppView, feed generators, notification service, and search provider
+remain attributable and replaceable through the existing Services boundary.
+The workbench attribute and inspector copy grant no authority and do not turn
+Plumbline into a privileged AppView, feed, notification, or search provider.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS; `pnpm typecheck:web`;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.e385c2f6.js`; the existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `a912b455c` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `7d1c75e4` at
+  `https://7d1c75e4.social-edriffles.pages.dev`;
+- final ChatGPT in-app-browser inspection: PASS; signed-in canonical Home
+  `https://plumblines.uk/?plumbline-deploy=7d1c75e4` rendered Following,
+  provider/rule/state provenance, `Why this post?`, and live post actions.
+  Canonical Notifications rendered its notification records and an inspector
+  with `Notification service`, `Filter who you receive notifications from`,
+  and `Notification settings`. Canonical Search rendered Explore and an
+  inspector with the selected search provider and reconciliation rule.
+  Canonical Feeds rendered saved and discoverable feeds plus an inspector with
+  feed-generator/account-preference source, saved-feed policy, and feed
+  controls. None of those routes reported `Not Found` or `Oops!`. The isolated
+  preview `https://7d1c75e4.social-edriffles.pages.dev/` remained signed out
+  and rendered Discover, provider provenance, `Why this post?`, and public
+  post controls. Browser verification was read-only; no account, provider,
+  resolver, moderation, notification, or content mutation was performed.
+
+The nested client retains the pre-existing `oxlint-suppressions.json` change;
+root memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 47: Organize Identity & recovery as a Plumbline workbench
 
 ### Implementation
