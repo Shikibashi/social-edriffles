@@ -414,7 +414,41 @@ This is a reachability improvement at the existing policy boundary. It does
 not claim that every surface has an independent provider available, or that
 the canonical public smoke check proves signed-in provider mutation behavior.
 
-## 16. Remaining concentrations worth attacking next
+## 16. Iteration 9 — route provider changes to the relevant workbench section
+
+The provider-change affordance now carries an explicit typed destination into
+Services. Provider evidence and feed/provider error recovery open the
+Providers section directly; identity evidence opens the Identity section.
+Community and custom-feed provider controls use the same route contract. This
+reduces the gap between explaining a provider boundary and giving the user a
+real replacement path without adding surface-specific settings stores.
+
+### Implementation and verification evidence
+
+- `upstream/social-app/src/lib/routes/types.ts` defines the optional
+  `ServicesSettingsSection` route parameter, and
+  `upstream/social-app/src/screens/Settings/ServicesSettings.tsx` honors it
+  while preserving the normal overview default.
+- Provider composition, feed, custom-feed, post-feed-error, and community
+  controls pass the relevant `providers` or `identity` section explicitly.
+- Web TypeScript, targeted Oxlint, Prettier, whitespace validation, focused
+  provider/identity/OAuth/PLC tests (33 tests), and the production web export
+  pass.
+- Client commit `fdfd0213d` was pushed to
+  `fork/codex/spaces-alpha-integration`.
+- Wrangler deployed the exact export at
+  `https://b6788290.social-edriffles.pages.dev`; the preview and canonical
+  `https://plumblines.uk/` return HTTP 200, the Plumbline title, and
+  `main.93da2ac9.js`.
+- The credential-free ChatGPT in-app-browser smoke check loaded the canonical
+  shell, populated feed tabs, and loaded a public profile without an error.
+  No credentials were read and no mutation was performed.
+
+The browser smoke check does not claim that an authenticated provider switch
+was performed. It verifies the deployed route shell; authenticated selection
+remains guarded by the existing session and provider availability checks.
+
+## 17. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
