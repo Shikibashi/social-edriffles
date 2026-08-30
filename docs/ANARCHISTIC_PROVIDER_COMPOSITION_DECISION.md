@@ -215,7 +215,7 @@ alongside it for progressive inspection.
 | Web TypeScript check | PASS | `pnpm run typecheck:web` |
 | Changed-file Oxlint | PASS | New and modified client files |
 | Changed-file Prettier and whitespace | PASS | `pnpm exec prettier --check`; `git diff --check` |
-| Deployment | NOT RUN | This batch has not been deployed; external evidence remains separate |
+| Deployment | PASS | Wrangler Pages deployment completed at `https://87a62d21.social-edriffles.pages.dev`; canonical `https://plumblines.uk/` serves the Plumbline bundle and the credential-free public-contract probe passes without writes |
 
 This iteration improves contestability without claiming that the selected
 provider is independently operated, cryptographically authoritative for every
