@@ -1035,6 +1035,59 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 48: Align Profile and Post Thread with the Plumbline workbench
+
+### Implementation
+
+The Profile and Post Thread routes already owned their respective object
+inspection seams: profile media, identity resolution, composed profile reads,
+thread provider observations, and the existing shell inspector. This iteration
+declared both route boundaries as `ecwMode="workbench"`, applying the existing
+ECW canvas, structural border, heading, and hit-target grammar without changing
+queries, records, interaction mutations, OAuth, moderation, or provider
+selection behavior.
+
+### Authority boundary
+
+The screen presentation now matches the architectural role of these routes:
+they are inspectable object workspaces rather than anonymous page containers.
+The existing inspector remains the place for source, rule, control, and
+replaceability context; the existing provenance components remain the source
+of profile, identity, media, and thread claims. The workbench attribute is
+visual grammar only and grants no authority to Plumbline or to any provider.
+
+### Verification record
+
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS;
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- `git diff --check`: PASS;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.8233a335.js`; existing bundle-size warnings remain for the 4.15 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for both staged route files;
+- nested client commit/push: PASS; `4c9a75bb8` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `ba715aef` at
+  `https://ba715aef.social-edriffles.pages.dev`;
+- final ChatGPT in-app-browser inspection: PASS; the signed-in canonical
+  Profile route rendered the profile header, posts, profile-media source,
+  identity-resolution source/rule/state, Plumbline inspector, and workbench
+  layout. The canonical Post Thread route rendered the thread, thread source
+  summary, quote/like controls, inspector, and workbench layout. A separate
+  preview-domain inspection was signed out and rendered Discover, provider
+  provenance, `Why this post?`, post links, and public interaction controls
+  without a visible application error. No account, provider, resolver,
+  moderation, or content mutation was performed.
+
+The nested client retains the pre-existing `oxlint-suppressions.json` change;
+root memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 47: Organize Identity & recovery as a Plumbline workbench
 
 ### Implementation
