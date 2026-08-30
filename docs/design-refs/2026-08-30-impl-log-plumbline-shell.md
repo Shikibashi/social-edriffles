@@ -161,3 +161,29 @@ Verification:
 - repository-wide lint: FAIL (baseline) from unrelated existing diagnostics;
 - Relay/AppView, short-TTL OAuth, and independent-PLC evidence gates remain
   unresolved.
+
+## Iteration 28: explicit Communities OAuth boundary
+
+The Communities surface now treats the Spaces permission as a real delegated
+authority. Community directory and selected-community reads do not run while
+an OAuth session lacks that grant. The directory shows the shared Plumbline
+authorization panel with `Feature: Spaces`, disables `New community`, and
+withholds the selected board until authorization is available. The shared
+prompt now names the resource associated with each feature instead of always
+referring to the Chat service.
+
+Verification:
+
+- touched-file Oxlint, Prettier, `git diff --check`, and web TypeScript: PASS;
+- English catalog extraction/compile: PASS;
+- production web export: PASS, with existing bundle-size warnings;
+- client code commit `c82c4303b`: pushed to the fork branch;
+- Pages deployment: PASS at
+  `https://8aefbf18.social-edriffles.pages.dev`;
+- logged-out deployment Communities route: PASS, no raw scope or community
+  error;
+- canonical signed-in Communities route: PASS; Spaces authorization panel,
+  `Feature: Spaces`, `Open Services`, and disabled `New community` visible;
+- old generic PDS authorization error: absent from the canonical route;
+- repository-wide lint: FAIL (baseline) from unrelated existing diagnostics;
+- Relay/AppView, short-TTL OAuth, and independent-PLC gates remain unresolved.
