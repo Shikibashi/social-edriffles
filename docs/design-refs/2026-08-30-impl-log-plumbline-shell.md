@@ -301,3 +301,43 @@ The nested client still has the pre-existing uncommitted
 `oxlint-suppressions.json` newline-only change; it was not included. The PDS,
 OAuth, external Relay/AppView, short-TTL OAuth, and independent-PLC operator
 evidence gates remain unchanged and unresolved.
+
+## Iteration 31: copyable AT URI in post provenance
+
+### Intent
+
+Keep post records browser-native and portable. The existing `Why this post?`
+inspector showed the stable post record as selectable text, but did not offer a
+direct action for carrying that address to another client, resolver, or
+protocol tool.
+
+### Change
+
+`upstream/social-app/src/components/Post/PostProvenance.tsx` now renders an
+accessible `Copy AT URI` action beside the post record when provenance details
+are expanded. It uses the existing Expo clipboard and toast abstractions and
+stops propagation so copying does not activate the surrounding post link.
+
+### Authority boundary
+
+The post URI remains sourced from the protocol-shaped post model. This change
+does not add a resolver, AppView, or fallback provider, and it does not make a
+provider authoritative. It only makes an already exposed record address
+portable and directly actionable.
+
+### Verification record
+
+- touched-file Oxlint: PASS;
+- touched-file Prettier and `git diff --check`: PASS;
+- web TypeScript: PASS;
+- catalog extraction/compile: PASS; `pnpm intl:extract && pnpm intl:compile`
+  produced 3324 source messages;
+- production export: PASS; `EXPO_PUBLIC_ENV=production pnpm build-web`, with
+  existing bundle-size warnings;
+- nested client code commit `e3d4ce3c0` and decision record commit `469314890`:
+  PASS; both pushed to `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS at
+  `https://470139e7.social-edriffles.pages.dev`, uploaded with Node `v24.19.0`;
+- ChatGPT in-app-browser inspection: PASS at
+  `https://plumblines.uk/?deployment=470139e7`; expanded post provenance showed
+  the copy control and the read-only click retained the route without an alert.
