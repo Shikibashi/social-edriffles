@@ -1034,3 +1034,61 @@ memory/conversation updates and nested PDS worktree remain outside this
 change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
+
+## Iteration 45: Localize the Services authority workbench
+
+### Implementation
+
+The Services workbench already provided the appropriate authority boundary for
+provider registration, per-surface capabilities, local reconciliation, OAuth
+feature upgrades, identity resolver participation, PLC resolver declarations,
+and export/import/reset. This iteration routed that existing UI through the
+Lingui source catalog. It added typed message descriptors for service sections,
+provider surfaces and authority descriptions, reconciliation actions, resolver
+actions, and the workbench inspector while preserving provider IDs, DIDs,
+endpoints, protocol scopes, operator assertions, and server error payloads as
+inspectable data. No provider, fallback, credential, or authorization
+mechanism was added.
+
+### Authority boundary
+
+Before this correction, the Services workbench exposed the seams but left much
+of the provider, policy, resolver, and authorization language outside the
+active locale. After it, the same source, rule, current-state, user-control,
+and replaceability evidence is localized without changing who can write,
+resolve, reconcile, or revoke anything. The bundled provider remains a
+convenience default and the UI continues to state that declarations do not
+prove operator independence.
+
+### Verification record
+
+- focused provider-composition, identity-runtime, and OAuth-scope tests:
+  PASS, 4 suites and 41 tests;
+- changed-file Prettier and scoped Oxlint: PASS;
+- web TypeScript: PASS;
+- Lingui extraction and compile: PASS; 3705 source messages after extraction;
+- production web export with explicit Plumbline environment: PASS; generated
+  `main.e8a3a9a5.js`; existing bundle-size warnings remain for the 4.14 MiB
+  main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS; Oxlint and Prettier
+  completed for all staged files;
+- nested client commit/push: PASS; `c53ba43ce` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `f93fe3ca` at
+  `https://f93fe3ca.social-edriffles.pages.dev`;
+- HTTPS delivery: PASS; preview and canonical `https://plumblines.uk/`
+  returned HTTP 200, served `static/js/main.e8a3a9a5.js`, and contained no
+  `127.0.0.1`, `localhost`, or `19006` references in fetched HTML;
+- final ChatGPT in-app-browser inspection: PASS; the deployed Services view
+  rendered Overview, Providers, Policies, Authorization, and PLC resolvers
+  with localized source/rule/state/control text, provider surface controls,
+  policy export/import/reset controls, OAuth upgrade status, and resolver
+  declarations. The signed-in read-only inspection showed no visible
+  application error. No representational, account, provider, or resolver
+  mutation was performed.
+
+The nested client retains pre-existing `oxlint-suppressions.json`; root
+memory/conversation updates and nested PDS worktree remain outside this
+change. Full repository TypeScript and lint baselines still have the
+previously recorded unrelated failures. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
