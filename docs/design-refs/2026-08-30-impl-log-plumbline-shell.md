@@ -598,6 +598,58 @@ The nested client still contains the pre-existing newline-only change in
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
 
+## Iteration 39: Preserve community directory provenance during total outage
+
+### Research and implementation
+
+The community directory already composes the account PDS and a narrowly
+scoped deep-linked community-authority PDS through the shared provider
+composition boundary. A successful, partial, or disagreeing read rendered
+source observations, but `ProviderCompositionError` evidence was discarded
+by the screen when every source failed. That reduced a diagnosable outage to
+an unattributed generic error.
+
+`CommunityBoardScreen` now derives one directory-composition value from
+either successful query data or the composition attached to the provider
+error. The directory evidence panel is rendered for total outages as well as
+usable results, includes the local reconciliation policy and the explicit
+limit that operator independence is not proven, and offers a source refresh
+action. The generic outage message now points at the source observations
+instead of implying that the account PDS is the only authority.
+
+### Authority boundary
+
+This is a presentation and recovery change at the existing community
+directory boundary. It does not add a provider, mint credentials, widen
+OAuth, change Space membership or record authority, or convert multiple
+endpoints into proof of independent operation. The local merge policy remains
+visible and the source error details remain attributable.
+
+### Verification record
+
+- changed-file Prettier: PASS;
+- changed-file Oxlint: PASS;
+- community directory composition tests: PASS, 1 suite and 4 tests;
+- web TypeScript: PASS;
+- production web export: PASS with Node `v24.19.0`; existing bundle-size
+  warnings remain;
+- root contract validation: PASS, 144 files, 29 blocking rows, 6 feed cases;
+- nested client commit/push: PASS; `838c0c871` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; Production deployment `0a2e4b2e` at
+  `https://0a2e4b2e.social-edriffles.pages.dev`, source `838c0c871`;
+- HTTPS delivery: PASS; the deployment URL and `https://plumblines.uk/`
+  returned HTTP 200 and served `main.44bb89f5.js` with the configured
+  security headers;
+- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
+  remains unavailable in this runtime and the generic Playwright connector
+  cannot initialize because its Chrome distribution is absent.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
+
 ## Iteration 38: Explicit provider exit and local authority cleanup
 
 ### Research and implementation
