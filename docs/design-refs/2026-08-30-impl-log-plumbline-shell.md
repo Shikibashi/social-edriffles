@@ -714,3 +714,55 @@ The nested client still contains the pre-existing newline-only change in
 `oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
 included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
+
+## Iteration 40: Expose provider claim comparison in the shared inspector
+
+### Research and implementation
+
+The shared provider inspector already displayed source observations, selected
+providers, reconciliation policy, and declared operator identity, but it did
+not summarize how many distinct values were actually compared. That made a
+disagreement or partial outage harder to distinguish from a normal provider
+selection without opening and counting the observations manually.
+
+The existing composition result now exposes a typed claim summary derived from
+the same usable observations and distinct result keys used by reconciliation.
+The shared provenance inspector renders this as `Claims compared`, including
+the number of responding providers and the number of observations that did not
+provide a usable claim. Agreement, disagreement, total outage, stale, invalid,
+and partial states remain attributable; no provider is promoted by the summary.
+
+### Authority boundary
+
+This is a diagnostic presentation improvement at the existing provider
+composition boundary. The claim count is derived from returned values, not
+operator position, and it does not prove that operators are independent. It
+does not change provider selection, reconciliation policy, account
+authorization, PDS writes, protocol records, or external service authority.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint: PASS;
+- focused provider-composition, query-composition, and actor-search tests:
+  PASS, 3 suites and 21 tests;
+- web TypeScript: PASS;
+- production web export: PASS with Node `v24.19.0`; existing bundle-size
+  warnings remain;
+- root contract validation: PASS, 144 files, 29 blocking rows, 6 feed cases;
+- nested client commit/push: PASS; `b9208b083` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; Production deployment `c31b81db` at
+  `https://c31b81db.social-edriffles.pages.dev`, source `b9208b083`;
+- HTTPS asset verification: PASS; the deployment URL and
+  `https://plumblines.uk/` returned HTTP 200 and served
+  `main.afda48f8.js` with the configured CSP, Permissions Policy,
+  referrer policy, and `X-Content-Type-Options: nosniff` header;
+- ChatGPT in-app-browser rendered inspection: NOT RUN; the in-app connector
+  was unavailable in this runtime and the generic Playwright connector could
+  not initialize because its Chrome distribution was absent.
+
+The nested client still contains the pre-existing newline-only change in
+`oxlint-suppressions.json`, and the nested PDS remains dirty; neither is
+included. The external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
