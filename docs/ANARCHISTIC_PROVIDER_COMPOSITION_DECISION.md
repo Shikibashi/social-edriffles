@@ -256,7 +256,34 @@ This iteration changes presentation and share authority only. It does not make
 the public AppView authoritative, prove independent PLC operators, or close the
 credentialed OAuth expiry/replay and private Relay/AppView canary gates.
 
-## 11. Remaining concentrations worth attacking next
+## 11. Iteration 4 — canonical chat links and app-icon identity
+
+The current UI batch extends the canonical Plumbline boundary into chat invite
+links and native app-icon settings. New copied invite links and chat reply
+previews use the runtime Plumbline origin. The URL helper accepts both exact
+Plumbline and reference `bsky.app` application origins for post, feed, list,
+starter-pack, RSS, and chat-path recognition, preserving interoperability while
+rejecting lookalike hosts. App-icon settings now labels the internal set as
+“Plumbline variants” and “Plumbline Classic”; technical package and asset IDs
+remain unchanged.
+
+### Implementation and verification evidence
+
+- Client commit `250a3cf40` was pushed to
+  `fork/codex/spaces-alpha-integration`.
+- URL-helper tests pass 4/4; targeted Oxlint, Prettier, whitespace checks, and
+  `pnpm run typecheck:web` pass.
+- `pnpm run build-web` completed with the existing bundle-size warnings and
+  produced the Plumbline title, mark, metadata, and canonical share-origin
+  export.
+- The deployment step will use the exact generated `web-build` output; no
+  account credentials or write operations are part of this UI verification.
+
+This is a presentation and link-boundary change. It does not rename ATProto
+protocol namespaces, external service identifiers, or the provider provenance
+shown when Bluesky is the actual external service.
+
+## 12. Remaining concentrations worth attacking next
 
 1. **OAuth ambient grant (highest value):** split the compatibility scope bundle
    into feature-scoped permission requests and an explicit reauthorization or
