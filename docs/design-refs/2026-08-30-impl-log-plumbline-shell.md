@@ -1035,6 +1035,52 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 56: Replace the rounded trend card with an editorial panel
+
+### Implementation
+
+The existing desktop Trending surface now has an explicit Plumbline boundary
+and uses the workbench's square rule treatment. Its content, links, options,
+and data source remain unchanged; only the accidental rounded-card treatment
+was removed at the existing component and web-style boundaries.
+
+### Authority boundary
+
+This is a visual correction only. Trending remains an externally supplied
+discovery result and does not gain any authority over feeds, moderation,
+identity, or user policy. The panel now reads as a marginal reference section
+rather than as a privileged product card.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS;
+- `git diff --check`: PASS;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.5ee57800.js`; existing bundle-size warnings remain;
+- nested client hook validation during commit: PASS;
+- nested client commit/push: PASS; `06c036c5a` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `94428b4b` at
+  `https://94428b4b.social-edriffles.pages.dev`, uploaded with commit hash
+  `06c036c5a` and `--skip-caching`;
+- HTTPS asset comparison: PASS; preview and canonical
+  `https://plumblines.uk/` served `main.5ee57800.js` with the local export's
+  SHA-256 `7930804ef0d30c72b12f86f4b7b0dc0873ea29bff5ba1d1f3a3f43a15c74266e`;
+- ChatGPT in-app-browser desktop inspection: PASS at 1440px; the full
+  Plumbline masthead and workbench inspector rendered, the Trending panel's
+  computed border radius was `1px`, and no visible application error or
+  horizontal overflow occurred;
+- ChatGPT in-app-browser mobile inspection: PASS at 390px; the compact
+  navigation and bottom bar remained available, the Inspector was demoted,
+  the page had no horizontal overflow, and a settled feed rendered 35 rows
+  with no loading placeholders.
+
+The nested client's pre-existing `oxlint-suppressions.json` newline-only
+change remains unstaged. Root memory/conversation updates and nested PDS
+worktree changes remain outside this batch. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 55: Preserve the complete Plumbline masthead at desktop widths
 
 ### Implementation
