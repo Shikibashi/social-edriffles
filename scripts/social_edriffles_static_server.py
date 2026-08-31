@@ -4,10 +4,19 @@
 from __future__ import annotations
 
 import argparse
+import mimetypes
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
+
+
+def _should_use_spa_fallback(request_path: str, candidate: Path) -> bool:
+    """Route missing application paths to the SPA without masking assets."""
+
+    if candidate.exists():
+        return False
+    return mimetypes.guess_type(request_path, strict=False)[0] is None
 
 
 class SpaHandler(SimpleHTTPRequestHandler):
@@ -16,14 +25,14 @@ class SpaHandler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802 - required by BaseHTTPRequestHandler
         request_path = urlsplit(self.path).path
         candidate = Path(self.directory) / request_path.lstrip("/")
-        if not candidate.exists() and "." not in Path(request_path).name:
+        if _should_use_spa_fallback(request_path, candidate):
             self.path = "/index.html"
         super().do_GET()
 
     def do_HEAD(self) -> None:  # noqa: N802 - required by BaseHTTPRequestHandler
         request_path = urlsplit(self.path).path
         candidate = Path(self.directory) / request_path.lstrip("/")
-        if not candidate.exists() and "." not in Path(request_path).name:
+        if _should_use_spa_fallback(request_path, candidate):
             self.path = "/index.html"
         super().do_HEAD()
 
