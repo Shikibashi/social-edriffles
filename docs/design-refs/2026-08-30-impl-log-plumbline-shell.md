@@ -1157,6 +1157,74 @@ have the previously recorded unrelated failures. External Relay/AppView,
 short-TTL OAuth, and independent-PLC operator evidence gates remain
 unresolved.
 
+## Iteration 59: Restore the actual three-pane workbench at review widths
+
+### Implementation
+
+The live visual critique showed that the previous Plumbline layer was still
+decorating an upstream-shaped shell at the primary 1198px review width. This
+iteration corrected the shared layout boundary instead of adding another
+ornament: the labeled Navigator remains present while the three-pane
+workbench fits, the mid-width center shift is reduced to leave room for that
+Navigator and the Inspector, and the full account identity remains visible in
+the labeled rail. The Home desktop and mobile headers now use the Plumbline
+mark directly; desktop Home also names the primary surface as the document
+stream. Inspector tools, available feeds, and discovery are separated into
+explicit secondary sections beneath the selected-surface explanation.
+
+The bounded visual critique is preserved in
+`docs/design-refs/2026-08-30-critique-plumbline-editorial-computer.md`.
+
+### Authority boundary
+
+Before this correction, the compact breakpoint gave the Inspector more visual
+status than the user's Navigator and made the upstream Home logo component
+the apparent identity of the primary surface. After it, the Navigator,
+document stream, and Inspector are distinct layout roles; Plumbline describes
+the user agent, while account identity, feed names, provider results, and
+trending topics remain data from their existing sources. The breakpoint,
+rules, brass markers, and labels grant no provider, identity, moderation, or
+authorization authority. Chat keeps its specialized two-pane layout and
+mobile keeps its existing compact navigation.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS;
+- `git diff --check`: PASS;
+- web TypeScript check: PASS; `pnpm run typecheck:web`;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.21db259d.js`; existing bundle-size warnings remain for the
+  4.17 MiB main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client commits and fork push: PASS; `a8493bce5` and `a590799a9`
+  pushed to `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; final deployment `6535d414` at
+  `https://6535d414.social-edriffles.pages.dev`, uploaded with commit hash
+  `a590799a9` and `--skip-caching`;
+- HTTPS delivery: PASS; canonical `https://plumblines.uk/` served
+  `static/js/main.21db259d.js`; the local export SHA-256 was
+  `51a4fb5949983337314646ab81a27b3521abc8c2425fd228b8fd8bb089eebe73`;
+- ChatGPT in-app-browser desktop inspection: PASS at 1198px; the signed-in
+  Home render showed the labeled 240px Navigator, 600px document stream,
+  separated Inspector, no horizontal overflow, no role-alert errors, and no
+  clipped Plumbline wordmark. Profile and Chat routes also rendered without
+  role-alert errors or horizontal overflow;
+- ChatGPT in-app-browser wide inspection: PASS at 1440px; the full Navigator,
+  document stream, and Inspector remained separated with no horizontal
+  overflow;
+- ChatGPT in-app-browser mobile inspection: PASS at 390px; the compact
+  Plumbline mark, mobile header, bottom navigation, and primary actions
+  remained present with no desktop Navigator or horizontal overflow;
+- logged-out preview inspection: PASS; the public Home surface carried the
+  Plumbline document-stream heading and public discovery label without an
+  account session.
+
+The nested client's pre-existing `oxlint-suppressions.json` change remains
+unstaged. Root memory/conversation updates and nested PDS worktree changes
+remain outside this batch. Full repository lint still has the previously
+recorded unrelated violations. External Relay/AppView, short-TTL OAuth, and
+independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 56: Replace the rounded trend card with an editorial panel
 
 ### Implementation
