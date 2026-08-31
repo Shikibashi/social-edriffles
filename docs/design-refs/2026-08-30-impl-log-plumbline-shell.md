@@ -1035,6 +1035,56 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 55: Preserve the complete Plumbline masthead at desktop widths
+
+### Implementation
+
+The shared `PlumblineShellBrand` no longer ellipsizes the secondary masthead
+lines inside the fixed desktop Navigator. The wordmark can shrink within the
+available column, while `Social client for the open web` and the alignment
+line wrap naturally and remain fully readable. The shared component is used by
+the web Navigator and drawer, so no parallel branding path was introduced.
+
+### Authority boundary
+
+This was a presentation-only correction. It changes neither the account
+identity displayed below the product mark nor any provider, record,
+authorization, or navigation authority. The complete masthead makes the user
+agent's identity explicit without conflating it with the current account or
+the network services shown in the workbench.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS;
+- web TypeScript check: PASS;
+- Plumbline theme regression test: PASS, 3 tests;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.df49e00d.js`; existing bundle-size warnings remain;
+- nested client hook validation during commit: PASS;
+- nested client commit/push: PASS; `d273e9ed0` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: PASS; deployment `df0f769d` at
+  `https://df0f769d.social-edriffles.pages.dev`, uploaded with commit hash
+  `d273e9ed0` and `--skip-caching`;
+- HTTPS asset comparison: PASS; preview and canonical
+  `https://plumblines.uk/` served `main.df49e00d.js` with the local export's
+  SHA-256 `bebecb4d3a26f2d6e7301cf7528b7b6ce6124a653497870c37473c0a058673f8`;
+- ChatGPT in-app-browser desktop inspection: PASS at 1440px; the full
+  `PLUMBLINE`, `SOCIAL CLIENT FOR THE OPEN WEB`, and
+  `ALIGN · INSPECT · UNDERSTAND` masthead lines were present, the subtitle
+  wrapped without truncation, and the workbench Inspector rendered without a
+  visible application error;
+- ChatGPT in-app-browser mobile inspection: PASS at 390px; the compact
+  header, bottom navigation, document stream, and Plumbline identity mark
+  remained available, the Inspector was demoted, and document width matched
+  the viewport with no horizontal overflow.
+
+The nested client's pre-existing `oxlint-suppressions.json` newline-only
+change remains unstaged. Root memory/conversation updates and nested PDS
+worktree changes remain outside this batch. External Relay/AppView, short-TTL
+OAuth, and independent-PLC operator evidence gates remain unresolved.
+
 ## Iteration 54: Complete route-wide Plumbline workbench coverage
 
 ### Implementation
