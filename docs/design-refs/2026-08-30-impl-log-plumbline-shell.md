@@ -1035,6 +1035,64 @@ change. Full repository TypeScript and lint baselines still have the
 previously recorded unrelated failures. External Relay/AppView, short-TTL
 OAuth, and independent-PLC operator evidence gates remain unresolved.
 
+## Iteration 57: Carry the Plumbline workbench boundary into Chat split view
+
+### Implementation
+
+The existing desktop Chat split-view container now declares the same web-only
+`workbench` mode used by the rest of the Plumbline shell and exposes a stable
+`plumbline-messages-workbench` test boundary. This reuses the existing ECW CSS
+for structural borders, control geometry, focus treatment, typography, and
+responsive behavior without adding another shell or changing Chat navigation,
+permissions, or message state. The non-split Chat route already uses
+`Layout.Screen ecwMode="workbench"`.
+
+### Authority boundary
+
+Chat remains a specialized two-pane workspace: the existing minimal
+Navigator/Chat list and conversation pane remain responsible for Chat, while
+the project-wide Inspector stays omitted for `Messages*` routes rather than
+pretending a feed or discovery provider explains a private conversation. The
+Plumbline mark remains available in the compact Navigator, and this change
+only makes the existing presentation seam inherit the shared workbench rules.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS;
+- `git diff --check`: PASS;
+- web TypeScript check: PASS;
+- nested client hook validation during commit: PASS;
+- nested client commit/push: PASS; `8f9f8a8c2` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.2e4e27e7.js`; existing bundle-size warnings remain for the
+  4.16 MiB main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- Pages deployment: PASS; deployment `9e70ae93` at
+  `https://9e70ae93.social-edriffles.pages.dev`, uploaded with commit hash
+  `8f9f8a8c2` and `--skip-caching`;
+- HTTPS asset delivery: PASS; preview and canonical
+  `https://plumblines.uk/` both served `static/js/main.2e4e27e7.js`, whose
+  local export SHA-256 was
+  `e94b93d3c1b076b7cd7ddef4124f048f5f1a514854adecc26d54be7151a57dea`;
+- ChatGPT in-app-browser desktop route audit: PASS; canonical home, profile,
+  feeds, search, Services, Identity & recovery, Moderation & Reach,
+  Communities, and Chat routes loaded without visible role-alert errors or
+  horizontal overflow. Each major route exposed the Plumbline mark and
+  workbench boundary; Chat exposed `plumbline-messages-workbench` with
+  `data-ecw-mode="workbench"` and its existing feature-scoped authorization
+  prompt;
+- ChatGPT in-app-browser mobile inspection: PASS at 390px; Chat used the
+  existing compact `messagesScreen` workbench, kept the feature authorization
+  prompt, hid the desktop-only Inspector, and had no horizontal overflow.
+  The mobile navigation intentionally demotes the brand to the compact shell.
+
+The nested client's pre-existing `oxlint-suppressions.json` newline-only
+change remains unstaged. Root memory/conversation updates and nested PDS
+worktree changes remain outside this batch. The separate account-settings
+session issue and external Relay/AppView, short-TTL OAuth, and independent-PLC
+operator evidence gates remain unresolved.
+
 ## Iteration 56: Replace the rounded trend card with an editorial panel
 
 ### Implementation
