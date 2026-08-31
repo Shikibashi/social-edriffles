@@ -1093,6 +1093,70 @@ worktree changes remain outside this batch. The separate account-settings
 session issue and external Relay/AppView, short-TTL OAuth, and independent-PLC
 operator evidence gates remain unresolved.
 
+## Iteration 58: Put the compact identity inside the document workspace
+
+### Implementation
+
+The previous Chat correction carried the `workbench` mode and shared ECW rules
+into the split view, but the first visible masthead implementation was still
+anchored to the full screen. A live browser inspection caught that it crossed
+over the compact Navigator. This iteration kept the shared
+`PlumblineWorkbenchMasthead` and moved its `Layout.Screen` placement onto the
+existing centered document-column geometry: `CENTER_COLUMN_WIDTH` with the
+same compact `CENTER_COLUMN_OFFSET` and scrollbar compensation used by the
+normal feed/header surfaces. The Chat split-view masthead continues to span
+only its existing two-pane workbench. No route, account, provider,
+authorization, or message behavior changed.
+
+### Authority boundary
+
+The compact shell now makes the user agent identifiable without allowing the
+brand to occupy or visually own the Navigator. The Navigator remains the
+navigation boundary, the centered stream remains the primary document surface,
+and Chat remains a private two-pane workspace. The masthead, rules, and brass
+mark are presentation grammar only; they grant no authority over identity,
+hosting, feeds, moderation, or conversations.
+
+### Verification record
+
+- changed-file Prettier check: PASS;
+- changed-file Oxlint check: PASS;
+- `git diff --check`: PASS;
+- web TypeScript check: PASS; `pnpm typecheck:web`;
+- production web export with the explicit Plumbline environment: PASS;
+  generated `main.c98901fd.js`; the existing bundle-size warnings remain for
+  the 4.16 MiB main asset, 3.72 MiB supporting asset, and 631 KiB chunk;
+- nested client hook validation during commit: PASS;
+- nested client commit/push: PASS; visual masthead patch `f72b7a154` and
+  placement correction `b9389cfe5` pushed to
+  `fork/codex/spaces-alpha-integration`;
+- Pages deployment: the first visual build deployed as `19ca4a15` and its
+  browser audit caught the full-screen overlap; the corrected build deployed
+  as `7bbbd226` at `https://7bbbd226.social-edriffles.pages.dev` with commit
+  hash `b9389cfe5` and `--skip-caching`;
+- HTTPS delivery: PASS; canonical `https://plumblines.uk/` served
+  `static/js/main.c98901fd.js`; the local export SHA-256 was
+  `33a320cc39491e06e89146118cdecfc57b728c605cee72b6d4c9cbfdf0225ec9`;
+- ChatGPT in-app-browser compact inspection: PASS at `1198px`; Home's
+  masthead measured `x=187`, width `600`, matching the feed tabs, and Chat's
+  masthead measured `x=188`, width `888` inside its `890`-pixel workbench.
+  Home and Chat had no horizontal overflow and no visible role-alert errors;
+- ChatGPT in-app-browser full-desktop inspection: PASS at `1440px`; the
+  compact masthead count was zero, the full Navigator brand was visible, and
+  the feed had no horizontal overflow or visible role-alert errors;
+- ChatGPT in-app-browser mobile inspection: PASS at `390px`; the compact
+  masthead count was zero, the mobile Chat header and bottom navigation were
+  present, and there was no horizontal overflow or visible role-alert error.
+  Browser verification was read-only; no account, provider, authorization,
+  identity, message, or content mutation was performed.
+
+The nested client's pre-existing `oxlint-suppressions.json` change remains
+unstaged. Root memory/conversation updates and nested PDS worktree changes
+remain outside this batch. Full repository TypeScript and lint baselines still
+have the previously recorded unrelated failures. External Relay/AppView,
+short-TTL OAuth, and independent-PLC operator evidence gates remain
+unresolved.
+
 ## Iteration 56: Replace the rounded trend card with an editorial panel
 
 ### Implementation
