@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "kind": "browser-automation-transcript",
+  "surface": "web",
+  "browser": "Codex in-app browser",
+  "endpoint": "http://127.0.0.1:4176/",
+  "status": "passed",
+  "steps": [
+    {
+      "action": "open-and-settle",
+      "viewport": "1280x720",
+      "assertions": {
+        "shellMode": "page",
+        "clientWidth": 1265,
+        "scrollWidth": 1265,
+        "bodyScrollWidth": 1265,
+        "feedEntries": 31,
+        "publicationMastheadVisible": true,
+        "genericPageHeadings": [],
+        "compositionDisplay": "grid",
+        "compositionColumns": "196px 760px 220px",
+        "compositionGap": "20px",
+        "centralTrackWidth": 760,
+        "navigatorWidth": 196,
+        "marginalReferenceWidth": 220,
+        "pageOverflow": false,
+        "serifWordmark": true,
+        "serifSectionTitle": true,
+        "serifMarginalTitle": true,
+        "postTextUsesUiFont": true,
+        "flatFeedEntry": true,
+        "continuousProvenanceLine": true,
+        "landmarks": {
+          "banner": 1,
+          "main": 1,
+          "navigation": 1,
+          "complementary": 1
+        },
+        "unnamedVisibleButtons": 0,
+        "unnamedVisibleLinks": 0,
+        "consoleErrors": 0
+      }
+    },
+    {
+      "action": "responsive-layout",
+      "viewport": "1024x768",
+      "result": "The marginal rail collapsed, the 760px reading track and compact index remained usable, and no visible off-screen geometry remained outside the internally scrollable edition strip.",
+      "assertions": {
+        "shellMode": "page",
+        "clientWidth": 1009,
+        "scrollWidth": 1009,
+        "bodyScrollWidth": 1009,
+        "feedEntriesAfterSettle": 31,
+        "compositionDisplay": "grid",
+        "centralTrackWidth": 760,
+        "navigatorWidth": 80,
+        "marginalReferenceVisible": false,
+        "pageOverflow": false,
+        "genericPageHeadings": []
+      }
+    },
+    {
+      "action": "responsive-layout-and-grayscale",
+      "viewport": "390x844",
+      "result": "The desktop masthead, index, and marginal rail collapsed to the mobile shell. The edition strip remained internally scrollable while the document itself stayed within the viewport.",
+      "assertions": {
+        "shellMode": "page",
+        "clientWidth": 375,
+        "scrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "feedEntries": 31,
+        "compositionDisplay": "block",
+        "desktopRailsVisible": false,
+        "pageOverflow": false,
+        "genericPageHeadings": [],
+        "landmarks": {
+          "main": 1,
+          "navigation": 1
+        },
+        "unnamedVisibleButtons": 0,
+        "unnamedVisibleLinks": 0,
+        "grayscaleScreenshotCaptured": true,
+        "grayscaleHierarchyPreserved": true
+      }
+    },
+    {
+      "action": "feed-tab-interaction",
+      "viewport": "1280x720",
+      "result": "Following selected, For You selected, then Following selected again through the existing tab controls; feed content and page bounds remained usable throughout.",
+      "assertions": {
+        "followingSelectedInitially": true,
+        "forYouSelected": true,
+        "followingSelectedAfterReturn": true,
+        "documentOverflowAfterInteraction": false
+      }
+    },
+    {
+      "action": "workbench-boundary",
+      "route": "/settings/services",
+      "viewport": "1280x720",
+      "result": "Services retained Workbench mode; the Page Mode masthead/composition was not applied, and the service inspector remained available.",
+      "assertions": {
+        "shellMode": "workbench",
+        "workbenchModePresent": true,
+        "pageMastheadPresent": false,
+        "compositionDisplay": "flex",
+        "documentOverflow": false
+      }
+    }
+  ],
+  "automatedChecks": {
+    "prettier": "passed",
+    "targetedOxlint": "passed",
+    "webTypecheck": "passed",
+    "contractValidation": "passed: 144 files, 29 blocking rows, 6 feed cases",
+    "targetedRegressionTests": "passed: 3 suites, 23 tests",
+    "buildWeb": "passed with existing asset-size warnings",
+    "gitDiffCheck": "passed"
+  },
+  "browserLogs": {
+    "errors": 0,
+    "warnings": "Existing uncompiled Lingui message warnings only; no Page Mode runtime errors observed."
+  },
+  "grayscale": {
+    "status": "passed",
+    "capture": "/tmp/plumbline-mobile-current-gray.jpg",
+    "evidence": "A current mobile screenshot was converted to grayscale for inspection. The masthead is intentionally collapsed at this width, while the edition strip, rules, vertical provenance markers, type scale, alignment, and document flow remain distinguishable without color."
+  },
+  "limitation": "Local rendered and automated evidence only; this receipt makes no claim about the hosted deployment, OAuth credentials, provider availability, or credentialed social actions."
+}
