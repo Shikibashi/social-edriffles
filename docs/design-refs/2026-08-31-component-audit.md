@@ -89,10 +89,15 @@ identifier, OAuth authorization request, PAR request, callback, session, or
 social write was performed. The source fix passed the focused Jest contrast
 test, format check, lint, web typecheck, diff check, and production build.
 
-The current hosted bundle is not the locally verified one: the live index
-advertised `main.5033e8fc.js`, while the rebuilt bundle advertises
-`main.aea4d8a1.js`. A fresh production deployment is therefore required before
-this can be called a live mobile pass.
+Cloudflare Pages production deployment `6f742034` now serves the rebuilt
+`main.aea4d8a1.js` artifact on both its immutable deployment host and the
+canonical `https://plumblines.uk` route. A read-only in-app-browser check
+hydrated the canonical feed with one main landmark, one H1, no alert state, and
+no horizontal overflow. A public post thread also loaded without an error state
+and exposed six Reply controls plus the deferred `Show more replies` action.
+The check used an already-existing browser session but did not enter an
+identifier, request OAuth authority, authorize a client, or perform a social
+write.
 
 Public, read-only OAuth preflight remains healthy: Plumbline's client metadata,
 PDS OAuth-server metadata, server description, and handle-resolution endpoints
