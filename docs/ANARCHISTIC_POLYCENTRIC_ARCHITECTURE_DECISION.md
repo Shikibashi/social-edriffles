@@ -1,8 +1,11 @@
 # Polycentric Authority Decision Record
 
 Date: 2026-08-28
-Scope: `social-edriffles` client and its AT Protocol integration
-Canonical domains: `social.edriffles.us` (web), `pds.edriffles.us` (PDS), and `radlib.edriffles.us` (project authority)
+Updated: 2026-09-01
+Scope: Plumbline client and its AT Protocol integration
+Canonical domains: `plumblines.uk` (public client and OAuth),
+`pds.edriffles.us` (PDS), and `radlib.edriffles.us` (project and Spaces
+authority)
 
 ## Decision
 
@@ -13,8 +16,9 @@ surface, result, verification state, freshness, error state, and disagreement
 when composing reads. A provider's hostname, position in the stack, or declared
 operator ID is not evidence that it independently controls the service.
 
-No new registrable domain is required or introduced. The existing Edriffles
-domain layout remains the deployment contract.
+No new registrable domain is required or introduced. `plumblines.uk` is the
+public client and OAuth origin; the established PDS and Spaces authorities
+remain under `edriffles.us` as distinct technical services.
 
 ## Residual concentrations discovered
 
