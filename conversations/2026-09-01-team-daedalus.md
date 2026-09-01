@@ -54,7 +54,7 @@ credentials, provider registration, or user data.
 | Canonical-domain record check | PASS | Client metadata uses `https://plumblines.uk/oauth-client-metadata.json`; the decision record now distinguishes the Plumbline public origin from the PDS and Spaces service hosts. |
 | Deployed public-feed read check | PASS | The current canonical deployment loaded actual posts in the in-app browser with one main landmark, one H1, no alert state, and no horizontal page overflow. This observes the prior deployment, not the unshipped compact-Inspector change. |
 | Authenticated local inspector rendering | NOT RUN | The temporary local origin correctly had no production browser session. No credential, OAuth request, session data, or social write was used. |
-| Deployed visual confirmation of this follow-up | NOT RUN | This local follow-up has not been committed, pushed, or deployed. |
+| Deployed visual confirmation of this follow-up | PASS | Pages deployment `https://71880c1d.social-edriffles.pages.dev` and canonical `https://plumblines.uk/settings/services?section=policies` both served `main.72c3d6bf.js`; the live Inspector measured 184px wide by 392px high rather than stretching to 800px. The canonical page had one main landmark, one H1, no alert state, and no horizontal overflow. |
 
 ## Boundary
 
