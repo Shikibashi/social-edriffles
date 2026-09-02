@@ -1,6 +1,6 @@
 # Plumbline at `plumblines.uk`
 
-Status: `SOURCE_CONFIGURED / PAGES_DEPLOYMENT_PENDING / EXTERNAL_APPVIEW_EXPIRY_AND_PLC_INDEPENDENCE_GATES_PENDING`
+Status: `SOURCE_CONFIGURED / PAGES_DEPLOYMENT_CURRENT / EXTERNAL_APPVIEW_EXPIRY_AND_PLC_INDEPENDENCE_GATES_PENDING`
 
 The public product name is **Plumbline**. The radical-liberal constitutional
 implementation remains documented and machine-readable internally; Plumbline
@@ -20,6 +20,8 @@ boundaries, not browser-facing product identity.
 | Boundary | Verified value |
 |---|---|
 | Pages project | `social-edriffles` |
+| Current Pages deployment | `https://e8faa51e.social-edriffles.pages.dev` |
+| Current client release pin | `ae18845b2d205642f4e9cac07fd1d1125d5c02a1` from `codex/spaces-alpha-integration` |
 | User-facing public origin | `https://plumblines.uk` |
 | Public OAuth/PDS origin | `https://plumblines.uk` |
 | Registrable domains | `plumblines.uk` for the public product; `edriffles.us` for existing PDS, Spaces, and implementation boundaries |
@@ -140,6 +142,43 @@ post route, and public headers. A disposable-account OAuth walkthrough and a
 Spaces revocation check remain separate, credential-gated acceptance lanes;
 the Relay/AppView scan, short-TTL expiry/replay walkthrough, and independent
 PLC-operator evidence remain external gates.
+
+### Current hosted release — 2026-09-02
+
+The current production Pages upload was built from the committed
+`codex/spaces-alpha-integration` client revision
+`ae18845b2d205642f4e9cac07fd1d1125d5c02a1`, not from stale upstream `main`.
+The root repository pin is `87b251f031d98bba9d2feaba150cffc67bdc1934`, and
+the corresponding root `master` and client fork `main` refs point to those
+releases. The upload completed at
+`https://e8faa51e.social-edriffles.pages.dev`; the canonical Worker-backed
+route `https://plumblines.uk/` returned HTTP 200 and its live entrypoint
+referenced `static/js/main.0c6385cc.js` and
+`static/css/main.1f4592c7.css`.
+
+The artifact and hosted browser receipt are stored in
+`artifacts/plumbline-page-mode-browser-evidence.json`. The local artifact
+digests are:
+
+| Artifact | SHA-256 |
+|---|---|
+| `web-build/index.html` | `87e2a7b8d8f7dcc6afb4c98961ba1f87bfc68ab8c164ba9cd51e261a43a2cd87` |
+| `web-build/static/js/main.0c6385cc.js` | `d20759ccdd38572ef8161b7494ee28de8c20b6264969d597e423815f60dc8eb9` |
+| `web-build/static/css/main.1f4592c7.css` | `500552d9a5919e816f256d656fdecf46d694853a00fbe84f8a2e1378e01f7ffc` |
+
+Fresh cache-busted loads in the Codex in-app browser passed at `1440×900`,
+`1280×720`, `1024×768`, and `390×844`. The two wide desktop views showed the
+full-width masthead, Index rail, 760px editorial stream, and marginal
+inspector. At `1024×768`, the inspector was intentionally demoted while the
+compact Index and 760px stream remained usable. At mobile width, the desktop
+rails were intentionally replaced by the mobile header and bottom navigation;
+the page had no horizontal overflow. All four views had no generic
+`WORKSPACE` or `DOCUMENT STREAM` headings, no page alerts, and zero browser
+console errors or warnings.
+
+This is credential-free rendering and deployment evidence. It does not claim
+that OAuth consent, posting, likes, replies, chat, Spaces credentials, or the
+remaining external AppView/expiry/PLC gates have been exercised.
 
 ### Current release binding
 

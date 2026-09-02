@@ -126,5 +126,105 @@
     "capture": "/tmp/plumbline-mobile-current-gray.jpg",
     "evidence": "A current mobile screenshot was converted to grayscale for inspection. The masthead is intentionally collapsed at this width, while the edition strip, rules, vertical provenance markers, type scale, alignment, and document flow remain distinguishable without color."
   },
-  "limitation": "Local rendered and automated evidence only; this receipt makes no claim about the hosted deployment, OAuth credentials, provider availability, or credentialed social actions."
+  "hostedDeployment": {
+    "provider": "cloudflare-pages",
+    "project": "social-edriffles",
+    "deploymentId": "e8faa51e",
+    "deploymentUrl": "https://e8faa51e.social-edriffles.pages.dev",
+    "canonicalOrigin": "https://plumblines.uk",
+    "sourceBranch": "codex/spaces-alpha-integration",
+    "clientRevision": "ae18845b2d205642f4e9cac07fd1d1125d5c02a1",
+    "rootRevision": "87b251f031d98bba9d2feaba150cffc67bdc1934",
+    "artifactPath": "upstream/social-app/web-build",
+    "buildCommand": "EXPO_NO_GIT_STATUS=1 EXPO_PUBLIC_ENV=production EXPO_PUBLIC_BRAND_NAME=Plumbline EXPO_PUBLIC_PUBLIC_WEB_ORIGIN=https://plumblines.uk EXPO_PUBLIC_ACCOUNT_SERVICE=https://plumblines.uk EXPO_PUBLIC_PUBLIC_APPVIEW_URL=https://api.bsky.app EXPO_PUBLIC_APPVIEW_SERVICE_DID=did:web:api.bsky.app EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT=bsky_appview EXPO_PUBLIC_DEFAULT_FEED_OWNER_DID=did:plc:z72i7hdynmk6r22z27h6tvur EXPO_PUBLIC_DEFAULT_FEED_RKEY=whats-hot EXPO_PUBLIC_SPACES_ALPHA_ENABLED=1 EXPO_PUBLIC_SPACES_ALPHA_PRODUCTION_ENABLED=1 EXPO_PUBLIC_LEGACY_RADLIB_PRIVATE_ENABLED=0 pnpm build-web",
+    "servedBundle": {
+      "entrypoint": "index.html",
+      "entrypointSha256": "87e2a7b8d8f7dcc6afb4c98961ba1f87bfc68ab8c164ba9cd51e261a43a2cd87",
+      "javascript": "static/js/main.0c6385cc.js",
+      "javascriptSha256": "d20759ccdd38572ef8161b7494ee28de8c20b6264969d597e423815f60dc8eb9",
+      "stylesheet": "static/css/main.1f4592c7.css",
+      "stylesheetSha256": "500552d9a5919e816f256d656fdecf46d694853a00fbe84f8a2e1378e01f7ffc"
+    },
+    "observedAt": "2026-09-02T01:59:42Z",
+    "httpStatus": 200,
+    "cacheControl": "public, max-age=0, must-revalidate"
+  },
+  "hostedBrowserVerification": {
+    "browser": "Codex In-app Browser",
+    "status": "passed",
+    "route": "https://plumblines.uk/",
+    "cacheBusted": true,
+    "observedAt": "2026-09-02T02:01:01Z",
+    "console": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "viewports": [
+      {
+        "viewport": "1440x900",
+        "documentClientWidth": 1425,
+        "documentScrollWidth": 1425,
+        "masthead": {"x": 0, "y": 0, "width": 1425, "height": 132},
+        "index": {"x": 61, "y": 132, "width": 224},
+        "editorialStream": {"x": 317, "y": 132, "width": 760},
+        "marginalInspector": {"x": 1134, "y": 132, "width": 231},
+        "genericPageHeadings": [],
+        "pageOverflow": false,
+        "serifSectionHeading": true,
+        "plumblineMarkers": true,
+        "pageAlerts": 0
+      },
+      {
+        "viewport": "1280x720",
+        "documentClientWidth": 1265,
+        "documentScrollWidth": 1265,
+        "masthead": {"x": 0, "y": 0, "width": 1265, "height": 132},
+        "index": {"x": 25, "y": 132, "width": 196},
+        "editorialStream": {"x": 241, "y": 132, "width": 760},
+        "marginalInspector": {"x": 1046, "y": 132, "width": 195},
+        "genericPageHeadings": [],
+        "pageOverflow": false,
+        "serifSectionHeading": true,
+        "plumblineMarkers": true,
+        "pageAlerts": 0
+      },
+      {
+        "viewport": "1024x768",
+        "documentClientWidth": 1009,
+        "documentScrollWidth": 1009,
+        "masthead": {"x": 0, "y": 0, "width": 1009, "height": 132},
+        "index": {"x": 73, "y": 132, "width": 80},
+        "editorialStream": {"x": 177, "y": 132, "width": 760},
+        "marginalInspector": null,
+        "genericPageHeadings": [],
+        "pageOverflow": false,
+        "serifSectionHeading": true,
+        "plumblineMarkers": true,
+        "pageAlerts": 0,
+        "responsiveNote": "The marginal rail is intentionally demoted at this breakpoint so the 760px reading track remains intact."
+      },
+      {
+        "viewport": "390x844",
+        "documentClientWidth": 375,
+        "documentScrollWidth": 375,
+        "masthead": null,
+        "index": null,
+        "editorialStream": {"x": 0, "y": 0, "width": 375},
+        "marginalInspector": null,
+        "genericPageHeadings": [],
+        "pageOverflow": false,
+        "pageAlerts": 0,
+        "responsiveNote": "The desktop masthead and rails are intentionally replaced by the mobile header and bottom navigation; the edition strip scrolls internally without page overflow."
+      }
+    ],
+    "visualAssertions": {
+      "publicationMasthead": true,
+      "indexEditorialStreamMarginalInspector": true,
+      "flatRuledEntries": true,
+      "continuousPlumbProvenanceLine": true,
+      "genericWorkspaceHeadingAbsent": true,
+      "genericDocumentStreamHeadingAbsent": true
+    }
+  },
+  "limitation": "The hosted evidence is credential-free rendering and deployment evidence; this receipt makes no claim about OAuth credentials, provider availability, or credentialed social actions."
 }
