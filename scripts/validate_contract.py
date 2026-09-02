@@ -170,8 +170,9 @@ def validate_foundation() -> None:
     assert "official ATProto OAuth" in best_practices
     assert "PKCE S256" in best_practices
     assert "us.edriffles.radlib.*" in best_practices
-    assert "https://social.edriffles.us" in best_practices
-    assert "https://radlib.edriffles.us" in best_practices
+    assert "https://plumblines.uk" in best_practices
+    assert "_lexicon.radlib.edriffles.us" in best_practices
+    assert "uk.plumblines:/oauth/callback" in best_practices
     pins = load("upstream-pins.json")
     assert (
         pins["repositories"]["socialApp"]["commit"]

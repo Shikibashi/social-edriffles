@@ -44,7 +44,7 @@ find the pending transaction.
 | Local route handling | PASS | `127.0.0.1:19006` returned `200` for `/`, `/oauth/callback`, a profile/post route, and `/community`. |
 | Root contract | PASS | `python3 scripts/validate_contract.py` validated `144` files, `29` blocking rows, and `6` feed cases. |
 | Credentialed local authorization | NOT RUN | No user or production credential was entered. The ChatGPT in-app browser connector blocks loopback navigation in this environment, so a real provider consent/callback cannot be claimed here. |
-| Production export after entrypoint change | NOT ACCEPTED | An agent-started export compiled actively but its terminal completion was not captured; it is not counted as a passing production-build result. |
+| Production export after entrypoint change | PASS | A tracked `EXPO_PUBLIC_ENV=production pnpm build-web` exited `0`; it regenerated the web bundle and copied Plumbline OAuth metadata, marks, and icons into both delivery outputs. Webpack reported only bundle-size warnings. |
 
 ## Safe local walkthrough
 
@@ -106,13 +106,79 @@ Index / Navigator | Editorial document stream | Marginal inspector
   least the viewport height below the masthead; this prevents the grid item
   from collapsing while the native stack's routed content remains positioned.
 
+### Auth-gated entry treatment
+
+Signed-out deep links are part of the same publication rather than a separate
+marketing or provider-owned splash screen. `SplashScreen.web.tsx` therefore
+uses the existing Page Mode masthead and an editorial entry document. Before
+the unchanged create-account and sign-in controls, it states that the account
+host remains the write and identity authority. On narrow screens the masthead
+is intentionally replaced by the compact document identity rather than being
+stacked above the controls. This is a visual and explanatory boundary only:
+it does not add a provider, alter OAuth scopes, or change either entry flow.
+
+### Direct post provenance
+
+A thread route can identify a stable AT record even when its originating feed
+and placement evidence are unavailable. The anchor therefore exposes a
+`Post provenance` disclosure in that case, with the copyable AT URI and an
+explicit statement that no public placement reason is available. `Why this
+post?` remains reserved for actual local or provider-supplied placement
+evidence; the interface does not promote generic read provenance into a
+ranking explanation.
+
+### Community reference color
+
+The Community Board remains a Page Mode association surface, but its
+non-semantic accent now uses ALF's theme-aware yellow role as the readable
+Plumbline brass/reference companion. The exact brass mark remains structural;
+the theme role is used for editorial metadata, conflict state, and references
+because it maintains at least `4.5:1` contrast on the light, dark, and dim
+editorial surfaces. This replaces the prior generic pink accent without
+changing community authority, membership, or private-data behavior.
+
+### Services capability table semantics
+
+The Services capability map is substantively tabular: each row names a
+capability, its source, state, and inspection action. Its prior generic
+`summary` role hid that relationship from assistive technology and omitted
+headers when the visual layout compacted. It now keeps the existing visual
+matrix but declares table, row, column-header, and cell relationships; compact
+layouts retain the same headers as visually hidden text. This is an
+accessibility and information-architecture correction only: provider choice,
+reconciliation, authorization, and PDS boundaries remain unchanged.
+
+### Association authority summaries
+
+Protected access and private-space controls are Workbench surfaces, so they
+now use the same source/rule/state summary already used by Identity,
+Moderation, and Services. Protected access identifies the protected account's
+PDS as the source of a directional personal request and explicitly separates
+that relationship from public follows and AppView policy. Private spaces
+identify the selected PDS transport for authorized reads while keeping a
+community's declared membership authority separate from AppView or
+network-wide policy. The displayed state comes from the existing request or
+protected-account query; the summaries add no authority, scope, membership,
+or transport behavior.
+
+### Quality-gate repair boundary
+
+The current upstream checkout had accumulated strict-type and lint drift in
+legacy password-session tests, generated lexicon fixtures, and import ordering.
+The repair keeps OAuth persistence broad enough for OAuth-backed accounts while
+using a strict password-session conversion only in the shared test-fixture
+layer. It also updates the old share-URL expectation to the existing
+Plumbline-origin resolver contract and applies mechanical import sorting. No
+production provider, PDS, identity, ranking, moderation, association, or OAuth
+consent behavior changes as part of that gate repair.
+
 ### Fresh verification
 
 | Check | Status | Evidence |
 |---|---|---|
 | Focused Oxlint | PASS | `pnpm exec oxlint --quiet` on the changed shell, header, layout, and breakpoint files exited `0`. |
 | Web TypeScript | PASS | `pnpm typecheck:web` exited `0`. |
-| Web export | PASS | `pnpm build-web` completed with the generated `main.272ed937.js` and CSS output; Webpack reported only existing asset-size warnings. |
+| Web export | PASS | Tracked `EXPO_PUBLIC_ENV=production pnpm build-web` completed with generated `main.8ab357ea.js` and CSS output; Webpack reported only bundle-size warnings. |
 | Local rendered desktop layout | PASS | Fresh in-app-browser render at `http://127.0.0.1:4176/`, viewport `1198×1318`: masthead `1183×132`, grid `190px 640px 220px`, central stream `640px`, no horizontal overflow, and main wrapper `1186px` high. |
 | Rendered visual direction | PASS | Screenshot visibly shows the full masthead, `Index`, editorial `Following` heading, continuous post rules/provenance line, and marginal notes; it is not reasonably describable as Bluesky with an ECW/retro stylesheet. |
 | Grayscale resilience | PASS | Computed token contrast after luminance conversion: text/workspace `13.41:1`, text/surface `14.82:1`, secondary/workspace `8.58:1`, muted/surface `5.36:1`. |
@@ -122,3 +188,34 @@ Index / Navigator | Editorial document stream | Marginal inspector
 The visual acceptance claim is limited to the fresh local Page Mode render above.
 Hosted deployment and credentialed provider behavior remain separate gates and
 were not changed or inferred by this visual pass.
+
+### Acceptance evidence map
+
+This map makes the implementation reviewable against section 35 of
+`PLUMBLINE_DESIGN.md`. It records implementation and local evidence only; it
+does not replace the pending owner acceptance checklist or authenticate a real
+account.
+
+| Design criterion | Implementation and evidence | Review boundary |
+|---|---|---|
+| Home / feed | Page Mode supplies the active feed, ordering, source/rule/control inspector, Navigator, and continuous document stream. Public desktop and narrow renders were inspected. | Feed mutation and signed-in provider selection were not exercised. |
+| Post | `Why this post?` remains tied to actual placement evidence; direct record reads expose `Post provenance`, an AT URI, and the absence of a public placement reason. Focused attention tests pass. | Provider-supplied recommendation evidence was not authenticated live. |
+| Services | Workbench distinguishes PDS, AppView, feed provider, labeler, and configuration state in an accessible capability table. Provider-composition and service-boundary tests pass. | Changing a live provider requires an authenticated owner review. |
+| Moderation | Existing source/assertion/rule/action boundaries remain intact; moderation and list-block regression tests pass. | Account-specific moderation mutations were not executed. |
+| Identity | Existing handle, DID, host, recovery, migration, and export mechanisms remain reachable through Workbench surfaces; identity sovereignty tests pass. | Export/migration with a real account is not verified. |
+| Association | Protected access and private spaces now state their distinct PDS, community, and provider authority boundaries; permissioned-data and Spaces tests pass. | Protected request and membership mutations are not verified. |
+| Branding | Build output has `Plumbline`, `plumblines.uk`, canonical OAuth metadata, and the full icon/mark set while reference Bluesky/provider names remain infrastructure-specific. | Hosted deployment DNS and production edge behavior are not verified. |
+| Visual identity and accessibility | Editorial tokens, Georgia/Verdana/Courier roles, Page Mode, responsive Navigator/stream/Inspector composition, focus, forced-colors, and reduced-motion rules have source/test evidence; public desktop and narrow screens were rendered. | Owner visual, keyboard, forced-colors, and signed-in Workbench acceptance remain pending. |
+
+### Continuation verification
+
+| Check | Status | Evidence |
+|---|---|---|
+| Focused Plumbline regression suite | PASS | `pnpm test --runInBand` passed `8` suites / `38` tests covering permissioned-data transport, Spaces, provider composition, OAuth scopes, identity, and moderation. The direct-post provenance and ECW contrast tests also passed in their focused runs. |
+| Changed-file lint | PASS | `pnpm exec oxlint --quiet` on the Page Mode, Workbench, provenance, and test files exited `0`. |
+| Web TypeScript | PASS | `pnpm typecheck:web` exited `0` after the Workbench association summary changes. |
+| Production web export | PASS | A tracked `EXPO_PUBLIC_ENV=production pnpm build-web` exited `0`; it copied Plumbline metadata and icon assets into both web outputs. Webpack emitted only the existing asset-size warnings. |
+| Public rendered desktop and narrow routes | PASS | Credential-free local renders showed the editorial Home frame, direct-post `Post provenance` control, narrow stream-first Home, and the narrow signed-out account-entry document. |
+| Root contract | PASS | `python3 scripts/validate_contract.py` validated `144` files, `29` blocking rows, and `6` feed cases. |
+| Broad typecheck, lint, and full Jest | PASS | `pnpm typecheck` passed iOS, Android, and web; `pnpm lint` passed without new suppressions; `pnpm test --runInBand` passed `116` suites / `1,060` tests (`28` todos, `21` snapshots). The repair was limited to strict test-fixture conversion, stale test expectations, and mechanical lint cleanup; it did not alter production authority or attention behavior. |
+| Authenticated Workbench actions and real provider consent | NOT VERIFIED | No account or credential was used. Protected-access mutations, private-space membership, export/migration actions, and OAuth consent remain intentionally unexercised in this local review. |

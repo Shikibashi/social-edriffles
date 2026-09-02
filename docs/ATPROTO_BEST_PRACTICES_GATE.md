@@ -1,6 +1,6 @@
 # AT Protocol best-practices gate
 
-Status: `ALPHA-ONLY / SOCIAL.EDRIFFLES.US USER-FACING CUTOVER DEPLOYED / EXTERNAL GATES PENDING`
+Status: `ALPHA-ONLY / PLUMBLINE PUBLIC HOST CONFIGURED / EXTERNAL GATES PENDING`
 
 This gate records what the fork can prove locally and what remains an
 external protocol or deployment obligation. Passing local tests does not
@@ -28,24 +28,22 @@ authorize production use of the Spaces alpha.
   after member removal. An external Relay/AppView leak scan and the short-TTL
   expiry/replay walkthrough remain open. Never use production credentials for
   acceptance testing.
-- Use the single owner-approved user-facing origin `https://social.edriffles.us`.
-  The edge route sends the web client and callback to Pages and sends PDS,
-  OAuth, DID, and XRPC paths to the PDS. The configured protocol authority is
-  `https://radlib.edriffles.us`; it remains the OAuth issuer and `did:web`
-  service host. The remaining deployment proof must
-  verify HTTPS, callback and metadata origin binding, cookie and header
-  isolation, PDS host binding, and ownership of the existing `edriffles.us`
-  zone. These deployment and authority checks now pass; the remaining gates
-  are listed in the release manifest.
+- Use the single owner-approved user-facing origin `https://plumblines.uk`.
+  The edge route sends the web client and callback to Pages and sends the
+  public PDS, OAuth, DID, and XRPC paths to the PDS implementation target.
+  The public OAuth issuer and `did:web` service host are Plumbline; the
+  `edriffles.us` PDS and Spaces hosts retain their existing technical roles.
+  A fresh deployment must verify HTTPS, callback and metadata origin binding,
+  cookie/header isolation, PDS host binding, and the configured custom-domain
+  route. Historical cutover receipts do not prove a new source revision.
 
 ## Namespace and host cutover
 
-The user-facing public host is `social.edriffles.us`; the configured protocol
-host is `radlib.edriffles.us`; and the standards-derived AT Protocol namespace
-is `us.edriffles.radlib.*`. The namespace is retained as the existing protocol
-authority and is not a second registrable domain. If DNS Lexicon authority is
-published, its record belongs at `_lexicon.radlib.edriffles.us` inside the
-existing `edriffles.us` zone. No new registrable domain is required.
+The user-facing public and protocol host is `plumblines.uk`; the standards-
+derived AT Protocol namespace remains `us.edriffles.radlib.*`. That namespace
+and the `edriffles.us` PDS/Spaces infrastructure are compatibility-sensitive
+technical boundaries, not public-product branding. If DNS Lexicon authority is
+published, its existing record remains at `_lexicon.radlib.edriffles.us`.
 
 The checked-in Lexicons and the live `_lexicon.radlib.edriffles.us` TXT record
 are independently resolved through multiple DNS resolvers. The authority
@@ -58,15 +56,15 @@ registrable domain is part of the contract.
   `@atproto/lex-password-session`; the package remains only as a test fixture
   dependency. Web, iOS, and Android typechecks pass. Browser OAuth callback
   initialization, the OAuth scope fix, and the signup prompt are configured
-  for `social.edriffles.us`, with the PDS protocol host remaining
-  `radlib.edriffles.us`. The single-host Worker route and public PDS host
-  are deployed and re-probed; the owner-handle browser handoff reaches the PDS
-  password UI without the previous metadata error.
+  for `plumblines.uk`, with the edge Worker retaining the configured PDS
+  implementation route. The current source binds the browser-facing account
+  entryway to the public host; its deployed OAuth/PDS behavior must be
+  re-probed after each Pages upload.
 - The client metadata source is HTTPS-shaped, JSON-typed, accepted by the
   official ATProto metadata parser, and served publicly at the canonical
   origin. It registers the web callback at
-  `https://social.edriffles.us/oauth/callback` and the native reverse-domain
-  callback `us.edriffles.social:/oauth/callback`.
+  `https://plumblines.uk/oauth/callback` and the native reverse-domain callback
+  `uk.plumblines:/oauth/callback`.
 - The Space client validates Space references, DIDs, NSIDs, record keys, and
   returned repo-operation shapes before they reach application code.
 - Sync cursor storage contains only positions and durable status. It records

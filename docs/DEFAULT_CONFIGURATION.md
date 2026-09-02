@@ -1,8 +1,10 @@
 # Default Configuration
 
-Production defaults use `EXPO_PUBLIC_ENV=production` and the first-party account
-entryway `EXPO_PUBLIC_ACCOUNT_SERVICE=https://pds.edriffles.us` only for login
-and handle availability. Public reads require an explicitly configured
+Production defaults use `EXPO_PUBLIC_ENV=production` and the public account
+entryway `EXPO_PUBLIC_ACCOUNT_SERVICE=https://plumblines.uk` only for login and
+handle availability. The edge Worker routes that public path to the PDS
+implementation target; it does not make the PDS implementation hostname a
+browser default. Public reads require an explicitly configured
 first-party AppView:
 `EXPO_PUBLIC_APPVIEW_SERVICE_DID`,
 `EXPO_PUBLIC_APPVIEW_SERVICE_FRAGMENT`, and

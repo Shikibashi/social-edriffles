@@ -82,15 +82,14 @@ the manifest sidecar, the current source and web artifact digests, the
 secret-free key policy, and the fact that authority and unavailable external
 credentials remain explicit non-passes.
 
-The canonical user-facing web/client origin is `https://social.edriffles.us`.
-The edge Worker maps its public web, callback, account/PDS, and XRPC paths onto
-the existing Pages and PDS implementation targets. The configured OAuth/PDS
-protocol origin remains `https://radlib.edriffles.us`, so the owner DID's
-`pds.edriffles.us` resource compatibility document points to that issuer. It
-is not a second issuer or a second domain. Public route, metadata, and DNS
-authority evidence is recorded in the current cutover and authority receipts.
-The credential-free public probe is recorded separately in
-`artifacts/receipts/live-public-contract-probe.json` and reports
-`PASS_CURRENT_PUBLIC_CONTRACT`. The remaining open gates are the external
-Relay/AppView scan, short-TTL expiry/replay walkthrough, and proof of
+The canonical user-facing web/client origin is `https://plumblines.uk`. The
+edge Worker maps its public web, callback, account/PDS, and XRPC paths onto the
+existing Pages and PDS implementation targets. The public OAuth/PDS and
+`did:web` authority is Plumbline; `pds.edriffles.us` remains a technical
+implementation/resource boundary and the existing
+`us.edriffles.radlib.*` namespace remains protocol-compatible infrastructure.
+Older route, metadata, and DNS receipts are historical evidence only. A fresh
+credential-free public probe must bind the Pages upload and Plumbline public
+route to the current source revision. The remaining open gates are the
+external Relay/AppView scan, short-TTL expiry/replay walkthrough, and proof of
 independent PLC-operator control.
