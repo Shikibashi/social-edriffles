@@ -148,9 +148,12 @@ PLC-operator evidence remain external gates.
 The current production Pages upload was built from the committed
 `codex/spaces-alpha-integration` client revision
 `ae18845b2d205642f4e9cac07fd1d1125d5c02a1`, not from stale upstream `main`.
-The root repository pin is `87b251f031d98bba9d2feaba150cffc67bdc1934`, and
-the corresponding root `master` and client fork `main` refs point to those
-releases. The upload completed at
+The root source revision used for that upload was
+`87b251f031d98bba9d2feaba150cffc67bdc1934`, whose `upstream/social-app`
+gitlink points to that client revision. The current root `master` and client
+fork `main` refs now point to the same product source, with the hosted-evidence
+record carried by the later root commit `04ece92c2e5f4491a0660e016733cc278f4fb0dd`.
+The upload completed at
 `https://e8faa51e.social-edriffles.pages.dev`; the canonical Worker-backed
 route `https://plumblines.uk/` returned HTTP 200 and its live entrypoint
 referenced `static/js/main.0c6385cc.js` and
